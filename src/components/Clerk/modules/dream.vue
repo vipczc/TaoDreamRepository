@@ -135,7 +135,7 @@ export default {
       expenseLimit: '66', //消费额度
       expenseLimitUp: '800', //消费额度提升
       recommendLimit: '10', //已消费额度
-      surplusLimit: '20' //剩余额度
+
 
     }
   },
