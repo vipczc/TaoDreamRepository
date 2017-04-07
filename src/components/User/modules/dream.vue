@@ -49,7 +49,8 @@
           <div class="content-right ">
 
               <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
-              <a href="#">查看提现记录></a>
+
+              <router-link to="/user/expenseRecord">查看提现记录></router-link>
 
           </div>
         </el-col>
@@ -88,8 +89,7 @@
           <div class="content-right">
 
               <p>淘豆金额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
-              <a href="#">查看兑换记录></a>
-
+              <router-link to="/user/conversionRecord">查看兑换记录></router-link>
           </div>
         </el-col>
         <!-- 按钮 -->
@@ -105,7 +105,7 @@
           <div class="content-right">
 
               <p>昨日获得淘豆:<span>{{ yesterdayTD }}￥</span></p>
-              <a href="#">查看兑换记录></a>
+            
 
           </div>
         </el-col>
@@ -132,7 +132,8 @@
 
               <p>消费额度:&#12288&#12288<span>{{ expenseLimit }}￥</span></p>
               <p >消费额度提升:<span>{{ expenseLimitUp }}￥</span></p>
-              <a href="#" style="top:-5px;">查看额度流水></a>
+
+              <router-link style="top:-5px;" to="/user/limitRecord">查看额度流水></router-link>
 
           </div>
         </el-col>
@@ -164,6 +165,32 @@
         </el-col>
       </div>
   </el-col>
+  <!-- 推荐 -->
+    <el-col :span="24">
+        <div class="user-recommend" >
+
+          <el-col :span="4">
+            <!-- 额度图标 -->
+            <div class="recommend-logo">
+              <div class="logo-content">
+                <img src="../../../assets/img/推荐.png" alt="推荐" id="recommend-logo-content">
+                <p>推荐</p>
+              </div>
+            </div>
+          </el-col>
+          <!-- 消费额度 -->
+          <el-col :span="7" :offset="1">
+            <div class="content-right">
+
+                <p>推荐人数:&#12288&#12288<span>{{ recommendCount }}人</span></p>
+                <p >推荐奖励:&#12288&#12288<span>{{ recommendAward }}￥</span></p>
+
+                <router-link style="top:-5px;" to="/user/recommendRecord">查看推荐记录></router-link>
+            </div>
+          </el-col>
+
+        </div>
+    </el-col>
   </div>
 </template>
 
@@ -172,7 +199,7 @@ export default {
   data() {
     return {
       headPortraitUrl: '', //用户头像
-      userType: '商家', //用户类型
+      userType: '会员', //用户类型
       userName: 'mm', //商家姓名
       userAge: '40', //年龄
       userNuber: '13049875665', //电话
@@ -185,8 +212,9 @@ export default {
       expenseLimit: '66', //消费额度
       expenseLimitUp: '800', //消费额度提升
       recommendLimit: '10', //已消费额度
-      surplusLimit: '20' //剩余额度
-
+      surplusLimit: '20', //剩余额度
+      recommendCount: '32', //推荐数
+      recommendAward: '50' //推荐奖励
     }
   },
   methods: {
@@ -289,8 +317,20 @@ export default {
 
   height: 188px;
   width: 230px;
+
   background-color: #29b7ec;
 
+
+}
+/*推荐*/
+.recommend-logo{
+  height: 188px;
+  width: 230px;
+  border-top: 1px solid #fdfdfe;
+  background-color: #fbc00d;
+}
+#recommend-logo-content{
+  margin: 15px auto;
 }
 /*公用*/
 .content-right-hr{

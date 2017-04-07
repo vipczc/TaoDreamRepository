@@ -113,57 +113,7 @@
 
       </div>
   </el-col>
-<!-- 额度 -->
-  <el-col :span="24">
-      <div class="user-limit">
 
-        <el-col :span="4">
-          <!-- 额度图标 -->
-          <div class="limit-logo">
-            <div class="logo-content">
-              <img src="../../../assets/img/额度.png" alt="额度">
-              <p>额度</p>
-            </div>
-          </div>
-        </el-col>
-        <!-- 消费额度 -->
-        <el-col :span="7" :offset="1">
-          <div class="content-right">
-
-              <p>消费额度:&#12288&#12288<span>{{ expenseLimit }}￥</span></p>
-              <p >消费额度提升:<span>{{ expenseLimitUp }}￥</span></p>
-              <a href="#" style="top:-5px;">查看额度流水></a>
-
-          </div>
-        </el-col>
-        <!-- 按钮 -->
-        <el-col :span="2">
-          <div class="content-right content-right-hr">
-
-              <el-button type="success" size="large" id="btn-top" @click="modality(3)">赠送</el-button>
-
-          </div>
-        </el-col>
-        <!-- 已消费额度 -->
-        <el-col :span="7" :offset="1">
-          <div class="content-right">
-
-              <p>已消费额度:&#12288 <span>{{ recommendLimit }}￥</span></p>
-              <p>剩余额度:&#12288&#12288 <span>{{ surplusLimit }}￥</span></p>
-
-
-          </div>
-        </el-col>
-        <!-- 按钮 -->
-        <el-col :span="2">
-          <div class="content-right content-right-hr">
-
-              <el-button type="success" size="large" id="btn-top" @click="modality(4)">提额</el-button>
-
-          </div>
-        </el-col>
-      </div>
-  </el-col>
   </div>
 </template>
 
@@ -172,7 +122,7 @@ export default {
   data() {
     return {
       headPortraitUrl: '', //用户头像
-      userType: '商家', //用户类型
+      userType: '咨询师', //用户类型
       userName: 'mm', //商家姓名
       userAge: '40', //年龄
       userNuber: '13049875665', //电话

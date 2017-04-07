@@ -34,7 +34,7 @@
 
 <!-- 内容 -->
 
-    <el-col :xs="0" :sm="{span:19,offset:0}" :md="{span:19,offset:0} " :lg="{span:21,offset:0}">
+    <el-col :xs="0" :sm="{span:19,offset:0}" :md="{span:19,offset:0} " :lg="{span:21,offset:0}" style="background-color: #f3f1f6;">
       <div class="main-content">
         <router-view></router-view>
       </div>
@@ -67,17 +67,17 @@ export default {
     },
     one(ev) {
       if (ev.index == 1) {
-        this.$router.push("/bussiness/dream") //淘梦地带
+        this.$router.push("/business/dream") //淘梦地带
       } else if (ev.index == 2) {
-        this.$router.push("/bussiness/expenseRecord") //消费记录
+        this.$router.push("/business/expenseRecord") //消费记录
       } else if (ev.index == 3) {
-        this.$router.push("/bussiness/withdrawalsRecord") //提现记录
+        this.$router.push("/business/withdrawalsRecord") //提现记录
       } else if (ev.index == 4) {
-        this.$router.push("/bussiness/conversionRecord") //兑换记录
+        this.$router.push("/business/conversionRecord") //兑换记录
       } else if (ev.index == 5) {
-        this.$router.push("/bussiness/TDRecord") //淘豆流水
+        this.$router.push("/business/TDRecord") //淘豆流水
       } else if (ev.index == 6) {
-        this.$router.push("/bussiness/limitRecord") //额度流水
+        this.$router.push("/business/limitRecord") //额度流水
       }
 
     }
@@ -114,12 +114,16 @@ body{
 .el-menu-item.is-active{
   color: #000;
   font-weight: bold;
+  background-color: #fdd7be;
+
+}
+.el-menu-item:first-child {
+    margin-top: 18px;
 }
 #sidebar-content{
 height: 840px;
 width: 280px;
 background-color: #fff7f1;
-
 }
 /*内容样式*/
 @media screen and (min-width: 1920px) {
@@ -134,6 +138,9 @@ background-color: #fff7f1;
   margin-top: 18px;
   margin-right: 40px;
   margin-left: 80px;
+
+    background-color: #f3f1f6;
+
 }
 
 

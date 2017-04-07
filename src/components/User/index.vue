@@ -1,6 +1,6 @@
 
 <template lang="html">
-<div id="clerk">
+<div id="uIndex">
   <!-- 商家 -->
   <el-row>
 <!-- 导航条 -->
@@ -25,8 +25,11 @@
               <el-menu-item index="1" @click="one"><i class="el-icon-menu"></i>淘梦地带</el-menu-item>
               <el-menu-item index="2" @click="one">消费记录</el-menu-item>
               <el-menu-item index="3" @click="one">提现记录</el-menu-item>
-            
-
+              <el-menu-item index="4" @click="one">兑换记录</el-menu-item>
+              <el-menu-item index="5" @click="one">淘豆流水</el-menu-item>
+              <el-menu-item index="6" @click="one">额度流水</el-menu-item>
+              <el-menu-item index="7" @click="one">推荐记录</el-menu-item>
+              <el-menu-item index="8" @click="one">推荐激励</el-menu-item>
         </el-menu>
     </el-col>
 
@@ -47,7 +50,7 @@
 
 <script>
 export default {
-  name: 'clerk',
+  name: 'uIndex',
   data() {
     return {
 
@@ -65,11 +68,21 @@ export default {
     },
     one(ev) {
       if (ev.index == 1) {
-        this.$router.push("/clerk/dream") //淘梦地带
+        this.$router.push("/user/dream") //淘梦地带
       } else if (ev.index == 2) {
-        this.$router.push("/clerk/expenseRecord") //消费记录
+        this.$router.push("/user/expenseRecord") //消费记录
       } else if (ev.index == 3) {
-        this.$router.push("/clerk/withdrawalsRecord") //提现记录
+        this.$router.push("/user/withdrawalsRecord") //提现记录
+      } else if (ev.index == 4) {
+        this.$router.push("/user/conversionRecord") //兑换记录
+      } else if (ev.index == 5) {
+        this.$router.push("/user/TDRecord") //淘豆流水
+      } else if (ev.index == 6) {
+        this.$router.push("/user/limitRecord") //额度流水
+      } else if (ev.index == 7) {
+        this.$router.push("/user/recommendRecord") //推荐记录
+      } else if (ev.index == 8) {
+        this.$router.push("/user/recommendStimulate") //推荐激励
       }
 
     }
@@ -83,7 +96,7 @@ body{
   margin: 0px;
 }
 /*整体背景色*/
-.bIndex{
+.uIndex{
   background-color: #f3f1f6;
 }
 /*导航样式*/
