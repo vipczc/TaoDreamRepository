@@ -91,8 +91,9 @@ body{
   margin: 0px;
 }
 /*整体背景色*/
-.bIndex{
+#bIndex{
   background-color: #f3f1f6;
+  text-align: center;
 }
 /*导航样式*/
 .nav-content{

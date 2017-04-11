@@ -25,7 +25,7 @@
               <el-menu-item index="1" @click="one"><i class="el-icon-menu"></i>淘梦地带</el-menu-item>
               <el-menu-item index="2" @click="one">消费记录</el-menu-item>
               <el-menu-item index="3" @click="one">提现记录</el-menu-item>
-            
+
 
         </el-menu>
     </el-col>
@@ -83,8 +83,9 @@ body{
   margin: 0px;
 }
 /*整体背景色*/
-.bIndex{
+#clerk{
   background-color: #f3f1f6;
+  text-align: center;
 }
 /*导航样式*/
 .nav-content{

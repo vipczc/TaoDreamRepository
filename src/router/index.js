@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
-
-
+// 404
+import notFound from '@/components/notFoundComponent'
 
 // 消费者模块
 import uIndex from '@/components/User/index'
@@ -55,7 +55,7 @@ export default new Router({
     {
       path: '/consumerRegister',
       component: consumerRegister,
-    }, 
+    },
     {
       path: '/bussinessRegister',
       component: bussinessRegister
@@ -133,7 +133,7 @@ export default new Router({
 
         component: bIndexLimitRecord
       }]
-    
+
     },
 
     // 业务员部分
@@ -149,6 +149,9 @@ export default new Router({
         path: 'dream', //推荐激励
         component: cIndexDream
       }]
+    },{
+      path:'*',
+      component:notFound
     }
   ]
 })
