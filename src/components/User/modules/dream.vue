@@ -4,10 +4,10 @@
   <el-col :span="24">
       <div class="user-message">
         <el-col :span="4">
-            <div class="user-headPortrait">
+            <div class="user-headPortrait" @click="basicDialog = true">
               <img v-bind:src="headPortraitUrl" alt="头像">
             </div>
-            <div class="userType">
+            <div class="userType" @click="basicDialog = true">
               <span>{{ userType }}</span>
             </div>
 
@@ -57,7 +57,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr ">
 
-              <el-button type="success" size="large" id="btn-top" @click="modality(1)">提现</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="withdrawSumDialog = true">提现</el-button>
 
           </div>
         </el-col>
@@ -96,7 +96,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="modality(2)">提现</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
 
           </div>
         </el-col>
@@ -105,7 +105,7 @@
           <div class="content-right">
 
               <p>昨日获得淘豆:<span>{{ yesterdayTD }}￥</span></p>
-            
+
 
           </div>
         </el-col>
@@ -141,7 +141,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="modality(3)">赠送</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="giveQuotaDialog = true">赠送</el-button>
 
           </div>
         </el-col>
@@ -159,15 +159,15 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="modality(4)">提额</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="extractionQuotaDialog = true">提额</el-button>
 
           </div>
         </el-col>
       </div>
   </el-col>
   <!-- 推荐 -->
-    <el-col :span="24">
-        <div class="user-recommend" >
+    <el-col :span="24" class="user-recommend">
+        <div class="" >
 
           <el-col :span="4">
             <!-- 额度图标 -->
@@ -191,10 +191,20 @@
 
         </div>
     </el-col>
+    <basic :dialogValue="basicDialog" v-on:message="basicMessage"></basic>
+    <withdrawSum :sumValue="withdrawSumDialog" v-on:withdraw="withdrawMessage"></withdrawSum>
+    <extractionQuota :quotaValue="extractionQuotaDialog" v-on:extraction="extractionMessage"></extractionQuota>
+    <giveQuota :giveValue="giveQuotaDialog" v-on:give="giveMessage"></giveQuota>
+    <TDRecordSum :tdValue="tdrecordSumDialog" v-on:td="tdMessage"></TDRecordSum>
   </div>
 </template>
 
 <script>
+import basic from '../../dialog/basic.vue' //对话框 基本信息
+import withdrawSum from '../../dialog/withdrawSum.vue' //对话框 提现
+import extractionQuota from '../../dialog/extractionQuota.vue' //对话框 提额
+import giveQuota from '../../dialog/giveQuota.vue' //对话框 额度赠送
+import TDRecordSum from '../../dialog/TDRecordSum.vue' //对话框 淘豆兑换
 export default {
   data() {
     return {
@@ -214,7 +224,13 @@ export default {
       recommendLimit: '10', //已消费额度
       surplusLimit: '20', //剩余额度
       recommendCount: '32', //推荐数
-      recommendAward: '50' //推荐奖励
+      recommendAward: '50', //推荐奖励
+
+      basicDialog: false, //基本信息对话框
+      withdrawSumDialog: false, //提现对话框
+      extractionQuotaDialog: false, //提额对话框
+      giveQuotaDialog: false, //额度赠送对话框
+      tdrecordSumDialog: false, //淘豆余额兑换对话框
     }
   },
   methods: {
@@ -222,7 +238,29 @@ export default {
 
       console.log(cont);
 
+    },
+    basicMessage(isb) { //子组件返回值
+      this.basicDialog = isb
+    },
+    withdrawMessage(isb) { //子组件返回值
+      this.withdrawSumDialog = isb
+    },
+    extractionMessage(isb) { //子组件返回值
+      this.extractionQuotaDialog = isb
+    },
+    giveMessage(isb) { //子组件返回值
+      this.giveQuotaDialog = isb
+    },
+    tdMessage(isb) { //子组件返回值
+      this.tdrecordSumDialog = isb
     }
+  },
+  components: {
+    basic,
+    withdrawSum,
+    extractionQuota,
+    giveQuota,
+    TDRecordSum
   }
 
 }
@@ -244,6 +282,7 @@ export default {
   color: #FFF;
   margin-top: 41.5px;
   margin-left: 40px;
+  cursor:pointer;
 }
 .userType{
   height:20px;
@@ -255,6 +294,7 @@ export default {
   position: relative;
   left: 88px;
   top:-10px;
+  cursor:pointer;
 }
 .user-message-content{
   margin-top: 45px;
@@ -323,6 +363,9 @@ export default {
 
 }
 /*推荐*/
+.user-recommend{
+  background-color: #FFF;
+}
 .recommend-logo{
   height: 188px;
   width: 230px;

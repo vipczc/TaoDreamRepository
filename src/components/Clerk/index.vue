@@ -20,11 +20,11 @@
 
 <!-- 侧边栏 -->
     <el-col :xs="6" :sm="{span:5,offset:0}" :md="{span:5,offset:0}" :lg="{span:3,offset:0}">
-      <el-menu  id="sidebar-content" mode="vertical" default-active="1" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose">
+      <el-menu  id="clerk-sidebar-content" mode="vertical" default-active="1" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose">
 
               <el-menu-item index="1" @click="one"><i class="el-icon-menu"></i>淘梦地带</el-menu-item>
-              <el-menu-item index="2" @click="one">消费记录</el-menu-item>
-              <el-menu-item index="3" @click="one">提现记录</el-menu-item>
+              <el-menu-item index="2" @click="one">业务记录</el-menu-item>
+              <el-menu-item index="3" @click="one">关联消费记录</el-menu-item>
 
 
         </el-menu>
@@ -49,6 +49,7 @@
 export default {
   name: 'clerk',
   data() {
+    this.$router.push("/clerk")
     return {
 
     }
@@ -67,9 +68,9 @@ export default {
       if (ev.index == 1) {
         this.$router.push("/clerk/dream") //淘梦地带
       } else if (ev.index == 2) {
-        this.$router.push("/clerk/expenseRecord") //消费记录
+        this.$router.push("/clerk/expenseRecord") //业务记录
       } else if (ev.index == 3) {
-        this.$router.push("/clerk/withdrawalsRecord") //提现记录
+        this.$router.push("/clerk/withdrawalsRecord") //关联消费记录
       }
 
     }
@@ -113,7 +114,7 @@ body{
 .el-menu-item:first-child {
     margin-top: 18px;
 }
-#sidebar-content{
+#clerk-sidebar-content{
 height: 840px;
 width: 280px;
 background-color: #fff7f1;

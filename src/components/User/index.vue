@@ -52,9 +52,9 @@
 export default {
   name: 'uIndex',
   data() {
-    return {
+    this.$router.push("/user")
 
-    }
+    return {}
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -67,6 +67,7 @@ export default {
       console.log(ev);
     },
     one(ev) {
+
       if (ev.index == 1) {
         this.$router.push("/user/dream") //淘梦地带
       } else if (ev.index == 2) {
@@ -127,7 +128,7 @@ body{
     margin-top: 18px;
 }
 #sidebar-content{
-height: 840px;
+height: 1022px;
 width: 280px;
 background-color: #fff7f1;
 }

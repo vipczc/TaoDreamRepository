@@ -1,8 +1,8 @@
 
 <template lang="html">
-<div id="bIndex">
+<div id="bIndex" v-on:beforeunload="foreunload()">
   <!-- 商家 -->
-  <el-row>
+  <el-row  >
 <!-- 导航条 -->
     <el-col class="nav-content">
       <el-col :xs="24" :sm="{span:6,offset:0}" :md="{span:6,offset:0}" :lg="{span:4,offset:0}">
@@ -20,10 +20,10 @@
 
 <!-- 侧边栏 -->
     <el-col :xs="6" :sm="{span:5,offset:0}" :md="{span:5,offset:0}" :lg="{span:3,offset:0}">
-      <el-menu  id="sidebar-content" mode="vertical" default-active="1" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose">
+      <el-menu  id="business-sidebar-content" mode="vertical" default-active="1" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose" @select="handleSelect">
 
-              <el-menu-item index="1" @click="one"><i class="el-icon-menu"></i>淘梦地带</el-menu-item>
-              <el-menu-item index="2" @click="one">消费记录</el-menu-item>
+              <el-menu-item index="1" @click="one" name="dreams" ><i class="el-icon-menu" ></i>淘梦地带</el-menu-item>
+              <el-menu-item index="2" @click="one" name="dream">消费记录</el-menu-item>
               <el-menu-item index="3" @click="one">提现记录</el-menu-item>
               <el-menu-item index="4" @click="one">兑换记录</el-menu-item>
               <el-menu-item index="5" @click="one">淘豆流水</el-menu-item>
@@ -36,7 +36,7 @@
 
     <el-col :xs="0" :sm="{span:19,offset:0}" :md="{span:19,offset:0} " :lg="{span:21,offset:0}" style="background-color: #f3f1f6;">
       <div class="main-content">
-        <router-view></router-view>
+        <router-view ></router-view>
       </div>
 
 
@@ -51,16 +51,47 @@
 export default {
   name: 'bIndex',
   data() {
+    this.$router.push("/business")
     return {
 
     }
   },
+  created() {
+    //渲染完成
+    this.rData()
+  },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    '$route': 'rData'
+  },
   methods: {
+    rData() {
+      //数据get 数据post
+      console.log(location.href);
+
+      let path = this.$route.path
+      if (path == '/business/dream') {
+        console.log(1);
+
+      } else if (path == '/business/expenseRecord') {
+
+      } else if (path == '/business/withdrawalsRecord') {
+        console.log(3);
+
+      } else if (path == '/business/TDRecord') {
+        console.log(4);
+      } else if (path == '/business/limitRecord') {
+
+      }
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    handleSelect(ev) {
+      console.log(ev);
     },
     handleIconClick(ev) {
       console.log(ev);
@@ -80,6 +111,10 @@ export default {
         this.$router.push("/business/limitRecord") //额度流水
       }
 
+    },
+    foreunload() {
+      console.log(123);
+      this.$router.push("/business/dream") //淘梦地带
     }
 
   }
@@ -87,9 +122,7 @@ export default {
 </script>
 
 <style lang="css">
-body{
-  margin: 0px;
-}
+
 /*整体背景色*/
 #bIndex{
   background-color: #f3f1f6;
@@ -121,7 +154,7 @@ body{
 .el-menu-item:first-child {
     margin-top: 18px;
 }
-#sidebar-content{
+#business-sidebar-content{
 height: 840px;
 width: 280px;
 background-color: #fff7f1;
