@@ -23,11 +23,15 @@ export default {
 <style scoped lang="less">
 	.footer{
 		height: 278px;
-		background-color: #e5e5e5;
-		color:#666666;
+		width: 100%;
+		border-top: 1px solid #e5e5e5;
+		// background-color: #e5e5e5;
+		// color:#7281ad;
 		display: flex;
 		justify-content:center;
 		align-items:center;
+		// position: absolute;
+		// bottom:0;
 		.footer-con{
 			
 		}

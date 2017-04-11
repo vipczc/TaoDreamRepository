@@ -48,7 +48,7 @@
                 </el-form-item>
               
                 <el-form-item>
-                  <el-button type="primary" @click="join('ruleForm3')" style="width: 100%;">注册</el-button>
+                  <el-button type="primary" @click="regist('ruleForm3')" style="width: 100%;">注册</el-button>
                   <!-- <el-button @click="resetForm('ruleForm2')">重置</el-button> -->
                 </el-form-item>
               </el-form>
@@ -133,7 +133,6 @@ export default {
     },
     login(formName) {
       console.log(this.ruleForm2);
-      console.log(this.ruleForm2);
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
@@ -143,10 +142,12 @@ export default {
           }
         });
       },
-      join(formName) {
+      regist(formName) {
         this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
+          if (valid && this.ruleForm3.type == 1) {
+            this.$router.push('/consumerRegister')
+          }else if(valid && this.ruleForm3.type == 2){
+            this.$router.push('/bussinessRegister')
           } else {
             console.log('error submit!!');
             return false;
@@ -164,7 +165,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
+<style lang="less">
   .index{
     .logo{
       margin-left: 60px;
@@ -184,8 +185,13 @@ export default {
     background: #fff;
     position: absolute;
     right: 10%;
-    top: 170px;
-    // border-radius: 5px; 
+    top: 200px;
+    .el-tabs__item{
+      padding: 0 64.5px !important;
+    }
+    .el-tabs__active-bar{
+      width: 156px !important;
+    }
   }
 
 </style>
