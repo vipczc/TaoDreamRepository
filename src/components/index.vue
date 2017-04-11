@@ -6,16 +6,17 @@
     <el-button type="primary" @click="_go(2)">商家登录</el-button>
     <el-button type="primary" @click="_go(3)">业务员登录</el-button>
     <el-button type="primary" @click="_register">注册</el-button> -->
-      <h1 style="z-index: 10;">淘梦者</h1>
+      <div class="logo"><img src="../assets/img/logo.png" height="30" width="193" alt=""></div>
+      <div class="content-bg"></div>
       <div class="login">
-        <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card" >
+        <el-tabs v-model="activeName" @tab-click="handleClick"  >
           <el-tab-pane label="登录" name="first">
-              <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="50px" style="margin-top: 15px;">
+              <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="50px" style="margin-top: 25px;margin-right: 20px;">
                 <el-form-item label="类型" >
-                  <el-select v-model="ruleForm2.type" placeholder="客官" style="width:100%;">
-                    <el-option label="客官" value="1"></el-option>
-                    <el-option label="管理者" value="2"></el-option>
-                    <el-option label="商铺" value="3"></el-option>
+                  <el-select v-model="ruleForm2.type" placeholder="消费者" style="width:100%;">
+                    <el-option label="消费者" value="1"></el-option>
+                    <el-option label="商家" value="2"></el-option>
+                    <el-option label="咨询师" value="3"></el-option>
                   </el-select>
                 </el-form-item> 
                 <el-form-item label="账号" prop="account">
@@ -30,39 +31,39 @@
                 </el-form-item>
               </el-form>
           </el-tab-pane>
-          <el-tab-pane label="加入我们" name="second">
-              <el-form :model="ruleForm3" :rules="rules3" ref="ruleForm3" label-width="80px" style="margin-top: 15px;">
+          <el-tab-pane label="注册" name="second">
+              <el-form :model="ruleForm3" :rules="rules3" ref="ruleForm3" label-width="80px" style="margin-top: 25px;margin-right: 20px;">
                 <el-form-item label="类型" >
-                  <el-select v-model="ruleForm3.type" placeholder="客官" style="width:100%;" >
-                    <el-option label="客官" value="1"></el-option>
-                    <el-option label="管理者" value="2"></el-option>
-                    <el-option label="商铺" value="3"></el-option>
+                  <el-select v-model="ruleForm3.type" placeholder="消费者" style="width:100%;" >
+                    <el-option label="消费者" value="1"></el-option>
+                    <el-option label="商家" value="2"></el-option>
                   </el-select>
                 </el-form-item> 
                 <el-form-item label="验证码" prop="verificationCode">
-                 <el-input type="text" v-model="ruleForm3.verificationCode"  placeholder="请输入验证码" style="width:55%;"></el-input>
+                 <el-input type="text" v-model="ruleForm3.verificationCode"  placeholder="请输入验证码" style="width:50%;"></el-input>
                  <el-button type="primary">获取验证码</el-button>
                 </el-form-item>
                 <el-form-item label="密码" prop="pass">
                   <el-input type="password" v-model="ruleForm3.pass"  placeholder="请输入密码" icon="message"></el-input>
                 </el-form-item>
-                <el-form-item label="邀请码" prop="invitation">
-                  <el-input type="invitation" v-model="ruleForm3.invitation"  placeholder="请输入邀请码" icon="information"></el-input>
-                </el-form-item>
               
                 <el-form-item>
-                  <el-button type="primary" @click="join('ruleForm3')" style="width: 100%;">加入我们</el-button>
+                  <el-button type="primary" @click="join('ruleForm3')" style="width: 100%;">注册</el-button>
                   <!-- <el-button @click="resetForm('ruleForm2')">重置</el-button> -->
                 </el-form-item>
               </el-form>
           </el-tab-pane>
         </el-tabs>
       </div>
+      <div class="footer">
+        <v-footer></v-footer>
+      </div>
   </div>
 </template>
 
 <script>
 import host from '../common.js'
+import footer from './footer/footer.vue'
 
 export default {
   name: 'index',
@@ -124,12 +125,14 @@ export default {
       }
     },
     _register(){
-      this.$router.push('/register')
+      
+      // this.$router.push('/register')
     },
     handleClick(tab, event) {
         // console.log(tab, event);
     },
     login(formName) {
+      console.log(this.ruleForm2);
       console.log(this.ruleForm2);
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -153,6 +156,9 @@ export default {
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
+  },
+  components:{
+    'v-footer':footer
   }
 }
 </script>
@@ -160,23 +166,26 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
   .index{
-    width: 100%;
-    height: 100%;
-    background:#ccc;
-    z-index: 0;
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  .login{
-    width: 350px;
-    position: absolute;
-    right: 10%;
-    top: 100px;
-    border-radius: 20px;
-    .el-tabs{
-     
+    .logo{
+      margin-left: 60px;
+      margin-top: 30px;
+      margin-bottom:30px;
+    }
+    .content-bg{
+      width:100%;
+      height:618px;
+      background: url(../assets/img/banner.png) 0 0 no-repeat;
+      background-size: 1920px 618px;
     }
   }
-  
+  .login{
+    width: 315px;
+    height:350px;
+    background: #fff;
+    position: absolute;
+    right: 10%;
+    top: 170px;
+    // border-radius: 5px; 
+  }
+
 </style>

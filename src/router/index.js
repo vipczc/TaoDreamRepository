@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
-import register from '@/components/register'
+
 
 
 // 消费者模块
@@ -16,6 +16,11 @@ import uRecommendRecord from '@/components/User/modules/recommendRecord'//推荐
 import uRecommendStimulate from '@/components/User/modules/recommendStimulate'//推荐激励
 
 
+import userIndex from '@/components/User/userIndex'
+import userinfo from '@/components/User/userinfo'
+import userList from '@/components/User/userList'
+
+
 // 商家模块
 import bIndex from '@/components/Business/index'
 import bIndexDream from '@/components/Business/modules/dream' //淘梦地带
@@ -25,9 +30,16 @@ import bIndexConversionRecord from '@/components/Business/modules/conversionReco
 import bIndexTDRecord from '@/components/Business/modules/TDRecord' //淘豆流水
 import bIndexLimitRecord from '@/components/Business/modules/limitRecord' //额度流水
 
+
 //咨询师
 import cIndex from '@/components/Clerk/index'
 import cIndexDream from '@/components/Clerk/modules/dream'
+
+
+//注册
+import register from '@/components/register'
+import consumerRegister from '@/components/register/consumerRegister'//消费者注册
+import bussinessRegister from '@/components/register/bussinessRegister'//商家注册
 
 Vue.use(Router)
 
@@ -37,12 +49,16 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: index
+      component: index,
     },
+    //注册
     {
-      path: '/register',
-      name: 'register',
-      component: register
+      path: '/consumerRegister',
+      component: consumerRegister,
+    }, 
+    {
+      path: '/bussinessRegister',
+      component: bussinessRegister
     },
     // 用户部分
     {
@@ -89,7 +105,6 @@ export default new Router({
     //商家部分
     {
       path: '/business',
-
       component: bIndex,
       children: [{
         path: '/',
@@ -118,7 +133,7 @@ export default new Router({
 
         component: bIndexLimitRecord
       }]
-
+    
     },
 
     // 业务员部分
