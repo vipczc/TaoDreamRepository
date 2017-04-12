@@ -17,14 +17,14 @@
 	  <el-form-item label="联系电话" prop="recommenderPhone">
 	    <el-input  v-model="basicMessage.recommenderPhone" auto-complete="off" style="width:200px;" :disabled="true"></el-input>
 	  </el-form-item>
-	  <div class="step" style="margin-left: -12px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的基本信息<b style="color:#ff831b;">(必填)</b></div>
+	  <div class="step" style="margin-left: -12px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的基本信息<b style="color:#ff831b;">（必填）</b></div>
 	  <el-form-item label="中文姓名" prop="name">
 	    <el-input  v-model="basicMessage.name" auto-complete="off" placeholder="请输入姓名" style="width:150px;"></el-input>
 	  </el-form-item>
 	   <el-form-item label="性别：" prop="gender">
 	    <el-radio-group v-model="basicMessage.gender">
-	      <el-radio label="男"></el-radio>
-	      <el-radio label="女"></el-radio>
+	      <el-radio label="男" value="1"></el-radio>
+	      <el-radio label="女" value="2"></el-radio>
 	    </el-radio-group>
 	  </el-form-item>
 	  <el-form-item label="身份证号" prop="idNumber">
@@ -38,7 +38,8 @@
       v-model="basicMessage.birthDate"
       type="date"
       placeholder="选择日期"
-      :picker-options="basicMessage.pickerOptions0">
+      :picker-options="basicMessage.pickerOptions0"
+      >
     </el-date-picker>
 	  </el-form-item>
 	  <el-form-item label="家庭住址" prop="selectedOptions">

@@ -1,6 +1,6 @@
 <template>
 <div class="consumerSteptwo">
-  <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的单位信息<b style="color:#ff831b;">(必填)</b></div>
+  <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的单位信息<b style="color:#ff831b;">（必填）</b></div>
   <el-form :model="unitInformation" :inline="true" ref="unitInformation"  class="demo-form-inline">
 	  <el-form-item label="单位全称" prop="companyName">
 	    <el-input  v-model="unitInformation.companyName" auto-complete="off" placeholder="如：浙江至讯科技有限公司" style="width:300px;"></el-input>

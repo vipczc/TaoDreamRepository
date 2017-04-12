@@ -39,8 +39,11 @@
                     <el-option label="商家" value="2"></el-option>
                   </el-select>
                 </el-form-item> 
+                <el-form-item label="手机号" prop="phoneNumber">
+                 <el-input  v-model="ruleForm3.phoneNumber"  placeholder="请输入手机号码" ></el-input>
+                </el-form-item>
                 <el-form-item label="验证码" prop="verificationCode">
-                 <el-input type="text" v-model="ruleForm3.verificationCode"  placeholder="请输入验证码" style="width:50%;"></el-input>
+                 <el-input  v-model="ruleForm3.verificationCode"  placeholder="请输入验证码" style="width:50%;"></el-input>
                  <el-button type="primary">获取验证码</el-button>
                 </el-form-item>
                 <el-form-item label="密码" prop="pass">
@@ -87,6 +90,7 @@ export default {
         }, 
       ruleForm3: {
         pass: '',
+        phoneNumber:"",
         verificationCode: '',
         type:'1',
         invitation:''
@@ -181,8 +185,8 @@ export default {
   }
   .login{
     width: 315px;
-    height:350px;
     background: #fff;
+    padding-bottom: 20px;
     position: absolute;
     right: 10%;
     top: 200px;

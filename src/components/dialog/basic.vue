@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped lang="less">
 .el-dialog__headerbtn{
   display: none;
 }
@@ -114,6 +114,20 @@ export default {
   top: 15px;
   right: 20px;
   cursor:pointer;
+}
+.basic{
+	.el-tabs__item{
+	  padding: 0 49px !important;
+	  font-size: 18px !important;
+
+	}
+
+	.el-tabs__active-bar{
+	  display: none;
+	}
+	.el-tabs__item.is-active{
+	  color: #1fd34d !important;
+	}
 }
 #basic{
 
@@ -141,16 +155,5 @@ float:left;
   display: block;
   margin-top: 20px;
 }
-.el-tabs__item{
-  padding: 0 49px !important;
-  font-size: 18px !important;
 
-}
-
-.el-tabs__active-bar{
-  display: none;
-}
-.el-tabs__item.is-active{
-  color: #1fd34d !important;
-}
 </style>

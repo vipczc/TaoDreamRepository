@@ -18,8 +18,48 @@
         <consumersteptwo :unitInformation="unitInformation"></consumersteptwo>
       </div>
       <div class="" v-if="active == 3">
-        注册步骤三的内容
-        <consumerstepthree></consumerstepthree>
+        <consumerstepthree :assetInformation="assetInformation"></consumerstepthree>
+      </div>
+      <div class="" v-if="active == 4">
+        <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<b style="color:#ff831b;">（必填）</b></div>
+        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline">
+          <el-form-item label="开户银行：">
+            <el-select v-model="bankInformation.bankAccount" placeholder="请选择银行"  style="width: 250px;">
+              <el-option label="民生银行" value="1"></el-option>
+              <el-option label="招商银行" value="2"></el-option>
+              <el-option label="交通银行" value="3"></el-option>
+              <el-option label="长勺银行" value="4"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="开户地区：">
+            <el-cascader  :options="bankInformation.options" v-model="bankInformation.selectedOptions" @change="handleChange" >
+            </el-cascader>
+          </el-form-item>
+          <el-form-item label="开户银行：" prop="bankAccountDetail">
+            <el-input  v-model="bankInformation.bankAccountDetail" auto-complete="off" placeholder="如：勾庄小微支行" style="width:300px;"></el-input>
+          </el-form-item>
+          <el-form-item label="银行卡号：" prop="bankCard">
+            <el-input  v-model="bankInformation.bankCard" auto-complete="off" placeholder="请输入银行卡号" style="width:250px;"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="" v-if="active == 5">
+        <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>上传资料<b style="color:#ff831b;"></b></div>
+        <p>请您上传身份证照片（正面和反面）如下：</p>
+        <img src="../../assets/img/sfz.jpg" height="252" width="650" alt="">
+        <div style="border:1px solid #e5e5e5;padding:15px 15px;">
+          <el-upload
+            class="upload-demo"
+            action="//jsonplaceholder.typicode.com/posts/"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :on-success="handleSuccess"
+            :file-list="uploadData.fileList2"
+            list-type="picture">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+        </div>
       </div>
     </div>
     <div class="introduce">
@@ -35,10 +75,17 @@
     <div class="footer">
         <v-footer></v-footer>
     </div>
+    <!-- 查看详情 -->
+    <el-dialog title="图片预览" v-model="Big" >
+      <div>
+        <img :src="BigUrl"/>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 <script>
-import { regionDataPlus  } from 'element-china-area-data'
+import { regionDataPlus, provinceAndCityDataPlus } from 'element-china-area-data'
+import host from '../../common.js'
 import footer from '.././footer/footer.vue'
 import consumerstepone from './module/consumerStepone.vue'
 import consumersteptwo from './module/consumerSteptwo.vue'
@@ -54,6 +101,8 @@ export default {
   data () {
     return {
       active: 1,
+      Big:false,
+      BigUrl:'',
       basicMessage:{
         recommender:"",
         recommenderName:"",
@@ -69,6 +118,7 @@ export default {
             return time.getTime() < Date.now() - 8.64e7;
           }
         },
+        dateRule:"",
         options: regionDataPlus,
         selectedOptions: [],
         detailAddress:"",
@@ -93,6 +143,30 @@ export default {
         areaCode:"",
         phoneNumber:"",
         phoneNumberOther:""
+      },
+      assetInformation:{
+        cardNumber:"",
+        creditLimit:"",
+        livingCondition:"",
+        houseProperty:"",
+        carValue:"",
+        investment:[],
+        relative1:"",
+        relationship1:"",
+        relativePhone1:"",
+        relative2:"",
+        relationship2:"",
+        relativePhone2:""
+      },
+      bankInformation:{
+        bankAccount:"",
+        options: provinceAndCityDataPlus,
+        selectedOptions: [],
+        bankAccountDetail:"",
+        bankCard:""
+      },
+      uploadData:{
+        fileList2:[]
       }
     };
   },
@@ -105,18 +179,50 @@ export default {
   methods:{
     next() {
      let that = this;
+     //时间格式转换
+     if(this.basicMessage.birthDate != ''){
+      this.basicMessage.birthDate = host.basic.formatDate(this.basicMessage.birthDate.getTime())
+    };
      this.active++;
      if (this.active > 5){
         this.active = 1;
        // this.$message.success('注册成功');
        // setTimeout(()=>{that.$router.push('/')},1000)
      }
+    },
+    handleChange (value) {
+      console.log(value)
+    },
+    // 上传图片处理回调
+    handleRemove(file, fileList) {
+        console.log(file, fileList);
+    },
+    handlePreview(file) {
+      this.Big = true;
+      this.BigUrl = file.url;
+    },
+    handleSuccess(response, file, fileList){
+      // console.log(response);
+      // console.log(file);
+      // console.log(fileList);
+      let that = this;
+      if(fileList.length == 2){
+        this.$alert('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您！', '通知', {
+          confirmButtonText: '确定',
+          callback(action){
+            if(action == "confirm"){
+              that.$router.push('/');
+            }
+          }
+        });
+        // this.$message('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您！');
+      }
     }
   }
 }
 </script>
 
-<style  lang="less">
+<style scoped lang="less">
 	.consumerRegister{
 		padding-top: 60px;
     .content{
