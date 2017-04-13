@@ -4,7 +4,7 @@
     <!-- 搜索 -->
     <search></search>
     <el-col :span="24" style="background-color:#fff" class="table-box">
-      <el-table :data="tableData" style="width: 100%;height: 780px;" >
+      <el-table :data="tableData" style="width: 100%;"max-height="800">
            <el-table-column type="selection" width="55">
           </el-table-column>
            <el-table-column prop="orderNumber" label="订单编号">
@@ -24,11 +24,11 @@
                    <el-button
                      size="small"
                      type="success"
-                     @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+                     @click="handleDetails(scope.$index, scope.row)">详情</el-button>
                    <el-button
                      size="small"
                      type="info"
-                     @click="handleDelete(scope.$index, scope.row)">激励明细</el-button>
+                     @click="handleIncentiveDetails(scope.$index, scope.row)">激励明细</el-button>
                  </template>
                </el-table-column>
          </el-table>
@@ -53,11 +53,16 @@
   </div>
         </el-col>
     </el-col>
+    <consumptionDetails :consumptionValue="consumptionDetails" v-on:consumption="consumptionMessage"></consumptionDetails>
+    <incentiveDetails :incentiveValue="incentiveDetails" v-on:incentive="incentiveMessage"></incentiveDetails>
       </div>
     </template>
 
     <script>
 import search from '../../searchModule/search.vue'
+import incentiveDetails from '../../dialog/incentiveDetails.vue'
+import consumptionDetails from '../../dialog/consumptionDetails.vue'
+
 import {
   getItmeCon,
   getDataTable
@@ -75,6 +80,17 @@ export default {
       console.log(err);
     })
     return {
+      consumptionDetails: {
+        show: false,
+        index: 0,
+        typeShow: 0
+      },
+
+      incentiveDetails: {
+        show: false,
+        index: 0,
+        typeShow: 0
+      },
       tableData: [{
 
       }],
@@ -87,14 +103,27 @@ export default {
     }
   },
   components: {
-    search
+    search,
+    consumptionDetails, //注册详情对话框组件
+    incentiveDetails //激励明细对话框
   },
   methods: {
-
-    handleEdit(index, row) {
+    incentiveMessage(isb) {
+      this.incentiveDetails.show = isb
+    },
+    consumptionMessage(isb) {
+      this.consumptionDetails.show = isb
+    },
+    handleDetails(index, row) {
+      this.consumptionDetails.show = true //激活 对话框
+      this.consumptionDetails.index = row.id //传入当前的数据ID
+      this.consumptionDetails.typeShow = 0 //传入当前的显示信息类型 0 = user中的 1为咨询师 2为商铺
       console.log(index, row);
     },
-    handleDelete(index, row) {
+    handleIncentiveDetails(index, row) {
+      this.incentiveDetails.show = true //激活 对话框
+      this.incentiveDetails.index = row.id //传入当前的数据ID
+
       console.log(index, row);
     },
     getdata() {

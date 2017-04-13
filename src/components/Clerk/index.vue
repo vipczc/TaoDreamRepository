@@ -26,11 +26,11 @@
               <el-submenu index="1">
         <template slot="title"><img class="box-img-one" src="../../assets/img/账单记录.png" alt=""><span class="two-item-text">账单记录</span></template>
         <el-menu-item-group class="box-img-two">
-          <el-menu-item index="2" @click="one"><img src="../../assets/img/图层-295.png" alt="消费记录">消费记录</el-menu-item>
+          <el-menu-item index="2" @click="one"><img src="../../assets/img/淘豆流水.png" alt="淘豆流水">淘豆流水</el-menu-item>
           <el-menu-item index="3" @click="one"><img src="../../assets/img/提现记录.png" alt="提现记录">提现记录</el-menu-item>
           <el-menu-item index="4" @click="one"><img src="../../assets/img/兑换记录.png" alt="兑换记录">兑换记录</el-menu-item>
-          <el-menu-item index="5" @click="one"><img src="../../assets/img/淘豆流水.png" alt="淘豆流水">淘豆流水</el-menu-item>
-          <el-menu-item index="6" @click="one"><img src="../../assets/img/额度流水.png" alt="额度流水">额度流水</el-menu-item>
+
+
 
         </el-menu-item-group>
       </el-submenu>
@@ -93,7 +93,7 @@ export default {
       } else if (ev.index == 3) {
         this.$router.push("/clerk/withdrawalsRecord") //淘豆流水
       } else if (ev.index == 4) {
-        this.$router.push("/clerk/conversionRecord") //提现记录
+        this.$router.push("/clerk/conversionRecord") //兑换记录
       } else if (ev.index == 5) {
         this.$router.push("/clerk/businessRecord") //业务记录
       } else if (ev.index == 6) {

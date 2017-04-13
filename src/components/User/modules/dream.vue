@@ -15,7 +15,7 @@
         <!-- 用户信息 -->
         <el-col :span="6" :offset="1">
           <div class="user-message-content">
-            <p>商家姓名:&#12288<span>{{ userName }}</span></p>
+            <p>会员姓名:&#12288<span>{{ userName }}</span></p>
             <p>年&#12288&#12288龄:&#12288<span>{{ userAge }}</span></p>
             <p>电&#12288&#12288话:&#12288<span>{{ userNuber }}</span></p>
             <p>银行卡号:&#12288<span>{{ userBlock }}</span></p>

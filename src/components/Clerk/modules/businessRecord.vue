@@ -28,7 +28,7 @@
                <el-button
                  size="small"
                  type="info"
-                 @click="handleDelete(scope.$index, scope.row)">跟进</el-button>
+                 @click="handleFollowUp(scope.$index, scope.row)">跟进</el-button>
              </template>
            </el-table-column>
      </el-table>
@@ -53,11 +53,13 @@
   </div>
     </el-col>
   </el-col>
+    <followUp :followValue="followUpDialog" v-on:follow="followMessage"></followUp>
   </div>
   </template>
 
   <script>
 import search from '../../searchModule/search.vue'
+import followUp from '../../dialog/followUp.vue'
 import {
   getItmeCon,
   getDataTable
@@ -78,6 +80,9 @@ export default {
       tableData: [{
 
       }],
+      followUpDialog: {
+        show: false
+      },
       allData: '',
       totalCount: 0, //分页数
       a: 0,
@@ -87,9 +92,16 @@ export default {
     }
   },
   components: {
-    search
+    search,
+    followUp
   },
   methods: {
+    handleFollowUp() {
+      this.followUpDialog.show = true
+    },
+    followMessage(isb) {
+      this.followUpDialog.show = isb
+    },
     getdata() {
 
     },

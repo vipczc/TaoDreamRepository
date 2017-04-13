@@ -15,9 +15,10 @@
         <!-- 用户信息 -->
         <el-col :span="6" :offset="1">
           <div class="user-message-content">
-            <p>咨询人姓名:&#12288<span>{{ userName }}</span></p>
+            <p>咨询师姓名:&#12288<span>{{ userName }}</span></p>
             <p>联系电话&#12288:&#12288<span>{{ userNuber }}</span></p>
             <p>账号密码&#12288:&#12288<span>{{ password }}</span></p>
+            <p>银行卡号&#12288:&#12288<span></span></p>
           </div>
         </el-col>
       </div>

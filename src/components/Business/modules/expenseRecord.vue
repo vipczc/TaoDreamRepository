@@ -20,7 +20,7 @@
                    <el-button
                      size="small"
                      type="success"
-                     @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+                     @click="handleDetails(scope.$index, scope.row)">详情</el-button>
                  </template>
                </el-table-column>
          </el-table>
@@ -45,10 +45,12 @@
   </div>
         </el-col>
     </el-col>
+    <consumptionDetails :consumptionValue="consumptionDetails" v-on:consumption="consumptionMessage"></consumptionDetails>
       </div>
     </template>
 
     <script>
+import consumptionDetails from '../../dialog/consumptionDetails.vue'
 import search from '../../searchModule/search.vue'
 import {
   getItmeCon,
@@ -67,6 +69,11 @@ export default {
       console.log(err);
     })
     return {
+      consumptionDetails: {
+        show: false,
+        index: 0,
+        typeShow: 0
+      },
       tableData: [{
 
       }],
@@ -79,14 +86,18 @@ export default {
     }
   },
   components: {
-    search
+    search,
+    consumptionDetails, //注册详情对话框组件
   },
   methods: {
-
-    handleEdit(index, row) {
-      console.log(index, row);
+    consumptionMessage(isb) {
+      this.consumptionDetails.show = isb
     },
-    handleDelete(index, row) {
+
+    handleDetails(index, row) {
+      this.consumptionDetails.show = true //激活 对话框
+      this.consumptionDetails.index = row.id //传入当前的数据ID
+      this.consumptionDetails.typeShow = 1 //传入当前的显示信息类型 0 = 会员 1为咨询师 2为商铺
       console.log(index, row);
     },
     getdata() {
