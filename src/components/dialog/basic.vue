@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped lang="css">
 .el-dialog__headerbtn{
   display: none;
 }

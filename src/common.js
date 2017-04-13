@@ -1,5 +1,5 @@
 const basic = {
-    basicUrl : '',
+    basicUrl : '/taodream-consumer',
     formatDate(str,type) {
       var oDate = new Date(str), oYear = oDate.getFullYear(), oMonth = oDate.getMonth() + 1, oDay = oDate.getDate(), oHour = oDate.getHours();
       var oMin = oDate.getMinutes(), oSen = oDate.getSeconds();
@@ -14,6 +14,22 @@ const basic = {
         return oYear + '-' + oMonth + '-' + oDay + ' ' + oHour + ':' + oMin
       }
       return oTime;
+    },
+    // 验证码倒计时
+    time(btn){
+      var wait = 60;
+      if (wait===0) {
+          btn.removeAttribute("disabled");
+          btn.innerHTML = "获取验证码";
+          wait = 60;
+      }else{
+          btn.setAttribute("disabled",true);
+          btn.innerHTML = wait + "秒后重试";
+          wait--;
+          setTimeout(function(){
+              time(btn);
+          },1000);
+      }
     },
     checkMobile(rule, value, callback){
       if (!/^1[34578]\d{9}$/.test(value)) {
@@ -51,6 +67,12 @@ const basic = {
     checkCard(rule, value, callback){
       if (!/^\d{8,18}|[0-9x]{8,18}|[0-9X]{8,18}?$/.test(value)) {
         callback(new Error('请输入正确的身份证号码'));
+      }
+      callback();
+    },
+    checkPass(rule, value, callback){
+      if (!/^[a-zA-Z0-9]{6,18}$/.test(value)) {
+        callback(new Error('请输入格式正确的密码'));
       }
       callback();
     },
