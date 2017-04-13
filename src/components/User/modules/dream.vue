@@ -5,7 +5,7 @@
       <div class="user-message">
         <el-col :span="4">
             <div class="user-headPortrait" @click="basicDialog = true">
-              <img v-bind:src="headPortraitUrl" alt="头像">
+
             </div>
             <div class="userType" @click="basicDialog = true">
               <span>{{ userType }}</span>
@@ -273,16 +273,22 @@ export default {
   height: 227px;
   background-image: url(../../../assets/img/backimg.png);
 }
+
 .user-headPortrait{
   width: 144px;
   height: 144px;
-  background-color: #000;
+  background-image: url(../../../assets/img/默认头像.png);
+  background-color: #e6e6e6;
   border: 2px solid #FFF;
   border-radius: 72px;
   color: #FFF;
   margin-top: 41.5px;
   margin-left: 40px;
   cursor:pointer;
+
+}
+.user-headPortrait img{
+
 }
 .userType{
   height:20px;

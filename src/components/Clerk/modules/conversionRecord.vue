@@ -1,10 +1,10 @@
 <template lang="html">
-  <!-- 兑换记录 -->
-  <div class="conversionRecord">
+  <div id="conversionRecord">
+    <!-- 兑换记录 -->
     <!-- 搜索 -->
-<search></search>
-<el-col :span="24" style="background-color:#fff" class="table-box">
-  <el-table :data="tableData" style="width: 100%;height: 780px;" >
+  <search></search>
+  <el-col :span="24" style="background-color:#fff" class="table-box">
+  <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading">
        <el-table-column type="selection" width="55">
       </el-table-column>
        <el-table-column prop="conversionDate" label="兑换日期">
@@ -17,30 +17,30 @@
        </el-table-column>
      </el-table>
 
-</el-col>
-<el-col :span="24" >
+  </el-col>
+  <el-col :span="24" >
     <el-col :span="12">
       <span>共{{ sum }}项</span>
     </el-col>
     <el-col :span="12" :offset="0">
 
       <div class="block">
-<span class="demonstration"></span>
-<el-pagination
-@size-change="handleSizeChange"
-@current-change="handleCurrentChange"
+  <span class="demonstration"></span>
+  <el-pagination
+  @size-change="handleSizeChange"
+  @current-change="handleCurrentChange"
 
-layout=" prev, pager, next"
-:total="totalCount">
-</el-pagination>
-<!-- :page-size="10" sizes, -->
-</div>
-    </el-col>
-</el-col>
+  layout=" prev, pager, next"
+  :total="totalCount">
+  </el-pagination>
+  <!-- :page-size="10" sizes, -->
   </div>
-</template>
+    </el-col>
+  </el-col>
+  </div>
+  </template>
 
-<script>
+  <script>
 import search from '../../searchModule/search.vue'
 import {
   getItmeCon,
@@ -49,12 +49,17 @@ import {
 export default {
 
   data() {
-    this.$http.get('http://127.0.0.1:3000/BconversionRecord').then((objData) => {
+    this.loading = true
+
+    this.$http.get('http://127.0.0.1:3000/CconversionRecord').then((objData, next) => {
+
+
       this.sum = objData.data.length
       this.allData = getDataTable(objData.data, 18)
       this.tableData = this.allData[0]
       this.totalCount = getItmeCon(objData.data, 18)
-      console.log(this.tableData);
+      this.loading = false
+
     }).catch((err) => {
       console.log(err);
     })
@@ -70,7 +75,8 @@ export default {
       a: 0,
       b: 0,
       sum: 0,
-      tableItemCount: 18
+      tableItemCount: 18,
+      loading: false
     }
   },
   components: {
@@ -104,13 +110,4 @@ export default {
 </script>
 
 <style lang="css">
-.conversionRecord{
-  /*text-align: left;*/
-}
-.table-box{
-margin-top: 14px;
-}
-.el-table th>.cell{
-text-align: center;
-}
 </style>

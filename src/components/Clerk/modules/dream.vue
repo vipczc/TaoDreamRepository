@@ -5,7 +5,7 @@
       <div class="user-message">
         <el-col :span="4">
             <div class="user-headPortrait">
-              <img v-bind:src="headPortraitUrl" alt="头像">
+
             </div>
             <div class="userType">
               <span>{{ userType }}</span>
@@ -105,7 +105,87 @@
 
       </div>
   </el-col>
+  <!-- 提现 -->
+  <el-col :span="24">
+      <div class="user-withdrawa " style="margin-top:0px;">
+        <!-- 提现图标 -->
+        <el-col :span="4">
+          <div class="withdrawa-logo">
+                <div class="logo-content">
+                  <img src="../../../assets/img/提现.png" alt="提现">
+                  <p>提现</p>
+                </div>
 
+          </div>
+        </el-col>
+        <!-- 提现信息 -->
+        <el-col :span="7" :offset="1">
+          <div class="content-right ">
+
+              <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
+              <a href="#">查看提现记录></a>
+
+          </div>
+        </el-col>
+        <el-col :span="2">
+          <div class="content-right content-right-hr ">
+
+              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
+
+          </div>
+        </el-col>
+
+
+        <!-- 待定 -->
+        <el-col :span="9" :offset="1">
+          <div class="content-right">
+
+          </div>
+        </el-col>
+      </div>
+  </el-col>
+  <!-- 淘豆 -->
+  <el-col :span="24">
+      <div class="user-td">
+        <el-col :span="4">
+          <!-- 淘豆图标 -->
+          <div class="td-logo">
+            <div class="logo-content">
+              <img src="../../../assets/img/淘豆.png" alt="淘豆">
+              <p>淘豆</p>
+            </div>
+          </div>
+        </el-col>
+        <!-- 淘豆金额 -->
+        <el-col :span="7" :offset="1">
+          <div class="content-right">
+
+              <p>淘豆金额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
+              <a href="#">查看兑换记录></a>
+
+          </div>
+        </el-col>
+        <!-- 按钮 -->
+        <el-col :span="2">
+          <div class="content-right content-right-hr">
+
+              <el-button type="success" size="large" id="btn-top" @click="">提现</el-button>
+
+          </div>
+        </el-col>
+        <!-- 获得淘豆 -->
+        <el-col :span="9" :offset="1">
+          <div class="content-right">
+
+              <p>昨日获得淘豆:<span>{{ yesterdayTD }}￥</span></p>
+              <a href="#">查看淘豆流水></a>
+
+          </div>
+        </el-col>
+
+
+      </div>
+  </el-col>
   </div>
 </template>
 
@@ -124,6 +204,7 @@ export default {
       expenseLimitUp: '800', //消费额度提升
       recommendLimit: '10', //已消费额度
       surplusLimit: '20', //剩余额度
+
       //用到一下
       headPortraitUrl: '', //用户头像+
       userType: '咨询师', //用户类型+
@@ -154,11 +235,13 @@ export default {
 .user-message{
   height: 227px;
   background-image: url(../../../assets/img/backimg.png);
+
 }
 .user-headPortrait{
   width: 144px;
   height: 144px;
-  background-color: #000;
+
+  background-color: #e6e6e6;
   border: 2px solid #FFF;
   border-radius: 72px;
   color: #FFF;
@@ -232,6 +315,7 @@ export default {
 }
 .td-greey{
   background-color: #2ec4b6;
+  border-bottom: 1px solid #fdfdfe;
 }
 /*额度样式*/
 .user-limit{

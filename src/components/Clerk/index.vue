@@ -20,15 +20,36 @@
 
 <!-- 侧边栏 -->
     <el-col :xs="6" :sm="{span:5,offset:0}" :md="{span:5,offset:0}" :lg="{span:3,offset:0}">
-      <el-menu  id="clerk-sidebar-content" mode="vertical" default-active="1" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose">
+      <el-menu  id="business-sidebar-content" mode="vertical" default-active="1" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose" @select="handleSelect">
 
-              <el-menu-item index="1" @click="one"><i class="el-icon-menu"></i>淘梦地带</el-menu-item>
-              <el-menu-item index="2" @click="one">业务记录</el-menu-item>
-              <el-menu-item index="3" @click="one">关联消费记录</el-menu-item>
+              <el-menu-item index="1" @click="one" name="dreams" ><img class="box-img-one" src="../../assets/img/淘梦地带-选中状态.png" alt="淘梦地带">淘梦地带</el-menu-item>
+              <el-submenu index="1">
+        <template slot="title"><img class="box-img-one" src="../../assets/img/账单记录.png" alt=""><span class="two-item-text">账单记录</span></template>
+        <el-menu-item-group class="box-img-two">
+          <el-menu-item index="2" @click="one"><img src="../../assets/img/图层-295.png" alt="消费记录">消费记录</el-menu-item>
+          <el-menu-item index="3" @click="one"><img src="../../assets/img/提现记录.png" alt="提现记录">提现记录</el-menu-item>
+          <el-menu-item index="4" @click="one"><img src="../../assets/img/兑换记录.png" alt="兑换记录">兑换记录</el-menu-item>
+          <el-menu-item index="5" @click="one"><img src="../../assets/img/淘豆流水.png" alt="淘豆流水">淘豆流水</el-menu-item>
+          <el-menu-item index="6" @click="one"><img src="../../assets/img/额度流水.png" alt="额度流水">额度流水</el-menu-item>
+
+        </el-menu-item-group>
+      </el-submenu>
+
+      <el-submenu index="2">
+<template slot="title">
+<img class="box-img-one" src="../../assets/img/推荐管理.png" alt="">
+<span class="two-item-text">推荐管理</span>
+</template>
+<el-menu-item-group class="box-img-two">
+  <el-menu-item index="5" @click="one"><img src="../../assets/img/关联消费记录.png" alt="关联消费记录">关联消费记录</el-menu-item>
+  <el-menu-item index="6" @click="one"><img src="../../assets/img/业务记录.png" alt="业务记录">业务记录</el-menu-item>
+</el-menu-item-group>
+</el-submenu>
 
 
         </el-menu>
     </el-col>
+
 
 <!-- 内容 -->
 
@@ -68,9 +89,15 @@ export default {
       if (ev.index == 1) {
         this.$router.push("/clerk/dream") //淘梦地带
       } else if (ev.index == 2) {
-        this.$router.push("/clerk/expenseRecord") //业务记录
+        this.$router.push("/clerk/TDRecord") //淘豆流水
       } else if (ev.index == 3) {
-        this.$router.push("/clerk/withdrawalsRecord") //关联消费记录
+        this.$router.push("/clerk/withdrawalsRecord") //淘豆流水
+      } else if (ev.index == 4) {
+        this.$router.push("/clerk/conversionRecord") //提现记录
+      } else if (ev.index == 5) {
+        this.$router.push("/clerk/businessRecord") //业务记录
+      } else if (ev.index == 6) {
+        this.$router.push("/clerk/relatedConsumptionRecord") //关联消费记录
       }
 
     }

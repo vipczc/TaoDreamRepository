@@ -4,10 +4,12 @@
   <el-col :span="24">
       <div class="user-message">
         <el-col :span="4">
-            <div class="user-headPortrait" @click="basicDialog = true">
-              <img v-bind:src="headPortraitUrl" alt="头像">
+          <!-- @click="basicDialog = true" -->
+            <div class="user-headPortrait" >
+
             </div>
-            <div class="userType" @click="basicDialog = true">
+            <!-- @click="basicDialog = true" -->
+            <div class="userType" >
               <span>{{ userType }}</span>
             </div>
 
@@ -15,16 +17,16 @@
         <!-- 用户信息 -->
         <el-col :span="6" :offset="1">
           <div class="user-message-content">
-            <p>商家姓名:&#12288<span>{{ userName }}</span></p>
-            <p>年&#12288&#12288龄:&#12288<span>{{ userAge }}</span></p>
-            <p>电&#12288&#12288话:&#12288<span>{{ userNuber }}</span></p>
-            <p>银行卡号:&#12288<span>{{ userBlock }}</span></p>
+            <p>企业名称&#12288:&#12288<span>{{ userName }}</span></p>
+            <p>企业联系人:&#12288<span>{{ userAge }}</span></p>
+            <p>企业类型&#12288:&#12288<span>{{ userNuber }}</span></p>
+            <p>电&#12288&#12288话:&#12288<span>{{ userBlock }}</span></p>
           </div>
         </el-col>
         <el-col :span="4" :offset="1">
           <div class="user-message-content">
-            <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
-            <p>职&#12288&#12288业:&#12288<span>{{ userOccupation }}</span></p>
+            <p>地&#12288&#12288址:&#12288<span>{{ userSex }}</span></p>
+            <p>银行卡号:&#12288<span>{{ userOccupation }}</span></p>
           </div>
         </el-col>
 
@@ -247,7 +249,8 @@ export default {
 .user-headPortrait{
   width: 144px;
   height: 144px;
-  background-color: #000;
+
+  background-color: #e6e6e6;
   border: 2px solid #FFF;
   border-radius: 72px;
   color: #FFF;
@@ -330,6 +333,10 @@ export default {
 
 }
 /*公用*/
+.el-menu-item.is-active{
+  color: #454545 !important;
+  font-size: 18px;
+}
 .content-right-hr{
   border-right: 1px solid #ebebeb;
 }

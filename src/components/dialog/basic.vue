@@ -12,7 +12,7 @@
                 <span>出生日期:1987年2月19日</span>
                 <span>联系电话:1561846564</span>
                 <span>家庭地址:一节2节街</span>
-                
+
               </div>
                 <div id="box-right">
                   <span>性&#12288&#12288别:女</span>
@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="css">
 .el-dialog__headerbtn{
   display: none;
 }
@@ -114,20 +114,6 @@ export default {
   top: 15px;
   right: 20px;
   cursor:pointer;
-}
-.basic{
-	.el-tabs__item{
-	  padding: 0 49px !important;
-	  font-size: 18px !important;
-
-	}
-
-	.el-tabs__active-bar{
-	  display: none;
-	}
-	.el-tabs__item.is-active{
-	  color: #1fd34d !important;
-	}
 }
 #basic{
 
@@ -154,6 +140,19 @@ float:left;
 #box-right span {
   display: block;
   margin-top: 20px;
+}
+
+.el-tabs__item{
+  padding: 0 49px !important;
+  font-size: 18px !important;
+
+}
+
+.el-tabs__active-bar{
+  display: none;
+}
+.el-tabs__item.is-active{
+  color: #1fd34d !important;
 }
 
 </style>

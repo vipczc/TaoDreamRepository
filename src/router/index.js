@@ -32,9 +32,13 @@ import bIndexLimitRecord from '@/components/Business/modules/limitRecord' //额�
 
 
 //咨询师
-import cIndex from '@/components/Clerk/index'
-import cIndexDream from '@/components/Clerk/modules/dream'
-
+import cIndex from '@/components/Clerk/index' //咨询师首页
+import cIndexDream from '@/components/Clerk/modules/dream' //淘梦地带
+import cIndexTDRecord from '@/components/Clerk/modules/TDRecord'//淘豆流水
+import cIndexWithdrawalsRecord from '@/components/Clerk/modules/withdrawalsRecord'//提现记录
+import cIndexConversionRecord from '@/components/Clerk/modules/conversionRecord' //兑换记录
+import cIndexBusinessRecord from '@/components/Clerk/modules/businessRecord' //业务记录
+import cIndexRelatedConsumptionRecord from '@/components/Clerk/modules/relatedConsumptionRecord' //关联消费记录
 
 //注册
 import register from '@/components/register'
@@ -136,7 +140,7 @@ export default new Router({
 
     },
 
-    // 业务员部分
+    // 业务员 || 咨询师 部分
     {
       path: '/clerk',
       name: 'cIndex',
@@ -148,7 +152,22 @@ export default new Router({
       },{
         path: 'dream', //推荐激励
         component: cIndexDream
-      }]
+      },{
+        path: 'TDRecord', //淘豆流水
+        component: cIndexTDRecord
+      },{
+        path: 'withdrawalsRecord', //提现记录
+        component: cIndexWithdrawalsRecord
+      },{
+        path: 'conversionRecord', //兑换记录
+        component: cIndexConversionRecord
+      },{
+        path: 'businessRecord', //业务记录
+        component: cIndexBusinessRecord
+      },{
+        path: 'relatedConsumptionRecord', //关联消费记录
+        component: cIndexRelatedConsumptionRecord
+      },]
     },{
       path:'*',
       component:notFound

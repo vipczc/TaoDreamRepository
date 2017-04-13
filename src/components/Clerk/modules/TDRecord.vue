@@ -1,46 +1,52 @@
 <template lang="html">
-  <!-- 兑换记录 -->
-  <div class="conversionRecord">
+  <div class="TDRecord">
+    <!-- 淘豆流水 -->
     <!-- 搜索 -->
-<search></search>
-<el-col :span="24" style="background-color:#fff" class="table-box">
-  <el-table :data="tableData" style="width: 100%;height: 780px;" >
+    <search></search>
+    <el-col :span="24" style="background-color:#fff" class="table-box">
+    <el-table :data="tableData" style="width: 100%;height: 780px;" >
        <el-table-column type="selection" width="55">
       </el-table-column>
-       <el-table-column prop="conversionDate" label="兑换日期">
+       <el-table-column prop="operationDate" label="操作日期">
        </el-table-column>
-       <el-table-column  prop="conversionTaodou" label="兑换淘豆">
+       <el-table-column  prop="type" label="类型">
        </el-table-column>
-       <el-table-column prop="conversionAmountReceived" label="兑换获得金额">
+       <el-table-column prop="income" label="收入">
        </el-table-column>
-       <el-table-column prop="surplusTaodou" label="剩余淘豆">
+       <el-table-column prop="TDbalance" label="淘豆余额">
+       </el-table-column>
+       <el-table-column prop="clerkAccount" label="咨询师账号">
+       </el-table-column>
+       <el-table-column prop="clerkName" label="咨询师名称">
+       </el-table-column>
+       <el-table-column prop="orderNumber" label="订单编号">
        </el-table-column>
      </el-table>
 
-</el-col>
-<el-col :span="24" >
+    </el-col>
+    <el-col :span="24" >
     <el-col :span="12">
       <span>共{{ sum }}项</span>
     </el-col>
     <el-col :span="12" :offset="0">
 
       <div class="block">
-<span class="demonstration"></span>
-<el-pagination
-@size-change="handleSizeChange"
-@current-change="handleCurrentChange"
+    <span class="demonstration"></span>
+    <el-pagination
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
 
-layout=" prev, pager, next"
-:total="totalCount">
-</el-pagination>
-<!-- :page-size="10" sizes, -->
-</div>
+    layout=" prev, pager, next"
+    :total="totalCount">
+    </el-pagination>
+    <!-- :page-size="10" sizes, -->
+    </div>
     </el-col>
-</el-col>
-  </div>
-</template>
+    </el-col>
+    </div>
+    </template>
 
-<script>
+    <script>
 import search from '../../searchModule/search.vue'
 import {
   getItmeCon,
@@ -49,7 +55,7 @@ import {
 export default {
 
   data() {
-    this.$http.get('http://127.0.0.1:3000/BconversionRecord').then((objData) => {
+    this.$http.get('http://127.0.0.1:3000/CTDRecord').then((objData) => {
       this.sum = objData.data.length
       this.allData = getDataTable(objData.data, 18)
       this.tableData = this.allData[0]
@@ -104,13 +110,4 @@ export default {
 </script>
 
 <style lang="css">
-.conversionRecord{
-  /*text-align: left;*/
-}
-.table-box{
-margin-top: 14px;
-}
-.el-table th>.cell{
-text-align: center;
-}
 </style>

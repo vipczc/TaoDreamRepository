@@ -22,12 +22,18 @@
     <el-col :xs="6" :sm="{span:5,offset:0}" :md="{span:5,offset:0}" :lg="{span:3,offset:0}">
       <el-menu  id="business-sidebar-content" mode="vertical" default-active="1" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose" @select="handleSelect">
 
-              <el-menu-item index="1" @click="one" name="dreams" ><i class="el-icon-menu" ></i>淘梦地带</el-menu-item>
-              <el-menu-item index="2" @click="one" name="dream">消费记录</el-menu-item>
-              <el-menu-item index="3" @click="one">提现记录</el-menu-item>
-              <el-menu-item index="4" @click="one">兑换记录</el-menu-item>
-              <el-menu-item index="5" @click="one">淘豆流水</el-menu-item>
-              <el-menu-item index="6" @click="one">额度流水</el-menu-item>
+              <el-menu-item index="1" @click="one" name="dreams" ><img class="box-img-one" src="../../assets/img/淘梦地带-选中状态.png" alt="淘梦地带">淘梦地带</el-menu-item>
+              <el-submenu index="1">
+        <template slot="title"><img class="box-img-one" src="../../assets/img/账单记录.png" alt=""><span class="two-item-text">账单记录</span></template>
+        <el-menu-item-group class="box-img-two">
+          <el-menu-item index="2" @click="one"><img src="../../assets/img/图层-295.png" alt="消费记录">消费记录</el-menu-item>
+          <el-menu-item index="3" @click="one"><img src="../../assets/img/提现记录.png" alt="提现记录">提现记录</el-menu-item>
+          <el-menu-item index="4" @click="one"><img src="../../assets/img/兑换记录.png" alt="兑换记录">兑换记录</el-menu-item>
+          <el-menu-item index="5" @click="one"><img src="../../assets/img/淘豆流水.png" alt="淘豆流水">淘豆流水</el-menu-item>
+          <el-menu-item index="6" @click="one"><img src="../../assets/img/额度流水.png" alt="额度流水">额度流水</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+
 
         </el-menu>
     </el-col>
@@ -176,6 +182,24 @@ background-color: #fff7f1;
     background-color: #f3f1f6;
 
 }
+.box-img-one{
+  margin-right: 20px;
+  position: relative;
+  top: 4px;
+}
+.box-img-two img{
+  margin-right: 10px;
+  position: relative;
+  top: 1px;
+}
+.two-item-text{
+  font-size: 18px;
 
-
+}
+.el-menu-item-group__title{
+  display: none;
+}
+.el-submenu .el-menu{
+  background-color:#fff7f1 !important;
+}
 </style>

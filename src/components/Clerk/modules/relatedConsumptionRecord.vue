@@ -1,46 +1,60 @@
 <template lang="html">
-  <!-- 兑换记录 -->
-  <div class="conversionRecord">
+  <div class="relatedConsumptionRecord">
+    <!-- 关联消费记录 -->
     <!-- 搜索 -->
-<search></search>
-<el-col :span="24" style="background-color:#fff" class="table-box">
+  <search></search>
+  <el-col :span="24" style="background-color:#fff" class="table-box">
   <el-table :data="tableData" style="width: 100%;height: 780px;" >
        <el-table-column type="selection" width="55">
       </el-table-column>
-       <el-table-column prop="conversionDate" label="兑换日期">
+       <el-table-column prop="orderNumber" label="订单编号">
        </el-table-column>
-       <el-table-column  prop="conversionTaodou" label="兑换淘豆">
+       <el-table-column  prop="consumptionDate" label="消费日期">
        </el-table-column>
-       <el-table-column prop="conversionAmountReceived" label="兑换获得金额">
+       <el-table-column prop="memberAccount" label="会员账号">
        </el-table-column>
-       <el-table-column prop="surplusTaodou" label="剩余淘豆">
+       <el-table-column prop="memberName" label="会员姓名">
        </el-table-column>
+       <el-table-column prop="consumptionAmount" label="消费金额">
+       </el-table-column>
+       <el-table-column prop="incentiveProportion" label="激励比例">
+       </el-table-column>
+       <el-table-column prop="address" label="地址">
+       </el-table-column>
+       <el-table-column label="操作">
+             <template scope="scope">
+               <el-button
+                 size="small"
+                 type="success"
+                 @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+             </template>
+           </el-table-column>
      </el-table>
 
-</el-col>
-<el-col :span="24" >
+  </el-col>
+  <el-col :span="24" >
     <el-col :span="12">
       <span>共{{ sum }}项</span>
     </el-col>
     <el-col :span="12" :offset="0">
 
       <div class="block">
-<span class="demonstration"></span>
-<el-pagination
-@size-change="handleSizeChange"
-@current-change="handleCurrentChange"
+  <span class="demonstration"></span>
+  <el-pagination
+  @size-change="handleSizeChange"
+  @current-change="handleCurrentChange"
 
-layout=" prev, pager, next"
-:total="totalCount">
-</el-pagination>
-<!-- :page-size="10" sizes, -->
-</div>
-    </el-col>
-</el-col>
+  layout=" prev, pager, next"
+  :total="totalCount">
+  </el-pagination>
+  <!-- :page-size="10" sizes, -->
   </div>
-</template>
+    </el-col>
+  </el-col>
+  </div>
+  </template>
 
-<script>
+  <script>
 import search from '../../searchModule/search.vue'
 import {
   getItmeCon,
@@ -49,7 +63,7 @@ import {
 export default {
 
   data() {
-    this.$http.get('http://127.0.0.1:3000/BconversionRecord').then((objData) => {
+    this.$http.get('http://127.0.0.1:3000/CrelatedConsumptionRecord').then((objData) => {
       this.sum = objData.data.length
       this.allData = getDataTable(objData.data, 18)
       this.tableData = this.allData[0]
@@ -104,13 +118,4 @@ export default {
 </script>
 
 <style lang="css">
-.conversionRecord{
-  /*text-align: left;*/
-}
-.table-box{
-margin-top: 14px;
-}
-.el-table th>.cell{
-text-align: center;
-}
 </style>
