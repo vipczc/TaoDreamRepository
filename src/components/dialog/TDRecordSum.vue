@@ -1,19 +1,21 @@
 <template lang="html">
   <!-- 淘豆兑换 -->
   <div class="tdrecordSum">
-    <el-dialog title="提额" v-model="tdrecordSumDialog = tdValue" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
+    <el-dialog title="提现" v-model="tdrecordSumDialog = tdValue" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
     <div class="cir" @click="tdrecordSumValue"><i class="el-icon-close" ></i></div>
           <el-form :label-position="labelPosition" label-width="80px" :model="formTDrecordSum">
-            <el-form-item label="兑换淘豆:">
-            <el-input v-model="formTDrecordSum.tdCount" placeholder="请输入淘豆个数"></el-input>
-            </el-form-item>
+            <div class="dialog-list-box">
+              <el-form-item label="兑换淘豆:">
+              <el-input v-model="getDataResource.TDMoney = formTDrecordSum.tdCount" placeholder="请输入淘豆个数"></el-input>
+              </el-form-item>
 
-
+              <el-form-item label="淘豆金额:">
+                <span>{{ getDataResource.TDMoney }}</span><span>元</span>
+              </el-form-item>
+            </div>
         </el-form>
-        <div class="sum-box">
-          <span>淘豆金额:233元</span>
 
-        </div>
+
     <span slot="footer" class="dialog-footer">
 
     <el-button type="primary" @click="tdrecordSumValue">提 交</el-button>
@@ -26,6 +28,9 @@
 export default {
   data() {
     return {
+      getDataResource: {
+        TDMoney: 0 //淘豆金额
+      },
       labelPosition: 'left',
       tdrecordSumDialog: false,
       formTDrecordSum: {

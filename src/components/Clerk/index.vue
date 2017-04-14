@@ -12,7 +12,7 @@
         </el-col>
         <el-col :xs="0" :sm="{span:6,offset:12}" :md="{span:6,offset:12}" :lg="{span:4,offset:16}">
 
-            <router-link to="/" class="nav-quit">Quit</router-link>
+            <router-link to="/" class="nav-quit"><img src="../../assets/img/退出按钮.png" alt="quit"></router-link>
 
         </el-col>
     </el-col>
@@ -75,7 +75,11 @@ export default {
 
     }
   },
+
   methods: {
+    handleSelect() {
+
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },

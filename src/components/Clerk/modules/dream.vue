@@ -4,10 +4,10 @@
   <el-col :span="24">
       <div class="user-message">
         <el-col :span="4">
-            <div class="user-headPortrait">
+            <div class="user-headPortrait" @click="basicClerkDialog = true">
 
             </div>
-            <div class="userType">
+            <div class="userType" @click="basicClerkDialog = true">
               <span>{{ userType }}</span>
             </div>
 
@@ -18,7 +18,7 @@
             <p>咨询师姓名:&#12288<span>{{ userName }}</span></p>
             <p>联系电话&#12288:&#12288<span>{{ userNuber }}</span></p>
             <p>账号密码&#12288:&#12288<span>{{ password }}</span></p>
-            <p>银行卡号&#12288:&#12288<span></span></p>
+            <p>银行卡号&#12288:&#12288<span>{{ bankCard }}</span></p>
           </div>
         </el-col>
       </div>
@@ -49,7 +49,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr ">
 
-              <el-button type="success" size="large" id="btn-top" @click="modality(1)">添加</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="addPersonnelDialog = true">添加</el-button>
 
           </div>
         </el-col>
@@ -131,7 +131,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr ">
 
-              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
+        <el-button type="success" size="large" id="btn-top" @click="withdrawSumDialog = true">提现</el-button>
 
           </div>
         </el-col>
@@ -170,7 +170,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="">提现</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
 
           </div>
         </el-col>
@@ -187,15 +187,27 @@
 
       </div>
   </el-col>
+  <withdrawSum :sumValue="withdrawSumDialog" v-on:withdraw="withdrawMessage"></withdrawSum>
+  <tdrecordSum :tdValue="tdrecordSumDialog" v-on:td="tdMessage"></tdrecordSum>
+  <addPersonnel :addPersonnelValue="addPersonnelDialog" v-on:add="addMessage"></addPersonnel>
+  <basicClerk :basicClerkValue="basicClerkDialog" v-on:clerkBasic="clerkBasicMessage"></basicClerk>
   </div>
 </template>
 
 <script>
+import withdrawSum from '../../dialog/withdrawSum.vue'
+import tdrecordSum from '../../dialog/TDRecordSum.vue'
+import addPersonnel from '../../dialog/addPersonnel.vue'
+import basicClerk from '../../dialog/basicClerk.vue'
 export default {
   data() {
     return {
+      basicClerkDialog: false,
+      tdrecordSumDialog: false,
+      withdrawSumDialog: false,
+      addPersonnelDialog: false,
       userAge: '40', //年龄
-      userBlock: '8888-8888-8888-8888', //银行卡号
+      bankCard: '8888-8888-8888-8888', //银行卡号
       userSex: '女', //性别
       userOccupation: '个体', //职业
       withdrawSum: '500', //添加金额
@@ -219,7 +231,25 @@ export default {
 
     }
   },
+  components: {
+    withdrawSum, //提现
+    tdrecordSum, //淘豆提现
+    addPersonnel, //添加人员
+    basicClerk
+  },
   methods: {
+    clerkBasicMessage(isb) {
+      this.basicClerkDialog = isb
+    },
+    withdrawMessage(isb) {
+      this.withdrawSumDialog = isb
+    },
+    tdMessage(isb) {
+      this.tdrecordSumDialog = isb
+    },
+    addMessage(isb) {
+      this.addPersonnelDialog = isb
+    },
     modality(cont) {
 
       console.log(cont);

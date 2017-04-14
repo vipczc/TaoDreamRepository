@@ -3,7 +3,7 @@
     <!-- 跟进 -->
     <el-dialog title="跟进会员" v-model="followUpDialog = followValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
     <div class="cir" @click="followUpValue"><i class="el-icon-close" ></i></div>
-          <el-form :label-position="labelPosition" label-width="80px" :model="formFollowUp">
+          <el-form  label-width="80px" :model="formFollowUp">
             <!-- <el-form-item label="会员账号:">
             <el-input v-model="formFollowUp.id" placeholder="请输入会员账号"></el-input>
             </el-form-item>
@@ -16,19 +16,23 @@
             <div class="dialog-list-box">
 
               <div class="box-left">
-              <p>姓名:</p>
+                <el-form-item label="姓名:">
+                <span>{{ getDataResource.name }}</span>
+                </el-form-item>
               </div>
               <div class="box-right">
-                <p>联系电话:</p>
+                <el-form-item label="联系电话:">
+                <span>{{ getDataResource.phoneNumber }}</span>
+                </el-form-item>
               </div>
               <el-form-item label="文字描述:">
-              <el-input v-model="formFollowUp.name" type="textarea" placeholder="备注信息"></el-input>
+              <el-input v-model="formFollowUp.text" type="textarea" placeholder="备注信息"></el-input>
               </el-form-item>
               <el-form-item label="状态:">
-                <el-select v-model="value" placeholder="请选择">
-                <el-option v-for="item in options" :label="item.label" :value="item.value">
+                <!-- <el-select v-model="getDataResource.state = value" placeholder="value">
+                <el-option v-for="item of options" :label="item.label" :value="item.value">
                 </el-option>
-              </el-select>
+                </el-select> -->
               </el-form-item>
             </div>
           </el-form>
@@ -45,9 +49,14 @@
 export default {
   data() {
     return {
+      getDataResource: {
+        name: '',
+        phoneNumber: '',
+        state: ''
+      },
       followUpDialog: false,
       formFollowUp: {
-        name: ''
+        text: ''
       },
       options: [{
         value: '选项1',
@@ -59,7 +68,7 @@ export default {
         value: '选项3',
         label: '没兴趣'
       }],
-      value: ''
+      value: '已入会'
     }
   },
   props: {

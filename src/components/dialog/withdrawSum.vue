@@ -1,21 +1,39 @@
 <template lang="html">
   <!-- 提现 -->
   <div class="withdrawSum">
-    <el-dialog title="提现" v-model="withdrawSumDialog = sumValue" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
+    <el-dialog title="提现" v-model="withdrawSumDialog = sumValue" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%">
   <div class="cir" @click="monitorValue"><i class="el-icon-close" ></i></div>
-          <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
-            <el-form-item label="金额">
-            <el-input v-model="formLabelAlign.sum" placeholder="提现金额大于10"></el-input>
-            </el-form-item>
+          <el-form  label-width="80px" :model="formLabelAlign">
+            <div class="dialog-list-box">
+              <el-form-item label="金额:" :labelPosition="labelPosition">
+              <el-input v-model="formLabelAlign.sum" placeholder="提现金额大于10" @change="sumChange"></el-input>
+              </el-form-item>
+              <div class="box-left">
+                <div class="sum-box">
+                  <el-form-item label="手续费用:">
+                  <span>{{ getDataResource.handlingFee }}</span>
+                  </el-form-item>
+                  <el-form-item label="到账金额:">
+                  <span>{{ getDataResource.arrivalAmount }}</span>
+                  </el-form-item>
+                  <el-form-item label="开户银行:">
+                  <span>{{ getDataResource.bankAccount }}</span>
+                  </el-form-item>
+                  <el-form-item label="支行信息:">
+                  <span>{{ getDataResource.branchInformation }}</span>
+                  </el-form-item>
+                  <el-form-item label="银行卡号:">
+                  <span>{{ getDataResource.bankCard }}</span>
+                  </el-form-item>
+
+                </div>
+              </div>
+              <div class="box-right">
+
+              </div>
+            </div>
 
         </el-form>
-        <div class="sum-box">
-          <span>手续费用:10元</span>
-          <span>到账金额:232</span>
-          <span>开户银行:中国人民银行</span>
-          <span>支行信息:22222333333</span>
-          <span>银行卡号:一节2节街</span>
-        </div>
 
 
 
@@ -32,6 +50,13 @@ export default {
   data() {
     return {
       labelPosition: 'left',
+      getDataResource: {
+        handlingFee: '', //手续费用
+        arrivalAmount: '', //到账金额
+        bankAccount: '', //开户银行
+        branchInformation: '', //支行信息
+        bankCard: '', //银行卡号
+      },
       formLabelAlign: {
         sum: '',
       },
@@ -43,6 +68,9 @@ export default {
     sumValue: Boolean
   },
   methods: {
+    sumChange() {
+      console.log('123');
+    },
     monitorValue() {
       this.withdrawSumDialog = false
 
