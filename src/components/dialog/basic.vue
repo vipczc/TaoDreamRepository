@@ -12,17 +12,17 @@
 
               <div class="box-left">
 
-                <p>会员姓名:<span> 张文生</span></p>
-                <p>出生日期:<span> 1987年2月19日</span></p>
-                <p>联系电话:<span> 1561846564</span></p>
-                <p>家庭地址:<span> 一节2节街</span></p>
+                <p>会员姓名:<span> {{  protData.userName }} </span></p>
+                <p>出生日期:<span> {{  protData.birthDate }} </span></p>
+                <p>联系电话:<span> {{  protData.phoneNumber }} </span></p>
+                <p>家庭地址:<span> {{  protData.homeAddress }} </span></p>
 
               </div>
                 <div class="box-right">
 
-                  <p>性&#12288&#12288别:<span> 女</span></p>
-                  <p>身份证号:<span> 230124155565654588</span></p>
-                  <p>教育程度:<span> 本科</span></p>
+                  <p>性&#12288&#12288别:<span> {{  protData.sex }} </span></p>
+                  <p>身份证号:<span> {{  protData.id }}</span></p>
+                  <p>教育程度:<span> {{  protData.ebbducationLevel }}</span></p>
 
                 </div>
             </div>
@@ -33,20 +33,20 @@
             <div class="basic">
               <div class="dialog-list-box">
               <div class="box-left">
-                <p>单位名称:<span></span></p>
-                <p>单位规模:<span></span></p>
-                <p>部门职位:<span></span></p>
-                <p>单位类型:<span></span></p>
-                <p>单位地址:<span></span></p>
+                <p>单位名称:<span>{{  protData.unitName  }}</span></p>
+                <p>单位规模:<span>{{  protData.unitSize }}</span></p>
+                <p>部门职位:<span>{{  protData.departmentPosition }}</span></p>
+                <p>单位类型:<span>{{  protData.unitType }}</span></p>
+                <p>单位地址:<span>{{  protData.unitAddress }}</span></p>
                 <ul>
                   <!-- <li v-for="  in "></li> -->
                 </ul>
               </div>
                 <div class="box-right">
-                  <p>所属行业:<span></span></p>
-                  <p>任职部门:<span></span></p>
-                  <p>年&#12288&#12288薪:<span></span></p>
-                  <p>单位电话:<span></span></p>
+                  <p>所属行业:<span>{{  protData.subordinateIndustry }}</span></p>
+                  <p>任职部门:<span>{{  protData.department }}</span></p>
+                  <p>年&#12288&#12288薪:<span>{{  protData.annualSalary }}</span></p>
+                  <p>单位电话:<span>{{  protData.unitphone }}</span></p>
                 </div>
             </div>
             </div>
@@ -59,16 +59,16 @@
               <div class="dialog-list-box">
               <div class="box-left">
 
-                <p>开户银行:<span></span></p>
-                <p>支行银行:<span></span></p>
+                <p>开户银行:<span>{{  protData.bankAccount }}</span></p>
+                <p>支行银行:<span>{{  protData.takeOutBank }}</span></p>
                 <ul>
                   <!-- <li v-for="  in "></li> -->
                 </ul>
               </div>
                 <div class="box-right">
 
-                  <p>开户地区:<span></span></p>
-                  <p>银行卡号:<span></span></p>
+                  <p>开户地区:<span>{{  protData.registeredRegion }}</span></p>
+                  <p>银行卡号:<span>{{  protData.bankNumber }}</span></p>
 
                 </div>
             </div>
@@ -88,6 +88,30 @@
 export default {
   data() {
     return {
+      protData: {
+        userName: '', //会员姓名
+        birthDate: '', //出生日期
+        phoneNumber: '', //联系电话
+        homeAddress: '', //家庭地址
+        sex: '', //性别
+        id: '', //身份证号
+        ebbducationLevel: '', //教育程度
+        unitName: '', //单位名称
+        unitSize: '', //单位规模
+        departmentPosition: '', //部门职位
+        unitType: '', //单位类型
+        unitAddress: '', //单位地址
+        subordinateIndustry: '', //所属行业
+        department: '', //任职部门
+
+        annualSalary: '', //年薪
+        unitphone: '', //单位电话
+
+        bankAccount: '', //开户银行
+        takeOutBank: '', //支行银行
+        registeredRegion: '', //开户地区
+        bankNumber: '', //银行卡号
+      },
       basicDialog: false,
       activeName: 'basic'
     }

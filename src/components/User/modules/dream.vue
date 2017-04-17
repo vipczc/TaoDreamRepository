@@ -50,8 +50,8 @@
 
               <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
 
-              <router-link to="/user/expenseRecord">查看提现记录></router-link>
-
+              <!-- <router-link to="/user/expenseRecord" >查看提现记录></router-link> -->
+              <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 ></a>
           </div>
         </el-col>
         <el-col :span="2">
@@ -89,7 +89,8 @@
           <div class="content-right">
 
               <p>淘豆金额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
-              <router-link to="/user/conversionRecord">查看兑换记录></router-link>
+              <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a>
+              <!-- <router-link to="/user/conversionRecord" @click="toPath('1-3')">查看兑换记录></router-link> -->
           </div>
         </el-col>
         <!-- 按钮 -->
@@ -132,8 +133,8 @@
 
               <p>消费额度:&#12288&#12288<span>{{ expenseLimit }}￥</span></p>
               <p >消费额度提升:<span>{{ expenseLimitUp }}￥</span></p>
-
-              <router-link style="top:-5px;" to="/user/limitRecord">查看额度流水></router-link>
+        <a href="javascript:void(0);" style="top:-5px;" @click="toPath('1-5')">查看额度流水 > </a>
+              <!-- <router-link  to="/user/limitRecord" @click="toPath('1-5')">查看额度流水></router-link> -->
 
           </div>
         </el-col>
@@ -184,8 +185,8 @@
 
                 <p>推荐人数:&#12288&#12288<span>{{ recommendCount }}人</span></p>
                 <p >推荐奖励:&#12288&#12288<span>{{ recommendAward }}￥</span></p>
-
-                <router-link style="top:-5px;" to="/user/recommendRecord">查看推荐记录></router-link>
+                <a href="javascript:void(0);" style="top:-5px;" @click="toPath('2-1')">查看推荐记录 > </a>
+                <!-- <router-link style="top:-5px;" to="/user/recommendRecord" @click="toPath('2-1')">查看推荐记录></router-link> -->
             </div>
           </el-col>
 
@@ -208,7 +209,7 @@ import TDRecordSum from '../../dialog/TDRecordSum.vue' //对话框 淘豆兑换
 export default {
   data() {
     return {
-      headPortraitUrl: '', //用户头像
+
       userType: '会员', //用户类型
       userName: 'mm', //商家姓名
       userAge: '40', //年龄
@@ -231,9 +232,24 @@ export default {
       extractionQuotaDialog: false, //提额对话框
       giveQuotaDialog: false, //额度赠送对话框
       tdrecordSumDialog: false, //淘豆余额兑换对话框
+
+      defaultActiveNumber: '' //当前标签选择位置
     }
   },
   methods: {
+    toPath(str) { //向父组件传递值
+      this.defaultActiveNumber = str
+      this.$emit('activeNumber', this.defaultActiveNumber)
+      if (str == '1-2') {
+        this.$router.push("/user/withdrawalsRecord") //提现记录
+      } else if (str == '1-3') {
+        this.$router.push("/user/conversionRecord") //兑换记录
+      } else if (str == '1-5') {
+        this.$router.push("/user/limitRecord") //额度流水
+      } else if (str == '2-1') {
+        this.$router.push("/user/recommendRecord") //推荐记录
+      }
+    },
     modality(cont) {
 
       console.log(cont);

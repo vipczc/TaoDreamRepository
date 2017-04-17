@@ -17,16 +17,16 @@
         <!-- 用户信息 -->
         <el-col :span="6" :offset="1">
           <div class="user-message-content">
-            <p>企业名称&#12288:&#12288<span>{{ userName }}</span></p>
-            <p>企业联系人:&#12288<span>{{ userAge }}</span></p>
-            <p>企业类型&#12288:&#12288<span>{{ userNuber }}</span></p>
-            <p>电&#12288&#12288话:&#12288<span>{{ userBlock }}</span></p>
+            <p>企业名称&#12288:&#12288<span>{{ enterpriseName }}</span></p>
+            <p>企业联系人:&#12288<span>{{ enterpriseContacts }}</span></p>
+            <p>企业类型&#12288:&#12288<span>{{ enterpriseType }}</span></p>
+            <p>电&#12288&#12288话:&#12288<span>{{ enterpriseNuber }}</span></p>
           </div>
         </el-col>
         <el-col :span="4" :offset="1">
           <div class="user-message-content">
-            <p>地&#12288&#12288址:&#12288<span>{{ userSex }}</span></p>
-            <p>银行卡号:&#12288<span>{{ userOccupation }}</span></p>
+            <p>地&#12288&#12288址:&#12288<span>{{ address }}</span></p>
+            <p>银行卡号:&#12288<span>{{ bankCardNumber }}</span></p>
           </div>
         </el-col>
 
@@ -51,7 +51,8 @@
           <div class="content-right ">
 
               <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
-              <a href="#">查看提现记录></a>
+              <a href="javascript:void(0);" @click="toPath('1-2')">查看兑换记录 > </a>
+
 
           </div>
         </el-col>
@@ -90,7 +91,8 @@
           <div class="content-right">
 
               <p>淘豆金额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
-              <a href="#">查看兑换记录></a>
+              <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a>
+
 
           </div>
         </el-col>
@@ -107,8 +109,7 @@
           <div class="content-right">
 
               <p>昨日获得淘豆:<span>{{ yesterdayTD }}￥</span></p>
-              <a href="#">查看兑换记录></a>
-
+              <a href="javascript:void(0);" @click="toPath('1-4')">查看淘豆流水 > </a>
           </div>
         </el-col>
 
@@ -134,8 +135,8 @@
 
               <p>消费额度:&#12288&#12288<span>{{ expenseLimit }}￥</span></p>
               <p >消费额度提升:<span>{{ expenseLimitUp }}￥</span></p>
-              <a href="#" style="top:-5px;">查看额度流水></a>
 
+              <a href="javascript:void(0);"style="top:-5px;" @click="toPath('1-5')">查看额度流水 > </a>
           </div>
         </el-col>
         <!-- 按钮 -->
@@ -183,14 +184,14 @@ import TDRecordSum from '../../dialog/TDRecordSum.vue' //对话框 淘豆兑换
 export default {
   data() {
     return {
-      headPortraitUrl: '', //用户头像
       userType: '商家', //用户类型
-      userName: 'mm', //商家姓名
-      userAge: '40', //年龄
-      userNuber: '13049875665', //电话
-      userBlock: '8888-8888-8888-8888', //银行卡号
-      userSex: '女', //性别
-      userOccupation: '个体', //职业
+      enterpriseName: '', //企业名称
+      enterpriseContacts: '', //企业联系人
+      enterpriseType: '', //企业类型
+      enterpriseNuber: '', //电话
+      address: '', //地址
+      bankCardNumber: '', //银行卡号
+
       withdrawSum: '500', //提现金额
       TDSum: '60', //淘豆金额
       yesterdayTD: '2', //昨日获得淘豆
@@ -198,6 +199,11 @@ export default {
       expenseLimitUp: '800', //消费额度提升
       recommendLimit: '10', //已消费额度
       surplusLimit: '20', //剩余额度
+
+      defaultActiveNumber: '',
+
+
+
 
       basicDialog: false, //基本信息对话框
       withdrawSumDialog: false, //提现对话框
@@ -207,6 +213,17 @@ export default {
     }
   },
   methods: {
+    toPath(str) {
+      this.defaultActiveNumber = str
+      this.$emit('activeNumber', this.defaultActiveNumber)
+      if (str == "1-3") {
+        this.$router.push("/business/conversionRecord") //兑换记录
+      } else if (str == "1-4") {
+        this.$router.push("/business/TDRecord") //淘豆流水
+      } else if (str == "1-5") {
+        this.$router.push("/business/limitRecord") //额度流水
+      }
+    },
     modality(cont) {
 
       console.log(cont);

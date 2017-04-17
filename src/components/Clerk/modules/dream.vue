@@ -124,7 +124,7 @@
           <div class="content-right ">
 
               <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
-              <a href="#">查看提现记录></a>
+              <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 > </a>
 
           </div>
         </el-col>
@@ -162,7 +162,7 @@
           <div class="content-right">
 
               <p>淘豆金额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
-              <a href="#">查看兑换记录></a>
+              <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a>
 
           </div>
         </el-col>
@@ -179,7 +179,7 @@
           <div class="content-right">
 
               <p>昨日获得淘豆:<span>{{ yesterdayTD }}￥</span></p>
-              <a href="#">查看淘豆流水></a>
+              <a href="javascript:void(0);" @click="toPath('1-1')">查看淘豆流水 > </a>
 
           </div>
         </el-col>
@@ -227,8 +227,8 @@ export default {
       addPeopleNumber: '20', //添加人数
       okPeopleNumber: '60', //成功推荐人数
       allPeopleNumber: '900', //总人数
-      followUpPeopleNumber: '20' //跟进人数
-
+      followUpPeopleNumber: '20', //跟进人数
+      defaultActiveNumber: ''
     }
   },
   components: {
@@ -238,6 +238,17 @@ export default {
     basicClerk
   },
   methods: {
+    toPath(str) {
+      this.defaultActiveNumber = str
+      this.$emit('activeNumber', this.defaultActiveNumber)
+      if (str == "1-1") {
+        this.$router.push("/clerk/TDRecord") //淘豆流水
+      } else if (str == "1-2") {
+        this.$router.push("/clerk/withdrawalsRecord") //淘豆流水
+      } else if (str == "1-3") {
+        this.$router.push("/clerk/conversionRecord") //兑换记录
+      }
+    },
     clerkBasicMessage(isb) {
       this.basicClerkDialog = isb
     },

@@ -97,7 +97,7 @@ export default {
     handleDetails(index, row) {
       this.consumptionDetails.show = true //激活 对话框
       this.consumptionDetails.index = row.id //传入当前的数据ID
-      this.consumptionDetails.typeShow = 1 //传入当前的显示信息类型 0 = 会员 1为咨询师 2为商铺
+      this.consumptionDetails.typeShow = 2 //传入当前的显示信息类型 0 = 会员 1为咨询师 2为商铺
       console.log(index, row);
     },
     getdata() {

@@ -20,16 +20,31 @@
 
 <!-- 侧边栏 -->
     <el-col :xs="6" :sm="{span:5,offset:0}" :md="{span:5,offset:0}" :lg="{span:3,offset:0}">
-      <el-menu  id="sidebar-content" mode="vertical" default-active="1" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose">
+      <el-menu  id="sidebar-content" mode="vertical" :default-active="defaultActiveNumber" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose" :unique-opened="true" >
 
-              <el-menu-item index="1" @click="one"><i class="el-icon-menu"></i>淘梦地带</el-menu-item>
-              <el-menu-item index="2" @click="one">消费记录</el-menu-item>
-              <el-menu-item index="3" @click="one">提现记录</el-menu-item>
-              <el-menu-item index="4" @click="one">兑换记录</el-menu-item>
-              <el-menu-item index="5" @click="one">淘豆流水</el-menu-item>
-              <el-menu-item index="6" @click="one">额度流水</el-menu-item>
-              <el-menu-item index="7" @click="one">推荐记录</el-menu-item>
-              <el-menu-item index="8" @click="one">推荐激励</el-menu-item>
+<el-menu-item-group class="box-img-two">
+  <el-menu-item index="3" @click="one" name="dreams" ><img class="box-img-one" src="../../assets/img/淘梦地带-选中状态.png" alt="淘梦地带">淘梦地带</el-menu-item>
+
+
+  <el-submenu index="1">
+    <template slot="title"><img class="box-img-one" src="../../assets/img/账单记录.png" alt=""><span class="two-item-text">账单记录</span></template>
+  <el-menu-item index="1-1" @click="one"><img src="../../assets/img/消费记录.png" alt="消费记录">消费记录</el-menu-item>
+  <el-menu-item index="1-2" @click="one"><img src="../../assets/img/提现记录.png" alt="提现记录">提现记录</el-menu-item>
+  <el-menu-item index="1-3" @click="one"><img src="../../assets/img/兑换记录.png" alt="兑换记录">兑换记录</el-menu-item>
+  <el-menu-item index="1-4" @click="one"><img src="../../assets/img/淘豆流水.png" alt="淘豆流水">淘豆流水</el-menu-item>
+  <el-menu-item index="1-5" @click="one"><img src="../../assets/img/额度流水.png" alt="额度流水">额度流水</el-menu-item>
+
+  </el-submenu>
+  <el-submenu index="2">
+  <template slot="title">
+<img class="box-img-one" src="../../assets/img/推荐管理.png" alt="">
+<span class="two-item-text">推荐管理</span>
+</template>
+  <el-menu-item index="2-1" @click="one"><img src="../../assets/img/推荐记录.png" alt="推荐记录">推荐记录</el-menu-item>
+  <el-menu-item index="2-2" @click="one"><img src="../../assets/img/推荐奖励.png" alt="推荐奖励">推荐奖励</el-menu-item>
+  </el-submenu>
+</el-menu-item-group>
+
         </el-menu>
     </el-col>
 
@@ -37,7 +52,7 @@
 
     <el-col :xs="0" :sm="{span:19,offset:0}" :md="{span:19,offset:0} " :lg="{span:21,offset:0}" style="background-color: #f3f1f6;">
       <div class="main-content">
-        <router-view></router-view>
+        <router-view v-on:activeNumber="activeNumberMessage"></router-view>
       </div>
 
 
@@ -54,9 +69,14 @@ export default {
   data() {
     this.$router.push("/user")
 
-    return {}
+    return {
+      defaultActiveNumber: "3"
+    }
   },
   methods: {
+    activeNumberMessage(strNumber) {
+      this.defaultActiveNumber = strNumber
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -68,21 +88,21 @@ export default {
     },
     one(ev) {
 
-      if (ev.index == 1) {
+      if (ev.index == 3) {
         this.$router.push("/user/dream") //淘梦地带
-      } else if (ev.index == 2) {
+      } else if (ev.index == '1-1') {
         this.$router.push("/user/expenseRecord") //消费记录
-      } else if (ev.index == 3) {
+      } else if (ev.index == '1-2') {
         this.$router.push("/user/withdrawalsRecord") //提现记录
-      } else if (ev.index == 4) {
+      } else if (ev.index == '1-3') {
         this.$router.push("/user/conversionRecord") //兑换记录
-      } else if (ev.index == 5) {
+      } else if (ev.index == '1-4') {
         this.$router.push("/user/TDRecord") //淘豆流水
-      } else if (ev.index == 6) {
+      } else if (ev.index == '1-5') {
         this.$router.push("/user/limitRecord") //额度流水
-      } else if (ev.index == 7) {
+      } else if (ev.index == '2-1') {
         this.$router.push("/user/recommendRecord") //推荐记录
-      } else if (ev.index == 8) {
+      } else if (ev.index == '2-2') {
         this.$router.push("/user/recommendStimulate") //推荐激励
       }
 
