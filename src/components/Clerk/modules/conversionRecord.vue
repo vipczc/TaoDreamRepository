@@ -4,7 +4,7 @@
     <!-- 搜索 -->
   <search></search>
   <el-col :span="24" style="background-color:#fff" class="table-box">
-  <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading">
+  <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
        <el-table-column type="selection" width="55">
       </el-table-column>
        <el-table-column prop="conversionDate" label="兑换日期">
@@ -49,7 +49,7 @@ import {
 export default {
 
   data() {
-    this.loading = true
+
 
     this.$http.get('http://127.0.0.1:3000/CconversionRecord').then((objData, next) => {
 
@@ -76,7 +76,7 @@ export default {
       b: 0,
       sum: 0,
       tableItemCount: 18,
-      loading: false
+      loading: true,
     }
   },
   components: {

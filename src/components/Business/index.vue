@@ -19,7 +19,7 @@
 
 
 <!-- 侧边栏 -->
-    <el-col :xs="6" :sm="{span:5,offset:0}" :md="{span:5,offset:0}" :lg="{span:3,offset:0}">
+    <el-col :xs="0" :sm="{span:3,offset:0}" :md="{span:3,offset:0}" :lg="{span:3,offset:0}">
       <el-menu  id="business-sidebar-content" mode="vertical" :default-active="defaultActiveNumber" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose" @select="handleSelect">
 
               <el-menu-item index="3" @click="one" name="dreams" ><img class="box-img-one" src="../../assets/img/淘梦地带-选中状态.png" alt="淘梦地带">淘梦地带</el-menu-item>
@@ -178,6 +178,26 @@ background-color: #fff7f1;
       margin-top: 18px;
     }
 }
+@media screen and (max-width: 1440px) {
+  body{
+    width: 1440px;
+  }
+
+    #business-sidebar-content{
+      height:840px;
+      width: 240px;
+      background-color: rgb(255, 247, 241);
+    }
+    .content-right{
+      margin-left: 20px;
+    }
+}
+@media screen and (max-width: 1199px){
+  body{
+    width: 1440px;
+  }
+}
+
 .main-content {
   height: 845px;
   margin-top: 18px;

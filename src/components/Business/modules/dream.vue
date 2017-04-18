@@ -51,7 +51,7 @@
           <div class="content-right ">
 
               <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
-              <a href="javascript:void(0);" @click="toPath('1-2')">查看兑换记录 > </a>
+              <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 > </a>
 
 
           </div>
@@ -59,7 +59,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr ">
 
-              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
+              <el-button type="success" size="large" class="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
 
           </div>
         </el-col>
@@ -100,7 +100,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
+              <el-button type="success" size="large" class="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
 
           </div>
         </el-col>
@@ -143,7 +143,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="giveQuotaDialog = true">赠送</el-button>
+              <el-button type="success" size="large" class="btn-top" @click="giveQuotaDialog = true">赠送</el-button>
 
           </div>
         </el-col>
@@ -161,7 +161,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="extractionQuotaDialog = true">提额</el-button>
+              <el-button type="success" size="large" class="btn-top" @click="extractionQuotaDialog = true">提额</el-button>
 
           </div>
         </el-col>
@@ -216,7 +216,9 @@ export default {
     toPath(str) {
       this.defaultActiveNumber = str
       this.$emit('activeNumber', this.defaultActiveNumber)
-      if (str == "1-3") {
+      if (str == "1-2") {
+        this.$router.push("/business/withdrawalsRecord") //提现记录
+      } else if (str == "1-3") {
         this.$router.push("/business/conversionRecord") //兑换记录
       } else if (str == "1-4") {
         this.$router.push("/business/TDRecord") //淘豆流水
@@ -386,7 +388,7 @@ export default {
   color: #a8a8a8;
   text-decoration:none;
 }
-#btn-top{
+.btn-top{
   margin-top: 18px;
 }
 </style>

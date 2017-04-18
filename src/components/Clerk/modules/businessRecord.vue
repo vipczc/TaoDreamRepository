@@ -4,7 +4,7 @@
     <!-- 搜索 -->
   <search></search>
   <el-col :span="24" style="background-color:#fff" class="table-box">
-  <el-table :data="tableData" style="width: 100%;height: 780px;" >
+  <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
        <el-table-column type="selection" width="55">
       </el-table-column>
        <el-table-column prop="operationDate" label="操作日期">
@@ -72,11 +72,13 @@ export default {
       this.allData = getDataTable(objData.data, 18)
       this.tableData = this.allData[0]
       this.totalCount = getItmeCon(objData.data, 18)
+      this.loading = false
       console.log(this.tableData);
     }).catch((err) => {
       console.log(err);
     })
     return {
+      loading: true,
       tableData: [{
 
       }],
