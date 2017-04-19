@@ -76,6 +76,12 @@ const basic = {
       }
       callback();
     },
+    checkVer(rule, value, callback){
+      if (!/^[a-zA-Z0-9]{1,4}$/.test(value)) {
+        callback(new Error('请输入正确的图形验证码'));
+      }
+      callback();
+    },
     clone(myObj){
       if(typeof(myObj) != 'object') return myObj;
       if(myObj == null) return myObj;

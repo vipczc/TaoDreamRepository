@@ -25,6 +25,9 @@
                 <el-form-item label="密码" prop="pass">
                   <el-input type="password" v-model="ruleForm2.pass"  placeholder="请输入6~18位数字、字母" icon="message"></el-input>
                 </el-form-item>
+                <el-form-item  prop="imgVer" v-show="imgCon1">
+                  <el-input  v-model="ruleForm2.imgVer" style="width:50%;"></el-input><span style="float: right;padding:2px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="图形验证码" ></span>
+                </el-form-item>
                 <el-form-item>
                   <a href="#" style="text-decoration:none; color: #50BFFF;width:100%;text-align: right;display: inline-block;line-height: 20px;" @click="forgetPassword = true">忘记密码？</a>
                   <el-button type="primary" @click="login('ruleForm2')" style="width: 100%;">登录</el-button>
@@ -44,12 +47,12 @@
                  <el-input  v-model="ruleForm3.phoneNumber"  placeholder="请输入手机号码" ></el-input>
                 </el-form-item>
                 <el-form-item label="验证码" prop="verificationCode">
-                 <el-input  v-model="ruleForm3.verificationCode"  placeholder="请输入验证码" style="width:50%;"></el-input>
-                 <el-button type="primary" @click="sendCode" :disabled="disabled" class="ver-button" style="width:48%;">{{text}}</el-button>
+                 <el-input  v-model="ruleForm3.verificationCode"  placeholder="请输入验证码" style="width:50%;" ></el-input>
+                 <el-button type="primary"  :disabled="disabled" class="ver-button" style="width:48%;"  @click="openVer">{{text}}</el-button>
                 </el-form-item>
-                <el-form-item  prop="imgVer" v-show="imgCon">
-                  <el-input  v-model="ruleForm3.imgVer" style="width:50%;"></el-input><span style="float: right;padding:2px 5px;height:30px;cursor: pointer;" @click="sendImg"><img :src="url" alt="图形验证码"></span>
-                </el-form-item>
+              <!--   <el-form-item  prop="imgVer" v-show="imgCon">
+                  <el-input  v-model="ruleForm3.imgVer" style="width:50%;"></el-input><span style="float: right;padding:2px 5px;height:30px;cursor: pointer;" @click="sendImg" v-popover:popover5 ><img :src="url" alt="图形验证码" ></span>
+                </el-form-item> -->
                 <el-form-item label="密码" prop="pass">
                   <el-input type="password" v-model="ruleForm3.pass"  placeholder="请输入6~18位数字、字母" icon="message"></el-input>
                 </el-form-item>
@@ -58,6 +61,8 @@
                   <el-button type="primary" @click="regist('ruleForm3')" style="width: 100%;">注册</el-button>
                   <!-- <el-button @click="resetForm('ruleForm2')">重置</el-button> -->
                 </el-form-item>
+                 <!-- 图像验证码 -->
+                  
               </el-form>
           </el-tab-pane>
         </el-tabs>
@@ -85,6 +90,14 @@
       <!--   <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="forgetPassword = false">确 定</el-button>
         </span> -->
+      </el-dialog>
+      <el-dialog title="提示" v-model="imgCon" size="tiny">
+         
+        <el-input  v-model="ruleForm3.imgVer" style="width:50%;"></el-input><span style="float: right;padding:2px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="图形验证码" ></span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="imgCon = false">取 消</el-button>
+          <el-button type="primary" @click="sendCode">确 定</el-button>
+        </span>
       </el-dialog>
   </div>
 </template>
@@ -116,7 +129,8 @@ export default {
     return {
       activeName: 'first',
       imgCon:false,
-      url: host.basic.basicUrl + 'validateCode?' + new Date().getTime(),
+      imgCon1:true,
+      url: host.basic.basicUrl + '/validateCode?' + new Date().getTime(),
       forgetPassword:false,
       flag:1,
       disabled:false,
@@ -125,7 +139,8 @@ export default {
       ruleForm2: {
           pass: '',
           account: '',
-          type:'1'
+          type:'1',
+          imgVer:''
         }, 
       ruleForm3: {
         pass: '',
@@ -157,7 +172,10 @@ export default {
           ],
           verificationCode: [
             { validator: checkNumber, message: '请输入正确验证码', trigger: 'blur' }
-          ]   
+          ],
+          imgVer:[
+            { validator: host.basic.checkVer,  trigger: 'blur' }
+          ] 
         },
         rules4: {
           pass: [
@@ -193,10 +211,33 @@ export default {
         // console.log(tab, event);
     },
     login(formName) {
-      console.log(this.ruleForm2);
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+             this.$http({
+              method: 'POST',
+              url: host.basic.basicUrl + '/logined',
+              params: {
+                userType: this.ruleForm2.type,
+                username: this.ruleForm2.account,
+                passWord: this.ruleForm2.pass,
+                imageCode: this.ruleForm2.imgVer
+              }
+            }).then(function(res) {
+              let data = res.data;
+              if (data.ERRORCODE == '0') {
+                this.$message.success('登录成功!');
+                // if(this.ruleForm3.type == 1){
+                //   this.$router.push('/consumerRegister')
+                // }else if(this.ruleForm3.type == 2){
+                //   this.$router.push('/bussinessRegister')
+                // }
+                
+              } else {
+                this.$message.warning(data.RESULT);
+              }
+            }, function(error) {
+              this.$message.error('请求错误,请稍后再试');
+            })
           } else {
             console.log('error submit!!');
             return false;
@@ -213,19 +254,19 @@ export default {
               params: {
                 userType: this.ruleForm3.type,
                 mobile: this.ruleForm3.phoneNumber,
-                password: this.ruleForm3.pass,
+                passWord: this.ruleForm3.pass,
                 validateCode: this.ruleForm3.verificationCode
               }
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
-                console.log(data);
-                // if(this.ruleForm3.type == 1){
-                //   this.$router.push('/consumerRegister')
-                // }else if(this.ruleForm3.type == 2){
-                //   this.$router.push('/bussinessRegister')
-                // }
-                that.$message.success('操作成功!');
+                this.$message.success('注册成功请完善您的信息!');
+                if(this.ruleForm3.type == 1){
+                  this.$router.push('/consumerRegister')
+                }else if(this.ruleForm3.type == 2){
+                  this.$router.push('/bussinessRegister')
+                }
+                
               } else {
                 this.$message.warning(data.RESULT);
               }
@@ -236,23 +277,46 @@ export default {
             
         });
       },
+      openVer(){
+        if(this.ruleForm3.phoneNumber != ''){
+          this.imgCon = true;
+          this.$http({
+            methods:'POST',
+            url:host.basic.basicUrl + '/validateCode?' + new Date().getTime(),
+          }).then(function (res){
+            this.url = res.url;
+            if(res.status == 200){
+               console.log(res);
+            }else{
+              this.$message.warning('获取图像验证码失败');
+            }
+          })
+        }
+        
+      },
       sendCode(){
-        // this.$http({
-        //   method:'POST',
-        //   url:host.basic.basicUrl+'/sendMsg/sendValidateCode',
-        //   params:{type:1,mobile:this.ruleForm3.phoneNumber}
-        // }).then(function(res){
-        //   let data = res.data;
-        //   if(data.ERRORCODE == '0'){
-        //     this.countDown();
-        //     // console.log(data);
-        //     // that.$message.success('操作成功!');
-        //   }else{
-        //     this.$message.warning(data.RESULT);
-        //   }
-        // },function(error){
-        //   this.$message.error('请求错误,请稍后再试');
-        // })
+       
+        this.$http({
+          method:'POST',
+          url:host.basic.basicUrl+'/sendMsg/sendValidateCode',
+          params: {
+            type: 1,
+            mobile: this.ruleForm3.phoneNumber,
+            validateCode:this.ruleForm3.imgVer
+          }
+        }).then(function(res){
+          let data = res.data;
+          if(data.ERRORCODE == '0'){
+            this.countDown();
+            // console.log(data);
+            this.imgCon = false;
+            this.$message.success('短信已发送');
+          }else{
+            this.$message.warning(data.RESULT);
+          }
+        },function(error){
+          this.$message.error('请求错误,请稍后再试');
+        })
       },
       countDown() {
         let time = 60;
@@ -268,7 +332,7 @@ export default {
         }, 1000)
       },
       sendImg(){
-        this.url = host.basic.basicUrl + 'validateCode?' + new Date().getTime()
+        this.url = host.basic.basicUrl + '/validateCode?' + new Date().getTime()
       },
       forgetPass(formName) {
         console.log(this.ruleForm4);

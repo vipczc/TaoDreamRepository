@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/taodream-consumer':{
-            target:'http://10.60.10.76:8081',
+            target:'http://10.60.20.43:8080/taodream-consumer',
             changeOrigin:true,
             pathRewrite:{
             "^/taodream-consumer":""
