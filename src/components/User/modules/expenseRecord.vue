@@ -70,11 +70,24 @@ import {
 export default {
 
   data() {
-    this.$http.get('http://127.0.0.1:3000/UexpenseRecord').then((objData) => {
-      this.sum = objData.data.length
-      this.allData = getDataTable(objData.data, 18)
-      this.tableData = this.allData[0]
-      this.totalCount = getItmeCon(objData.data, 18)
+    const url = "/taodream-consumer" + '/member/listConsumptionRecord'
+    let num = 3 //页数
+    this.$http.post(url, {
+      pageNum: num
+    }).then((objData) => {
+      console.log(objData.data.RESULT.data);
+      this.orderNumber = objData.data.RESULT.data.mobile //联系电话
+      this.orderNumber = objData.data.RESULT.data.trueName //姓名
+      this.orderNumber = objData.data.RESULT.data.orderNo //	订单号
+      this.consumptionAmount = objData.data.RESULT.data.totalAmount //	消费总额
+      this.incentiveProportion = objData.data.RESULT.data.consumerEncourageScale //	激励比例
+      this.startDate = objData.data.RESULT.data.startEncourageDate //	激励开始时间
+      this.incentiveEndDate = objData.data.RESULT.data.endEncourageDate //	激励结束时间
+      // this.sum = objData.data.length
+      // this.allData = getDataTable(objData.data, 18)
+      // this.tableData = this.allData[0]
+      // this.totalCount = getItmeCon(objData.data, 18)
+      // consumptionDate:0,//缺省 消费日期
       this.loading = false
     }).catch((err) => {
       console.log(err);
@@ -93,7 +106,12 @@ export default {
         typeShow: 0
       },
       tableData: [{
-
+        orderNumber: 0, //订单编号
+        consumptionDate: 0, //消费日期
+        consumptionAmount: 0, //消费金额
+        incentiveProportion: 0, //激励比例
+        startDate: 0, //激励开始日期
+        incentiveEndDate: 0, //激励结束日期
       }],
       allData: '',
       totalCount: 0, //分页数
