@@ -238,8 +238,10 @@ export default {
   },
   methods: {
     toPath(str) { //向父组件传递值
+
       this.defaultActiveNumber = str
       this.$emit('activeNumber', this.defaultActiveNumber)
+      console.log(this.defaultActiveNumber);
       if (str == '1-2') {
         this.$router.push("/user/withdrawalsRecord") //提现记录
       } else if (str == '1-3') {

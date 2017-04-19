@@ -89,6 +89,7 @@ export default {
     one(ev) {
 
       if (ev.index == 3) {
+        this.defaultActiveNumber = '3'
         this.$router.push("/user/dream") //淘梦地带
       } else if (ev.index == '1-1') {
         this.$router.push("/user/expenseRecord") //消费记录
@@ -158,6 +159,20 @@ background-color: #fff7f1;
       width: 1559px;
       height: 845px;
       margin-top: 18px;
+    }
+}
+
+@media screen and (max-width: 1440px) {
+  body{
+    width: 1440px;
+  }
+  #sidebar-content{
+    height:840px;
+    width: 240px;
+    background-color: rgb(255, 247, 241);
+  }
+    .content-right{
+      margin-left: 20px;
     }
 }
 .main-content {

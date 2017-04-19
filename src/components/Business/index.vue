@@ -109,6 +109,7 @@ export default {
     },
     one(ev) {
       if (ev.index == "3") {
+        this.defaultActiveNumber = '3'
         this.$router.push("/business/dream") //淘梦地带
       } else if (ev.index == "1-1") {
         this.$router.push("/business/expenseRecord") //消费记录

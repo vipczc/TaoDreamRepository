@@ -8,8 +8,8 @@
           <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
                <el-table-column type="selection" width="55">
               </el-table-column>
-               <el-table-column prop="limitOrder" label="额度订单">
-               </el-table-column>
+               <!-- <el-table-column prop="limitOrder" label="额度订单">
+               </el-table-column> -->
                <el-table-column  prop="giveDate" label="赠送日期">
                </el-table-column>
                <el-table-column prop="memberName" label="会员姓名">
