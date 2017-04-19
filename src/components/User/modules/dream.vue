@@ -6,6 +6,10 @@
         <el-col :span="4">
             <div class="user-headPortrait" @click="basicDialog = true">
 
+<!-- <div class="details">
+  <img src="../../../assets/img/详情.png" alt="详情">
+</div> -->
+
             </div>
             <div class="userType" @click="basicDialog = true">
               <span>{{ userType }}</span>
@@ -16,7 +20,7 @@
         <el-col :span="6" :offset="1">
           <div class="user-message-content">
             <p>会员姓名:&#12288<span>{{ userName }}</span></p>
-            <p>年&#12288&#12288龄:&#12288<span>{{ userAge }}</span></p>
+            <p>出生日期:&#12288<span>{{ userAge }}</span></p>
             <p>电&#12288&#12288话:&#12288<span>{{ userNuber }}</span></p>
             <p>银行卡号:&#12288<span>{{ userBlock }}</span></p>
           </div>
@@ -24,7 +28,7 @@
         <el-col :span="4" :offset="1">
           <div class="user-message-content">
             <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
-            <p>职&#12288&#12288业:&#12288<span>{{ userOccupation }}</span></p>
+            <p>行&#12288&#12288业:&#12288<span>{{ userOccupation }}</span></p>
           </div>
         </el-col>
 
@@ -48,7 +52,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right ">
 
-              <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
+              <p>提现余额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
 
               <!-- <router-link to="/user/expenseRecord" >查看提现记录></router-link> -->
               <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 ></a>
@@ -57,7 +61,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr ">
 
-              <el-button type="success" size="large" id="btn-top" @click="withdrawSumDialog = true">提现</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="withdrawSumDialogShow()">提现</el-button>
 
           </div>
         </el-col>
@@ -97,7 +101,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialogShow()">兑换</el-button>
 
           </div>
         </el-col>
@@ -132,8 +136,8 @@
           <div class="content-right">
 
               <p>消费额度:&#12288&#12288<span>{{ expenseLimit }}￥</span></p>
-              <p >消费额度提升:<span>{{ expenseLimitUp }}￥</span></p>
-        <a href="javascript:void(0);" style="top:-5px;" @click="toPath('1-5')">查看额度流水 > </a>
+              <!-- <p >消费额度提升:<span>{{ expenseLimitUp }}￥</span></p> -->
+        <a href="javascript:void(0);"  @click="toPath('1-5')">查看额度流水 > </a>
               <!-- <router-link  to="/user/limitRecord" @click="toPath('1-5')">查看额度流水></router-link> -->
 
           </div>
@@ -206,32 +210,68 @@ import withdrawSum from '../../dialog/withdrawSum.vue' //对话框 提现
 import extractionQuota from '../../dialog/extractionQuota.vue' //对话框 提额
 import giveQuota from '../../dialog/giveQuota.vue' //对话框 额度赠送
 import TDRecordSum from '../../dialog/TDRecordSum.vue' //对话框 淘豆兑换
+// import {
+//   basics
+// } from '../../../common.js'
 export default {
   data() {
+    let url = "/taodream-consumer" + '/member/selectMember'
+    this.$http.post(url).then((objData) => {
+      console.log(objData.data.RESULT.birthday);
+      if (objData.data.ERRORCODE == 0) { //成功
+        this.userAge = objData.data.RESULT.birthday //	出生年月
+        this.withdrawSum = objData.data.RESULT.banlance //	余额
+        this.userBlock = objData.data.RESULT.cardNumber //银行卡号
+        this.recommendLimit = objData.data.RESULT.costQuota //已消费额度
+        this.userNuber = objData.data.RESULT.mobile //联系电话
+        //  this.expenseLimit = objData.data.RESULT.quota //消费额度
+        this.recommendCount = objData.data.RESULT.refereeNum //推荐人数,推荐人数提升额度=推荐人数X5000
+        this.userSex = objData.data.RESULT.sex ? '男' : '女' //性别 -1位置 0女 1男
+        this.TDSum = objData.data.RESULT.taodou //淘豆
+        this.userName = objData.data.RESULT.trueName //姓名
+        this.surplusLimit = objData.data.RESULT.refereeNum * 5000 //推荐奖励
+        this.surplusLimit = this.expenseLimit - this.recommendLimit //剩余
+
+        //缺省 昨日获得淘豆
+      }
+
+
+    }).catch((err) => {
+      console.log(err);
+    })
     return {
 
       userType: '会员', //用户类型
-      userName: 'mm', //商家姓名
-      userAge: '40', //年龄
-      userNuber: '13049875665', //电话
-      userBlock: '8888-8888-8888-8888', //银行卡号
-      userSex: '女', //性别
-      userOccupation: '个体', //职业
-      withdrawSum: '500', //提现金额
-      TDSum: '60', //淘豆金额
-      yesterdayTD: '2', //昨日获得淘豆
-      expenseLimit: '66', //消费额度
-      expenseLimitUp: '800', //消费额度提升
-      recommendLimit: '10', //已消费额度
-      surplusLimit: '20', //剩余额度
-      recommendCount: '32', //推荐数
-      recommendAward: '50', //推荐奖励
+      userName: '', //商家姓名
+      userAge: '', //出生日期
+      userNuber: '', //电话
+      userBlock: '', //银行卡号
+      userSex: '', //性别
+      userOccupation: '', //职业
+      withdrawSum: 0, //提现余额
+      TDSum: 0, //淘豆金额
+      yesterdayTD: 0, //昨日获得淘豆
+      expenseLimit: 300000, //消费额度
+      expenseLimitUp: 0, //消费额度提升
+      recommendLimit: 0, //已消费额度
+      surplusLimit: 0, //剩余额度
+      recommendCount: 0, //推荐数
+      recommendAward: 0, //推荐奖励
 
       basicDialog: false, //基本信息对话框
-      withdrawSumDialog: false, //提现对话框
+      withdrawSumDialog: {
+        show: false, //显示
+        userType: 1, //用户
+        withdrawSum: 0 //提现余额
+      }, //提现对话框
       extractionQuotaDialog: false, //提额对话框
       giveQuotaDialog: false, //额度赠送对话框
-      tdrecordSumDialog: false, //淘豆余额兑换对话框
+
+      tdrecordSumDialog: {
+        show: false,
+        userType: 1,
+        TDSum: 0
+      }, //淘豆余额兑换对话框
 
       defaultActiveNumber: '' //当前标签选择位置
     }
@@ -261,7 +301,7 @@ export default {
       this.basicDialog = isb
     },
     withdrawMessage(isb) { //子组件返回值
-      this.withdrawSumDialog = isb
+      this.withdrawSumDialog.show = isb
     },
     extractionMessage(isb) { //子组件返回值
       this.extractionQuotaDialog = isb
@@ -270,7 +310,15 @@ export default {
       this.giveQuotaDialog = isb
     },
     tdMessage(isb) { //子组件返回值
-      this.tdrecordSumDialog = isb
+      this.tdrecordSumDialog.show = isb
+    },
+    withdrawSumDialogShow() {
+      this.withdrawSumDialog.withdrawSum = this.withdrawSum //传递总金额
+      this.withdrawSumDialog.show = true
+    },
+    tdrecordSumDialogShow() {
+      this.withdrawSumDialog.TDSum = this.TDSum //传递淘豆总数
+      this.tdrecordSumDialog.show = true
     }
   },
   components: {
@@ -434,5 +482,139 @@ export default {
 }
 #btn-top{
   margin-top: 18px;
+}
+/*.iconSearch{
+  color: #ff6805;
+  position: relative;
+  top: 35px;
+  left: 9px;
+  font-size: 70px;
+}*/
+/*.iconSearchP{
+  position: relative;
+  top: 80px;
+  left: 2px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff6805;
+}*/
+/*:hover.iconSearchP{
+
+  text-shadow: 0px 15px 15px #aaa;
+}*/
+.details img{
+  width: 46px;
+  height: 46px;
+  position: relative;
+  top: 10px;
+  left: 60px;
+
+}
+.user-headPortrait{
+-webkit-animation:tada 1s .2s ease both;
+-moz-animation:tada 1s .2s ease both;}
+@-webkit-keyframes tada{
+0%{-webkit-transform:scale(1)}
+10%,20%{-webkit-transform:scale(0.9) rotate(-3deg)}
+30%,50%,70%,90%{-webkit-transform:scale(1.1) rotate(3deg)}
+40%,60%,80%{-webkit-transform:scale(1.1) rotate(-3deg)}
+100%{-webkit-transform:scale(1) rotate(0)}
+}
+@-moz-keyframes tada{
+0%{-moz-transform:scale(1)}
+10%,20%{-moz-transform:scale(0.9) rotate(-3deg)}
+30%,50%,70%,90%{-moz-transform:scale(1.1) rotate(3deg)}
+40%,60%,80%{-moz-transform:scale(1.1) rotate(-3deg)}
+100%{-moz-transform:scale(1) rotate(0)}
+}
+
+:hover.user-headPortrait{
+-webkit-animation:bounce 1s .2s ease both;
+-moz-animation:bounce 1s .2s ease both;}
+@-webkit-keyframes bounce{
+0%,20%,50%,80%,100%{-webkit-transform:translateY(0)}
+40%{-webkit-transform:translateY(-30px)}
+60%{-webkit-transform:translateY(-15px)}
+}
+@-moz-keyframes bounce{
+0%,20%,50%,80%,100%{-moz-transform:translateY(0)}
+40%{-moz-transform:translateY(-30px)}
+60%{-moz-transform:translateY(-15px)}
+}
+
+.user-message{
+-webkit-animation:fadeInRight 1s .1s ease both;
+-moz-animation:fadeInRight 1s .1s ease both;}
+@-webkit-keyframes fadeInRight{
+0%{opacity:0;
+-webkit-transform:translateX(20px)}
+100%{opacity:1;
+-webkit-transform:translateX(0)}
+}
+@-moz-keyframes fadeInRight{
+0%{opacity:0;
+-moz-transform:translateX(20px)}
+100%{opacity:1;
+-moz-transform:translateX(0)}
+}
+.user-withdrawa{
+-webkit-animation:fadeInRight 1s .3s ease both;
+-moz-animation:fadeInRight 1s .3s ease both;}
+@-webkit-keyframes fadeInRight{
+0%{opacity:0;
+-webkit-transform:translateX(50px)}
+100%{opacity:1;
+-webkit-transform:translateX(0)}
+}
+@-moz-keyframes fadeInRight{
+0%{opacity:0;
+-moz-transform:translateX(50px)}
+100%{opacity:1;
+-moz-transform:translateX(0)}
+}
+.user-td{
+-webkit-animation:fadeInRight 1s .5s ease both;
+-moz-animation:fadeInRight 1s .5s ease both;}
+@-webkit-keyframes fadeInRight{
+0%{opacity:0;
+-webkit-transform:translateX(90px)}
+100%{opacity:1;
+-webkit-transform:translateX(0)}
+}
+@-moz-keyframes fadeInRight{
+0%{opacity:0;
+-moz-transform:translateX(90px)}
+100%{opacity:1;
+-moz-transform:translateX(0)}
+}
+.user-limit{
+-webkit-animation:fadeInRight 1s .6s ease both;
+-moz-animation:fadeInRight 1s .6s ease both;}
+@-webkit-keyframes fadeInRight{
+0%{opacity:0;
+-webkit-transform:translateX(120px)}
+100%{opacity:1;
+-webkit-transform:translateX(0)}
+}
+@-moz-keyframes fadeInRight{
+0%{opacity:0;
+-moz-transform:translateX(120px)}
+100%{opacity:1;
+-moz-transform:translateX(0)}
+}
+.user-recommend{
+-webkit-animation:fadeInRight 1s .7s ease both;
+-moz-animation:fadeInRight 1s .7s ease both;}
+@-webkit-keyframes fadeInRight{
+0%{opacity:0;
+-webkit-transform:translateX(140px)}
+100%{opacity:1;
+-webkit-transform:translateX(0)}
+}
+@-moz-keyframes fadeInRight{
+0%{opacity:0;
+-moz-transform:translateX(140px)}
+100%{opacity:1;
+-moz-transform:translateX(0)}
 }
 </style>
