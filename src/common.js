@@ -82,6 +82,12 @@ const basic = {
       }
       callback();
     },
+     checkPost(rule, value, callback){
+      if (!/[1-9]\d{5}(?!\d)/.test(value)) {
+        callback(new Error('请输入正确的邮政编码'));
+      }
+      callback();
+    },
     clone(myObj){
       if(typeof(myObj) != 'object') return myObj;
       if(myObj == null) return myObj;

@@ -218,7 +218,7 @@ export default {
               url: host.basic.basicUrl + '/logined',
               params: {
                 userType: this.ruleForm2.type,
-                username: this.ruleForm2.account,
+                userName: this.ruleForm2.account,
                 passWord: this.ruleForm2.pass,
                 imageCode: this.ruleForm2.imgVer
               }
@@ -226,13 +226,25 @@ export default {
               let data = res.data;
               if (data.ERRORCODE == '0') {
                 this.$message.success('登录成功!');
-                // if(this.ruleForm3.type == 1){
-                //   this.$router.push('/consumerRegister')
-                // }else if(this.ruleForm3.type == 2){
-                //   this.$router.push('/bussinessRegister')
-                // }
-                
-              } else {
+                //个人中心
+                if(this.ruleForm3.type == 1){
+                  this.$router.push('/user')
+                }else if(this.ruleForm3.type == 2){
+                  this.$router.push('/business')
+                }else if(this.ruleForm3.type == 3){
+                 this.$router.push('/clerk') 
+                }
+              }else if (data.ERRORCODE == '10005'){
+                //填写资料
+                if(this.ruleForm3.type == 1){
+                  this.$router.push('/consumerRegister')
+                }else if(this.ruleForm3.type == 2){
+                  this.$router.push('/bussinessRegister')
+                }else if(this.ruleForm3.type == 3){
+                  
+                }
+              }else{
+                //冻结或失败
                 this.$message.warning(data.RESULT);
               }
             }, function(error) {

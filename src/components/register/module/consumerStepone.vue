@@ -1,11 +1,14 @@
 <template>
 <div class="consumerStepone">
+	<!--  <div style="text-align: right;width:790px; margin:0 auto;">
+      <el-button style="margin-top: 12px;" @click="next" type="info">下一步</el-button>  
+    </div> -->
   <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>推荐人信息<b style="color:#ff831b;"></b></div>
-  <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline">
+  <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline" :rules="rule1">
   	<el-form-item label="推荐人" prop="recommender">
 	    <el-select v-model="basicMessage.recommender" placeholder="请选择推荐人类型">
-	      <el-option label="咨询师" value="1"></el-option>
-	      <el-option label="会员" value="2"></el-option>
+	      <el-option label="会员" value="1"></el-option>
+	      <el-option label="咨询师" value="2"></el-option>
     	</el-select>
 	  </el-form-item>
 	   <el-form-item label="会员ID" prop="id">
@@ -37,7 +40,7 @@
 	    <el-date-picker
       v-model="basicMessage.birthDate"
       type="date"
-      placeholder="选择日期"
+      placeholder="选择出生日期"
       :picker-options="basicMessage.pickerOptions0"
       >
     </el-date-picker>
@@ -84,7 +87,7 @@
 
 <script>
 export default {
-	props:['basicMessage'],
+	props:['basicMessage','active'],
 	methods:{
 		handleChange1(value) {
 			console.log(value)

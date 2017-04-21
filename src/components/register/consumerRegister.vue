@@ -12,10 +12,151 @@
     </div>
     <div class="content">
       <div class="" v-if="active == 1">
-      	<consumerstepone :basicMessage="basicMessage"></consumerstepone>
+      	<!-- <consumerstepone :basicMessage="basicMessage" :active="active"></consumerstepone> -->
+        <div class="consumerStepone">
+          <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>推荐人信息<b style="color:#ff831b;"></b></div>
+          <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline" :rules="rule1">
+            <el-form-item label="推荐人" prop="recommender">
+              <el-select v-model="basicMessage.recommender" placeholder="请选择" style="width:100px;" @change="recommenderChange">
+                <el-option label="会员" value="1"></el-option>
+                <el-option label="咨询师" value="2"></el-option>
+                <el-option label="无" value="3"></el-option>
+              </el-select>
+            </el-form-item>
+             <el-form-item label="会员ID" prop="id">
+              <el-input  v-model="basicMessage.id" auto-complete="off" placeholder="请输入会员ID" style="width:120px;"  ref="id"></el-input>
+            </el-form-item>
+            <el-form-item label="推荐人姓名" prop="recommenderName" >
+              <el-input  v-model="basicMessage.recommenderName" auto-complete="off"  style="width:100px;" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话" prop="recommenderPhone">
+              <el-input  v-model="basicMessage.recommenderPhone" auto-complete="off" style="width:120px;" :disabled="true"></el-input>
+            </el-form-item>
+            <div class="step" style="margin-left: -12px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的基本信息<b style="color:#ff831b;">（必填）</b></div>
+            <el-form-item label="中文姓名" prop="name">
+              <el-input  v-model="basicMessage.name" auto-complete="off" placeholder="请输入姓名" style="width:150px;"></el-input>
+            </el-form-item>
+             <el-form-item label="性别：" prop="gender">
+              <el-radio-group v-model="basicMessage.gender">
+                <el-radio label="男" value="1"></el-radio>
+                <el-radio label="女" value="2"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="身份证号" prop="idNumber">
+              <el-input  v-model="basicMessage.idNumber" auto-complete="off" placeholder="请输入身份证号" style="width:250px;"></el-input>
+            </el-form-item>
+             <el-form-item label="联系电话" prop="phoneNumber">
+              <el-input  v-model="basicMessage.phoneNumber" auto-complete="off" placeholder="如：15037035889" style="width:150px;"></el-input>
+            </el-form-item>
+            <el-form-item label="出生日期" prop="birthDate">
+              <el-date-picker
+              v-model="basicMessage.birthDate"
+              type="date"
+              placeholder="选择日期"
+              :picker-options="basicMessage.pickerOptions0"
+              >
+            </el-date-picker>
+            </el-form-item>
+            <el-form-item label="家庭住址" prop="selectedOptions">
+                <el-cascader :options="basicMessage.options" v-model="basicMessage.selectedOptions" @change="handleChange1" style="width:320px;"></el-cascader>
+            </el-form-item>
+            <el-form-item label="邮政编码" prop="postCode">
+              <el-input  v-model="basicMessage.postCode" auto-complete="off" placeholder="如：3100" style="width:150px;"></el-input>
+            </el-form-item>
+            <el-form-item label="详细地址" prop="detailAddress">
+              <el-input type="textarea" v-model="basicMessage.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:320px;"></el-input>
+            </el-form-item>
+            <el-form-item label="教育程度" prop="educationLevel">
+              <el-radio-group v-model="basicMessage.educationLevel">
+                <el-radio label="初中及以下"></el-radio>
+                <el-radio label="高中及中专"></el-radio>
+                <el-radio label="大专"></el-radio>
+                <el-radio label="本科"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="是否接受来自俱乐部赠阅的杂志和发来的短信" prop="message">
+              <el-radio-group v-model="basicMessage.message">
+                <el-radio label="是"></el-radio>
+                <el-radio label="否"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="电子邮件" prop="email">
+              <el-input  v-model="basicMessage.email" auto-complete="off" placeholder="如：8654621258@qq.com" style="width:310px;"></el-input>
+            </el-form-item>
+            <el-form-item label="是否接受来自俱乐部的电子邮件" prop="sendEmail">
+              <el-radio-group v-model="basicMessage.sendEmail">
+                <el-radio label="是"></el-radio>
+                <el-radio label="否"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-form>
+            <div style="color:#F7BA2A;">
+              （请如实准确填写您的资料，以确保我们建立您的档案，以便今后可以收到俱乐部活动信息或礼品）
+            </div>
+        </div>
       </div>
       <div class="" v-if="active == 2">
-        <consumersteptwo :unitInformation="unitInformation"></consumersteptwo>
+        <!-- <consumersteptwo :unitInformation="unitInformation"></consumersteptwo> -->
+        <div class="consumerSteptwo">
+          <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的单位信息<b style="color:#ff831b;">（必填）</b></div>
+          <el-form :model="unitInformation" :inline="true" ref="unitInformation"  class="demo-form-inline" :rules="rule2">
+            <el-form-item label="单位全称" prop="companyName">
+              <el-input  v-model="unitInformation.companyName" auto-complete="off" placeholder="如：浙江至讯科技有限公司" style="width:300px;"></el-input>
+            </el-form-item>
+             <el-form-item label="所属行业" prop="industry">
+              <el-input  v-model="unitInformation.industry" auto-complete="off" placeholder="如：互联网/IT" style="width:300px;"></el-input>
+            </el-form-item>
+            <el-form-item label="任职部门" prop="department">
+              <el-input  v-model="unitInformation.department" auto-complete="off" placeholder="如：研发部" style="width:300px;"></el-input>
+            </el-form-item>
+            <el-form-item label="职位/岗位" prop="position">
+              <el-input  v-model="unitInformation.position" auto-complete="off" placeholder="如：员工" style="width:120px;"></el-input>
+            </el-form-item>
+           <el-form-item label="法人：" prop="legalPerson">
+            <el-radio-group v-model="unitInformation.legalPerson">
+              <el-radio label="是"></el-radio>
+              <el-radio label="否"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+           <el-form-item label="年薪" prop="annualSalary">
+              <el-input  v-model="unitInformation.annualSalary" auto-complete="off" placeholder="如：15000" style="width:327px;"></el-input>
+           </el-form-item>
+            <el-form-item label="单位规模：" prop="unitSize">
+              <el-radio-group v-model="unitInformation.unitSize">
+                <el-radio label="21~50"></el-radio>
+                <el-radio label="101~500"></el-radio>
+                <el-radio label="其他"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+             <el-form-item label="单位现所在省市区" prop="selectedOptions">
+                <el-cascader :options="unitInformation.options" v-model="unitInformation.selectedOptions" @change="handleChange" style="width:242px;"></el-cascader>
+            </el-form-item>
+            <el-form-item label="详细地址" prop="detailAddress">
+              <el-input  v-model="unitInformation.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
+            </el-form-item>
+            <el-form-item label="邮政编码" prop="postCode">
+              <el-input  v-model="unitInformation.postCode" auto-complete="off" placeholder="如：3100" style="width:300px;"></el-input>
+            </el-form-item>
+             <el-form-item label="单位类型：" prop="unitType">
+                <el-radio-group v-model="unitInformation.unitType">
+                  <el-radio label="机关/事业单位"></el-radio>
+                  <el-radio label="国有企业"></el-radio>
+                  <el-radio label="外商独资企业"></el-radio>
+                  <el-radio label="中外合资/合作企业"></el-radio>
+                  <el-radio label="其他"></el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="电话(可选填)：区号" prop="areaCode">
+              <el-input  v-model="unitInformation.areaCode" auto-complete="off" placeholder="如：0571" style="width:120px;"></el-input>
+            </el-form-item>
+            <el-form-item label="电话号码" >
+              <el-input  v-model="unitInformation.phoneNumber" auto-complete="off" placeholder="如：8857567" style="width:170px;"></el-input>
+            </el-form-item>
+            <el-form-item label="分机" >
+              <el-input  v-model="unitInformation.phoneNumberOther" auto-complete="off" placeholder="如：8857567" style="width:170px;"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
       <div class="" v-if="active == 3">
         <consumerstepthree :assetInformation="assetInformation"></consumerstepthree>
@@ -96,9 +237,44 @@ export default {
    
   },
   mounted(){
-  	console.log(this.active);
+    this.$http({
+      method: 'POST',
+      url: host.basic.basicUrl + '/register/selectCurrentUser'
+    }).then(function(res) {
+      let data = res.data;
+      let status = data.RESULT.status;
+      if (data.ERRORCODE == '0') {
+        // if(status === 1)this.active = 1;
+        // if(status === 2)this.active = 2;
+        // if(status === 3)this.active = 3;
+        // if(status === 4)this.active = 4;
+        // if(status === 5)this.active = 5;
+        // if(status === 9)this.active = 1;
+      } else {
+        this.$message.warning(data.RESULT);
+      }
+    }, function(error) {
+      this.$message.error('请求错误,请稍后再试');
+    })
   },
-  data () {
+  watch: {
+    'basicMessage.id': 'getData'
+    //   handler: (val, oldVal) => {
+    //    console.log(val)
+    //    console.log(oldVal)
+    
+    //   // 深度观察
+    //   deep: true
+    // }
+  },
+  data() {
+    var validateCon = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        callback();
+      }
+    };
     return {
       active: 1,
       Big:false,
@@ -113,11 +289,7 @@ export default {
         idNumber:"",
         phoneNumber:"",
         birthDate:"",
-        pickerOptions0: {
-          disabledDate(time) {
-            return time.getTime() < Date.now() - 8.64e7;
-          }
-        },
+        // pickerOptions0: {},
         dateRule:"",
         options: regionDataPlus,
         selectedOptions: [],
@@ -125,7 +297,10 @@ export default {
         educationLevel:"",
         message:"",
         email:"",
-        sendEmail:""
+        sendEmail:"",
+        province:"",
+        city:"",
+        area:""
       },
       unitInformation:{
       	companyName:'',
@@ -167,7 +342,31 @@ export default {
       },
       uploadData:{
         fileList2:[]
-      }
+      },
+      rule1:{
+        // recommender:[{ validator:validateCon,  message: '请选择推荐人类型', trigger: 'blur'}],
+        // id:[{ validator:validateCon,  message: '请输入ID', trigger: 'blur' }],
+        name:[{  required:true,validator:validateCon,  message: '请输入姓名', trigger: 'blur' }],
+        // gender:[{ validator:validateCon,  message: '请选择性别', trigger: 'blur' }],
+        idNumber:[{  required:true,validator:host.basic.checkCard,  message: '请输入正确的身份证号', trigger: 'blur' }],
+        phoneNumber:[{  required:true,validator:host.basic.checkMobile, trigger: 'blur' }],
+        birthDate:[{ required:true, validator:validateCon,  message: '请选择出生日期', trigger: 'blur' }],
+       selectedOptions:[{ type:'array', required:true,  message: '请选择家庭住址', trigger: 'change'}],
+        postCode:[{  required:true,validator:host.basic.checkPost,  trigger: 'blur'}],
+        detailAddress:[{  required:true,validator:validateCon, message: '请填写您的详细地址', trigger: 'blur'}],
+        educationLevel:[{  required:true,validator:validateCon, message: '请选择您的教育程度', trigger: 'blur'}]
+        // message:[{ validator:validateCon, message: '请选择是或否', trigger: 'blur'}],
+        // email:[{ validator:validateCon, message: '请填写电子邮箱', trigger: 'blur'}],
+        // sendEmail:[{ validator:validateCon, message: '请选择是或否', trigger: 'blur'}],
+
+      },
+      rule2:{
+        companyName:[{ validator:validateCon,  message: '请输入单位全称', trigger: 'blur' }],
+      },
+      sex:'',
+      highEdu:'',
+      isReceiveMessage:'',
+      isReceiveEmail:''
     };
   },
   components:{
@@ -177,13 +376,112 @@ export default {
     'v-footer':footer
   },
   methods:{
+    //获取会员姓名电话
+    getData(){
+      if (this.basicMessage.recommender != '') {
+        this.$http({
+          method: 'POST',
+          url: host.basic.basicUrl + '/register/selectReferee',
+          params: {
+            refereeType: this.basicMessage.recommender,
+            refereeCode: this.basicMessage.id
+          }
+        }).then(function(res) {
+          let data = res.data;
+          if (data.ERRORCODE == '0') {
+            this.basicMessage.recommenderName = data.RESULT.trueName
+            this.basicMessage.recommenderPhone = data.RESULT.mobile
+          } else {
+            // this.$message.warning(data.RESULT);
+          }
+        }, function(error) {
+          this.$message.error('请求错误,请稍后再试');
+        })
+      }
+    },
+    recommenderChange(val){
+      if(val == 3){
+        this.basicMessage.id = ''
+        this.basicMessage.recommenderName = ''
+        this.basicMessage.recommenderPhone = ''
+      }
+    },
+
+    //下一步
     next() {
      let that = this;
      //时间格式转换
      if(this.basicMessage.birthDate != ''){
       this.basicMessage.birthDate = host.basic.formatDate(this.basicMessage.birthDate.getTime())
     };
-     this.active++;
+    if(this.active == 1){
+      if(this.basicMessage.gender == '男' )this.sex = 1;
+      if(this.basicMessage.gender == '女' )this.sex = 0;
+      if(this.basicMessage.educationLevel == '初中及以下')this.highEdu = 1;
+      if(this.basicMessage.educationLevel == '高中及中专')this.highEdu = 2;
+      if(this.basicMessage.educationLevel == '大专')this.highEdu = 3;
+      if(this.basicMessage.educationLevel == '本科')this.highEdu = 4;
+      if(this.basicMessage.message == '是')this.isReceiveMessage = 1;
+      if(this.basicMessage.message == '否')this.isReceiveMessage = 0;
+      if(this.basicMessage.sendEmail == '是')this.isReceiveEmail = 1;
+      if(this.basicMessage.sendEmail == '否')this.isReceiveEmail = 0;
+      this.$refs.basicMessage.validate((valid) => {
+        if(valid){
+            this.$http({
+              method: 'POST',
+              url: host.basic.basicUrl + '/member/saveMemberInfo',
+              params: {
+                refereeType: this.basicMessage.recommender,
+                refereeCode: this.basicMessage.id,
+                trueName: this.basicMessage.name,
+                trueName: this.basicMessage.name,
+                sex: this.sex,
+                identityNumber: this.basicMessage.idNumber,
+                birthday: this.basicMessage.birthDate,
+                telephone: this.basicMessage.phoneNumber,
+                province:this.basicMessage.province,
+                city:this.basicMessage.city,
+                area:this.basicMessage.area,
+                address:this.basicMessage.address,
+                postalCode:this.basicMessage.postalCode,
+                highEdu:this.highEdu,
+                isReceiveMessage:this.isReceiveMessage,
+                email:this.basicMessage.email,
+                isReceiveEmail:this.isReceiveEmail
+              }
+            }).then(function(res) {
+              let data = res.data;
+              if (data.ERRORCODE == '0') {
+                
+                console.log(data);
+              } else {
+                this.$message.warning(data.RESULT);
+              }
+            }, function(error) {
+              this.$message.error('请求错误,请稍后再试');
+            })
+
+        }else{
+          // alert(1);
+        }
+
+      })
+    };
+    if(this.active == 2){
+       this.$refs.unitInformation.validate((valid) => {
+        if(valid){
+           
+        }else{
+          // alert(1);
+        }
+
+      })
+    };
+
+    if(this.active == 3)
+    if(this.active == 4)
+    if(this.active == 5)
+     // this.active++;
      if (this.active > 5){
         this.active = 1;
        // this.$message.success('注册成功');
@@ -193,6 +491,19 @@ export default {
     handleChange (value) {
       console.log(value)
     },
+
+    //家庭住址
+    handleChange1(value) {
+      // console.log(value)
+      this.basicMessage.province = value[0];
+      this.basicMessage.city = value[1];
+      this.basicMessage.area = value[2];
+      console.log(this.basicMessage.province);
+      console.log(this.basicMessage.city);
+      console.log(this.basicMessage.area);
+     
+    },
+
     // 上传图片处理回调
     handleRemove(file, fileList) {
         console.log(file, fileList);
