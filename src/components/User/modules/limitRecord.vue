@@ -10,21 +10,21 @@
               </el-table-column>
                <!-- <el-table-column prop="limitOrder" label="额度订单">
                </el-table-column> -->
-               <el-table-column  prop="giveDate" label="赠送日期">
+               <el-table-column  prop="createTime" label="赠送日期">
                </el-table-column>
-               <el-table-column prop="memberName" label="会员姓名">
+               <el-table-column prop="trueName" label="会员姓名">
                </el-table-column>
                <el-table-column prop="quotaType" label="额度类型">
                </el-table-column>
-               <el-table-column prop="consigneeAccount" label="收货人账号">
+               <el-table-column prop="tradeName" label="收货人账号">
                </el-table-column>
-               <el-table-column prop="consigneeName" label="收货人姓名">
+               <el-table-column prop="tradeMobile" label="收货人姓名">
                </el-table-column>
-               <el-table-column prop="state" label="状态">
+               <el-table-column prop="status" label="状态">
                </el-table-column>
                <el-table-column prop="quota" label="额度">
                </el-table-column>
-               <el-table-column prop="remainingAmount" label="剩余额度">
+               <el-table-column prop="surplusQuota" label="剩余额度">
                </el-table-column>
 
              </el-table>
@@ -58,20 +58,37 @@ import {
   getItmeCon,
   getDataTable
 } from '../../funWarehouse/warehouse.js'
+import {
+  userApi
+} from '../../api/apiCode.js'
 export default {
 
   data() {
-    this.$http.get('http://127.0.0.1:3000/UlimitRecord').then((objData) => {
-      this.sum = objData.data.length
-      this.allData = getDataTable(objData.data, 18)
-      this.tableData = this.allData[0]
-      this.totalCount = getItmeCon(objData.data, 18)
+
+    this.$http.get(userApi.quatolistAccount, {
+      params: {
+        pageNum: '', //页码 默认1
+        startDate: '', //	开始时间
+        enDate: '', //结束时间
+        searchStr: '', //搜索内容
+      }
+
+    }).then((objData) => {
+      this.tableData.type = objData.data.RESULT.length == 1 ? "赠送" : objData.data.length == 2 ? "获赠" : objData.data.length == 3 ? "提额" : objData.data.length == 4 ? "消费" : "" //1-赠送 2-获赠 3-提额 4-消费
+      this.tableData.status = objData.data.RESULT.length == 0 ? '审核中' : objData.data.length == 1 ? '完成' : objData.data.length == 2 ? '未通过' : "" //0-审核中 1-完成 2-未通过
+      this.tableData.quota = objData.data.RESULT.length //	额度
+      this.tableData.surplusQuota = objData.data.RESULT.length //剩余额度
+      this.tableData.createTime = objData.data.RESULT.length //发生时间
+      this.tableData.trueName = objData.data.RESULT.length //用户姓名
+      this.tableData.tradeName = objData.data.RESULT.length //赠送/受赠用户姓名
+      this.tableData.tradeMobile = objData.data.RESULT.length //	赠送/受赠用户账号
+
       this.loading = false
     }).catch((err) => {
       console.log(err);
     })
     return {
-      loading: true,
+      loading: false,
       tableData: [{
         conversionDate: '', //兑换日期
         conversionTaodou: '', //兑换淘豆

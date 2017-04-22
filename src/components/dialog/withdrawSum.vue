@@ -1,8 +1,8 @@
 <template lang="html">
   <!-- 提现 -->
   <div class="withdrawSum">
-    <el-dialog title="提现" v-model="withdrawSumDialog = sumValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%">
-  <div class="cir" @click="monitorValue"><i class="el-icon-close" ></i></div>
+    <el-dialog title="提现" v-model="withdrawSumDialog.show = sumValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%">
+  <div class="cir" @click="monitorValueOver"><i class="el-icon-close" ></i></div>
           <el-form  label-width="80px" :model="formLabelAlign">
             <div class="dialog-list-box">
               <el-col :span="20">
@@ -53,6 +53,11 @@
 </template>
 
 <script>
+import {
+  userApi,
+  businessAPi,
+  clerkApi
+} from '../api/apiCode.js'
 export default {
   data() {
     this.offDown = true
@@ -72,21 +77,24 @@ export default {
         sum: '',
       },
       inputValue: 0,
-      withdrawSumDialog: false
+      withdrawSumDialog: {
+        show: false,
+        upData: false
+      }
     }
   },
   props: {
     sumValue: Object
   },
   watch: {
-    'withdrawSumDialog': 'disposeHTTP'
+    'withdrawSumDialog.show': 'disposeHTTP'
   },
   methods: {
     disposeHTTP() {
       if (this.sumValue.userType == 1) { //判断用户 会员
-        if (!this.withdrawSumDialog == false) { //控制数据获取
-          let url = "/taodream-consumer" + '/memberWithDraw/selectBankInfo' //提现信息
-          this.$http.post(url).then((objData) => {
+        if (!this.withdrawSumDialog.show == false) { //控制数据获取
+          //userApi.bankInfoDialog //提现窗口信息
+          this.$http.post(userApi.bankInfoDialog).then((objData) => {
             console.log(objData.data);
             if (objData.data.ERRORCODE == 0) { //成功
               this.getDataResource.branchInformation = objData.data.RESULT.bankName //	支行名称
@@ -101,13 +109,48 @@ export default {
           this.getDataResource.withdrawSum = String(this.sumValue.withdrawSum) //余额
         }
 
-      } else if (this.sumValue.userType == 2) {
-        let url = "/taodream-consumer" + '/memberWithDraw/selectBankInfo' //提现信息
+      } else if (this.sumValue.userType == 2) { //商铺
+        //提现信息
+        if (!this.withdrawSumDialog.show == false) { //控制数据获取
+          //userApi.bankInfoDialog //提现窗口信息
+          this.$http.post(businessAPi.index).then((objData) => {
+
+            if (objData.data.ERRORCODE == 0) { //成功
+              this.getDataResource.branchInformation = objData.data.RESULT.branchName //	支行名称
+              this.getDataResource.bankAccount = objData.data.RESULT.bankName //	银行名称
+              this.getDataResource.bankCard = objData.data.RESULT.cardNumber //	银行卡号
+              this.getDataResource.handlingFee = 10 //手续费(元)
+              this.getDataResource.withdrawSum = String(objData.data.RESULT.balance) //余额
+              //缺省 昨日获得淘豆
+            }
+          }).catch((err) => {
+            console.log(err);
+          })
+
+        }
+      } else if (this.sumValue.userType == 3) { //咨询师
+        if (!this.withdrawSumDialog.show == false) { //控制数据获取
+          //userApi.bankInfoDialog //提现窗口信息
+          this.$http.post(businessAPi.index).then((objData) => {
+
+            if (objData.data.ERRORCODE == 0) { //成功
+              this.getDataResource.branchInformation = objData.data.RESULT.branchName //	支行名称
+              this.getDataResource.bankAccount = objData.data.RESULT.bankName //	银行名称
+              this.getDataResource.bankCard = objData.data.RESULT.cardNumber //	银行卡号
+              this.getDataResource.handlingFee = objData.data.RESULT.withDrawFee //手续费(元)
+              this.getDataResource.withdrawSum = String(objData.data.RESULT.laveQuota) //余额
+              //缺省 昨日获得淘豆
+            }
+          }).catch((err) => {
+            console.log(err);
+          })
+
+        }
       }
 
 
     },
-    sumChange() {
+    sumChange() { //计算 提现实际金额
       if (this.formLabelAlign.sum > 10) { //金额 大于10
         this.getDataResource.arrivalAmount = this.formLabelAlign.sum - this.getDataResource.handlingFee
       } else { //小于 == 0
@@ -115,16 +158,66 @@ export default {
       }
 
     },
+    monitorValueOver() {
+      this.withdrawSumDialog.show = false
+      this.$emit('withdraw', this.withdrawSumDialog)
+    },
     monitorValue() {
       //提交提现请求 成功后进行关闭
-      this.withdrawSumDialog = false
-      this.$emit('withdraw', this.withdrawSumDialog)
+
+      // let url = '/taodream-consumer/memberWithDraw/withdrawals'
+      // this.$http.post(url, {
+      //   withdrawAmount: this.getDataResource.arrivalAmount
+      // }).then((objectData) => {
+      //   console.log('提现成功');
+      //   console.log(objectData);
+      //   isb = true
+      // }).catch((error) => {
+      //   console.log(error);
+      // })
+
+      if (this.sumValue.userType == 1) { //会员
+
+      } else if (this.sumValue.userType == 2) { //商家
+        let formData = new FormData()
+        formData.append('money', this.formLabelAlign.sum)
+
+        this.$http.post(businessAPi.takeCash, formData).then((objData) => {
+          console.log(objData.data);
+          if (objData.data.RESULT == 'ok') {
+
+            //判断 是否 提现成功
+            this.withdrawSumDialog.show = false
+            this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
+            this.$emit('withdraw', this.withdrawSumDialog)
+            this.scuess()
+
+          }
+
+        }).catch((err) => {
+          console.log('访问错误1');
+        })
+      } else if (this.sumValue.userType == 3) { //咨询师
+
+      }
+
+
+
+
+    },
+
+    scuess() {
       this.$notify.success({
-        title: '成功',
-        message: '这是一条成功的提示消息',
+        title: '提现成功',
+        message: '成功后再24小时内到账请注意查收',
         offset: 150
       });
     }
+
+  },
+  beforeDestroy() {
+    //路由改变替换整体 销毁调用
+    console.log('销毁中');
   }
 }
 </script>
@@ -137,4 +230,8 @@ export default {
   /*display: block;*/
   margin-top: 20px;
 }
+.el-notification{
+  right: 800px !important;
+}
+
 </style>

@@ -28,6 +28,9 @@
             <p>地&#12288&#12288址:&#12288<span>{{ address }}</span></p>
             <p>银行卡号:&#12288<span>{{ bankCardNumber }}</span></p>
           </div>
+          <img src="/taodream-consumer/validateCode" alt="验证码">
+                      验证码:<input type="text" name="" v-model="pngimg" value="">
+                      <el-button @click="login()">登录</el-button>
         </el-col>
 
       </div>
@@ -59,7 +62,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr ">
 
-              <el-button type="success" size="large" class="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
+              <el-button type="success" size="large" class="btn-top" @click="withdrawSumDialogShow()">提现</el-button>
 
           </div>
         </el-col>
@@ -100,7 +103,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" class="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
+              <el-button type="success" size="large" class="btn-top" @click="tdrecordSumDialogShow()">兑换</el-button>
 
           </div>
         </el-col>
@@ -134,16 +137,16 @@
           <div class="content-right">
 
               <p>消费额度:&#12288&#12288<span>{{ expenseLimit }}￥</span></p>
-              <p >消费额度提升:<span>{{ expenseLimitUp }}￥</span></p>
 
-              <a href="javascript:void(0);"style="top:-5px;" @click="toPath('1-5')">查看额度流水 > </a>
+
+              <a href="javascript:void(0);" @click="toPath('1-5')">查看额度流水 > </a>
           </div>
         </el-col>
         <!-- 按钮 -->
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" class="btn-top" @click="giveQuotaDialog = true">赠送</el-button>
+              <!-- <el-button type="success" size="large" class="btn-top" @click="giveQuotaDialog = true">赠送</el-button> -->
 
           </div>
         </el-col>
@@ -161,7 +164,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" class="btn-top" @click="extractionQuotaDialog = true">提额</el-button>
+              <el-button type="success" size="large" class="btn-top" @click="extractionQuotaDialogShow()">提额</el-button>
 
           </div>
         </el-col>
@@ -181,9 +184,13 @@ import withdrawSum from '../../dialog/withdrawSum.vue' //对话框 提现
 import extractionQuota from '../../dialog/extractionQuota.vue' //对话框 提额
 import giveQuota from '../../dialog/giveQuota.vue' //对话框 额度赠送
 import TDRecordSum from '../../dialog/TDRecordSum.vue' //对话框 淘豆兑换
+import {
+  businessAPi
+} from '../../api/apiCode.js'
 export default {
   data() {
     return {
+      pngimg: '',
       userType: '商家', //用户类型
       enterpriseName: '', //企业名称
       enterpriseContacts: '', //企业联系人
@@ -196,21 +203,56 @@ export default {
       TDSum: '60', //淘豆金额
       yesterdayTD: '2', //昨日获得淘豆
       expenseLimit: '66', //消费额度
-      expenseLimitUp: '800', //消费额度提升
+
       recommendLimit: '10', //已消费额度
       surplusLimit: '20', //剩余额度
 
       defaultActiveNumber: '',
 
+      //监听更新数据
+      upData: true,
+      tdrecordUpData: true,
+      extractionUpData: true,
 
-
-
+      upDataRq: false,
       basicDialog: false, //基本信息对话框
-      withdrawSumDialog: false, //提现对话框
-      extractionQuotaDialog: false, //提额对话框
+      withdrawSumDialog: {
+        show: false, //显示
+        userType: 2, // 商家用户
+        withdrawSum: 0 //提现余额
+
+      }, //提现对话框
+
+      extractionQuotaDialog: {
+        show: false,
+        userType: 2, //商家用户
+
+      }, //提额对话框
       giveQuotaDialog: false, //额度赠送对话框
-      tdrecordSumDialog: false, //淘豆余额兑换对话框
+
+      tdrecordSumDialog: {
+        show: false,
+        userType: 2, //商家用户
+        TDSumDialog: 0
+      }, //淘豆余额兑换对话框
     }
+  },
+  mounted() {
+    //获取用户信息
+
+    // this.$http.post(businessAPi.index).then((objectData) => {
+    //   // params:
+    //   console.log(objectData.data);
+    //
+    // }).catch((error) => {
+    //   console.log(error);
+    // })
+
+  },
+  watch: {
+    'upData': 'upDatafun',
+    'upDataRq': 'upDatafun', //关闭窗口 进行基本数据重新获取
+    'tdrecordUpData': 'upDatafun' //关闭td窗口 进行基本数据重新获取
   },
   methods: {
     toPath(str) {
@@ -231,22 +273,87 @@ export default {
       console.log(cont);
 
     },
-    basicMessage(isb) { //子组件返回值
+    basicMessage(isb) { //子组件返回值 基本信息
       this.basicDialog = isb
     },
-    withdrawMessage(isb) { //子组件返回值
-      this.withdrawSumDialog = isb
+    withdrawMessage(isb) { //子组件返回值 提现
+      this.withdrawSumDialog.show = isb.show //显示
+      this.upDataRq = isb.upData //更新数据
+
     },
-    extractionMessage(isb) { //子组件返回值
-      this.extractionQuotaDialog = isb
+    extractionMessage(isb) { //子组件返回值 //提额
+      this.extractionQuotaDialog.show = isb.show
+      this.extractionUpData = isb.upData
     },
-    giveMessage(isb) { //子组件返回值
+    giveMessage(isb) { //子组件返回值 赠送额度
       this.giveQuotaDialog = isb
     },
-    tdMessage(isb) { //子组件返回值
-      this.tdrecordSumDialog = isb
+    tdMessage(isb) { //子组件返回值 淘豆兑换
+      this.tdrecordSumDialog.show = isb.show
+      this.tdrecordUpData = isb.upData
+    },
+
+    //父组件数据 -> 子组件数据
+    withdrawSumDialogShow() { //提现
+      this.withdrawSumDialog.withdrawSum = this.withdrawSum //传递
+      this.withdrawSumDialog.show = true
+    },
+    tdrecordSumDialogShow() { //淘豆兑换
+
+      this.tdrecordSumDialog.TDSumDialog = this.TDSum //传递 总淘豆数量
+      this.tdrecordSumDialog.show = true
+    },
+    extractionQuotaDialogShow() { //提额
+      this.extractionQuotaDialog.show = true
+    },
+    login() {
+
+      let formData = new FormData()
+      formData.append('userName', '13357156388')
+      formData.append('passWord', 'hujinhu')
+      formData.append('userType', '2')
+      formData.append('imageCode', this.pngimg)
+
+      console.log(formData.pngCode);
+      this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
+        // params:
+        console.log(objectData.data);
+        this.upData = !this.upData
+      }).catch((error) => {
+        console.log(error);
+      })
+
+      //       username:13357156388
+      // password:hujinhu
+      // userType:2
+      // pngCode:smdm
+    },
+    upDatafun() {
+      //获取用户信息
+      this.$http.post(businessAPi.index).then((objectData) => {
+        // params:
+        console.log(1234588);
+
+        this.enterpriseName = objectData.data.RESULT.companyName //企业名称
+        this.enterpriseContacts = objectData.data.RESULT.trueName //企业联系人
+        this.enterpriseType = objectData.data.RESULT.companyTypeName //企业类型
+        this.enterpriseNuber = objectData.data.RESULT.mobile //电话
+        this.address = objectData.data.RESULT.address //地址
+        this.bankCardNumber = objectData.data.RESULT.bankCardId //银行卡号
+
+        this.withdrawSum = objectData.data.RESULT.balance //提现金额
+        this.TDSum = objectData.data.RESULT.taodou //淘豆金额
+        this.yesterdayTD = objectData.data.RESULT.lastTaodou //昨日获得淘豆
+        this.expenseLimit = objectData.data.RESULT.quota, //消费额度
+
+          this.recommendLimit = objectData.data.RESULT.costQuota //已消费额度
+        this.surplusLimit = objectData.data.RESULT.laveQuota //剩余额度
+      }).catch((error) => {
+        console.log(error);
+      })
     }
   },
+
   components: {
     basic,
     withdrawSum,

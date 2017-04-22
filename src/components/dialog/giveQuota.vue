@@ -1,7 +1,7 @@
 <template lang="html">
   <!-- 额度赠送 -->
   <div class="giveQuota">
-    <el-dialog title="提额" v-model="giveQuotaDialog = giveValue" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
+    <el-dialog title="赠送" v-model="giveQuotaDialog = giveValue" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
     <div class="cir" @click="giveQuotaValue"><i class="el-icon-close" ></i></div>
           <el-form :label-position="labelPosition" label-width="80px" :model="formGiveQuota">
             <el-form-item label="会员账号:">

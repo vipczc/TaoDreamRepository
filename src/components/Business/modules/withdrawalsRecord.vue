@@ -7,41 +7,39 @@
       <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
            <el-table-column type="selection" width="55">
           </el-table-column>
-           <el-table-column prop="dateOfWithdrawal" label="提现日期">
+           <el-table-column prop="createTime" label="提现日期">
            </el-table-column>
-           <el-table-column  prop="cashWithdrawalAmount" label="提现金额">
+           <el-table-column  prop="withdrawAmount" label="提现金额">
            </el-table-column>
-           <el-table-column prop="counterFee" label="手续费">
+           <el-table-column prop="fee" label="手续费">
            </el-table-column>
-           <el-table-column prop="arrivalAmount" label="到账金额">
+           <el-table-column prop="arrivedAmount" label="到账金额">
            </el-table-column>
-           <el-table-column prop="collectingBank" label="收款银行">
+           <el-table-column prop="branchName" label="收款银行">
            </el-table-column>
-           <el-table-column prop="makeRemarks" label="打款备注">
+           <el-table-column prop="remark" label="打款备注">
            </el-table-column>
-           <el-table-column prop="state" label="状态">
+           <el-table-column prop="statusName" label="状态">
            </el-table-column>
 
          </el-table>
 
     </el-col>
     <el-col :span="24" >
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <span>共{{ sum }}项</span>
-        </el-col>
-        <el-col :span="12" :offset="0">
+        </el-col> -->
+        <el-col :span="12" :offset="6">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="Number(onCount)"
 
-          <div class="block">
-    <span class="demonstration"></span>
-    <el-pagination
-   @size-change="handleSizeChange"
-   @current-change="handleCurrentChange"
 
-   layout=" prev, pager, next"
-   :total="totalCount">
- </el-pagination>
- <!-- :page-size="10" sizes, -->
-  </div>
+            :page-size="10"
+            layout="total, prev, pager, next"
+            :total="result.totalElements">
+          </el-pagination>
         </el-col>
     </el-col>
       </div>
@@ -53,19 +51,17 @@ import {
   getItmeCon,
   getDataTable
 } from '../../funWarehouse/warehouse.js'
+import {
+  businessAPi
+} from '../../api/apiCode.js'
+import basic from '../../../common.js'
 export default {
 
   data() {
-    this.$http.get('http://127.0.0.1:3000/BwithdrawalsRecord').then((objData) => {
-      this.sum = objData.data.length
-      this.allData = getDataTable(objData.data, 18)
-      this.tableData = this.allData[0]
-      this.totalCount = getItmeCon(objData.data, 18)
-      this.loading = false
-    }).catch((err) => {
-      console.log(err);
-    })
+
     return {
+      result: {},
+      onCount: 1,
       loading: true,
       tableData: [{
         conversionDate: '', //兑换日期
@@ -84,6 +80,13 @@ export default {
   components: {
     search
   },
+  mounted() {
+    //获取当前时间 老时间
+    this.upDatafun()
+  },
+  watch: {
+    'onCount': 'upDatafun'
+  },
   methods: {
     getdata() {
 
@@ -97,13 +100,37 @@ export default {
 
     },
     handleCurrentChange(val) {
-      this.currentPage = val;
-      console.log('aaa' + this.allData[val - 1].length < this.tableItemCount);
-      this.a = val * this.allData[val - 1].length - this.allData[val - 1].length
-      this.b = val * this.allData[val - 1].length
-      this.tableData = this.allData[val - 1];
+      this.onCount = val;
 
 
+
+    },
+    upDatafun() {
+      var timeStart = Date.parse(new Date());
+      var timeEnd = timeStart
+      timeStart = timeStart / 1000;
+      timeStart = basic.basic.formatDate(timeStart)
+      timeEnd = basic.basic.formatDate(timeEnd)
+
+      let formData = new FormData()
+      console.log(formData);
+      formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
+      formData.append('withdrawTimeStart', timeStart)
+      formData.append('withdrawTimeEnd', timeEnd)
+
+      this.$http.post(businessAPi.withdrawRecord, formData).then((objData) => {
+        console.log(objData.data.RESULT);
+        this.result = objData.data.RESULT //Object 所有数据
+        //时间处理
+        for (var i = 0; i < this.result.data.length; i++) {
+          this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
+        }
+        this.tableData = this.result.data
+
+        this.loading = false
+      }).catch((err) => {
+        console.log(err);
+      })
     }
 
 

@@ -29,6 +29,9 @@
           <div class="user-message-content">
             <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
             <p>行&#12288&#12288业:&#12288<span>{{ userOccupation }}</span></p>
+<!-- <img src="/taodream-consumer/validateCode" alt="验证码">
+            验证码:<input type="text" name="" v-model="pngimg" value="">
+            <el-button @click="login()">登录</el-button> -->
           </div>
         </el-col>
 
@@ -210,14 +213,25 @@ import withdrawSum from '../../dialog/withdrawSum.vue' //对话框 提现
 import extractionQuota from '../../dialog/extractionQuota.vue' //对话框 提额
 import giveQuota from '../../dialog/giveQuota.vue' //对话框 额度赠送
 import TDRecordSum from '../../dialog/TDRecordSum.vue' //对话框 淘豆兑换
+
+import {
+  userApi
+} from '../../api/apiCode.js'
 // import {
 //   basics
 // } from '../../../common.js'
 export default {
   data() {
-    let url = "/taodream-consumer" + '/member/selectMember'
-    this.$http.post(url).then((objData) => {
-      console.log(objData.data.RESULT.birthday);
+
+    // let url = '/taodream-consumer/validateCode'
+    // this.$http.post(url).then((objData) => {
+    //   console.log(objData.data);
+    // }).catch((error) => {
+    //   console.log(error);
+    // })
+    this.$http.post(userApi.index).then((objData) => {
+      console.log(objData);
+
       if (objData.data.ERRORCODE == 0) { //成功
         this.userAge = objData.data.RESULT.birthday //	出生年月
         this.withdrawSum = objData.data.RESULT.banlance //	余额
@@ -240,7 +254,7 @@ export default {
       console.log(err);
     })
     return {
-
+      pngimg: '',
       userType: '会员', //用户类型
       userName: '', //商家姓名
       userAge: '', //出生日期
@@ -319,6 +333,28 @@ export default {
     tdrecordSumDialogShow() {
       this.withdrawSumDialog.TDSum = this.TDSum //传递淘豆总数
       this.tdrecordSumDialog.show = true
+    },
+    login() {
+      // let boj = new formData();
+      // formData.username = '13357156388'
+
+
+      // let formData = new FormData()
+      // formData.append('username', '13357156388')
+      // formData.append('password', 'hujinhu')
+      // formData.append('userType', '1')
+      // formData.append('pngCode', this.pngimg)
+      //
+      // this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
+      //   // params:
+      //   console.log(objectData.data);
+      // }).catch((error) => {
+      //   console.log(error);
+      // })
+      //       username:13357156388
+      // password:hujinhu
+      // userType:2
+      // pngCode:smdm
     }
   },
   components: {

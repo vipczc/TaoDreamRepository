@@ -51,6 +51,9 @@ import {
   getItmeCon,
   getDataTable
 } from '../../funWarehouse/warehouse.js'
+import {
+  userApi
+} from '../../api/apiCode.js'
 export default {
 
   data() {
@@ -64,7 +67,7 @@ export default {
       console.log(err);
     })
     return {
-      loading: true,
+      loading: false,
       tableData: [{
         conversionDate: '', //兑换日期
         conversionTaodou: '', //兑换淘豆

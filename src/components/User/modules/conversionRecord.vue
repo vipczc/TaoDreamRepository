@@ -46,25 +46,34 @@ import {
   getItmeCon,
   getDataTable
 } from '../../funWarehouse/warehouse.js'
+import {
+  userApi
+} from '../../api/apiCode.js'
 export default {
 
   data() {
-    this.$http.get('http://127.0.0.1:3000/UconversionRecord').then((objData) => {
-      this.sum = objData.data.length
-      this.allData = getDataTable(objData.data, 18)
-      this.tableData = this.allData[0]
-      this.totalCount = getItmeCon(objData.data, 18)
+    this.$http.post(userApi.taodoulistRecord, {
+      startDate: '2017-02-02',
+      endDate: '2017-02-03',
+    }).then((objData) => {
+      this.tableData.mobile = objData.data.RESULT.mobile //联系电话
+      this.tableData.trueName = objData.data.RESULT.trueName //姓名
+
+      this.tableData.exchangeRate = objData.data.RESULT.exchangeRate //兑换比率
+      this.tableData.conversionTaodou = objData.data.RESULT.soyaNumber //兑换淘豆
+      this.tableData.conversionAmountReceived = objData.data.RESULT.exchangeAmount //兑换金额
+      this.tableData.surplusTaodou = objData.data.RESULT.overplusSoyaNumber //剩余淘豆
+
+      this.tableData.status = objData.data.RESULT.status //状态 -1失败 1成功
+      console.log('缺省 兑换日期');
       this.loading = false
     }).catch((err) => {
       console.log(err);
     })
     return {
-      loading: true,
+      loading: false,
       tableData: [{
-        conversionDate: '', //兑换日期
-        conversionTaodou: '', //兑换淘豆
-        conversionAmountReceived: '', //兑换获得金额
-        surplusTaodou: '' //剩余淘豆
+
       }],
       allData: '',
       totalCount: 0, //分页数

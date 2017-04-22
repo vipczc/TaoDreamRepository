@@ -7,7 +7,7 @@
       <el-table :data="tableData" style="width: 100%;height: 780px;"max-height="800" v-loading.body="loading" element-loading-text="加载中">
            <el-table-column type="selection" width="55">
           </el-table-column>
-           <el-table-column prop="orderNumber" label="订单编号">
+           <el-table-column prop="sss" label="订单编号">
            </el-table-column>
            <el-table-column  prop="consumptionDate" label="消费日期">
            </el-table-column>
@@ -67,16 +67,19 @@ import {
   getItmeCon,
   getDataTable
 } from '../../funWarehouse/warehouse.js'
+import {
+  userApi
+} from '../../api/apiCode.js'
 export default {
 
   data() {
-    const url = "/taodream-consumer" + '/member/listConsumptionRecord'
+    //消费记录查询接口
     let num = 3 //页数
-    this.$http.post(url, {
+    this.$http.get(userApi.listConsumptionRecord, {
       pageNum: num
     }).then((objData) => {
       console.log(objData.data.RESULT.data);
-      this.orderNumber = objData.data.RESULT.data.mobile //联系电话
+      this.tableData.sss = objData.data.RESULT.data.area //联系电话
       this.orderNumber = objData.data.RESULT.data.trueName //姓名
       this.orderNumber = objData.data.RESULT.data.orderNo //	订单号
       this.consumptionAmount = objData.data.RESULT.data.totalAmount //	消费总额
@@ -93,7 +96,7 @@ export default {
       console.log(err);
     })
     return {
-      loading: true,
+      loading: false,
       consumptionDetails: {
         show: false,
         index: 0,

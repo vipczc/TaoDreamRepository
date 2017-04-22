@@ -7,32 +7,43 @@
   <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
        <el-table-column type="selection" width="55">
       </el-table-column>
-       <el-table-column prop="conversionDate" label="兑换日期">
+       <el-table-column prop="createTime" label="兑换日期">
        </el-table-column>
-       <el-table-column  prop="conversionTaodou" label="兑换淘豆">
+       <el-table-column  prop="taodouAmount" label="兑换淘豆">
        </el-table-column>
-       <el-table-column prop="conversionAmountReceived" label="兑换获得金额">
+       <el-table-column prop="exchangeAmount" label="兑换获得金额">
        </el-table-column>
-       <el-table-column prop="surplusTaodou" label="剩余淘豆">
+       <el-table-column prop="taodouBalance" label="剩余淘豆">
        </el-table-column>
      </el-table>
 
 </el-col>
 <el-col :span="24" >
-    <el-col :span="12">
-      <span>共{{ sum }}项</span>
-    </el-col>
-    <el-col :span="12" :offset="0">
+    <!-- <el-col :span="12">
+      <span>共{{ result.iTotalRecords }}项</span>
+    </el-col> -->
+    <el-col :span="12" :offset="6">
 
       <div class="block">
 <span class="demonstration"></span>
-<el-pagination
+<!-- <el-pagination
 @size-change="handleSizeChange"
 @current-change="handleCurrentChange"
 
 layout=" prev, pager, next"
-:total="totalCount">
-</el-pagination>
+:total="result.maxPager*10">
+</el-pagination> -->
+
+   <el-pagination
+     @size-change="handleSizeChange"
+     @current-change="handleCurrentChange"
+     :current-page="Number(onCount)"
+
+
+     :page-size="10"
+     layout="total, prev, pager, next"
+     :total="result.totalElements">
+   </el-pagination>
 <!-- :page-size="10" sizes, -->
 </div>
     </el-col>
@@ -46,36 +57,53 @@ import {
   getItmeCon,
   getDataTable
 } from '../../funWarehouse/warehouse.js'
+import {
+  businessAPi
+} from '../../api/apiCode.js'
+import basic from '../../../common.js'
 export default {
 
   data() {
-    this.$http.get('http://127.0.0.1:3000/BconversionRecord').then((objData) => {
-      this.sum = objData.data.length
-      this.allData = getDataTable(objData.data, 18)
-      this.tableData = this.allData[0]
-      this.totalCount = getItmeCon(objData.data, 18)
-      this.loading = false
-    }).catch((err) => {
-      console.log(err);
-    })
+
+
     return {
       loading: true,
       tableData: [{
-        conversionDate: '', //兑换日期
-        conversionTaodou: '', //兑换淘豆
-        conversionAmountReceived: '', //兑换获得金额
-        surplusTaodou: '' //剩余淘豆
+        createTime: '', //兑换日期（时间戳）
+        exchangeAmount: '', //兑换获得金额（元）
+        taodouAmount: '', //兑换淘豆（个）
+        taodouBalance: '' //剩余淘豆（个）
+
       }],
+
+      result: {
+        iTotalRecords: '', //总条数
+        maxPager: '', //最大页数
+        minPager: '', //最小页数
+      }, //返回参数
       allData: '',
       totalCount: 0, //分页数
       a: 0,
       b: 0,
       sum: 0,
-      tableItemCount: 18
+      tableItemCount: 18,
+      onCount: 1
     }
+  },
+  mounted() {
+
+
+    //获取当前时间 老时间\
+    this.upDatafun()
+
+
+
   },
   components: {
     search
+  },
+  watch: {
+    'onCount': 'upDatafun'
   },
   methods: {
     getdata() {
@@ -90,12 +118,41 @@ export default {
 
     },
     handleCurrentChange(val) {
-      this.currentPage = val;
-      console.log('aaa' + this.allData[val - 1].length < this.tableItemCount);
-      this.a = val * this.allData[val - 1].length - this.allData[val - 1].length
-      this.b = val * this.allData[val - 1].length
-      this.tableData = this.allData[val - 1];
+      // this.currentPage = val;
+      // console.log('aaa' + this.allData[val - 1].length < this.tableItemCount);
+      // this.a = val * this.allData[val - 1].length - this.allData[val - 1].length
+      // this.b = val * this.allData[val - 1].length
+      // this.tableData = this.allData[val - 1];
+      console.log(val);
+      this.onCount = val //当前点击页数
+    },
+    upDatafun() {
 
+      var timeStart = Date.parse(new Date());
+      var timeEnd = timeStart
+      timeStart = timeStart / 1000;
+      timeStart = basic.basic.formatDate(timeStart)
+      timeEnd = basic.basic.formatDate(timeEnd)
+
+      let formData = new FormData()
+
+      formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
+      formData.append('taodouRecordTimeStart', timeStart)
+      formData.append('taodouRecordTimeEnd', timeEnd)
+
+      this.$http.post(businessAPi.taodouExchangeRecord, formData).then((objData) => {
+        console.log(objData.data.RESULT);
+        this.result = objData.data.RESULT //Object 所有数据
+        //时间处理
+        for (var i = 0; i < this.result.data.length; i++) {
+          this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
+        }
+        this.tableData = this.result.data
+
+        this.loading = false
+      }).catch((err) => {
+        console.log(err);
+      })
 
     }
 

@@ -53,25 +53,47 @@ import {
   getItmeCon,
   getDataTable
 } from '../../funWarehouse/warehouse.js'
+import {
+  userApi
+} from '../../api/apiCode.js'
 export default {
 
   data() {
-    this.$http.get('http://127.0.0.1:3000/UwithdrawalsRecord').then((objData) => {
-      this.sum = objData.data.length
-      this.allData = getDataTable(objData.data, 18)
-      this.tableData = this.allData[0]
-      this.totalCount = getItmeCon(objData.data, 18)
+
+    this.$http.get(userApi.withDrawlistRecord, {
+      params: {
+        pageNum: '1',
+        startDate: '2017-02-02',
+        endDate: '2017-02-05',
+      }
+
+    }).then((objData) => {
+      this.tableData.phoneNumbe = objData.data.RESULT.mobile //联系电话
+      this.tableData.name = objData.data.RESULT.trueName //姓名
+      this.tableData.cashWithdrawalAmount = objData.data.RESULT.withdrawAmount //提现金额
+      this.tableData.arrivalAmount = objData.data.RESULT.arrivedAmount //到账金额
+      this.tableData.counterFee = objData.data.RESULT.fee //手续费
+      this.tableData.makeRemarks = objData.data.RESULT.remark //备注
+      this.tableData.dateOfWithdrawal = objData.data.RESULT.happenTime //提现时间
+      this.tableData.bankName = objData.data.RESULT.bankSimpleName //银行名称
+      this.tableData.collectingBank = objData.data.RESULT.branchName //支行名称
+      this.tableData.bankNumbe = objData.data.RESULT.cardNumber //银行卡号
+      this.tableData.sumCount = objData.data.RESULT.iTotalRecords //总条数
+      this.tableData.maxCount = objData.data.RESULT.minPager //最小页码
+      this.tableData.minCount = objData.data.RESULT.maxPager //最大页码
+      this.tableData.status = objData.data.RESULT.status //状态 1 审核通过
       this.loading = false
+
     }).catch((err) => {
       console.log(err);
     })
     return {
-      loading: true,
+      loading: false,
       tableData: [{
-        conversionDate: '', //兑换日期
-        conversionTaodou: '', //兑换淘豆
-        conversionAmountReceived: '', //兑换获得金额
-        surplusTaodou: '' //剩余淘豆
+        // conversionDate: '', //兑换日期
+        // conversionTaodou: '', //兑换淘豆
+        // conversionAmountReceived: '', //兑换获得金额
+        // surplusTaodou: '' //剩余淘豆
       }],
       allData: '',
       totalCount: 0, //分页数
