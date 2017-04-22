@@ -157,10 +157,10 @@ export default {
       },
         rules2: {
           pass: [
-            { validator: validatePass, trigger: 'blur' }
+            { validator: host.basic.checkPass, trigger: 'blur' }
           ],
           account: [
-            { validator: validatePass, trigger: 'blur' }
+            { validator: validatePass ,message: '请输入账号', trigger: 'blur' }
           ]   
         },
         rules3: {
@@ -273,13 +273,13 @@ export default {
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
-                this.$message.success('注册成功请完善您的信息!');
-                if(this.ruleForm3.type == 1){
-                  this.$router.push('/consumerRegister')
-                }else if(this.ruleForm3.type == 2){
-                  this.$router.push('/bussinessRegister')
-                }
-                
+                this.$message.success('注册成功!');
+                // if(this.ruleForm3.type == 1){
+                //   this.$router.push('/consumerRegister')
+                // }else if(this.ruleForm3.type == 2){
+                //   this.$router.push('/bussinessRegister')
+                // }
+                this.activeName = "second";
               } else {
                 this.$message.warning(data.RESULT);
               }

@@ -32,7 +32,7 @@
             <el-form-item label="联系电话" prop="recommenderPhone">
               <el-input  v-model="basicMessage.recommenderPhone" auto-complete="off" style="width:120px;" :disabled="true"></el-input>
             </el-form-item>
-            <div class="step" style="margin-left: -12px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的基本信息<b style="color:#ff831b;">（必填）</b></div>
+            <div class="step" style="margin-left: -12px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的基本信息<b style="color:#ff831b;"></b></div>
             <el-form-item label="中文姓名" prop="name">
               <el-input  v-model="basicMessage.name" auto-complete="off" placeholder="请输入姓名" style="width:150px;"></el-input>
             </el-form-item>
@@ -98,13 +98,21 @@
       <div class="" v-if="active == 2">
         <!-- <consumersteptwo :unitInformation="unitInformation"></consumersteptwo> -->
         <div class="consumerSteptwo">
-          <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的单位信息<b style="color:#ff831b;">（必填）</b></div>
+          <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的单位信息<b style="color:#ff831b;"></b></div>
           <el-form :model="unitInformation" :inline="true" ref="unitInformation"  class="demo-form-inline" :rules="rule2">
             <el-form-item label="单位全称" prop="companyName">
-              <el-input  v-model="unitInformation.companyName" auto-complete="off" placeholder="如：浙江至讯科技有限公司" style="width:300px;"></el-input>
+              <el-input  v-model="unitInformation.companyName" auto-complete="off" placeholder="如：浙江至讯科技有限公司" style="width:250px;"></el-input>
             </el-form-item>
-             <el-form-item label="所属行业" prop="industry">
-              <el-input  v-model="unitInformation.industry" auto-complete="off" placeholder="如：互联网/IT" style="width:300px;"></el-input>
+             <el-form-item label="所属行业" prop="industry" style="width:300px;">
+                  <el-cascader
+                :options="unitInformation.industry1" 
+                change-on-select
+                @change="selChange"
+              ></el-cascader>
+              <!-- <el-select v-model="unitInformation.industry" placeholder="如：互联网/IT" style="width:300px;">
+                <el-option v-for="sel in unitInformation.sels" label="sel.label" value="sel.id"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select> -->
             </el-form-item>
             <el-form-item label="任职部门" prop="department">
               <el-input  v-model="unitInformation.department" auto-complete="off" placeholder="如：研发部" style="width:300px;"></el-input>
@@ -131,38 +139,92 @@
              <el-form-item label="单位现所在省市区" prop="selectedOptions">
                 <el-cascader :options="unitInformation.options" v-model="unitInformation.selectedOptions" @change="handleChange" style="width:242px;"></el-cascader>
             </el-form-item>
+             <el-form-item label="邮政编码" prop="postCode">
+              <el-input  v-model="unitInformation.postCode" auto-complete="off" placeholder="如：3100" style="width:250px;"></el-input>
+            </el-form-item>
             <el-form-item label="详细地址" prop="detailAddress">
-              <el-input  v-model="unitInformation.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
+              <el-input type="textarea" v-model="unitInformation.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
             </el-form-item>
-            <el-form-item label="邮政编码" prop="postCode">
-              <el-input  v-model="unitInformation.postCode" auto-complete="off" placeholder="如：3100" style="width:300px;"></el-input>
-            </el-form-item>
+           
              <el-form-item label="单位类型：" prop="unitType">
-                <el-radio-group v-model="unitInformation.unitType">
+                <el-radio-group v-model="unitInformation.unitType" >
                   <el-radio label="机关/事业单位"></el-radio>
                   <el-radio label="国有企业"></el-radio>
                   <el-radio label="外商独资企业"></el-radio>
                   <el-radio label="中外合资/合作企业"></el-radio>
+                  <el-radio label="股份制企业"></el-radio>
+                  <el-radio label="私有企业"></el-radio>
                   <el-radio label="其他"></el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="电话(可选填)：区号" prop="areaCode">
-              <el-input  v-model="unitInformation.areaCode" auto-complete="off" placeholder="如：0571" style="width:120px;"></el-input>
+              <el-input type="number" v-model="unitInformation.areaCode" auto-complete="off" placeholder="如：0571" style="width:120px;"></el-input>
             </el-form-item>
             <el-form-item label="电话号码" >
-              <el-input  v-model="unitInformation.phoneNumber" auto-complete="off" placeholder="如：8857567" style="width:170px;"></el-input>
+              <el-input type="number" v-model="unitInformation.phoneNumber" auto-complete="off" placeholder="如：8857567" style="width:170px;"></el-input>
             </el-form-item>
             <el-form-item label="分机" >
-              <el-input  v-model="unitInformation.phoneNumberOther" auto-complete="off" placeholder="如：8857567" style="width:170px;"></el-input>
+              <el-input type="number" v-model="unitInformation.phoneNumberOther" auto-complete="off" placeholder="如：8857567" style="width:170px;"></el-input>
             </el-form-item>
           </el-form>
         </div>
       </div>
       <div class="" v-if="active == 3">
-        <consumerstepthree :assetInformation="assetInformation"></consumerstepthree>
+        <!-- <consumerstepthree :assetInformation="assetInformation"></consumerstepthree> -->
+        <div class="consumerStepthree">
+          <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>资产信息<b style="color:#ff831b;">（选填）</b></div>
+          <el-form :model="assetInformation" :inline="true" ref="assetInformation"  class="demo-form-inline">
+            <el-form-item label="您拥有的信用卡数量：" prop="cardNumber">
+              <el-input type="number" v-model="assetInformation.cardNumber" auto-complete="off" placeholder="如：1张" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="您拥有的信用卡总额度：" prop="creditLimit">
+              <el-input  v-model="assetInformation.creditLimit" auto-complete="off" placeholder="如：100000元" style="width:200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="您的居住情况：" prop="livingCondition">
+              <el-radio-group v-model="assetInformation.livingCondition">
+                <el-radio label="租房"></el-radio>
+                <el-radio label="自有房产"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="您名下的房产数量及价值：" prop="houseProperty">
+              <el-input  v-model="assetInformation.houseProperty" auto-complete="off" placeholder="如：2套500000元" style="width:300px;"></el-input>
+            </el-form-item>
+            <el-form-item label="您名下的这字数量和价值：" prop="carValue">
+              <el-input  v-model="assetInformation.carValue" auto-complete="off" placeholder="如：2辆500000元" style="width:300px;"></el-input>
+            </el-form-item>
+            <el-form-item label="您做过哪些投资：" prop="investment">
+              <el-select v-model="assetInformation.investment" multiple placeholder="请选择" @change="invert" style="width:400px;">
+                <el-option
+                  v-for="item in assetInformation.invests"
+                  :label="item.label"
+                  :value="item.value" >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <div class="step" style="margin-left: -12px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>联系人信息<b style="color:#ff831b;">（选填）</b></div>
+            <el-form-item label="联系人（亲属）姓名：" prop="relative1">
+              <el-input  v-model="assetInformation.relative1" auto-complete="off" placeholder="请输入名称" style="width:150px;"></el-input>
+            </el-form-item>
+            <el-form-item label="关系：" prop="relationship1">
+              <el-input  v-model="assetInformation.relationship1" auto-complete="off" placeholder="请填写关系" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="手机：" prop="relativePhone1">
+              <el-input  v-model="assetInformation.relativePhone1" auto-complete="off" placeholder="请填写手机号" style="width:200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="联系人（亲属）姓名：" prop="relative2">
+              <el-input  v-model="assetInformation.relative2" auto-complete="off" placeholder="请输入名称" style="width:150px;"></el-input>
+            </el-form-item>
+            <el-form-item label="关系：" prop="relationship2">
+              <el-input  v-model="assetInformation.relationship2" auto-complete="off" placeholder="请填写关系" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="手机：" prop="relativePhone2">
+              <el-input  v-model="assetInformation.relativePhone2" auto-complete="off" placeholder="请填写手机号" style="width:200px;"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
       <div class="" v-if="active == 4">
-        <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<b style="color:#ff831b;">（必填）</b></div>
+        <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<b style="color:#ff831b;"></b></div>
         <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline">
           <el-form-item label="开户银行：">
             <el-select v-model="bankInformation.bankAccount" placeholder="请选择银行"  style="width: 250px;">
@@ -237,6 +299,7 @@ export default {
    
   },
   mounted(){
+    //监听信息填写步骤
     this.$http({
       method: 'POST',
       url: host.basic.basicUrl + '/register/selectCurrentUser'
@@ -244,18 +307,39 @@ export default {
       let data = res.data;
       let status = data.RESULT.status;
       if (data.ERRORCODE == '0') {
-        // if(status === 1)this.active = 1;
-        // if(status === 2)this.active = 2;
-        // if(status === 3)this.active = 3;
-        // if(status === 4)this.active = 4;
-        // if(status === 5)this.active = 5;
-        // if(status === 9)this.active = 1;
+        if(status === 1)this.active = 1;
+        if(status === 2)this.active = 2;
+        if(status === 3)this.active = 3;
+        if(status === 4)this.active = 4;
+        if(status === 5)this.active = 5;
+        if(status === 9)this.active = 1;
       } else {
         this.$message.warning(data.RESULT);
       }
     }, function(error) {
       this.$message.error('请求错误,请稍后再试');
-    })
+    });
+    //获取行业
+    this.$http({
+          method: 'POST',
+          url: host.basic.basicUrl + '/register/selectProfession',
+        }).then(function(res) {
+          let arr = res.data.RESULT;
+          if (res.data.ERRORCODE == '0') {
+            let arr1 = [];
+            for (let i = 0; i < arr.length; i++) {
+              let obj = {value:"",label:""};
+              arr1.push(obj);
+             arr1[i].value = arr[i].id;
+             arr1[i].label = arr[i].label;
+            };
+            this.unitInformation.industry1 = arr1;
+          } else {
+            // this.$message.warning(data.RESULT);
+          }
+        }, function(error) {
+          this.$message.error('请求错误,请稍后再试');
+        })
   },
   watch: {
     'basicMessage.id': 'getData'
@@ -305,6 +389,9 @@ export default {
       unitInformation:{
       	companyName:'',
       	industry:'',
+        industry1:[
+          
+        ],
       	department:"",
       	position:"",
       	legalPerson:"",
@@ -317,7 +404,11 @@ export default {
       	unitType:"",
         areaCode:"",
         phoneNumber:"",
-        phoneNumberOther:""
+        phoneNumberOther:"",
+        sels:'',
+        province:'',
+        city:'',
+        area:''
       },
       assetInformation:{
         cardNumber:"",
@@ -326,12 +417,24 @@ export default {
         houseProperty:"",
         carValue:"",
         investment:[],
+        investmens:'',
         relative1:"",
         relationship1:"",
         relativePhone1:"",
         relative2:"",
         relationship2:"",
-        relativePhone2:""
+        relativePhone2:"",
+        invests:[
+          {value:1,label:'股票'},
+          {value:2,label:'基金'},
+          {value:3,label:'银行理财产品'},
+          {value:4,label:'外汇'},
+          {value:5,label:'期货'},
+          {value:6,label:'房产'},
+          {value:7,label:'黄金'},
+          {value:8,label:'收藏品'},
+          {value:9,label:'其他'}
+        ]
       },
       bankInformation:{
         bankAccount:"",
@@ -361,12 +464,20 @@ export default {
 
       },
       rule2:{
-        companyName:[{ validator:validateCon,  message: '请输入单位全称', trigger: 'blur' }],
+        companyName:[{required:true, validator:validateCon,  message: '请输入单位全称', trigger: 'blur' }],
+        industry:[{required:true, validator:validateCon,  message: '请选择所属行业', trigger: 'blur' }],
+        selectedOptions:[{ type:'array',required:true,   message: '请选择', trigger: 'change' }],
+        detailAddress:[{required:true, validator:validateCon,  message: '请填写详细地址', trigger: 'blur' }],
+        postCode:[{  required:true,validator:host.basic.checkPost,  trigger: 'blur'}],
       },
       sex:'',
       highEdu:'',
       isReceiveMessage:'',
-      isReceiveEmail:''
+      isReceiveEmail:'',
+      corporation:'',
+      companyType:'',
+      scale:'',
+      liveType:''
     };
   },
   components:{
@@ -406,7 +517,14 @@ export default {
         this.basicMessage.recommenderPhone = ''
       }
     },
-
+  //选择行业
+    selChange(val){
+      this.unitInformation.industry = val[0];
+    },
+    //投资选择
+    invert(val){
+      this.assetInformation.investments = val.join(","); 
+    },
     //下一步
     next() {
      let that = this;
@@ -452,8 +570,8 @@ export default {
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
-                
                 console.log(data);
+                this.active ++
               } else {
                 this.$message.warning(data.RESULT);
               }
@@ -468,9 +586,54 @@ export default {
       })
     };
     if(this.active == 2){
+      if(this.unitInformation.legalPerson == '是')this.corporation = 1;
+      if(this.unitInformation.legalPerson == '否')this.corporation = 0;
+      if(this.unitInformation.unitSize == '21~50')this.scale = 1;
+      if(this.unitInformation.unitSize == '101~500')this.scale = 2;
+      if(this.unitInformation.unitSize == '其他')this.scale = 3;
+      if(this.unitInformation.unitType == '机关/事业单位')this.companyType = 1;
+      if(this.unitInformation.unitType == '国有企业')this.companyType = 2;
+      if(this.unitInformation.unitType == '外商独资企业')this.companyType = 3;
+      if(this.unitInformation.unitType == '中外合资/合作企业')this.companyType = 4;
+      if(this.unitInformation.unitType == '股份制企业')this.companyType = 5;
+      if(this.unitInformation.unitType == '私有企业')this.companyType = 6;
+      if(this.unitInformation.unitType == '其他')this.companyType = 7;
        this.$refs.unitInformation.validate((valid) => {
         if(valid){
-           
+           this.$http({
+              method: 'POST',
+              url: host.basic.basicUrl + '/member/saveMemberCompany',
+              params: {
+                companyName: this.unitInformation.companyName,
+                profession: this.unitInformation.industry,
+                department: this.unitInformation.department,
+                job: this.unitInformation.position,
+                corporation: this.corporation,
+                salary: this.unitInformation.annualSalary,
+                scale: this.scale,
+                province: this.unitInformation.province,
+                city: this.unitInformation.city,
+                area: this.unitInformation.area,
+                address: this.unitInformation.detailAddress,
+                postalCode: this.unitInformation.postCode,
+                companyType:this.companyType,
+                phoneZone:this.unitInformation.areaCode,
+                phoneNumber:this.unitInformation.phoneNumber,
+                phoneExtension:this.unitInformation.phoneNumberOther
+                
+              }
+            }).then(function(res) {
+              let data = res.data;
+              if (data.ERRORCODE == '0') {
+                // console.log(data);
+                this.active ++
+              } else {
+                this.$message.warning(data.RESULT);
+              }
+            }, function(error) {
+              this.$message.error('请求错误,请稍后再试');
+            })
+
         }else{
           // alert(1);
         }
@@ -478,7 +641,40 @@ export default {
       })
     };
 
-    if(this.active == 3)
+    if(this.active == 3){
+      if(this.assetInformation.livingCondition == '自有房产')this.liveType = 1;
+      if(this.assetInformation.livingCondition == '租房')this.liveType = 0;
+      console.log(this.assetInformation);
+        this.$http({
+          method: 'POST',
+          url: host.basic.basicUrl + '/member/saveMemberAsset',
+          params: {
+            creditCardNumber:this.assetInformation.cardNumber,
+            creditCardQuota:this.assetInformation.creditLimit,
+            liveType:this.liveType,
+            houseProperty:this.assetInformation.houseProperty,
+            carProperty:this.assetInformation.carValue,
+            investment:this.assetInformation.investments,
+            contactsNameFirst:this.assetInformation.relative1,
+            contactsRelationFirst:this.assetInformation.relationship1,
+            contactsPhoneFirst:this.assetInformation.relativePhone1,
+            contactsNameSecond:this.assetInformation.relative2,
+            contactsRelationSecond:this.assetInformation.relationship2,
+            contactsPhoneSecond:this.assetInformation.relativePhone2
+          }
+        }).then(function(res) {
+          let data = res.data;
+          if (data.ERRORCODE == '0') {
+            console.log(data);
+            // this.active++
+          } else {
+            this.$message.warning(data.RESULT);
+          }
+        }, function(error) {
+          this.$message.error('请求错误,请稍后再试');
+        })
+    }
+      
     if(this.active == 4)
     if(this.active == 5)
      // this.active++;
@@ -489,7 +685,12 @@ export default {
      }
     },
     handleChange (value) {
-      console.log(value)
+      this.unitInformation.province = value[0];
+      this.unitInformation.city = value[1];
+      this.unitInformation.area = value[2];
+      // console.log(this.unitInformation.province);
+      // console.log(this.unitInformation.city);
+      // console.log(this.unitInformation.area);
     },
 
     //家庭住址
@@ -498,9 +699,9 @@ export default {
       this.basicMessage.province = value[0];
       this.basicMessage.city = value[1];
       this.basicMessage.area = value[2];
-      console.log(this.basicMessage.province);
-      console.log(this.basicMessage.city);
-      console.log(this.basicMessage.area);
+      // console.log(this.basicMessage.province);
+      // console.log(this.basicMessage.city);
+      // console.log(this.basicMessage.area);
      
     },
 
@@ -533,7 +734,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style  lang="less">
 	.consumerRegister{
 		padding-top: 60px;
     .content{
@@ -555,4 +756,7 @@ export default {
       }
     }
 	}
+   .el-cascader-menu{
+     min-width: 214px !important;
+   }
 </style>
