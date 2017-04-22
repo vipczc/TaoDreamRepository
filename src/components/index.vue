@@ -227,11 +227,12 @@ export default {
               if (data.ERRORCODE == '0') {
                 this.$message.success('登录成功!');
                 //个人中心
-                if(this.ruleForm3.type == 1){
+                
+                if(this.ruleForm2.type == 1){
                   this.$router.push('/user')
-                }else if(this.ruleForm3.type == 2){
+                }else if(this.ruleForm2.type == 2){
                   this.$router.push('/business')
-                }else if(this.ruleForm3.type == 3){
+                }else if(this.ruleForm2.type == 3){
                  this.$router.push('/clerk') 
                 }
               }else if (data.ERRORCODE == '10005'){
