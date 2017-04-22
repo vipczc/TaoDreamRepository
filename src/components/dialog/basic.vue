@@ -1,7 +1,7 @@
 <template lang="html">
   <!-- 对话框  基本信息-->
   <div id="basic">
-    <el-dialog title="" v-model="basicDialog = dialogValue" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
+    <el-dialog title="" v-model="basicDialog = dialogValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
       <div class="cir" @click="monitorValue"><i class="el-icon-close" ></i></div>
       <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="基础信息" name="basic">
@@ -12,17 +12,18 @@
 
               <div class="box-left">
 
-                <p>会员姓名:<span> {{  protData.userName }} </span></p>
-                <p>出生日期:<span> {{  protData.birthDate }} </span></p>
-                <p>联系电话:<span> {{  protData.phoneNumber }} </span></p>
-                <p>家庭地址:<span> {{  protData.homeAddress }} </span></p>
+                <p>会员姓名:<span> {{  dialogValue.objetcData.trueName	 }} </span></p>
+                  <p>会员ID:<span> TMZ155555 </span></p>
+                <p>出生日期:<span> {{  dialogValue.objetcData.birthday }} </span></p>
+                <p>联系电话:<span> {{  dialogValue.objetcData.mobile }} </span></p>
+                <p>家庭地址:<span> {{  dialogValue.objetcData.infoProvince + dialogValue.objetcData.infoCity + dialogValue.objetcData.infoArea+ dialogValue.objetcData.address}} </span></p>
 
               </div>
-                <div class="box-right">
+                <div class="box-right" >
 
-                  <p>性&#12288&#12288别:<span> {{  protData.sex }} </span></p>
-                  <p>身份证号:<span> {{  protData.id }}</span></p>
-                  <p>教育程度:<span> {{  protData.ebbducationLevel }}</span></p>
+                  <p>性&#12288&#12288别:<span> {{  dialogValue.objetcData.sex == '1' ? '女':'男'}} </span></p>
+                  <p>身份证号:<span> {{  dialogValue.objetcData.mobile }}</span></p>
+                  <p>教育程度:<span> {{  dialogValue.objetcData.highEdu == '1' ? "初中及以下": dialogValue.objetcData.highEdu == '2' ? "高中及中专":dialogValue.objetcData.highEdu == '3' ? "大专":dialogValue.objetcData.highEdu == '4' ? "本科":''}}</span></p>
 
                 </div>
             </div>
@@ -33,20 +34,20 @@
             <div class="basic">
               <div class="dialog-list-box">
               <div class="box-left">
-                <p>单位名称:<span>{{  protData.unitName  }}</span></p>
-                <p>单位规模:<span>{{  protData.unitSize }}</span></p>
-                <p>部门职位:<span>{{  protData.departmentPosition }}</span></p>
-                <p>单位类型:<span>{{  protData.unitType }}</span></p>
-                <p>单位地址:<span>{{  protData.unitAddress }}</span></p>
+                <p>单位名称:<span>{{  dialogValue.objetcData.companyName  }}</span></p>
+                <p>单位规模:<span>{{  dialogValue.objetcData.scale == '1'?'21-50人': dialogValue.objetcData.scale == '2'?'101-500人': dialogValue.objetcData.scale == '3'?'其他': '其他'}}</span></p>
+                <p>部门职位:<span>{{  dialogValue.objetcData.department }}</span></p>
+                <p>单位类型:<span>{{  dialogValue.objetcData.companyType == '1'? '事业单位':dialogValue.objetcData.companyType == '2'? '国企': dialogValue.objetcData.companyType == '3'? '外企':dialogValue.objetcData.companyType == '4'? '合资 ':dialogValue.objetcData.companyType == '5'? '其他':'其他'}}</span></p>
+                <p>单位地址:<span>{{  dialogValue.objetcData.companyProvince +  dialogValue.objetcData.companyCity +  dialogValue.objetcData.companyArea +  dialogValue.objetcData.companyAddress}}</span></p>
                 <ul>
                   <!-- <li v-for="  in "></li> -->
                 </ul>
               </div>
                 <div class="box-right">
-                  <p>所属行业:<span>{{  protData.subordinateIndustry }}</span></p>
-                  <p>任职部门:<span>{{  protData.department }}</span></p>
-                  <p>年&#12288&#12288薪:<span>{{  protData.annualSalary }}</span></p>
-                  <p>单位电话:<span>{{  protData.unitphone }}</span></p>
+                  <p>所属行业:<span>{{  dialogValue.objetcData.profession }}</span></p>
+                  <p>任职部门:<span>{{  dialogValue.objetcData.department }}</span></p>
+                  <p>年&#12288&#12288薪:<span>{{  dialogValue.objetcData.salary }}</span></p>
+                  <p>单位电话:<span>{{  dialogValue.objetcData.phoneZone + dialogValue.objetcData.phoneNumber}}</span></p>
                 </div>
             </div>
             </div>
@@ -59,16 +60,16 @@
               <div class="dialog-list-box">
               <div class="box-left">
 
-                <p>开户银行:<span>{{  protData.bankAccount }}</span></p>
-                <p>支行银行:<span>{{  protData.takeOutBank }}</span></p>
+                <p>开户银行:<span>{{  dialogValue.objetcData.bankSimpleName }}</span></p>
+                <p>支行银行:<span>{{  dialogValue.objetcData.branchName }}</span></p>
                 <ul>
                   <!-- <li v-for="  in "></li> -->
                 </ul>
               </div>
                 <div class="box-right">
 
-                  <p>开户地区:<span>{{  protData.registeredRegion }}</span></p>
-                  <p>银行卡号:<span>{{  protData.bankNumber }}</span></p>
+                  <p>开户地区:<span>{{  dialogValue.objetcData.bankProvince + dialogValue.objetcData.bankCity}}</span></p>
+                  <p>银行卡号:<span>{{  dialogValue.objetcData.cardNumber }}</span></p>
 
                 </div>
             </div>
@@ -117,7 +118,7 @@ export default {
     }
   },
   props: {
-    dialogValue: Boolean
+    dialogValue: Object
   },
   methods: {
     monitorValue() {
@@ -145,6 +146,7 @@ export default {
   top: 15px;
   right: 20px;
   cursor:pointer;
+
 }
 
 

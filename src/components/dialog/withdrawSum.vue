@@ -131,14 +131,14 @@ export default {
       } else if (this.sumValue.userType == 3) { //咨询师
         if (!this.withdrawSumDialog.show == false) { //控制数据获取
           //userApi.bankInfoDialog //提现窗口信息
-          this.$http.post(businessAPi.index).then((objData) => {
+          this.$http.post(clerkApi.index).then((objData) => {
 
             if (objData.data.ERRORCODE == 0) { //成功
               this.getDataResource.branchInformation = objData.data.RESULT.branchName //	支行名称
               this.getDataResource.bankAccount = objData.data.RESULT.bankName //	银行名称
               this.getDataResource.bankCard = objData.data.RESULT.cardNumber //	银行卡号
-              this.getDataResource.handlingFee = objData.data.RESULT.withDrawFee //手续费(元)
-              this.getDataResource.withdrawSum = String(objData.data.RESULT.laveQuota) //余额
+              this.getDataResource.handlingFee = 10 //手续费(元)
+              this.getDataResource.withdrawSum = String(objData.data.RESULT.balance) //余额
               //缺省 昨日获得淘豆
             }
           }).catch((err) => {
@@ -177,7 +177,22 @@ export default {
       // })
 
       if (this.sumValue.userType == 1) { //会员
+        let formData = new FormData()
+        formData.append('withdrawAmount', this.formLabelAlign.sum)
 
+        this.$http.post(userApi.withdrawals, formData).then((objData) => {
+          console.log(objData.data);
+          if (objData.data.RESULT == 'ok') {
+
+            //判断 是否 提现成功
+            this.withdrawSumDialog.show = false
+            this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
+            this.$emit('withdraw', this.withdrawSumDialog)
+            this.scuess()
+          }
+        }).catch((err) => {
+          console.log('访问错误1');
+        })
       } else if (this.sumValue.userType == 2) { //商家
         let formData = new FormData()
         formData.append('money', this.formLabelAlign.sum)
@@ -191,13 +206,29 @@ export default {
             this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
             this.$emit('withdraw', this.withdrawSumDialog)
             this.scuess()
-
           }
-
         }).catch((err) => {
           console.log('访问错误1');
         })
+
       } else if (this.sumValue.userType == 3) { //咨询师
+
+        let formData = new FormData()
+        formData.append('money', this.formLabelAlign.sum)
+
+        this.$http.post(clerkApi.takeCash, formData).then((objData) => {
+          console.log(objData.data);
+          if (objData.data.RESULT == 'ok') {
+
+            //判断 是否 提现成功
+            this.withdrawSumDialog.show = false
+            this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
+            this.$emit('withdraw', this.withdrawSumDialog)
+            this.scuess()
+          }
+        }).catch((err) => {
+          console.log('访问错误1');
+        })
 
       }
 

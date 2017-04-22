@@ -80,7 +80,24 @@ export default {
     },
     tdrecordSumValue() { //提交
       if (this.tdValue.userType == 1) { //会员
+        let formData = new FormData()
+        formData.append('taodouAmount', this.getDataResource.TDMoney)
 
+        this.$http.post(userApi.exchangeTaodou, formData).then((objData) => {
+
+
+          if (objData.data.ERRORCODE == 0) {
+            this.tdrecordSumDialog.show = false
+            this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
+            this.$emit('td', this.tdrecordSumDialog)
+            this.scuess(objData.data.RESULT)
+          } else {
+            this.errorScuess(objData.data.RESULT)
+          }
+
+        }).catch((err) => {
+          console.log('访问错误2' + err);
+        })
       } else if (this.tdValue.userType == 2) { //商家
 
         let formData = new FormData()
@@ -96,9 +113,25 @@ export default {
           this.scuess(objData.data.RESULT)
 
         }).catch((err) => {
-          console.log('访问错误2' + err);
+          console.log('访问错误1' + err);
         })
       } else if (this.tdValue.userType == 3) { //咨询师
+
+        let formData = new FormData()
+        formData.append('taodouAmount', this.getDataResource.TDMoney)
+
+        this.$http.post(clerkApi.exchangeTaodou, formData).then((objData) => {
+          console.log(objData.data);
+          //判断 是否 提现成功
+          this.tdrecordSumDialog.show = false
+          this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
+          this.$emit('td', this.tdrecordSumDialog)
+          this.scuess(objData.data.RESULT)
+
+        }).catch((err) => {
+          console.log('访问错误2' + err);
+        })
+
 
       }
 
@@ -107,6 +140,13 @@ export default {
       this.$notify.success({
         title: result == '余额不足' ? "余额不足" : result == 'ok' ? "兑换成功" : '失败',
         message: '成功后再24小时内到账请注意查收',
+        offset: 150
+      });
+    },
+    errorScuess() {
+      this.$notify.error({
+        title: result == '余额不足' ? "余额不足" : result == 'ok' ? "兑换成功" : result,
+        message: '这是一条错误的提示消息',
         offset: 150
       });
     }

@@ -4,14 +4,14 @@
   <el-col :span="24">
       <div class="user-message">
         <el-col :span="4">
-            <div class="user-headPortrait" @click="basicDialog = true">
+            <div class="user-headPortrait" @click="basicDialogShow()">
 
 <!-- <div class="details">
   <img src="../../../assets/img/详情.png" alt="详情">
 </div> -->
 
             </div>
-            <div class="userType" @click="basicDialog = true">
+            <div class="userType" @click="basicDialogShow()">
               <span>{{ userType }}</span>
             </div>
 
@@ -28,10 +28,11 @@
         <el-col :span="4" :offset="1">
           <div class="user-message-content">
             <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
-            <p>行&#12288&#12288业:&#12288<span>{{ userOccupation }}</span></p>
-<!-- <img src="/taodream-consumer/validateCode" alt="验证码">
+            <p>行&#12288&#12288业:&#12288<span>{{ profession }}</span></p>
+            <p>会员ID&#12288:&#12288<span>TMZ15555</span></p>
+<img src="/taodream-consumer/validateCode" alt="验证码">
             验证码:<input type="text" name="" v-model="pngimg" value="">
-            <el-button @click="login()">登录</el-button> -->
+            <el-button @click="login()">登录</el-button>
           </div>
         </el-col>
 
@@ -95,7 +96,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>淘豆金额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
+              <p>淘豆余额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
               <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a>
               <!-- <router-link to="/user/conversionRecord" @click="toPath('1-3')">查看兑换记录></router-link> -->
           </div>
@@ -167,7 +168,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="extractionQuotaDialog = true">提额</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="extractionQuotaDialog.show = true">提额</el-button>
 
           </div>
         </el-col>
@@ -222,38 +223,9 @@ import {
 // } from '../../../common.js'
 export default {
   data() {
-
-    // let url = '/taodream-consumer/validateCode'
-    // this.$http.post(url).then((objData) => {
-    //   console.log(objData.data);
-    // }).catch((error) => {
-    //   console.log(error);
-    // })
-    this.$http.post(userApi.index).then((objData) => {
-      console.log(objData);
-
-      if (objData.data.ERRORCODE == 0) { //成功
-        this.userAge = objData.data.RESULT.birthday //	出生年月
-        this.withdrawSum = objData.data.RESULT.banlance //	余额
-        this.userBlock = objData.data.RESULT.cardNumber //银行卡号
-        this.recommendLimit = objData.data.RESULT.costQuota //已消费额度
-        this.userNuber = objData.data.RESULT.mobile //联系电话
-        //  this.expenseLimit = objData.data.RESULT.quota //消费额度
-        this.recommendCount = objData.data.RESULT.refereeNum //推荐人数,推荐人数提升额度=推荐人数X5000
-        this.userSex = objData.data.RESULT.sex ? '男' : '女' //性别 -1位置 0女 1男
-        this.TDSum = objData.data.RESULT.taodou //淘豆
-        this.userName = objData.data.RESULT.trueName //姓名
-        this.surplusLimit = objData.data.RESULT.refereeNum * 5000 //推荐奖励
-        this.surplusLimit = this.expenseLimit - this.recommendLimit //剩余
-
-        //缺省 昨日获得淘豆
-      }
-
-
-    }).catch((err) => {
-      console.log(err);
-    })
     return {
+      result: {},
+      upData: false, //数据
       pngimg: '',
       userType: '会员', //用户类型
       userName: '', //商家姓名
@@ -271,14 +243,20 @@ export default {
       surplusLimit: 0, //剩余额度
       recommendCount: 0, //推荐数
       recommendAward: 0, //推荐奖励
+      profession: '', //行业
 
-      basicDialog: false, //基本信息对话框
+      basicDialog: {
+        show: false,
+        objetcData: {}
+      }, //基本信息对话框
       withdrawSumDialog: {
         show: false, //显示
         userType: 1, //用户
         withdrawSum: 0 //提现余额
       }, //提现对话框
-      extractionQuotaDialog: false, //提额对话框
+      extractionQuotaDialog: {
+        show: false
+      }, //提额对话框
       giveQuotaDialog: false, //额度赠送对话框
 
       tdrecordSumDialog: {
@@ -290,12 +268,20 @@ export default {
       defaultActiveNumber: '' //当前标签选择位置
     }
   },
+  mounted() {
+    //获取当前时间 老时间
+    this.upDataFun()
+
+  },
+  watch: {
+    'upData': 'upDataFun',
+
+  },
   methods: {
     toPath(str) { //向父组件传递值
 
       this.defaultActiveNumber = str
       this.$emit('activeNumber', this.defaultActiveNumber)
-      console.log(this.defaultActiveNumber);
       if (str == '1-2') {
         this.$router.push("/user/withdrawalsRecord") //提现记录
       } else if (str == '1-3') {
@@ -312,26 +298,34 @@ export default {
 
     },
     basicMessage(isb) { //子组件返回值
-      this.basicDialog = isb
+      this.basicDialog.show = isb
     },
     withdrawMessage(isb) { //子组件返回值
-      this.withdrawSumDialog.show = isb
+      this.withdrawSumDialog.show = isb.show
+      this.upData = isb.upData
     },
     extractionMessage(isb) { //子组件返回值
-      this.extractionQuotaDialog = isb
+      this.extractionQuotaDialog.show = isb.show
     },
     giveMessage(isb) { //子组件返回值
       this.giveQuotaDialog = isb
     },
     tdMessage(isb) { //子组件返回值
-      this.tdrecordSumDialog.show = isb
+      this.tdrecordSumDialog.show = isb.show
+      this.upData = isb.upData
+    },
+    basicDialogShow() { //基本信息对话框
+      this.basicDialog.objetcData = this.result
+      this.basicDialog.show = true
     },
     withdrawSumDialogShow() {
       this.withdrawSumDialog.withdrawSum = this.withdrawSum //传递总金额
       this.withdrawSumDialog.show = true
+
     },
     tdrecordSumDialogShow() {
-      this.withdrawSumDialog.TDSum = this.TDSum //传递淘豆总数
+      this.tdrecordSumDialog.TDSumDialog = this.TDSum //传递 总淘豆数量
+
       this.tdrecordSumDialog.show = true
     },
     login() {
@@ -339,23 +333,52 @@ export default {
       // formData.username = '13357156388'
 
 
-      // let formData = new FormData()
-      // formData.append('username', '13357156388')
-      // formData.append('password', 'hujinhu')
-      // formData.append('userType', '1')
-      // formData.append('pngCode', this.pngimg)
-      //
-      // this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
-      //   // params:
-      //   console.log(objectData.data);
-      // }).catch((error) => {
-      //   console.log(error);
-      // })
+      let formData = new FormData()
+      formData.append('userName', '18767669666')
+      formData.append('passWord', '123456')
+      formData.append('userType', '1')
+      formData.append('imageCode', this.pngimg)
+
+      this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
+        // params:
+        console.log(objectData.data);
+        this.upData = !this.upData
+      }).catch((error) => {
+        console.log(error);
+      })
       //       username:13357156388
       // password:hujinhu
       // userType:2
       // pngCode:smdm
+    },
+    upDataFun() {
+      this.$http.post(userApi.index).then((objData) => {
+        console.log(objData);
+
+        if (objData.data.ERRORCODE == 0) { //成功
+          this.result = objData.data.RESULT
+          this.userAge = objData.data.RESULT.birthday //	出生年月
+          this.withdrawSum = objData.data.RESULT.banlance //	余额
+          this.userBlock = objData.data.RESULT.cardNumber //银行卡号
+          this.recommendLimit = objData.data.RESULT.costQuota //已消费额度
+          this.userNuber = objData.data.RESULT.mobile //联系电话
+          //  this.expenseLimit = objData.data.RESULT.quota //消费额度
+          this.recommendCount = objData.data.RESULT.refereeNum //推荐人数,推荐人数提升额度=推荐人数X5000
+          this.userSex = objData.data.RESULT.sex ? '男' : '女' //性别 -1位置 0女 1男
+          this.TDSum = objData.data.RESULT.taodou //淘豆
+          this.userName = objData.data.RESULT.trueName //姓名
+          this.recommendAward = objData.data.RESULT.refereeNum * 5000 //推荐奖励
+          this.surplusLimit = this.expenseLimit - this.recommendLimit //剩余
+          this.profession = objData.data.RESULT.profession //行业
+          //缺省 昨日获得淘豆
+        }
+
+
+      }).catch((err) => {
+        console.log(err);
+      })
     }
+
   },
   components: {
     basic,

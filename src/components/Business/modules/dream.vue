@@ -249,6 +249,11 @@ export default {
     // })
 
   },
+  mounted() {
+    //获取当前时间 老时间
+    this.upDatafun()
+
+  },
   watch: {
     'upData': 'upDatafun',
     'upDataRq': 'upDatafun', //关闭窗口 进行基本数据重新获取

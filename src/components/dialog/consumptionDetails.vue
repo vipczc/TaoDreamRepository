@@ -11,15 +11,15 @@
                 <!-- 会员 消费记录详情 -->
                 <div class="dialog-list-box" v-if="consumptionValue.typeShow == 0">
                       <div class="box-left">
-                      <p>订单编号:&#12288&#12288&#12288 <span>{{ getDataResource.orderNumber }}</span></p>
-                      <p>消费金额:&#12288&#12288&#12288 <span>{{ getDataResource.consumptionAmount }}</span></p>
+                      <p>订单编号:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.orderNo }}</span></p>
+                      <p>消费金额:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.consumptionAmount }}</span></p>
                       <p>激励开始日期:&#12288 <span>{{ getDataResource.incentiveStartDate }}</span></p>
 
                       </div>
                       <div class="box-right">
-                        <p>消费日期:&#12288&#12288&#12288 <span>{{ getDataResource.consumptionDate }}</span></p>
-                        <p>激励比例:&#12288&#12288&#12288 <span>{{ getDataResource.incentiveProportion }}</span></p>
-                        <p>激励结束日期:&#12288 <span>{{ getDataResource.incentiveEndDate }}</span></p>
+                        <p>消费日期:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.consumptionDate }}</span></p>
+                        <p>激励比例:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.incentiveProportion }}</span></p>
+                        <p>激励结束日期:&#12288 <span>{{ consumptionValue.objectData.incentiveEndDate }}</span></p>
 
                       </div>
                 </div>
@@ -27,15 +27,15 @@
                 <div class="dialog-list-box" v-else-if="consumptionValue.typeShow == 1">
 
                   <div class="box-left">
-                  <p>订单编号:&#12288&#12288 <span>{{ getDataResource.orderNumber }}</span></p>
-                  <p>消费日期:&#12288&#12288 <span>{{ getDataResource.consumptionDate }}</span></p>
-                  <p>会员账号:&#12288&#12288 <span>{{ getDataResource.memberAccount }}</span></p>
+                  <p>订单编号:&#12288&#12288 <span>{{ consumptionValue.objectData.orderNo }}</span></p>
+                  <p>消费日期:&#12288&#12288 <span>{{ consumptionValue.objectData.createTime }}</span></p>
+                  <p>会员账号:&#12288&#12288 <span>{{ consumptionValue.objectData.mobile }}</span></p>
 
                   </div>
                   <div class="box-right">
-                    <p>会员姓名:&#12288&#12288 <span>{{ getDataResource.memberName }}</span></p>
-                    <p>消费金额:&#12288&#12288 <span>{{ getDataResource.consumptionAmount }}</span></p>
-                    <p>会员类型:&#12288&#12288 <span>{{ getDataResource.accountType }}</span></p>
+                    <p>会员姓名:&#12288&#12288 <span>{{ consumptionValue.objectData.trueName }}</span></p>
+                    <p>消费金额:&#12288&#12288 <span>{{ consumptionValue.objectData.totalAmount }}</span></p>
+                    <p>会员类型:&#12288&#12288 <span>{{ consumptionValue.objectData.userTypeName }}</span></p>
 
                   </div>
                 </div>
@@ -138,13 +138,12 @@ export default {
       this.onCount = val;
     },
     consumptionDetailsValue() {
-
       this.consumptionDetailsDialog.show = false
       this.$emit('consumption', this.consumptionDetailsDialog)
     },
     upDatafun() {
 
-      if (this.consumptionValue.typeShow == 1) { //
+      if (this.consumptionValue.typeShow == 0) { //消费者
 
       } else if (this.consumptionValue.typeShow == 2) { //商家
         if (!this.consumptionDetailsDialog.show == false) { //控制数据获取
@@ -162,6 +161,24 @@ export default {
             console.log(err);
           })
         }
+      } else if (this.consumptionValue.typeShow == 1) { //咨询师
+
+        if (!this.consumptionDetailsDialog.show == false) { //控制数据获取
+          let formData = new FormData()
+          formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
+          formData.append('consumerOrderId', this.consumptionValue.objectData.id)
+          formData.append('userType', this.consumptionValue.thisUserType)
+          this.$http.post(clerkApi.consumerOrderRecordInfo, formData).then((objData) => {
+            console.log(objData.data.RESULT);
+            this.result = objData.data.RESULT //Object 所有数据
+
+            this.tableData = this.result.data
+            this.loading = false
+          }).catch((err) => {
+            console.log(err);
+          })
+        }
+
       }
 
     }

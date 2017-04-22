@@ -53,12 +53,12 @@ export const clerkApi =  {
 
       customerAdd : DomainName+'/counselor/customerAdd',//业务记录客源添加接口
       customerRecord : DomainName+'/counselor/customerRecord',//业务记录列表接口
-      taodouExchangeRecord : DomainName+'/counselor/taodouExchangeRecord',//业务记录-客源跟进接口
+      customerFollow : DomainName+'/counselor/customerFollow',//业务记录-客源跟进接口
       consumerOrderRecord : DomainName+'/counselor/consumerOrderRecord',//关联消费记录接口
 
       consumerOrderRecordInfo : DomainName+'/counselor/consumerOrderRecordInfo',//关联消费记录详情接口
       takeCash : DomainName+'/counselor/takeCash',//提现接口
-      exchangeTaodou : DomainName+'/shop/exchangeTaodou',//淘豆兑换接口
+      exchangeTaodou : DomainName+'/counselor/exchangeTaodou',//淘豆兑换接口
       sendCode : DomainName+'/counselor/sendCode',//修改密码-发送验证码接口
 
       updatePassword : DomainName+'/counselor/updatePassword',//修改密码接口

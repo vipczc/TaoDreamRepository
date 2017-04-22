@@ -4,11 +4,11 @@
     <el-dialog title="提额" v-model="extractionQuotaDialog.show = quotaValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
   <div class="cir" @click="extractionValueOver"><i class="el-icon-close" ></i></div>
           <el-form :label-position="labelPosition" label-width="80px" :model="formExtractionQuota">
-            <el-form-item label="申请额度:">
-            <el-input v-model="formExtractionQuota.quota" placeholder="申请额度金额"></el-input>
+            <el-form-item label="新增产品销售合同编号:">
+            <el-input v-model="formExtractionQuota.quota" placeholder="请输入合同编号"></el-input>
             </el-form-item>
-            <el-form-item label="应打款:">
-            <el-input v-model="formExtractionQuota.serial" placeholder="金额 单位(元)"></el-input>
+            <el-form-item label="申请消费额度:">
+            <el-input v-model="formExtractionQuota.serial" placeholder="请输入金额 单位(元)"></el-input>
             </el-form-item>
 
         </el-form>

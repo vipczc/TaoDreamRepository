@@ -2,39 +2,33 @@
   <div id="conversionRecord">
     <!-- 兑换记录 -->
     <!-- 搜索 -->
-  <search></search>
+  <search v-show="!loading"></search>
   <el-col :span="24" style="background-color:#fff" class="table-box">
   <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
        <el-table-column type="selection" width="55">
       </el-table-column>
-       <el-table-column prop="conversionDate" label="兑换日期">
+       <el-table-column prop="createTime" label="兑换日期">
        </el-table-column>
-       <el-table-column  prop="conversionTaodou" label="兑换淘豆">
+       <el-table-column  prop="taodouAmount" label="兑换淘豆">
        </el-table-column>
-       <el-table-column prop="conversionAmountReceived" label="兑换获得金额">
+       <el-table-column prop="exchangeAmount" label="兑换获得金额">
        </el-table-column>
-       <el-table-column prop="surplusTaodou" label="剩余淘豆">
+       <el-table-column prop="taodouBalance" label="剩余淘豆">
        </el-table-column>
      </el-table>
 
   </el-col>
   <el-col :span="24" >
-    <el-col :span="12">
-      <span>共{{ sum }}项</span>
-    </el-col>
-    <el-col :span="12" :offset="0">
 
-      <div class="block">
-  <span class="demonstration"></span>
-  <el-pagination
-  @size-change="handleSizeChange"
-  @current-change="handleCurrentChange"
-
-  layout=" prev, pager, next"
-  :total="totalCount">
-  </el-pagination>
-  <!-- :page-size="10" sizes, -->
-  </div>
+    <el-col :span="12" :offset="6">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="Number(onCount)"
+        :page-size="10"
+        layout="total, prev, pager, next"
+        :total="result.totalElements">
+      </el-pagination>
     </el-col>
   </el-col>
   </div>
@@ -46,24 +40,16 @@ import {
   getItmeCon,
   getDataTable
 } from '../../funWarehouse/warehouse.js'
+import {
+  clerkApi
+} from '../../api/apiCode.js'
+import basic from '../../../common.js'
 export default {
 
   data() {
-
-
-    this.$http.get('http://127.0.0.1:3000/CconversionRecord').then((objData, next) => {
-
-
-      this.sum = objData.data.length
-      this.allData = getDataTable(objData.data, 18)
-      this.tableData = this.allData[0]
-      this.totalCount = getItmeCon(objData.data, 18)
-      this.loading = false
-
-    }).catch((err) => {
-      console.log(err);
-    })
     return {
+      result: {},
+      onCount: 1, //
       tableData: [{
         conversionDate: '', //兑换日期
         conversionTaodou: '', //兑换淘豆
@@ -82,6 +68,13 @@ export default {
   components: {
     search
   },
+  mounted() {
+    //获取当前时间 老时间
+    this.upDatafun()
+  },
+  watch: {
+    'onCount': 'upDatafun'
+  },
   methods: {
     getdata() {
 
@@ -95,13 +88,33 @@ export default {
 
     },
     handleCurrentChange(val) {
-      this.currentPage = val;
-      console.log('aaa' + this.allData[val - 1].length < this.tableItemCount);
-      this.a = val * this.allData[val - 1].length - this.allData[val - 1].length
-      this.b = val * this.allData[val - 1].length
-      this.tableData = this.allData[val - 1];
+      this.onCount = val;
+    },
+    upDatafun() {
+      var timeStart = Date.parse(new Date());
+      var timeEnd = timeStart
+      timeStart = timeStart / 1000;
+      timeStart = basic.basic.formatDate(timeStart)
+      timeEnd = basic.basic.formatDate(timeEnd)
 
+      let formData = new FormData()
+      formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
+      formData.append('taodouRecordTimeStart', timeStart)
+      formData.append('taodouRecordTimeEnd', timeEnd)
 
+      this.$http.post(clerkApi.taodouExchangeRecord, formData).then((objData) => { //淘豆流水接口
+        console.log(objData.data.RESULT);
+        this.result = objData.data.RESULT //Object 所有数据
+        //时间处理
+        for (var i = 0; i < this.result.data.length; i++) {
+          this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
+        }
+        this.tableData = this.result.data
+
+        this.loading = false
+      }).catch((err) => {
+        console.log(err);
+      })
     }
 
 

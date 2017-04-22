@@ -31,23 +31,17 @@
 
         </el-col>
         <el-col :span="24" >
-            <el-col :span="12">
-              <span>共{{ sum }}项</span>
-            </el-col>
-            <el-col :span="12" :offset="0">
 
-              <div class="block">
-        <span class="demonstration"></span>
-        <el-pagination
-       @size-change="handleSizeChange"
-       @current-change="handleCurrentChange"
-
-       layout=" prev, pager, next"
-       :total="totalCount">
-     </el-pagination>
-     <!-- :page-size="10" sizes, -->
-      </div>
-            </el-col>
+          <el-col :span="12" :offset="6">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="Number(onCount)"
+              :page-size="10"
+              layout="total, prev, pager, next"
+              :total="result.totalElements">
+            </el-pagination>
+          </el-col>
         </el-col>
           </div>
         </template>
@@ -61,33 +55,14 @@ import {
 import {
   userApi
 } from '../../api/apiCode.js'
+import basic from '../../../common.js'
 export default {
 
   data() {
 
-    this.$http.get(userApi.quatolistAccount, {
-      params: {
-        pageNum: '', //页码 默认1
-        startDate: '', //	开始时间
-        enDate: '', //结束时间
-        searchStr: '', //搜索内容
-      }
-
-    }).then((objData) => {
-      this.tableData.type = objData.data.RESULT.length == 1 ? "赠送" : objData.data.length == 2 ? "获赠" : objData.data.length == 3 ? "提额" : objData.data.length == 4 ? "消费" : "" //1-赠送 2-获赠 3-提额 4-消费
-      this.tableData.status = objData.data.RESULT.length == 0 ? '审核中' : objData.data.length == 1 ? '完成' : objData.data.length == 2 ? '未通过' : "" //0-审核中 1-完成 2-未通过
-      this.tableData.quota = objData.data.RESULT.length //	额度
-      this.tableData.surplusQuota = objData.data.RESULT.length //剩余额度
-      this.tableData.createTime = objData.data.RESULT.length //发生时间
-      this.tableData.trueName = objData.data.RESULT.length //用户姓名
-      this.tableData.tradeName = objData.data.RESULT.length //赠送/受赠用户姓名
-      this.tableData.tradeMobile = objData.data.RESULT.length //	赠送/受赠用户账号
-
-      this.loading = false
-    }).catch((err) => {
-      console.log(err);
-    })
     return {
+      result: {},
+      onCount: 1, //
       loading: false,
       tableData: [{
         conversionDate: '', //兑换日期
@@ -102,6 +77,12 @@ export default {
       sum: 0,
       tableItemCount: 18
     }
+  },
+  mounted() {
+    this.upDatafun()
+  },
+  watch: {
+    'onCount': 'upDatafun'
   },
   components: {
     search
@@ -119,13 +100,35 @@ export default {
 
     },
     handleCurrentChange(val) {
-      this.currentPage = val;
-      console.log('aaa' + this.allData[val - 1].length < this.tableItemCount);
-      this.a = val * this.allData[val - 1].length - this.allData[val - 1].length
-      this.b = val * this.allData[val - 1].length
-      this.tableData = this.allData[val - 1];
+      this.onCount = val;
 
 
+    },
+    upDatafun() {
+      let timeStart = Date.parse(new Date());
+      let timeEnd = timeStart
+      timeStart = timeStart / 1000;
+      timeStart = basic.basic.formatDate(timeStart)
+      timeEnd = basic.basic.formatDate(timeEnd)
+
+      let formData = new FormData()
+      formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
+      formData.append('startDate', timeStart)
+      formData.append('enDate', timeEnd)
+
+      this.$http.post(userApi.quatolistAccount, formData).then((objData) => { //淘豆兑换
+        console.log(objData.data.RESULT);
+        this.result = objData.data.RESULT //Object 所有数据
+        //时间处理
+        for (var i = 0; i < this.result.data.length; i++) {
+          this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
+        }
+        this.tableData = this.result.data
+
+        this.loading = false
+      }).catch((err) => {
+        console.log(err);
+      })
     }
 
 

@@ -19,7 +19,11 @@
             <p>联系电话&#12288:&#12288<span>{{ userNuber }}</span></p>
             <p>账号密码&#12288:&#12288<span>{{ password }}</span></p>
             <p>银行卡号&#12288:&#12288<span>{{ bankCard }}</span></p>
+
           </div>
+          <img src="/taodream-consumer/validateCode" alt="验证码">
+                      验证码:<input type="text" name="" v-model="pngimg" value="">
+                      <el-button @click="login()">登录</el-button>
         </el-col>
       </div>
   </el-col>
@@ -49,7 +53,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr ">
 
-              <el-button type="success" size="large" id="btn-top" @click="addPersonnelDialog = true">添加</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="addPersonnelDialog.show = true">添加</el-button>
 
           </div>
         </el-col>
@@ -89,7 +93,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="modality(2)">跟进</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="toPath('2-1')">跟进</el-button>
 
           </div>
         </el-col>
@@ -123,7 +127,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right ">
 
-              <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
+              <p>提现余额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
               <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 > </a>
 
           </div>
@@ -131,7 +135,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr ">
 
-        <el-button type="success" size="large" id="btn-top" @click="withdrawSumDialog = true">提现</el-button>
+        <el-button type="success" size="large" id="btn-top" @click="withdrawSumDialogShow()">提现</el-button>
 
           </div>
         </el-col>
@@ -161,7 +165,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>淘豆金额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
+              <p>淘豆余额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
               <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a>
 
           </div>
@@ -170,7 +174,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialog = true">提现</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="tdrecordSumDialogShow()">兑换</el-button>
 
           </div>
         </el-col>
@@ -199,18 +203,33 @@ import withdrawSum from '../../dialog/withdrawSum.vue'
 import tdrecordSum from '../../dialog/TDRecordSum.vue'
 import addPersonnel from '../../dialog/addPersonnel.vue'
 import basicClerk from '../../dialog/basicClerk.vue'
+import {
+  clerkApi
+} from '../../api/apiCode.js'
 export default {
   data() {
     return {
+      pngimg: '',
+      upData: true, //登录使用
       basicClerkDialog: false,
-      tdrecordSumDialog: false,
-      withdrawSumDialog: false,
-      addPersonnelDialog: false,
+      tdrecordSumDialog: {
+        show: false,
+        userType: 3, //咨询师
+        TDSumDialog: 0
+      },
+      withdrawSumDialog: {
+        show: false,
+        userType: 3, //咨询师
+      },
+      addPersonnelDialog: {
+        show: false
+      },
       userAge: '40', //年龄
       bankCard: '8888-8888-8888-8888', //银行卡号
       userSex: '女', //性别
       userOccupation: '个体', //职业
-      withdrawSum: '500', //添加金额
+
+      withdrawSum: '500', //提现金额
       TDSum: '60', //跟进金额
       yesterdayTD: '2', //昨日获得跟进
       expenseLimit: '66', //消费额度
@@ -237,6 +256,14 @@ export default {
     addPersonnel, //添加人员
     basicClerk
   },
+  mounted() {
+    //获取当前时间 老时间
+    this.upDatafun()
+
+  },
+  watch: {
+    'upData': 'upDatafun'
+  },
   methods: {
     toPath(str) {
       this.defaultActiveNumber = str
@@ -247,24 +274,82 @@ export default {
         this.$router.push("/clerk/withdrawalsRecord") //淘豆流水
       } else if (str == "1-3") {
         this.$router.push("/clerk/conversionRecord") //兑换记录
+      } else if (str == '2-1') {
+        this.$router.push("/clerk/businessRecord") //业务记录
       }
     },
     clerkBasicMessage(isb) {
       this.basicClerkDialog = isb
     },
-    withdrawMessage(isb) {
-      this.withdrawSumDialog = isb
+    withdrawMessage(isb) { //提现
+      this.withdrawSumDialog.show = isb.show
     },
     tdMessage(isb) {
-      this.tdrecordSumDialog = isb
+      this.tdrecordSumDialog.show = isb.show
     },
     addMessage(isb) {
-      this.addPersonnelDialog = isb
+      this.addPersonnelDialog.show = isb.show
     },
+    withdrawSumDialogShow() { //弹出提现模态框
+      this.withdrawSumDialog.show = true
+    },
+    tdrecordSumDialogShow() { //弹出兑换模态框
+      this.tdrecordSumDialog.TDSumDialog = this.TDSum //淘豆余额
+      this.tdrecordSumDialog.show = true
+    },
+
     modality(cont) {
 
       console.log(cont);
 
+    },
+    login() {
+
+      let formData = new FormData()
+      formData.append('userName', '13357156388')
+      formData.append('passWord', 'hujinhu')
+      formData.append('userType', '3')
+      formData.append('imageCode', this.pngimg)
+
+      console.log(formData.pngCode);
+      this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
+        // params:
+        console.log(objectData.data);
+        this.upData = !this.upData
+      }).catch((error) => {
+        console.log(error);
+      })
+
+      //       username:13357156388
+      // password:hujinhu
+      // userType:2
+      // pngCode:smdm
+    },
+    upDatafun() {
+      //获取用户信息
+      this.$http.post(clerkApi.index).then((objectData) => {
+        // params:
+        console.log(objectData.data);
+
+        this.userName = objectData.data.RESULT.trueName //姓名+
+        this.userNuber = objectData.data.RESULT.mobile //电话+
+
+        this.bankCard = objectData.data.RESULT.cardNumber //银行卡号
+        this.addPeopleNumber = objectData.data.RESULT.addSum //添加人数
+        this.okPeopleNumber = objectData.data.RESULT.successSum //成功推荐人数
+        this.allPeopleNumber = objectData.data.RESULT.followSum //总人数
+        this.followUpPeopleNumber = objectData.data.RESULT.todayFollow //跟进人数
+
+        this.withdrawSum = objectData.data.RESULT.balance //提现余额
+        this.TDSum = objectData.data.RESULT.taodou //淘豆余额
+        this.yesterdayTD = objectData.data.RESULT.lastTaodou //昨日获得淘豆
+
+        // this.password = objectData.data.RESULT. //用户密码
+
+
+      }).catch((error) => {
+        console.log(error);
+      })
     }
   }
 

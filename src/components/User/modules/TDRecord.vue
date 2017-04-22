@@ -28,22 +28,16 @@
 
         </el-col>
         <el-col :span="24" >
-            <el-col :span="12">
-              <span>共{{ sum }}项</span>
-            </el-col>
-            <el-col :span="12" :offset="0">
 
-              <div class="block">
-        <span class="demonstration"></span>
-        <el-pagination
-       @size-change="handleSizeChange"
-       @current-change="handleCurrentChange"
-
-       layout=" prev, pager, next"
-       :total="totalCount">
-     </el-pagination>
-     <!-- :page-size="10" sizes, -->
-      </div>
+            <el-col :span="12" :offset="6">
+              <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="Number(onCount)"
+                :page-size="10"
+                layout="total, prev, pager, next"
+                :total="result.totalElements">
+              </el-pagination>
             </el-col>
         </el-col>
           </div>
@@ -58,33 +52,14 @@ import {
 import {
   userApi
 } from '../../api/apiCode.js'
+import basic from '../../../common.js'
 export default {
 
   data() {
-    this.$http.get(userApi.taodoulistAccount, {
-      params: {
-        pageNum: '1',
-        startDate: '2017-02-02',
-        endDate: '2017-02-05',
-      }
-    }).then((objData) => {
-      this.tableData.mobile = objData.data.RESULT.mobile //	联系电话
-      this.tableData.trueName = objData.data.RESULT.trueName //姓名
 
-      this.tableData.soyaBalance = objData.data.RESULT.soyaBalance //淘豆余额
-      this.tableData.income = objData.data.RESULT.income //收入
-      this.tableData.outlay = objData.data.RESULT.outlay //支出
-      this.tableData.happenTime = objData.data.RESULT.happenTime //兑换时间
-      this.tableData.sourceId = objData.data.RESULT.sourceId //来源id
-      this.tableData.orderNo = objData.data.RESULT.orderNo //订单号
-      this.tableData.type = objData.data.RESULT.type == 1 ? '推荐激励' : objData.data.type == 2 ? "消费激励" : objData.data.type == 3 ? "融资返还" : objData.data.type == 4 ? '激励兑换' : '' //1-推荐激励 2-消费激励 3-融资返还 4-激励兑换
-
-      //消费账号
-      this.loading = false
-    }).catch((err) => {
-      console.log(err);
-    })
     return {
+      result: {},
+      onCount: 1,
       loading: false,
       tableData: [{
         conversionDate: '', //兑换日期
@@ -99,6 +74,12 @@ export default {
       sum: 0,
       tableItemCount: 18
     }
+  },
+  mounted() {
+    this.upDatafun()
+  },
+  watch: {
+    'onCount': 'upDatafun'
   },
   components: {
     search
@@ -116,13 +97,36 @@ export default {
 
     },
     handleCurrentChange(val) {
-      this.currentPage = val;
-      console.log('aaa' + this.allData[val - 1].length < this.tableItemCount);
-      this.a = val * this.allData[val - 1].length - this.allData[val - 1].length
-      this.b = val * this.allData[val - 1].length
-      this.tableData = this.allData[val - 1];
+      this.onCount = val;
 
 
+
+    },
+    upDatafun() {
+      let timeStart = Date.parse(new Date());
+      let timeEnd = timeStart
+      timeStart = timeStart / 1000;
+      timeStart = basic.basic.formatDate(timeStart)
+      timeEnd = basic.basic.formatDate(timeEnd)
+
+      let formData = new FormData()
+      formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
+      formData.append('startDate', timeStart)
+      formData.append('endDate', timeEnd)
+
+      this.$http.post(userApi.taodoulistAccount, formData).then((objData) => { //淘豆兑换
+        console.log(objData.data.RESULT);
+        this.result = objData.data.RESULT //Object 所有数据
+        //时间处理
+        for (var i = 0; i < this.result.data.length; i++) {
+          this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
+        }
+        this.tableData = this.result.data
+
+        this.loading = false
+      }).catch((err) => {
+        console.log(err);
+      })
     }
 
 

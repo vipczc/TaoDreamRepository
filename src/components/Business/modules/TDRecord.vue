@@ -32,8 +32,6 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="Number(onCount)"
-
-
                 :page-size="10"
                 layout="total, prev, pager, next"
                 :total="result.totalElements">

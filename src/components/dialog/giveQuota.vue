@@ -10,8 +10,8 @@
             <el-form-item label="会员姓名:">
             <el-input v-model="formGiveQuota.name" placeholder="请输入会员名称"></el-input>
             </el-form-item>
-            <el-form-item label="赠送姓名:">
-            <el-input v-model="formGiveQuota.giveName" placeholder="请输入姓名"></el-input>
+            <el-form-item label="赠送额度:">
+            <el-input v-model="formGiveQuota.giveName" placeholder="请输入金额(元)"></el-input>
             </el-form-item>
 
         </el-form>
