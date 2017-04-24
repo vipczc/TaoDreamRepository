@@ -195,9 +195,9 @@
             <el-form-item label="您做过哪些投资：" prop="investment">
               <el-select v-model="assetInformation.investment" multiple placeholder="请选择" @change="invert" style="width:400px;">
                 <el-option
-                  v-for="item in assetInformation.invests"
+                  v-for="item in invests"
                   :label="item.label"
-                  :value="item.value" >
+                  :value="item.value" :key="item.value">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -360,7 +360,7 @@ export default {
       }
     };
     return {
-      active: 1,
+      active: 3,
       Big:false,
       BigUrl:'',
       basicMessage:{
@@ -423,18 +423,8 @@ export default {
         relativePhone1:"",
         relative2:"",
         relationship2:"",
-        relativePhone2:"",
-        invests:[
-          {value:1,label:'股票'},
-          {value:2,label:'基金'},
-          {value:3,label:'银行理财产品'},
-          {value:4,label:'外汇'},
-          {value:5,label:'期货'},
-          {value:6,label:'房产'},
-          {value:7,label:'黄金'},
-          {value:8,label:'收藏品'},
-          {value:9,label:'其他'}
-        ]
+        relativePhone2:""
+       
       },
       bankInformation:{
         bankAccount:"",
@@ -446,6 +436,17 @@ export default {
       uploadData:{
         fileList2:[]
       },
+       invests:[
+          {value:1,label:'股票'},
+          {value:2,label:'基金'},
+          {value:3,label:'银行理财产品'},
+          {value:4,label:'外汇'},
+          {value:5,label:'期货'},
+          {value:6,label:'房产'},
+          {value:7,label:'黄金'},
+          {value:8,label:'收藏品'},
+          {value:9,label:'其他'}
+        ],
       rule1:{
         // recommender:[{ validator:validateCon,  message: '请选择推荐人类型', trigger: 'blur'}],
         // id:[{ validator:validateCon,  message: '请输入ID', trigger: 'blur' }],
@@ -524,6 +525,7 @@ export default {
     //投资选择
     invert(val){
       this.assetInformation.investments = val.join(","); 
+      // console.log(this.assetInformation.investments)
     },
     //下一步
     next() {
