@@ -4,10 +4,10 @@
   <el-col :span="24">
       <div class="user-message">
         <el-col :span="4">
-            <div class="user-headPortrait" @click="basicClerkDialog = true">
+            <div class="user-headPortrait" @click="basicClerkDialogShow()">
 
             </div>
-            <div class="userType" @click="basicClerkDialog = true">
+            <div class="userType" @click="basicClerkDialogShow()">
               <span>{{ userType }}</span>
             </div>
 
@@ -220,7 +220,10 @@ export default {
     return {
       pngimg: '',
       upData: true, //登录使用
-      basicClerkDialog: false,
+      basicClerkDialog: {
+        show: false,
+        objectData: {}
+      },
       tdrecordSumDialog: {
         show: false,
         userType: 3, //咨询师
@@ -288,7 +291,7 @@ export default {
       }
     },
     clerkBasicMessage(isb) {
-      this.basicClerkDialog = isb
+      this.basicClerkDialog.show = isb
     },
     withdrawMessage(isb) { //提现
       this.withdrawSumDialog.show = isb.show
@@ -298,6 +301,12 @@ export default {
     },
     addMessage(isb) {
       this.addPersonnelDialog.show = isb.show
+    },
+    basicClerkDialogShow() { //修改密码
+
+      this.basicClerkDialog.pwd = this.userNuber //密码
+      this.basicClerkDialog.mobile = this.userNuber //用户名
+      this.basicClerkDialog.show = true
     },
     withdrawSumDialogShow() { //弹出提现模态框
       this.withdrawSumDialog.show = true

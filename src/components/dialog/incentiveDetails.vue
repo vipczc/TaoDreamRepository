@@ -74,4 +74,7 @@ export default {
 </script>
 
 <style lang="css">
+ .incentiveDetails .el-notification{
+ right: 800px !important;
+}
 </style>

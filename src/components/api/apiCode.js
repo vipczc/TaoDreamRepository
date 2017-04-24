@@ -23,6 +23,8 @@ export const userApi = {
       listConsumptionRecord : DomainName+'/member/listConsumptionRecord',//消费记录查询接口
       consumptionDetail : DomainName+'/member/consumptionDetail',//消费记录详情接口
       encourageDetail : DomainName+'/member/encourageDetail',//激励明细接口
+      selectMemberByMobile : DomainName+'/member/selectMemberByMobile',//手机号查找会员信息接口
+
 }
 //商家
 export const businessAPi =  {
@@ -62,5 +64,7 @@ export const clerkApi =  {
       sendCode : DomainName+'/counselor/sendCode',//修改密码-发送验证码接口
 
       updatePassword : DomainName+'/counselor/updatePassword',//修改密码接口
+
+      selectProfession : DomainName+'/register/selectProfession',//行业查询接口
 
 }

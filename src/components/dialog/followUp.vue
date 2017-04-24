@@ -133,4 +133,7 @@ export default {
 </script>
 
 <style lang="css">
+.followUp .el-notification{
+ right: 800px !important;
+}
 </style>

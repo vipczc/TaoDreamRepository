@@ -114,7 +114,7 @@ export default {
       let formData = new FormData()
       formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
       formData.append('startDate', timeStart)
-      formData.append('enDate', timeEnd)
+      formData.append('endDate', timeEnd)
 
       this.$http.post(userApi.quatolistAccount, formData).then((objData) => { //淘豆兑换
         console.log(objData.data.RESULT);

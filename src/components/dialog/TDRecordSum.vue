@@ -3,16 +3,16 @@
   <div class="tdrecordSum">
     <el-dialog title="兑换" v-model="tdrecordSumDialog.show = tdValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
     <div class="cir" @click="tdrecordSumValueOver()"><i class="el-icon-close" ></i></div>
-          <el-form :label-position="labelPosition" label-width="80px" :model="formTDrecordSum">
+          <el-form :label-position="labelPosition" label-width="80px" :model="formTDrecordSum" :rules="rulesTDMoney" ref="formTDrecordSum">
             <div class="dialog-list-box">
               <el-col :span="20">
-                <el-form-item label="兑换淘豆:">
-                <el-input v-model="getDataResource.TDMoney = formTDrecordSum.tdCount" placeholder="请输入淘豆个数"></el-input>
+                <el-form-item label="兑换淘豆:" prop="tdCount">
+                <el-input v-model.number="formTDrecordSum.tdCount" placeholder="请输入淘豆个数" @change="sumChange" :disabled="disInput"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="3" :offset="1">
-                <el-form-item :label="String(tdValue.TDSumDialog)">
-                ￥
+              <el-col :span="2" :offset="2">
+                <el-form-item :label="String(tdValue.TDSumDialog+'￥')">
+
                 </el-form-item>
               </el-col>
               <div class="box-left">
@@ -29,7 +29,7 @@
 
     <span slot="footer" class="dialog-footer">
 
-    <el-button type="primary" @click="tdrecordSumValue()">提 交</el-button>
+    <el-button type="primary" @click="tdrecordSumValue('formTDrecordSum')" :disabled="disInput" :loading="disInput">提 交</el-button>
     </span>
     </el-dialog>
   </div>
@@ -43,9 +43,26 @@ import {
 } from '../api/apiCode.js'
 export default {
 
-  data() {
-    return {
 
+  data() {
+    var checkNum = (rule, value, callback) => {
+      if (!/^[1-9]\d*$/.test(value)) {
+        callback(new Error('请输入非零正整数'));
+      }
+      if (value > this.tdValue.TDSumDialog) {
+
+        callback(new Error('大于当前淘豆余额'));
+      }
+      callback();
+    }
+    return {
+      disInput: false,
+      rulesTDMoney: {
+        tdCount: [{
+          validator: checkNum,
+          trigger: 'blur'
+        }]
+      }, //提示变量
       getDataResource: {
         TDSum: '0', //淘豆余额
         TDMoney: '0' //淘豆金额
@@ -78,7 +95,29 @@ export default {
 
       this.$emit('td', this.tdrecordSumDialog)
     },
-    tdrecordSumValue() { //提交
+    tdrecordSumValue(formName) { //提交
+
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.disInput = true
+          this.submitForm() //提交请求
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+
+
+
+    },
+    sumChange() {
+      if (Number.isInteger(this.formTDrecordSum.tdCount)) {
+        this.getDataResource.TDMoney = this.formTDrecordSum.tdCount
+      }
+
+    },
+
+    submitForm() {
       if (this.tdValue.userType == 1) { //会员
         let formData = new FormData()
         formData.append('taodouAmount', this.getDataResource.TDMoney)
@@ -87,6 +126,7 @@ export default {
 
 
           if (objData.data.ERRORCODE == 0) {
+            this.disInput = false
             this.tdrecordSumDialog.show = false
             this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
             this.$emit('td', this.tdrecordSumDialog)
@@ -107,6 +147,7 @@ export default {
 
 
           //判断 是否 提现成功
+          this.disInput = false
           this.tdrecordSumDialog.show = false
           this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
           this.$emit('td', this.tdrecordSumDialog)
@@ -123,6 +164,7 @@ export default {
         this.$http.post(clerkApi.exchangeTaodou, formData).then((objData) => {
           console.log(objData.data);
           //判断 是否 提现成功
+          this.disInput = false
           this.tdrecordSumDialog.show = false
           this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
           this.$emit('td', this.tdrecordSumDialog)
@@ -131,7 +173,6 @@ export default {
         }).catch((err) => {
           console.log('访问错误2' + err);
         })
-
 
       }
 
@@ -156,4 +197,8 @@ export default {
 </script>
 
 <style lang="css">
+
+.tdrecordSum .el-notification{
+ right: 800px !important;
+}
 </style>

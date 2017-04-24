@@ -150,7 +150,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="giveQuotaDialog = true">赠送</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="giveQuotaDialogShow()">赠送</el-button>
 
           </div>
         </el-col>
@@ -168,7 +168,7 @@
         <el-col :span="2">
           <div class="content-right content-right-hr">
 
-              <el-button type="success" size="large" id="btn-top" @click="extractionQuotaDialog.show = true">提额</el-button>
+              <el-button type="success" size="large" id="btn-top" @click="extractionQuotaDialogShow()">提额</el-button>
 
           </div>
         </el-col>
@@ -201,7 +201,7 @@
         </div>
     </el-col>
     <basic :dialogValue="basicDialog" v-on:message="basicMessage"></basic>
-    <withdrawSum :sumValue="withdrawSumDialog" v-on:withdraw="withdrawMessage"></withdrawSum>
+    <withdrawSum :sumValue="withdrawSumDialog" v-on:withdraw="withdrawMessage" ref="formLabelAlign"></withdrawSum>
     <extractionQuota :quotaValue="extractionQuotaDialog" v-on:extraction="extractionMessage"></extractionQuota>
     <giveQuota :giveValue="giveQuotaDialog" v-on:give="giveMessage"></giveQuota>
     <TDRecordSum :tdValue="tdrecordSumDialog" v-on:td="tdMessage"></TDRecordSum>
@@ -255,9 +255,12 @@ export default {
         withdrawSum: 0 //提现余额
       }, //提现对话框
       extractionQuotaDialog: {
-        show: false
+        show: false,
+        userType: 1, //用户
       }, //提额对话框
-      giveQuotaDialog: false, //额度赠送对话框
+      giveQuotaDialog: {
+        show: false
+      }, //额度赠送对话框
 
       tdrecordSumDialog: {
         show: false,
@@ -306,19 +309,30 @@ export default {
       this.withdrawSumDialog.show = isb.show
       this.upData = isb.upData
     },
-    extractionMessage(isb) { //子组件返回值
+    extractionMessage(isb) { //提额 子组件返回值
       this.extractionQuotaDialog.show = isb.show
+      this.upData = isb.upData
     },
-    giveMessage(isb) { //子组件返回值
-      this.giveQuotaDialog = isb
+    giveMessage(isb) { //额度赠送 子组件返回值
+      this.giveQuotaDialog.show = isb.show
     },
     tdMessage(isb) { //子组件返回值
       this.tdrecordSumDialog.show = isb.show
       this.upData = isb.upData
     },
     basicDialogShow() { //基本信息对话框
-      this.basicDialog.objetcData = this.result
       this.basicDialog.show = true
+      this.basicDialog.objetcData = this.result
+
+    },
+    giveQuotaDialogShow() {
+      this.giveQuotaDialog.expenseLimitSum = this.expenseLimit //传递 消费 额度
+      this.giveQuotaDialog.show = true
+    },
+    extractionQuotaDialogShow() {
+      this.extractionQuotaDialog.surplusLimitSum = this.surplusLimit //传递 剩余 额度
+      this.extractionQuotaDialog.show = true
+
     },
     withdrawSumDialogShow() {
       this.withdrawSumDialog.withdrawSum = this.withdrawSum //传递总金额

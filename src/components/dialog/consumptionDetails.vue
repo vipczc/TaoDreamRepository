@@ -227,4 +227,7 @@ float: right;
 .page-box{
   margin-top: 40px;
 }
+.consumptionDetails .el-notification{
+ right: 800px !important;
+}
 </style>

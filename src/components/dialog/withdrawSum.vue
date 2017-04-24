@@ -7,7 +7,7 @@
             <div class="dialog-list-box">
               <el-col :span="20">
                 <el-form-item label="金额:" :labelPosition="labelPosition" prop="sum" >
-                <el-input type="text" v-model="formLabelAlign.sum" placeholder="提现金额大于10" @change="sumChange" auto-complete="off"></el-input>
+                <el-input type="text" v-model="formLabelAlign.sum" placeholder="提现金额大于10" @change="sumChange" :disabled="disInput"  auto-complete="off"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
@@ -46,7 +46,7 @@
 
   <span slot="footer" class="dialog-footer">
 
-    <el-button type="primary" @click="monitorValue('formLabelAlign')">提 交</el-button>
+    <el-button type="primary" @click="monitorValue('formLabelAlign')" :disabled="disInput" :loading="disInput">提 交</el-button>
   </span>
 </el-dialog>
   </div>
@@ -62,12 +62,18 @@ import {
 export default {
   data() {
     this.offDown = true
+
     var checkNum2 = (rule, value, callback) => {
       if (!value) {
         callback(new Error('请输入金额!'));
-      } else if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+      }
+      if (value <= 10) {
+        callback(new Error('输入金额请大于10元!'));
+      }
+      if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
         callback(new Error('请输入正确的金额,最多2位小数'));
-      } else if (value > 100000) {
+      }
+      if (value > 100000) {
         callback(new Error('请不要输入过大的金额'));
       } else {
         callback();
@@ -75,6 +81,7 @@ export default {
 
     }
     return {
+      disInput: false, //输入框禁用
       offDown: true, //关闭按钮
       labelPosition: 'left',
       getDataResource: {
@@ -102,6 +109,7 @@ export default {
       }
     }
   },
+
   props: {
     sumValue: Object
   },
@@ -184,7 +192,7 @@ export default {
     monitorValue(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.disInput = true
           this.submitForm() //提交提现请求
         } else {
           console.log('error submit!!');
@@ -219,9 +227,11 @@ export default {
           if (objData.data.RESULT == 'ok') {
 
             //判断 是否 提现成功
+            this.disInput = false
             this.withdrawSumDialog.show = false
             this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
             this.$emit('withdraw', this.withdrawSumDialog)
+
             this.scuess()
           } else {
             this.errorScuess()
@@ -237,6 +247,7 @@ export default {
           console.log(objData.data);
           if (objData.data.RESULT == 'ok') {
             //判断 是否 提现成功
+            this.disInput = false
             this.withdrawSumDialog.show = false
             this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
             this.$emit('withdraw', this.withdrawSumDialog)
@@ -258,6 +269,7 @@ export default {
           if (objData.data.RESULT == 'ok') {
 
             //判断 是否 提现成功
+            this.disInput = false
             this.withdrawSumDialog.show = false
             this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
             this.$emit('withdraw', this.withdrawSumDialog)
@@ -305,7 +317,7 @@ export default {
   /*display: block;*/
   margin-top: 20px;
 }
-.el-notification{
+.withdrawSum .el-notification{
   right: 800px !important;
 }
 
