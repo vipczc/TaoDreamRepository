@@ -16,14 +16,23 @@
         <el-col :span="6" :offset="1">
           <div class="user-message-content">
             <p>咨询师姓名:&#12288<span>{{ userName }}</span></p>
+            <p>咨询师ID&#12288:&#12288<span>TMZ58158888</span></p>
             <p>联系电话&#12288:&#12288<span>{{ userNuber }}</span></p>
-            <p>账号密码&#12288:&#12288<span>{{ password }}</span></p>
-            <p>银行卡号&#12288:&#12288<span>{{ bankCard }}</span></p>
+
 
           </div>
-          <img src="/taodream-consumer/validateCode" alt="验证码">
+          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button>
+                      <el-button @click="login()">登录</el-button> -->
+        </el-col>
+        <el-col :span="10" :offset="1">
+          <div class="user-message-content">
+            <p>账号密码&#12288:&#12288<span>{{ password }}</span></p>
+            <p>银行卡号&#12288:&#12288<span>{{ bankCard }}</span></p>
+          </div>
+          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
+                      验证码:<input type="text" name="" v-model="pngimg" value="">
+                      <el-button @click="login()">登录</el-button> -->
         </el-col>
       </div>
   </el-col>

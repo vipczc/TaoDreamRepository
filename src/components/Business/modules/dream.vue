@@ -27,10 +27,11 @@
           <div class="user-message-content">
             <p>地&#12288&#12288址:&#12288<span>{{ address }}</span></p>
             <p>银行卡号:&#12288<span>{{ bankCardNumber }}</span></p>
+            <p>商家ID:&#12288<span>TMZSP125458</span></p>
           </div>
-          <img src="/taodream-consumer/validateCode" alt="验证码">
+          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button>
+                      <el-button @click="login()">登录</el-button> -->
         </el-col>
 
       </div>
@@ -502,5 +503,11 @@ export default {
 }
 .btn-top{
   margin-top: 18px;
+}
+.dream .userType{
+cursor: default;
+}
+.dream .user-headPortrait{
+cursor: default;
 }
 </style>

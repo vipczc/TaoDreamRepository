@@ -16,9 +16,9 @@
                </el-table-column>
                <el-table-column  prop="memberName" label="会员姓名">
                </el-table-column>
-               <el-table-column prop="consumptionAmount" label="消费金额">
+               <el-table-column prop="consumptionAmount" label="消费金额(元)">
                </el-table-column>
-               <el-table-column  prop="incentiveProportion" label="激励比例">
+               <el-table-column  prop="incentiveProportion" label="激励比例(%)">
                </el-table-column>
              </el-table>
 

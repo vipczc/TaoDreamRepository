@@ -22,6 +22,7 @@
 
     <el-col :span="12" :offset="6">
       <el-pagination
+      v-show="!loading"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="Number(onCount)"

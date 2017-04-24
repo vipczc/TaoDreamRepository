@@ -33,6 +33,7 @@
                       v-for="item in options"
                       :label="item.label"
                       :value="item.Value"
+                      :key="item.Value"
                   >
                     </el-option>
                   </el-select>
@@ -64,6 +65,7 @@
                       v-for="item in statusModel"
                       :label="item.label"
                       :value="item.statusValue"
+                      :key="item.statusValue"
                   >
                     </el-option>
                   </el-select>

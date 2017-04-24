@@ -2,18 +2,18 @@
   <!-- 兑换记录 -->
   <div class="conversionRecord">
     <!-- 搜索 -->
-<search></search>
+<search v-show="!loading"></search>
 <el-col :span="24" style="background-color:#fff" class="table-box">
   <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
        <el-table-column type="selection" width="55">
       </el-table-column>
        <el-table-column prop="createTime" label="兑换日期">
        </el-table-column>
-       <el-table-column  prop="taodouAmount" label="兑换淘豆">
+       <el-table-column  prop="taodouAmount" label="兑换淘豆(个)">
        </el-table-column>
-       <el-table-column prop="exchangeAmount" label="兑换获得金额">
+       <el-table-column prop="exchangeAmount" label="兑换获得金额(元)">
        </el-table-column>
-       <el-table-column prop="taodouBalance" label="剩余淘豆">
+       <el-table-column prop="taodouBalance" label="剩余淘豆(个)">
        </el-table-column>
      </el-table>
 
@@ -35,6 +35,7 @@ layout=" prev, pager, next"
 </el-pagination> -->
 
    <el-pagination
+   v-show="!loading"
      @size-change="handleSizeChange"
      @current-change="handleCurrentChange"
      :current-page="Number(onCount)"

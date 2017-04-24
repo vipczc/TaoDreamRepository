@@ -3,7 +3,7 @@
       <!-- 额度流水 -->
       <div class="limitRecord">
         <!-- 搜索 -->
-        <search></search>
+        <search v-show="!loading"></search>
         <el-col :span="24" style="background-color:#fff" class="table-box">
           <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
                <el-table-column type="selection" width="55">
@@ -17,6 +17,8 @@
                <el-table-column prop="companyName" label="企业名称">
                </el-table-column>
                <el-table-column prop="typeName" label="额度类型">
+               </el-table-column>
+               <el-table-column prop="statusNamea" label="消费订单号">
                </el-table-column>
                <el-table-column prop="statusName" label="状态">
                </el-table-column>
@@ -32,6 +34,7 @@
 
             <el-col :span="12" :offset="6">
               <el-pagination
+              v-show="!loading"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="Number(onCount)"

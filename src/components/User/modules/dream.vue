@@ -115,7 +115,7 @@
 
               <p>昨日获得淘豆:<span>{{ yesterdayTD }}￥</span></p>
 
-
+              <a href="javascript:void(0);" @click="toPath('1-4')">查看淘豆流水 ></a>
           </div>
         </el-col>
 
@@ -286,6 +286,8 @@ export default {
         this.$router.push("/user/withdrawalsRecord") //提现记录
       } else if (str == '1-3') {
         this.$router.push("/user/conversionRecord") //兑换记录
+      } else if (str == '1-4') {
+        this.$router.push("/user/TDRecord") //淘豆流水
       } else if (str == '1-5') {
         this.$router.push("/user/limitRecord") //额度流水
       } else if (str == '2-1') {

@@ -38,6 +38,8 @@
                     v-for="item in options"
                     :label="item.label"
                     :value="item.Value"
+                    :key="item.Value"
+
                 >
                   </el-option>
                 </el-select>

@@ -3,11 +3,11 @@
   <div class="withdrawSum">
     <el-dialog title="提现" v-model="withdrawSumDialog.show = sumValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%">
   <div class="cir" @click="monitorValueOver"><i class="el-icon-close" ></i></div>
-          <el-form  label-width="80px" :model="formLabelAlign">
+          <el-form  label-width="80px" :model="formLabelAlign" :rules="rulesMoney" ref="formLabelAlign">
             <div class="dialog-list-box">
               <el-col :span="20">
-                <el-form-item label="金额:" :labelPosition="labelPosition">
-                <el-input v-model="formLabelAlign.sum" placeholder="提现金额大于10" @change="sumChange"></el-input>
+                <el-form-item label="金额:" :labelPosition="labelPosition" prop="sum" >
+                <el-input type="text" v-model="formLabelAlign.sum" placeholder="提现金额大于10" @change="sumChange" auto-complete="off"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
@@ -46,7 +46,7 @@
 
   <span slot="footer" class="dialog-footer">
 
-    <el-button type="primary" @click="monitorValue">提 交</el-button>
+    <el-button type="primary" @click="monitorValue('formLabelAlign')">提 交</el-button>
   </span>
 </el-dialog>
   </div>
@@ -58,9 +58,22 @@ import {
   businessAPi,
   clerkApi
 } from '../api/apiCode.js'
+
 export default {
   data() {
     this.offDown = true
+    var checkNum2 = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请输入金额!'));
+      } else if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+        callback(new Error('请输入正确的金额,最多2位小数'));
+      } else if (value > 100000) {
+        callback(new Error('请不要输入过大的金额'));
+      } else {
+        callback();
+      }
+
+    }
     return {
       offDown: true, //关闭按钮
       labelPosition: 'left',
@@ -73,6 +86,12 @@ export default {
         withdrawSum: '' //余额
 
       },
+      rulesMoney: {
+        sum: [{
+          validator: checkNum2,
+          trigger: 'blur'
+        }]
+      }, //提示变量
       formLabelAlign: {
         sum: '',
       },
@@ -162,8 +181,17 @@ export default {
       this.withdrawSumDialog.show = false
       this.$emit('withdraw', this.withdrawSumDialog)
     },
-    monitorValue() {
-      //提交提现请求 成功后进行关闭
+    monitorValue(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!');
+          this.submitForm() //提交提现请求
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+
 
       // let url = '/taodream-consumer/memberWithDraw/withdrawals'
       // this.$http.post(url, {
@@ -176,6 +204,12 @@ export default {
       //   console.log(error);
       // })
 
+
+
+
+    },
+    submitForm() {
+      //提交提现请求 成功后进行关闭 判断用户类型
       if (this.sumValue.userType == 1) { //会员
         let formData = new FormData()
         formData.append('withdrawAmount', this.formLabelAlign.sum)
@@ -189,9 +223,11 @@ export default {
             this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
             this.$emit('withdraw', this.withdrawSumDialog)
             this.scuess()
+          } else {
+            this.errorScuess()
           }
         }).catch((err) => {
-          console.log('访问错误1');
+          console.log('提现错误会员');
         })
       } else if (this.sumValue.userType == 2) { //商家
         let formData = new FormData()
@@ -200,15 +236,16 @@ export default {
         this.$http.post(businessAPi.takeCash, formData).then((objData) => {
           console.log(objData.data);
           if (objData.data.RESULT == 'ok') {
-
             //判断 是否 提现成功
             this.withdrawSumDialog.show = false
             this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
             this.$emit('withdraw', this.withdrawSumDialog)
             this.scuess()
+          } else {
+            this.errorScuess()
           }
         }).catch((err) => {
-          console.log('访问错误1');
+          console.log('提现错误商家');
         })
 
       } else if (this.sumValue.userType == 3) { //咨询师
@@ -225,14 +262,14 @@ export default {
             this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
             this.$emit('withdraw', this.withdrawSumDialog)
             this.scuess()
+          } else {
+            this.errorScuess()
           }
         }).catch((err) => {
-          console.log('访问错误1');
+          console.log('提现错误咨询师');
         })
 
       }
-
-
 
 
     },
@@ -241,6 +278,13 @@ export default {
       this.$notify.success({
         title: '提现成功',
         message: '成功后再24小时内到账请注意查收',
+        offset: 150
+      });
+    },
+    errorScuess(result) {
+      this.$notify.error({
+        title: result == '余额不足' ? "余额不足" : result == 'ok' ? "兑换成功" : result,
+        message: '如有问题请致电淘梦者客服!',
         offset: 150
       });
     }

@@ -8,6 +8,7 @@
       v-for="item in options"
       :label="item.label"
       :value="item.Value"
+      :key="item.Value"
   >
     </el-option>
 
@@ -51,6 +52,7 @@
 
     <el-col :span="12" :offset="6">
       <el-pagination
+      v-show="!loading"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="Number(onCount)"

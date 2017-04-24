@@ -12,14 +12,14 @@
                 <div class="dialog-list-box" v-if="consumptionValue.typeShow == 0">
                       <div class="box-left">
                       <p>订单编号:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.orderNo }}</span></p>
-                      <p>消费金额:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.consumptionAmount }}</span></p>
-                      <p>激励开始日期:&#12288 <span>{{ getDataResource.incentiveStartDate }}</span></p>
+                      <p>消费金额:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.totalAmount }}</span></p>
+                      <p>激励开始日期:&#12288 <span>{{ getDataResource.startEncourageDate }}</span></p>
 
                       </div>
                       <div class="box-right">
-                        <p>消费日期:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.consumptionDate }}</span></p>
-                        <p>激励比例:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.incentiveProportion }}</span></p>
-                        <p>激励结束日期:&#12288 <span>{{ consumptionValue.objectData.incentiveEndDate }}</span></p>
+                        <p>消费日期:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.createTime }}</span></p>
+                        <p>激励比例:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.consumerEncourageScale }}</span></p>
+                        <p>激励结束日期:&#12288 <span>{{ consumptionValue.objectData.endEncourageDate }}</span></p>
 
                       </div>
                 </div>
@@ -144,12 +144,26 @@ export default {
     upDatafun() {
 
       if (this.consumptionValue.typeShow == 0) { //消费者
+        if (!this.consumptionDetailsDialog.show == false) { //控制数据获取
+          let formData = new FormData()
+          formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
+          formData.append('consumerOrderId', this.consumptionValue.objectData.id)
 
+          this.$http.post(businessAPi.consumptionDetail, formData).then((objData) => {
+            console.log(objData.data.RESULT);
+            this.result = objData.data.RESULT //Object 所有数据
+
+            this.tableData = this.result.data
+            this.loading = false
+          }).catch((err) => {
+            console.log(err);
+          })
+        }
       } else if (this.consumptionValue.typeShow == 2) { //商家
         if (!this.consumptionDetailsDialog.show == false) { //控制数据获取
           let formData = new FormData()
           formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
-          formData.append('consumerOrderId', this.consumptionValue.objectData.orderNo)
+          //formData.append('consumerOrderId', this.consumptionValue.objectData.orderNo)
 
           this.$http.post(businessAPi.consumerOrderRecordInfo, formData).then((objData) => {
             console.log(objData.data.RESULT);

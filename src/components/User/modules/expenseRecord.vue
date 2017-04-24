@@ -7,13 +7,13 @@
       <el-table :data="tableData" style="width: 100%;height: 780px;"max-height="800" v-loading.body="loading" element-loading-text="加载中">
            <el-table-column type="selection" width="55">
           </el-table-column>
-           <!-- <el-table-column prop="orderNo" label="订单编号">
-           </el-table-column> -->
+           <el-table-column prop="orderNo" label="订单编号">
+           </el-table-column>
            <el-table-column  prop="createTime" label="消费日期">
            </el-table-column>
-           <el-table-column prop="totalAmount" label="消费金额">
+           <el-table-column prop="totalAmount" label="消费金额(元)">
            </el-table-column>
-           <el-table-column prop="consumerEncourageScale" label="激励比例">
+           <el-table-column prop="consumerEncourageScale" label="激励比例(%)">
            </el-table-column>
            <el-table-column prop="startEncourageDate" label="激励开始日期">
            </el-table-column>
@@ -85,12 +85,12 @@ export default {
         typeShow: 0
       },
       tableData: [{
-        orderNo: 0, //订单编号
-        consumptionDate: 0, //消费日期
-        consumptionAmount: 0, //消费金额
-        incentiveProportion: 0, //激励比例
-        startDate: 0, //激励开始日期
-        incentiveEndDate: 0, //激励结束日期
+        orderNo: 'NaN', //订单编号
+        consumptionDate: 2, //消费日期
+        consumptionAmount: 3, //消费金额
+        incentiveProportion: 4, //激励比例
+        startDate: 5, //激励开始日期
+        incentiveEndDate: 6, //激励结束日期
       }],
       allData: '',
       totalCount: 0, //分页数
@@ -124,7 +124,8 @@ export default {
     handleDetails(index, row) {
       this.consumptionDetails.show = true //激活 对话框
       this.consumptionDetails.index = row.id //传入当前的数据ID
-      // this.consumptionDetails.typeShow = 0 //传入当前的显示信息类型 0 = user中的 1为咨询师 2为商铺
+      this.consumptionDetails.objectData = this.tableData[index] //发送整体数据
+      this.consumptionDetails.typeShow = 0 //传入当前的显示信息类型 0 = user中的 1为咨询师 2为商铺
       console.log(index, row);
     },
     handleIncentiveDetails(index, row) {
@@ -165,6 +166,8 @@ export default {
         //时间处理
         for (var i = 0; i < this.result.data.length; i++) {
           this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
+          this.result.data[i].startEncourageDate = basic.basic.formatDate(this.result.data[i].startEncourageDate)
+          this.result.data[i].endEncourageDate = basic.basic.formatDate(this.result.data[i].endEncourageDate)
         }
         this.tableData = this.result.data
 

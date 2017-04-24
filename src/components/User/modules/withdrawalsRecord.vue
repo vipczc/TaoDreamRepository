@@ -9,11 +9,11 @@
                   </el-table-column>
                    <el-table-column prop="happenTime" label="提现日期">
                    </el-table-column>
-                   <el-table-column  prop="withdrawAmount" label="提现金额">
+                   <el-table-column  prop="withdrawAmount" label="提现金额(元)">
                    </el-table-column>
-                   <el-table-column prop="fee" label="手续费">
+                   <el-table-column prop="fee" label="手续费(元)">
                    </el-table-column>
-                   <el-table-column prop="arrivedAmount" label="到账金额">
+                   <el-table-column prop="arrivedAmount" label="到账金额(元)">
                    </el-table-column>
                    <el-table-column prop="branchName" label="收款银行">
                    </el-table-column>
