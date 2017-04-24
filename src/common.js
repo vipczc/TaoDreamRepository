@@ -88,6 +88,12 @@ const basic = {
       }
       callback();
     },
+    checkBank(rule, value, callback){
+      if (!/^(\d{16}|\d{19})$/.test(value)) {
+        callback(new Error('请输入正确的银行卡号'));
+      }
+      callback();
+    },
     clone(myObj){
       if(typeof(myObj) != 'object') return myObj;
       if(myObj == null) return myObj;

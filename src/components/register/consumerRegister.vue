@@ -109,10 +109,6 @@
                 change-on-select
                 @change="selChange"
               ></el-cascader>
-              <!-- <el-select v-model="unitInformation.industry" placeholder="如：互联网/IT" style="width:300px;">
-                <el-option v-for="sel in unitInformation.sels" label="sel.label" value="sel.id"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select> -->
             </el-form-item>
             <el-form-item label="任职部门" prop="department">
               <el-input  v-model="unitInformation.department" auto-complete="off" placeholder="如：研发部" style="width:300px;"></el-input>
@@ -225,20 +221,20 @@
       </div>
       <div class="" v-if="active == 4">
         <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<b style="color:#ff831b;"></b></div>
-        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline">
-          <el-form-item label="开户银行：">
-            <el-select v-model="bankInformation.bankAccount" placeholder="请选择银行"  style="width: 250px;">
-              <el-option label="民生银行" value="1"></el-option>
-              <el-option label="招商银行" value="2"></el-option>
-              <el-option label="交通银行" value="3"></el-option>
-              <el-option label="长勺银行" value="4"></el-option>
-            </el-select>
+        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline" :rules="rule3">
+          <el-form-item label="开户银行：" prop="bankAccount">
+            <el-cascader
+                  :options="bankInformation.bankAccount1" 
+                  change-on-select
+                  @change="selChange1"
+                ></el-cascader>
           </el-form-item>
-          <el-form-item label="开户地区：">
-            <el-cascader  :options="bankInformation.options" v-model="bankInformation.selectedOptions" @change="handleChange" >
+          <el-form-item label="开户地区：" prop="selectedOptions">
+            <el-cascader  :options="bankInformation.options" v-model="bankInformation.selectedOptions" @change="handleChange2" >
             </el-cascader>
           </el-form-item>
           <el-form-item label="开户银行：" prop="bankAccountDetail">
+             
             <el-input  v-model="bankInformation.bankAccountDetail" auto-complete="off" placeholder="如：勾庄小微支行" style="width:300px;"></el-input>
           </el-form-item>
           <el-form-item label="银行卡号：" prop="bankCard">
@@ -253,13 +249,13 @@
         <div style="border:1px solid #e5e5e5;padding:15px 15px;">
           <el-upload
             class="upload-demo"
-            action="//jsonplaceholder.typicode.com/posts/"
+            action="taodream-consumer/commonUpload/uploadFile"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :on-success="handleSuccess"
             :file-list="uploadData.fileList2"
             list-type="picture">
-            <el-button size="small" type="primary">点击上传</el-button>
+            <el-button size="small" type="primary" :disabled="upButton">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </div>
@@ -306,13 +302,18 @@ export default {
     }).then(function(res) {
       let data = res.data;
       let status = data.RESULT.status;
+      let userType = data.RESULT.userType;
+      // console.log(data);
+      // let status = data.RESULT.userType;
       if (data.ERRORCODE == '0') {
-        if(status === 1)this.active = 1;
-        if(status === 2)this.active = 2;
-        if(status === 3)this.active = 3;
-        if(status === 4)this.active = 4;
-        if(status === 5)this.active = 5;
-        if(status === 9)this.active = 1;
+        if(userType == 1){
+          if(status === 1)this.active = 1;
+          if(status === 2)this.active = 2;
+          if(status === 3)this.active = 3;
+          if(status === 4)this.active = 4;
+          if(status === 5)this.active = 5;
+          if(status === 9)this.active = 1;
+        }
       } else {
         this.$message.warning(data.RESULT);
       }
@@ -340,16 +341,31 @@ export default {
         }, function(error) {
           this.$message.error('请求错误,请稍后再试');
         })
+    //获取银行
+    this.$http({
+          method: 'POST',
+          url: host.basic.basicUrl + '/register/selectBank',
+        }).then(function(res) {
+          let arr = res.data.RESULT;
+          if (res.data.ERRORCODE == '0') {
+            let arr2 = [];
+            for (let i = 0; i < arr.length; i++) {
+              let obj = {value:"",label:""};
+              arr2.push(obj);
+             arr2[i].value = arr[i].code;
+             arr2[i].label = arr[i].fullName;
+            };
+            this.bankInformation.bankAccount1 = arr2;
+            // console.log(this.bankInformation.bankAccount1);
+          } else {
+            // this.$message.warning(data.RESULT);
+          }
+        }, function(error) {
+          this.$message.error('请求错误,请稍后再试');
+        })
   },
   watch: {
     'basicMessage.id': 'getData'
-    //   handler: (val, oldVal) => {
-    //    console.log(val)
-    //    console.log(oldVal)
-    
-    //   // 深度观察
-    //   deep: true
-    // }
   },
   data() {
     var validateCon = (rule, value, callback) => {
@@ -363,6 +379,7 @@ export default {
       active: 3,
       Big:false,
       BigUrl:'',
+      imgUrl:host.basic.basicUrl + '/commonUpload/uploadFile',
       basicMessage:{
         recommender:"",
         recommenderName:"",
@@ -428,10 +445,13 @@ export default {
       },
       bankInformation:{
         bankAccount:"",
+        bankAccount1:[],
         options: provinceAndCityDataPlus,
         selectedOptions: [],
         bankAccountDetail:"",
-        bankCard:""
+        bankCard:"",
+        province:"",
+        city:""
       },
       uploadData:{
         fileList2:[]
@@ -471,6 +491,13 @@ export default {
         detailAddress:[{required:true, validator:validateCon,  message: '请填写详细地址', trigger: 'blur' }],
         postCode:[{  required:true,validator:host.basic.checkPost,  trigger: 'blur'}],
       },
+       rule3:{
+        bankAccount:[{required:true,  message: '请选择银行', trigger: 'blur' }],
+        selectedOptions:[{type:'array',required:true,  message: '请选择地区', trigger: 'change' }],
+        bankAccountDetail:[{required:true,  message: '请填写详细银行', trigger: 'blur' }],
+        bankCard:[{required:true, validator:host.basic.checkBank,  trigger: 'blur' }],
+      
+      },
       sex:'',
       highEdu:'',
       isReceiveMessage:'',
@@ -478,7 +505,12 @@ export default {
       corporation:'',
       companyType:'',
       scale:'',
-      liveType:''
+      liveType:'',
+      id1:'',
+      id2:'',
+      upButton:false,
+      imgObj:null,
+      fileLength:''
     };
   },
   components:{
@@ -521,6 +553,11 @@ export default {
   //选择行业
     selChange(val){
       this.unitInformation.industry = val[0];
+    },
+    //选择银行
+    selChange1(val){
+      this.bankInformation.bankAccount = val[0];
+      // console.log(this.bankInformation.bankAccount);
     },
     //投资选择
     invert(val){
@@ -677,14 +714,64 @@ export default {
         })
     }
       
-    if(this.active == 4)
+    if(this.active == 4){
+        this.$refs.bankInformation.validate((valid) => {
+        if(valid){
+            this.$http({
+              method: 'POST',
+              url: host.basic.basicUrl + '/member/saveMemberBankCard',
+              params: {
+                bankCode: this.bankInformation.bankAccount,
+                bankProvince: this.bankInformation.province,
+                bankCity: this.bankInformation.city,
+                cardNumber: this.bankInformation.bankCard,
+                branchName: this.bankInformation.bankAccountDetail,
+               
+              }
+            }).then(function(res) {
+              let data = res.data;
+              if (data.ERRORCODE == '0') {
+                console.log(data);
+                this.active ++
+              } else {
+                this.$message.warning(data.RESULT);
+              }
+            }, function(error) {
+              this.$message.error('请求错误,请稍后再试');
+            })
+
+        }else{
+          // alert(1);
+        }
+
+      })
+
+    }
     if(this.active == 5)
-     // this.active++;
-     if (this.active > 5){
-        this.active = 1;
-       // this.$message.success('注册成功');
-       // setTimeout(()=>{that.$router.push('/')},1000)
-     }
+        // this.active = 1;
+      if (this.fileLength == 2) {
+        this.$http({
+          method: 'POST',
+          url: host.basic.basicUrl + '/member/saveMemberPic',
+          params: {
+            pics: this.imgObj
+          }
+        }).then(function(res) {
+          let data = res.data;
+          if (data.ERRORCODE == '0') {
+              that.$router.push('/');
+            
+          } else {
+            this.$message.warning(data.RESULT);
+          }
+        }, function(error) {
+          this.$message.error('请求错误,请稍后再试');
+        });
+      }
+       
+       // this.$message.success('信息填写完成！');
+       // setTimeout(()=>{that.$router.push('/user')},1000);
+    
     },
     handleChange (value) {
       this.unitInformation.province = value[0];
@@ -694,7 +781,13 @@ export default {
       // console.log(this.unitInformation.city);
       // console.log(this.unitInformation.area);
     },
-
+    handleChange2 (value) {
+      this.bankInformation.province = value[0];
+      this.bankInformation.city = value[1];
+      // console.log(this.bankInformation.province);
+      // console.log(this.bankInformation.city);
+      // console.log(this.unitInformation.area);
+    },
     //家庭住址
     handleChange1(value) {
       // console.log(value)
@@ -709,7 +802,8 @@ export default {
 
     // 上传图片处理回调
     handleRemove(file, fileList) {
-        console.log(file, fileList);
+        // console.log(file, fileList);
+        this.upButton = false;
     },
     handlePreview(file) {
       this.Big = true;
@@ -717,15 +811,26 @@ export default {
     },
     handleSuccess(response, file, fileList){
       // console.log(response);
-      // console.log(file);
-      // console.log(fileList);
+      
+      if(response.ERRORCODE == 0){
+        file.uid = response.RESULT.id
+        file.url = response.RESULT.url
+      }
+
+      this.fileLength = fileList.length;
       let that = this;
       if(fileList.length == 2){
+        this.upButton = true;
+        this.id1=  fileList[0].uid + ',' + '1' ;
+        this.id2=  fileList[1].uid + ',' + '2' ;
+        this.imgObj=  this.id1 + ';' + this.id2 ;
         this.$alert('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您！', '通知', {
           confirmButtonText: '确定',
           callback(action){
             if(action == "confirm"){
-              that.$router.push('/');
+              that.$message.success('图片上传完成！');
+              // that.$router.push('/');
+              // alert(1);
             }
           }
         });

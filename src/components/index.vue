@@ -224,26 +224,36 @@ export default {
               }
             }).then(function(res) {
               let data = res.data;
+
               if (data.ERRORCODE == '0') {
-                this.$message.success('登录成功!');
+              this.$message.success('登录成功！');
+                 
                 //个人中心
                 
                 if(this.ruleForm2.type == 1){
-                  this.$router.push('/user')
+                  setTimeout(()=>{this.$router.push('/user')},1000);
+                  // this.$router.push('/user')
                 }else if(this.ruleForm2.type == 2){
-                  this.$router.push('/business')
+                  setTimeout(()=>{this.$router.push('/business')},1000);
+
+                  // this.$router.push('/business')
                 }else if(this.ruleForm2.type == 3){
-                 this.$router.push('/clerk') 
+                  setTimeout(()=>{this.$router.push('/clerk')},1000);
+
+                 // this.$router.push('/clerk') 
                 }
               }else if (data.ERRORCODE == '10005'){
                 //填写资料
-                if(this.ruleForm3.type == 1){
-                  this.$router.push('/consumerRegister')
-                }else if(this.ruleForm3.type == 2){
-                  this.$router.push('/bussinessRegister')
-                }else if(this.ruleForm3.type == 3){
-                  
-                }
+                this.$message.success('登录成功，请先完善资料！');
+                  setTimeout(()=>{this.$router.push('/consumerRegister')},1000);
+
+                // if(this.ruleForm3.type == 1){
+                //   // this.$router.push('/consumerRegister')
+                // }
+              }else if(data.ERRORCODE == '10099'){
+                  this.$message.success('登录成功，请先完善资料！');
+                  setTimeout(()=>{this.$router.push('/bussinessRegister')},1000);
+
               }else{
                 //冻结或失败
                 this.$message.warning(data.RESULT);
@@ -369,7 +379,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="less">
+<style lang="less" >
   .index{
     .logo{
       margin-left: 60px;
@@ -400,5 +410,7 @@ export default {
       padding:10px 5px !important;
     }
   }
-
+// .el-notification{
+//   right:16px !important;
+// }
 </style>
