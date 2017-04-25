@@ -312,7 +312,8 @@ export default {
               let data = res.data;
               if (data.ERRORCODE == '0') {
                 this.$message.success('注册成功!');             
-                this.$router.push('/');
+                this.activeName = "first";
+                this.$refs.ruleForm3.resetFields();
               } else {
                 this.$message.warning(data.RESULT);
               }

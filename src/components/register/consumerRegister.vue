@@ -145,7 +145,7 @@
               <el-input type="textarea" v-model="unitInformation.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
             </el-form-item>
            
-             <el-form-item label="单位类型：" prop="unitType">
+             <el-form-item label="单位类型：" prop="unitType" >
                 <el-radio-group v-model="unitInformation.unitType" >
                   <el-radio label="机关/事业单位"></el-radio>
                   <el-radio label="国有企业"></el-radio>
@@ -379,8 +379,12 @@ export default {
       }
     };
     return {
-      active: 1,
+      active: 3,
       Big:false,
+      remark:false,
+      remark:false,
+      remark:false,
+      remark:false,
       remark:false,
       BigUrl:'',
       imgUrl:host.basic.basicUrl + '/commonUpload/uploadFile',
@@ -695,7 +699,7 @@ export default {
     if(this.active == 3){
       if(this.assetInformation.livingCondition == '自有房产')this.liveType = 1;
       if(this.assetInformation.livingCondition == '租房')this.liveType = 0;
-      console.log(this.assetInformation);
+      // console.log(this.assetInformation);
         this.$http({
           method: 'POST',
           url: host.basic.basicUrl + '/member/saveMemberAsset',
@@ -716,8 +720,8 @@ export default {
         }).then(function(res) {
           let data = res.data;
           if (data.ERRORCODE == '0') {
-            console.log(data);
-            // this.active++
+            // console.log(data);
+            this.active++
           } else {
             this.$message.warning(data.RESULT);
           }
@@ -743,7 +747,7 @@ export default {
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
-                console.log(data);
+                // console.log(data);
                 this.active ++
               } else {
                 this.$message.warning(data.RESULT);
@@ -761,25 +765,7 @@ export default {
     }
     if(this.active == 5)
         // this.active = 1;
-      if (this.fileLength == 2) {
-        this.$http({
-          method: 'POST',
-          url: host.basic.basicUrl + '/member/saveMemberPic',
-          params: {
-            pics: this.imgObj
-          }
-        }).then(function(res) {
-          let data = res.data;
-          if (data.ERRORCODE == '0') {
-              that.$router.push('/');
-            
-          } else {
-            this.$message.warning(data.RESULT);
-          }
-        }, function(error) {
-          this.$message.error('请求错误,请稍后再试');
-        });
-      }
+     
     
     },
     handleChange (value) {
@@ -827,6 +813,25 @@ export default {
           callback(action){
             if(action == "confirm"){
               that.$message.success('图片上传完成！');
+            
+                that.$http({
+                  method: 'POST',
+                  url: host.basic.basicUrl + '/member/saveMemberPic',
+                  params: {
+                    pics: that.imgObj
+                  }
+                }).then(function(res) {
+                  let data = res.data;
+                  if (data.ERRORCODE == '0') {
+                    that.$router.push('/');
+
+                  } else {
+                    that.$message.warning(data.RESULT);
+                  }
+                }, function(error) {
+                  that.$message.error('请求错误,请稍后再试');
+                });
+             
               // that.$router.push('/');
               // alert(1);
             }
