@@ -1,5 +1,5 @@
 const basic = {
-    basicUrl : '/taodream-consumer',
+    basicUrl : 'http://10.60.10.76:8081/consumer',
     formatDate(str,type) {
       var oDate = new Date(str), oYear = oDate.getFullYear(), oMonth = oDate.getMonth() + 1, oDay = oDate.getDate(), oHour = oDate.getHours();
       var oMin = oDate.getMinutes(), oSen = oDate.getSeconds();

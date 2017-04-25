@@ -286,9 +286,9 @@
 import { regionDataPlus, provinceAndCityDataPlus } from 'element-china-area-data'
 import host from '../../common.js'
 import footer from '.././footer/footer.vue'
-import consumerstepone from './module/consumerStepone.vue'
-import consumersteptwo from './module/consumerSteptwo.vue'
-import consumerstepthree from './module/consumerStepthree.vue'
+// import consumerstepone from './module/consumerStepone.vue'
+// import consumersteptwo from './module/consumerSteptwo.vue'
+// import consumerstepthree from './module/consumerStepthree.vue'
 export default {
   name:'consumerRegister',
   computed(){
@@ -514,9 +514,9 @@ export default {
     };
   },
   components:{
-  	consumerstepone,
-  	consumersteptwo,
-  	consumerstepthree,
+  	// consumerstepone,
+  	// consumersteptwo,
+  	// consumerstepthree,
     'v-footer':footer
   },
   methods:{
@@ -768,36 +768,23 @@ export default {
           this.$message.error('请求错误,请稍后再试');
         });
       }
-       
-       // this.$message.success('信息填写完成！');
-       // setTimeout(()=>{that.$router.push('/user')},1000);
     
     },
     handleChange (value) {
       this.unitInformation.province = value[0];
       this.unitInformation.city = value[1];
       this.unitInformation.area = value[2];
-      // console.log(this.unitInformation.province);
-      // console.log(this.unitInformation.city);
-      // console.log(this.unitInformation.area);
     },
     handleChange2 (value) {
       this.bankInformation.province = value[0];
       this.bankInformation.city = value[1];
-      // console.log(this.bankInformation.province);
-      // console.log(this.bankInformation.city);
-      // console.log(this.unitInformation.area);
+
     },
     //家庭住址
     handleChange1(value) {
-      // console.log(value)
       this.basicMessage.province = value[0];
       this.basicMessage.city = value[1];
       this.basicMessage.area = value[2];
-      // console.log(this.basicMessage.province);
-      // console.log(this.basicMessage.city);
-      // console.log(this.basicMessage.area);
-     
     },
 
     // 上传图片处理回调
@@ -811,7 +798,6 @@ export default {
     },
     handleSuccess(response, file, fileList){
       // console.log(response);
-      
       if(response.ERRORCODE == 0){
         file.uid = response.RESULT.id
         file.url = response.RESULT.url
@@ -836,8 +822,9 @@ export default {
         });
         // this.$message('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您！');
       }
-    }
+    }  
   }
+  
 }
 </script>
 

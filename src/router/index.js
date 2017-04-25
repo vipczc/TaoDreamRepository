@@ -41,7 +41,7 @@ import cIndexBusinessRecord from '@/components/Clerk/modules/businessRecord' //�
 import cIndexRelatedConsumptionRecord from '@/components/Clerk/modules/relatedConsumptionRecord' //关联消费记录
 
 //注册
-import register from '@/components/register'
+// import register from '@/components/register'
 import consumerRegister from '@/components/register/consumerRegister'//消费者注册
 import bussinessRegister from '@/components/register/bussinessRegister'//商家注册
 

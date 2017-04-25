@@ -11,6 +11,7 @@
       <div class="login">
         <el-tabs v-model="activeName" @tab-click="handleClick"  >
           <el-tab-pane label="登录" name="first">
+            <div v-on:keyup.13="login('ruleForm2')">
               <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="80px" style="margin-top: 25px;margin-right: 20px;">
                 <el-form-item label="类型" >
                   <el-select v-model="ruleForm2.type" placeholder="消费者" style="width:100%;">
@@ -26,7 +27,7 @@
                   <el-input type="password" v-model="ruleForm2.pass"  placeholder="请输入6~18位数字、字母" icon="message"></el-input>
                 </el-form-item>
                 <el-form-item  prop="imgVer" v-show="imgCon1">
-                  <el-input  v-model="ruleForm2.imgVer" style="width:50%;"></el-input><span style="float: right;padding:2px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="图形验证码" ></span>
+                  <el-input  v-model="ruleForm2.imgVer" style="width:50%;" placeholder="图形验证码"></el-input><span style="float: right;padding:0px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="图形验证码" ></span>
                 </el-form-item>
                 <el-form-item>
                   <a href="#" style="text-decoration:none; color: #50BFFF;width:100%;text-align: right;display: inline-block;line-height: 20px;" @click="forgetPassword = true">忘记密码？</a>
@@ -34,9 +35,12 @@
                   <!-- <el-button @click="resetForm('ruleForm2')">重置</el-button> -->
                 </el-form-item>
               </el-form>
+            </div>
+              
           </el-tab-pane>
           <el-tab-pane label="注册" name="second">
-              <el-form :model="ruleForm3" :rules="rules3" ref="ruleForm3" label-width="80px" style="margin-top: 25px;margin-right: 20px;">
+            <div v-on:keyup.13="regist('ruleForm3')">
+               <el-form :model="ruleForm3" :rules="rules3" ref="ruleForm3" label-width="80px" style="margin-top: 25px;margin-right: 20px;">
                 <el-form-item label="类型" >
                   <el-select v-model="ruleForm3.type" placeholder="消费者" style="width:100%;" >
                     <el-option label="消费者" value="1"></el-option>
@@ -50,20 +54,15 @@
                  <el-input  v-model="ruleForm3.verificationCode"  placeholder="请输入验证码" style="width:50%;" ></el-input>
                  <el-button type="primary"  :disabled="disabled" class="ver-button" style="width:48%;"  @click="openVer">{{text}}</el-button>
                 </el-form-item>
-              <!--   <el-form-item  prop="imgVer" v-show="imgCon">
-                  <el-input  v-model="ruleForm3.imgVer" style="width:50%;"></el-input><span style="float: right;padding:2px 5px;height:30px;cursor: pointer;" @click="sendImg" v-popover:popover5 ><img :src="url" alt="图形验证码" ></span>
-                </el-form-item> -->
                 <el-form-item label="密码" prop="pass">
                   <el-input type="password" v-model="ruleForm3.pass"  placeholder="请输入6~18位数字、字母" icon="message"></el-input>
                 </el-form-item>
-              
                 <el-form-item>
                   <el-button type="primary" @click="regist('ruleForm3')" style="width: 100%;">注册</el-button>
                   <!-- <el-button @click="resetForm('ruleForm2')">重置</el-button> -->
                 </el-form-item>
-                 <!-- 图像验证码 -->
-                  
               </el-form>
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -72,21 +71,24 @@
       </div>
       <!-- 忘记密码 -->
       <el-dialog title="忘记密码" v-model="forgetPassword" size="tiny">
-        <el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px" class="demo-ruleForm" >
-          <el-form-item label="手机号" prop="phoneNumber">
-            <el-input  v-model="ruleForm4.phoneNumber"  placeholder="请输入手机号码" ></el-input>
-          </el-form-item>
-          <el-form-item label="验证码" prop="verificationCode">
-            <el-input  v-model="ruleForm4.verificationCode"  placeholder="请输入验证码" style="width:50%;"></el-input>
-            <el-button type="primary" style="width:48%;">获取验证码</el-button>
-          </el-form-item>
-          <el-form-item label="密码" prop="pass">
-            <el-input type="password" v-model="ruleForm4.pass"  placeholder="请输入密码" icon="message"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="forgetPass('ruleForm4')"  style="width: 100%;">完成</el-button>
-          </el-form-item>
-        </el-form>
+        <div style="width: 80%;">
+            <el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px" class="demo-ruleForm" >
+            <el-form-item label="手机号" prop="phoneNumber">
+              <el-input  v-model="ruleForm4.phoneNumber"  placeholder="请输入手机号码" ></el-input>
+            </el-form-item>
+            <el-form-item label="验证码" prop="verificationCode">
+              <el-input  v-model="ruleForm4.verificationCode"  placeholder="请输入验证码" style="width:50%;"></el-input>
+              <el-button type="primary" style="width:48%;">获取验证码</el-button>
+            </el-form-item>
+            <el-form-item label="密码" prop="pass">
+              <el-input type="password" v-model="ruleForm4.pass"  placeholder="请输入密码" icon="message"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="forgetPass('ruleForm4')"  style="width: 100%;">提交</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      
       <!--   <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="forgetPassword = false">确 定</el-button>
         </span> -->
@@ -178,10 +180,13 @@ export default {
           ] 
         },
         rules4: {
+           phoneNumber: [
+            { validator: host.basic.checkMobile, trigger: 'blur' }
+          ],
           pass: [
             { validator: validatePass, trigger: 'blur' }
           ],
-          account: [
+          verificationCode: [
             { validator: validatePass, trigger: 'blur' }
           ]   
         }
@@ -224,37 +229,25 @@ export default {
               }
             }).then(function(res) {
               let data = res.data;
-
-              if (data.ERRORCODE == '0') {
-              this.$message.success('登录成功！');
-                 
-                //个人中心
-                
+              if (data.ERRORCODE == '0') {      
+                //个人中心      
                 if(this.ruleForm2.type == 1){
                   setTimeout(()=>{this.$router.push('/user')},1000);
-                  // this.$router.push('/user')
                 }else if(this.ruleForm2.type == 2){
                   setTimeout(()=>{this.$router.push('/business')},1000);
-
-                  // this.$router.push('/business')
                 }else if(this.ruleForm2.type == 3){
                   setTimeout(()=>{this.$router.push('/clerk')},1000);
-
-                 // this.$router.push('/clerk') 
                 }
-              }else if (data.ERRORCODE == '10005'){
+              }else if (data.ERRORCODE == '10013'){
                 //填写资料
-                this.$message.success('登录成功，请先完善资料！');
-                  setTimeout(()=>{this.$router.push('/consumerRegister')},1000);
-
-                // if(this.ruleForm3.type == 1){
-                //   // this.$router.push('/consumerRegister')
-                // }
-              }else if(data.ERRORCODE == '10099'){
+                  if(this.ruleForm2.type == 1){
                   this.$message.success('登录成功，请先完善资料！');
+                  setTimeout(()=>{this.$router.push('/consumerRegister')},1000);
+                }else if(this.ruleForm2.type == 2){
+                   this.$message.success('登录成功，请先完善资料！');
                   setTimeout(()=>{this.$router.push('/bussinessRegister')},1000);
-
-              }else{
+                }
+              }else {
                 //冻结或失败
                 this.$message.warning(data.RESULT);
               }

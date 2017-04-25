@@ -75,16 +75,15 @@
       </div>
       <div class="active2" v-if="active == 2">
         <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<b style="color:#ff831b;">（必填）</b></div>
-        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline">
-          <el-form-item label="开户银行：">
-            <el-select v-model="bankInformation.bankAccount" placeholder="请选择银行"  style="width: 250px;">
-              <el-option label="民生银行" value="1"></el-option>
-              <el-option label="招商银行" value="2"></el-option>
-              <el-option label="交通银行" value="3"></el-option>
-              <el-option label="长勺银行" value="4"></el-option>
-            </el-select>
+        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline" :rules="rule2">
+          <el-form-item label="开户银行：" prop="bankAccount">
+            <el-cascader
+                  :options="bankInformation.bankAccount1" 
+                  change-on-select
+                  @change="selChange1"
+                ></el-cascader>
           </el-form-item>
-          <el-form-item label="开户地区：">
+          <el-form-item label="开户地区：" prop="selectedOptions">
             <el-cascader  :options="bankInformation.options" v-model="bankInformation.selectedOptions" @change="handleChange" >
             </el-cascader>
           </el-form-item>
@@ -99,26 +98,24 @@
       <div class="" v-if="active == 3">
         <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>证件照片资料上传（如下）<b style="color:#ff831b;"></b></div>
         	<div style="margin-bottom: 60px;">
-	        	<h3>法人身份证正反面 、营业执照和开户许可证、营业场所照片（至少需要三张营业场所的照片）</h3>
-	        	<img src="../../assets/img/u592.png" height="151" width="232" alt="">
-	        	<img src="../../assets/img/u596.png" height="145" width="244" alt="">
-	        	<img src="../../assets/img/u703.jpg" height="150" width="220" alt="">
-	        	<img src="../../assets/img/u729.jpg" height="150" width="220" alt="">
-	        	<img src="../../assets/img/u618.png" height="150" width="250" alt="">
+	        	<h3>法人身份证正反面 、营业执照和开户许可证、营业场所照片<em style="color:orange;">（至少需要三张营业场所的照片）</em></h3>
+            <div style="border:1px solid #e5e5e5; padding:15px 15px;">
+              <img src="../../assets/img/shop.png" height="755" width="765" alt="">
+            </div>
+            <div style="margin-bottom: 60px;border:1px solid #e5e5e5;padding:15px 15px;margin-top: 20px;">
+             <el-upload
+                action="taodream-consumer/commonUpload/uploadFile"
+                list-type="picture-card" v-show="shopImg"
+                :on-success="handleSuccess"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove">
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <el-dialog v-model="dialogVisible" size="tiny">
+                <img width="100%" :src="dialogImageUrl" alt="">
+              </el-dialog>
+            </div>
 	        </div>
-	      <div style="margin-bottom: 60px;border:1px solid #e5e5e5;padding:15px 15px;">
-          <el-upload
-            class="upload-demo"
-            action="//jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :on-success="handleSuccess"
-            :file-list="uploadData.fileList2"
-            list-type="picture">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-        </div>
          
       </div>    
     </div>
@@ -173,8 +170,9 @@ export default {
         detailAddress1:"",
         sendMessage:""
   		},
-  		 bankInformation:{
+  		bankInformation:{
         bankAccount:"",
+        bankAccount1:[],
         options: provinceAndCityDataPlus,
         selectedOptions: [],
         bankAccountDetail:"",
@@ -196,16 +194,64 @@ export default {
         detailAddress:[{required:true,  message: '请填写详细地址', trigger: 'blur' }],
         detailAddress1:[{required:true,  message: '请填写详细地址', trigger: 'blur' }],
       },
+       rule2:{
+        bankAccount:[{required:true,  message: '请选择银行', trigger: 'blur' }],
+        selectedOptions:[{type:'array',required:true,  message: '请选择地区', trigger: 'change' }],
+        bankAccountDetail:[{required:true,  message: '请填写详细银行', trigger: 'blur' }],
+        bankCard:[{required:true, validator:host.basic.checkBank,  trigger: 'blur' }],
+      
+      },
       province:"",
       city:"",
       area:"",
       registerProvince:"",
       registerCity:"",
       registerArea:"",
-      isReceiveMessage:""
+      isReceiveMessage:"",
+      dialogImageUrl: '',
+      dialogVisible: false,
+      shopImg:true,
+      fileLength:'',
+      imgObj:null,
+      id1:"",
+      id2:"",
+      id3:"",
+      id4:"",
+      id5:"",
+      id6:"",
+      id7:""
   	}
   },
   mounted() {
+    //监听信息填写步骤
+    this.$http({
+      method: 'POST',
+      url: host.basic.basicUrl + '/register/selectCurrentUser'
+    }).then(function(res) {
+      let data = res.data;
+      let status = data.RESULT.status;
+      let userType = data.RESULT.userType;
+      // console.log(data);
+      // let status = data.RESULT.userType;
+      if (data.ERRORCODE == '0') {
+        if(userType == 1){
+          if(status === 1)this.active = 1;
+          if(status === 2)this.active = 2;
+          if(status === 3)this.active = 3;
+          if(status === 4)this.active = 4;
+          if(status === 5)this.active = 5;
+          if(status === 9)this.active = 1;
+        }else if(userType == 2){
+          if(status === 1)this.active = 1;
+          if(status === 2)this.active = 2;
+          if(status === 3)this.active = 3;
+        }
+      } else {
+        this.$message.warning(data.RESULT);
+      }
+    }, function(error) {
+      this.$message.error('请求错误,请稍后再试');
+    });
     //获取企业类型
     this.$http({
       method: 'POST',
@@ -229,7 +275,34 @@ export default {
       }
     }, function(error) {
       this.$message.error('请求错误,请稍后再试');
+    });
+
+    //获取银行
+    this.$http({
+      method: 'POST',
+      url: host.basic.basicUrl + '/register/selectBank',
+    }).then(function(res) {
+      let arr = res.data.RESULT;
+      if (res.data.ERRORCODE == '0') {
+        let arr2 = [];
+        for (let i = 0; i < arr.length; i++) {
+          let obj = {
+            value: "",
+            label: ""
+          };
+          arr2.push(obj);
+          arr2[i].value = arr[i].code;
+          arr2[i].label = arr[i].fullName;
+        };
+        this.bankInformation.bankAccount1 = arr2;
+        // console.log(this.bankInformation.bankAccount1);
+      } else {
+        // this.$message.warning(data.RESULT);
+      }
+    }, function(error) {
+      this.$message.error('请求错误,请稍后再试');
     })
+
   },
   watch: {
     'basicMessage.recommenderId': 'getData'
@@ -262,52 +335,80 @@ export default {
       }
         
     },
-
+  
   	next(){
   		let that = this;
       if(this.active == 1){
         if(this.basicMessage.sendMessage == '是')this.isReceiveMessage = 1;
         if(this.basicMessage.sendMessage == '否')this.isReceiveMessage = 0;
         this.$refs.basicMessage.validate((valid) => {
-        if(valid){
-            this.$http({
-              method: 'POST',
-              url: host.basic.basicUrl + '/shop/saveShopInfo',
-              params: {
-                companyName:this.basicMessage.companyName,
-                trueName:this.basicMessage.legalPerson,
-                identityNumber:this.basicMessage.idNumber,
-                companyType:this.basicMessage.companyType,
-                companyCode:this.basicMessage.organizationCode,
-                telephone:this.basicMessage.managerPhone,
-                province:this.province,
-                city:this.city,
-                area:this.area,
-                address:this.basicMessage.detailAddress,
-                postalCode:this.basicMessage.postCode,
-                registerProvince:this.registerProvince,
-                registerCity:this.registerCity,
-                registerArea:this.registerArea,
-                registerAddress:this.basicMessage.detailAddress1,
-                isReceiveMessage:this.isReceiveMessage
-              }
-            }).then(function(res) {
-              let data = res.data;
-              if (data.ERRORCODE == '0') {
-                console.log(data);
-                // this.active ++
-              } else {
-                this.$message.warning(data.RESULT);
-              }
-            }, function(error) {
-              this.$message.error('请求错误,请稍后再试');
-            })
+          if(valid){
+              this.$http({
+                method: 'POST',
+                url: host.basic.basicUrl + '/shop/saveShopInfo',
+                params: {
+                  companyName:this.basicMessage.companyName,
+                  trueName:this.basicMessage.legalPerson,
+                  identityNumber:this.basicMessage.idNumber,
+                  companyType:this.basicMessage.companyType,
+                  companyCode:this.basicMessage.organizationCode,
+                  telephone:this.basicMessage.managerPhone,
+                  province:this.province,
+                  city:this.city,
+                  area:this.area,
+                  address:this.basicMessage.detailAddress,
+                  postalCode:this.basicMessage.postCode,
+                  registerProvince:this.registerProvince,
+                  registerCity:this.registerCity,
+                  registerArea:this.registerArea,
+                  registerAddress:this.basicMessage.detailAddress1,
+                  isReceiveMessage:this.isReceiveMessage
+                }
+              }).then(function(res) {
+                let data = res.data;
+                if (data.ERRORCODE == '0') {
+                  // console.log(data);
+                  this.active ++
+                } else {
+                  this.$message.warning(data.RESULT);
+                }
+              }, function(error) {
+                this.$message.error('请求错误,请稍后再试');
+              })
 
-        }else{
-          // alert(1);
-        }
+          }else{
+            this.$message.warning('请将资料填写完整！');
+          }
+        })
+      }else if(this.active == 2){
+         this.$refs.bankInformation.validate((valid) => {
+          if(valid){
+              this.$http({
+                method: 'POST',
+                url: host.basic.basicUrl + '/shop/saveShopBankCard',
+                params: {
+                  bankCode: this.bankInformation.bankAccount,
+                  bankProvince: this.province,
+                  bankCity: this.city,
+                  cardNumber: this.bankInformation.bankCard,
+                  branchName: this.bankInformation.bankAccountDetail
+                }
+              }).then(function(res) {
+                let data = res.data;
+                if (data.ERRORCODE == '0') {
+                  console.log(data);
+                  this.active ++
+                } else {
+                  this.$message.warning(data.RESULT);
+                }
+              }, function(error) {
+                this.$message.error('请求错误,请稍后再试');
+              })
 
-      })
+          }else{
+            // this.$message.warning('请将资料填写完整！');
+          }
+        })
       }
      if (this.active > 3){
         this.active = 1;
@@ -319,6 +420,11 @@ export default {
     selChange(val){
       this.basicMessage.companyType = val[0];
       console.log(this.basicMessage.companyType);
+    },
+    //选择银行
+    selChange1(val){
+      this.bankInformation.bankAccount = val[0];
+      console.log(this.bankInformation.bankAccount);
     },
   	handleChange (value) {
       // console.log(value);
@@ -337,21 +443,54 @@ export default {
     handleRemove(file, fileList) {
         console.log(file, fileList);
     },
-    handlePreview(file) {
-    	this.Big = true;
-      this.BigUrl = file.url;
+   handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     },
     handleSuccess(response, file, fileList){
       // console.log(response);
       // console.log(file);
       // console.log(fileList);
+      if(response.ERRORCODE == 0){
+        file.uid = response.RESULT.id
+        file.url = response.RESULT.url
+      }
+      this.fileLength = fileList.length;
       let that = this;
       if(fileList.length == 7){
-        this.$alert('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您！', '通知', {
+        // this.shopImg = false;
+        this.id1=  fileList[0].uid + ',' + '1' ;
+        this.id2=  fileList[1].uid + ',' + '2' ;
+        this.id3=  fileList[1].uid + ',' + '3' ;
+        this.id4=  fileList[1].uid + ',' + '4' ;
+        this.id5=  fileList[1].uid + ',' + '5' ;
+        this.id6=  fileList[1].uid + ',' + '6' ;
+        this.id7=  fileList[1].uid + ',' + '7' ;
+        this.imgObj=  this.id1 + ';' + this.id2 + ';' + this.id3 + ';' + this.id3 + ';' + this.id5 + ';' + this.id6 + ';' + this.id7;
+        console.log(this.imgObj);
+        this.$alert('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您', '通知', {
           confirmButtonText: '确定',
           callback(action){
             if(action == "confirm"){
-              that.$router.push('/');
+              that.$http({
+                method: 'POST',
+                url: host.basic.basicUrl + '/shop/saveShopPic',
+                params: {
+                  pics: that.imgObj
+                }
+              }).then(function(res) {
+                let data = res.data;
+                if (data.ERRORCODE == '0') {
+                  // console.log(data);
+                  that.$router.push('/');
+
+                } else {
+                  that.$message.warning(data.RESULT);
+                }
+              }, function(error) {
+                that.$message.error('请求错误,请稍后再试');
+              });
+              // that.$message.success('图片上传完成');
             }
           }
         });
