@@ -310,12 +310,12 @@ export default {
       // let status = data.RESULT.userType;
       if (data.ERRORCODE == '0') {
         if(userType == 1){
-          // if(status === 1)this.active = 1;
-          // if(status === 2)this.active = 2;
-          // if(status === 3)this.active = 3;
-          // if(status === 4)this.active = 4;
-          // if(status === 5)this.active = 5;
-          // if(status === 9)this.active = 1;
+          if(status === 1)this.active = 1;
+          if(status === 2)this.active = 2;
+          if(status === 3)this.active = 3;
+          if(status === 4)this.active = 4;
+          if(status === 5)this.active = 5;
+          if(status === 9)this.active = 1;
         }
       } else {
         this.$message.warning(data.RESULT);
@@ -379,7 +379,7 @@ export default {
       }
     };
     return {
-      active: 3,
+      active: 1,
       Big:false,
       remark:false,
       remark:false,
@@ -763,9 +763,8 @@ export default {
       })
 
     }
-    if(this.active == 5)
-        // this.active = 1;
-     
+   
+        // this.active = 1; 
     
     },
     handleChange (value) {
