@@ -13,9 +13,9 @@
     <div class="content">
       <div class="" v-if="active == 1">
       	<!-- <consumerstepone :basicMessage="basicMessage" :active="active"></consumerstepone> -->
-        <div class="consumerStepone">
+        <div class="consumerStepone" >
           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>推荐人信息<b style="color:#ff831b;"></b></div>
-          <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline" :rules="rule1">
+          <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline mar" :rules="rule1" >
             <el-form-item label="推荐人" prop="recommender">
               <el-select v-model="basicMessage.recommender" placeholder="请选择" style="width:100px;" @change="recommenderChange">
                 <el-option label="会员" value="1"></el-option>
@@ -32,7 +32,7 @@
             <el-form-item label="联系电话" prop="recommenderPhone">
               <el-input  v-model="basicMessage.recommenderPhone" auto-complete="off" style="width:120px;" :disabled="true"></el-input>
             </el-form-item>
-            <div class="step" style="margin-left: -12px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的基本信息<b style="color:#ff831b;"></b></div>
+            <div class="step" style="margin-left: -12px; margin-bottom: 20px; "><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px;"></span>你的基本信息<b style="color:#ff831b;"></b></div>
             <el-form-item label="中文姓名" prop="name">
               <el-input  v-model="basicMessage.name" auto-complete="off" placeholder="请输入姓名" style="width:150px;"></el-input>
             </el-form-item>
@@ -99,21 +99,24 @@
         <!-- <consumersteptwo :unitInformation="unitInformation"></consumersteptwo> -->
         <div class="consumerSteptwo">
           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的单位信息<b style="color:#ff831b;"></b></div>
-          <el-form :model="unitInformation" :inline="true" ref="unitInformation"  class="demo-form-inline" :rules="rule2">
-            <el-form-item label="单位全称" prop="companyName">
+          <el-form :model="unitInformation" :inline="true" ref="unitInformation"  class="demo-form-inline mar" :rules="rule2">
+            <el-form-item label="单位全称：" prop="companyName">
               <el-input  v-model="unitInformation.companyName" auto-complete="off" placeholder="如：浙江至讯科技有限公司" style="width:250px;"></el-input>
             </el-form-item>
-             <el-form-item label="所属行业" prop="industry" style="width:300px;">
+             <el-form-item label="所属行业：" prop="industry" >
                   <el-cascader
                 :options="unitInformation.industry1" 
                 change-on-select
                 @change="selChange"
               ></el-cascader>
             </el-form-item>
-            <el-form-item label="任职部门" prop="department">
+            <el-form-item label="备注：" prop="remark" v-show="remark">
+              <el-input type="textarea" v-model="unitInformation.remark" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width: 500px;"></el-input>
+            </el-form-item>
+            <el-form-item label="任职部门：" prop="department">
               <el-input  v-model="unitInformation.department" auto-complete="off" placeholder="如：研发部" style="width:300px;"></el-input>
             </el-form-item>
-            <el-form-item label="职位/岗位" prop="position">
+            <el-form-item label="职位/岗位：" prop="position">
               <el-input  v-model="unitInformation.position" auto-complete="off" placeholder="如：员工" style="width:120px;"></el-input>
             </el-form-item>
            <el-form-item label="法人：" prop="legalPerson">
@@ -122,7 +125,7 @@
               <el-radio label="否"></el-radio>
             </el-radio-group>
           </el-form-item>
-           <el-form-item label="年薪" prop="annualSalary">
+           <el-form-item label="年薪：" prop="annualSalary">
               <el-input  v-model="unitInformation.annualSalary" auto-complete="off" placeholder="如：15000" style="width:327px;"></el-input>
            </el-form-item>
             <el-form-item label="单位规模：" prop="unitSize">
@@ -132,13 +135,13 @@
                 <el-radio label="其他"></el-radio>
               </el-radio-group>
             </el-form-item>
-             <el-form-item label="单位现所在省市区" prop="selectedOptions">
+             <el-form-item label="单位现所在省市区：" prop="selectedOptions">
                 <el-cascader :options="unitInformation.options" v-model="unitInformation.selectedOptions" @change="handleChange" style="width:242px;"></el-cascader>
             </el-form-item>
-             <el-form-item label="邮政编码" prop="postCode">
+             <el-form-item label="邮政编码：" prop="postCode">
               <el-input  v-model="unitInformation.postCode" auto-complete="off" placeholder="如：3100" style="width:250px;"></el-input>
             </el-form-item>
-            <el-form-item label="详细地址" prop="detailAddress">
+            <el-form-item label="详细地址：" prop="detailAddress">
               <el-input type="textarea" v-model="unitInformation.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
             </el-form-item>
            
@@ -156,10 +159,10 @@
             <el-form-item label="电话(可选填)：区号" prop="areaCode">
               <el-input type="number" v-model="unitInformation.areaCode" auto-complete="off" placeholder="如：0571" style="width:120px;"></el-input>
             </el-form-item>
-            <el-form-item label="电话号码" >
+            <el-form-item label="电话号码：" >
               <el-input type="number" v-model="unitInformation.phoneNumber" auto-complete="off" placeholder="如：8857567" style="width:170px;"></el-input>
             </el-form-item>
-            <el-form-item label="分机" >
+            <el-form-item label="分机：" >
               <el-input type="number" v-model="unitInformation.phoneNumberOther" auto-complete="off" placeholder="如：8857567" style="width:170px;"></el-input>
             </el-form-item>
           </el-form>
@@ -169,7 +172,7 @@
         <!-- <consumerstepthree :assetInformation="assetInformation"></consumerstepthree> -->
         <div class="consumerStepthree">
           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>资产信息<b style="color:#ff831b;">（选填）</b></div>
-          <el-form :model="assetInformation" :inline="true" ref="assetInformation"  class="demo-form-inline">
+          <el-form :model="assetInformation" :inline="true" ref="assetInformation"  class="demo-form-inline mar">
             <el-form-item label="您拥有的信用卡数量：" prop="cardNumber">
               <el-input type="number" v-model="assetInformation.cardNumber" auto-complete="off" placeholder="如：1张" style="width:100px;"></el-input>
             </el-form-item>
@@ -197,7 +200,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <div class="step" style="margin-left: -12px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>联系人信息<b style="color:#ff831b;">（选填）</b></div>
+            <div class="step" style="margin-left: -12px; margin-bottom: 20px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>联系人信息<b style="color:#ff831b;">（选填）</b></div>
             <el-form-item label="联系人（亲属）姓名：" prop="relative1">
               <el-input  v-model="assetInformation.relative1" auto-complete="off" placeholder="请输入名称" style="width:150px;"></el-input>
             </el-form-item>
@@ -221,7 +224,7 @@
       </div>
       <div class="" v-if="active == 4">
         <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<b style="color:#ff831b;"></b></div>
-        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline" :rules="rule3">
+        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline mar" :rules="rule3">
           <el-form-item label="开户银行：" prop="bankAccount">
             <el-cascader
                   :options="bankInformation.bankAccount1" 
@@ -307,12 +310,12 @@ export default {
       // let status = data.RESULT.userType;
       if (data.ERRORCODE == '0') {
         if(userType == 1){
-          if(status === 1)this.active = 1;
-          if(status === 2)this.active = 2;
-          if(status === 3)this.active = 3;
-          if(status === 4)this.active = 4;
-          if(status === 5)this.active = 5;
-          if(status === 9)this.active = 1;
+          // if(status === 1)this.active = 1;
+          // if(status === 2)this.active = 2;
+          // if(status === 3)this.active = 3;
+          // if(status === 4)this.active = 4;
+          // if(status === 5)this.active = 5;
+          // if(status === 9)this.active = 1;
         }
       } else {
         this.$message.warning(data.RESULT);
@@ -376,8 +379,9 @@ export default {
       }
     };
     return {
-      active: 3,
+      active: 1,
       Big:false,
+      remark:false,
       BigUrl:'',
       imgUrl:host.basic.basicUrl + '/commonUpload/uploadFile',
       basicMessage:{
@@ -406,6 +410,7 @@ export default {
       unitInformation:{
       	companyName:'',
       	industry:'',
+        remark:'',
         industry1:[
           
         ],
@@ -553,6 +558,12 @@ export default {
   //选择行业
     selChange(val){
       this.unitInformation.industry = val[0];
+      console.log(this.unitInformation.industry)
+     if(this.unitInformation.industry == 88){
+      this.remark = true;
+     }else{
+      this.remark = false;
+     }
     },
     //选择银行
     selChange1(val){
@@ -569,7 +580,7 @@ export default {
      let that = this;
      //时间格式转换
      if(this.basicMessage.birthDate != ''){
-      this.basicMessage.birthDate = host.basic.formatDate(this.basicMessage.birthDate.getTime())
+      this.basicMessage.birthDate = host.basic.formatDate(this.basicMessage.birthDate)
     };
     if(this.active == 1){
       if(this.basicMessage.gender == '男' )this.sex = 1;
@@ -652,6 +663,7 @@ export default {
                 scale: this.scale,
                 province: this.unitInformation.province,
                 city: this.unitInformation.city,
+                remark:this.unitInformation.remark,
                 area: this.unitInformation.area,
                 address: this.unitInformation.detailAddress,
                 postalCode: this.unitInformation.postCode,
@@ -835,6 +847,10 @@ export default {
       width:790px;
      margin:0 auto;
     }
+  .mar{
+    margin-top: 20px;
+    }
+
     .introduce{
       width: 790px;
       margin:0 auto;

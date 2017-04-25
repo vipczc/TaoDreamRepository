@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" >
 
 .basicClerk .el-input-group__append .el-button{
   font-size: inherit;
