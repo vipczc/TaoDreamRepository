@@ -70,7 +70,7 @@
         <v-footer></v-footer>
       </div>
       <!-- 忘记密码 -->
-      <el-dialog title="忘记密码" v-model="forgetPassword" size="tiny" >
+      <el-dialog title="忘记密码" v-model="forgetPassword" size="tiny" @close="forgetClose">
         <div style="width: 80%;">
             <el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px" class="demo-ruleForm" >
             <el-form-item label="类型" >
@@ -85,7 +85,7 @@
             </el-form-item>
             <el-form-item label="验证码" prop="verificationCode">
               <el-input  v-model="ruleForm4.verificationCode"  placeholder="请输入验证码" style="width:50%;"></el-input>
-              <el-button type="primary" style="width:48%;" @click="openVer"  :disabled="disabled1">{{text1}}</el-button>
+              <el-button type="primary" style="width:48%;" @click="openVer1"  :disabled="disabled1">{{text1}}</el-button>
             </el-form-item>
             <el-form-item label="新密码" prop="pass">
               <el-input type="password" v-model="ruleForm4.pass"  placeholder="请输入密码" icon="message"></el-input>
@@ -275,9 +275,17 @@ export default {
               }
             }).then(function(res) {
               let data = res.data;
+              this.sendImg();
               if (data.ERRORCODE == '0') {      
-                //个人中心    
-                this.$message.success('登录成功！');             
+                //个人中心 
+                let h = this.$createElement;
+                this.$notify({
+                  title: '成功',
+                  type:'success',
+                  message: h('p', '登录成功！')
+                });
+
+                // this.$message.success('登录成功！');             
                 if(this.ruleForm2.type == 1){
                   setTimeout(()=>{this.$router.push('/user')},1000);
                 }else if(this.ruleForm2.type == 2){
@@ -286,9 +294,14 @@ export default {
                   setTimeout(()=>{this.$router.push('/clerk')},1000);
                 }
               }else if (data.ERRORCODE == '10013'){
-                  this.$message.success('登录成功，请先完善资料！');
+                  this.$notify({
+                    title: '成功',
+                    type:'success',
+                    message: h('p', '登录成功，请先完善资料！')
+                  });
+                  // this.$message.success('登录成功，请先完善资料！');
                 //填写资料
-                  if(this.ruleForm2.type == 1){
+                if(this.ruleForm2.type == 1){
                   setTimeout(()=>{this.$router.push('/consumerRegister')},1000);
                 }else if(this.ruleForm2.type == 2){
                   setTimeout(()=>{this.$router.push('/bussinessRegister')},1000);
@@ -322,7 +335,8 @@ export default {
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
-                this.$message.success('注册成功，请先填写资料！');             
+                this.$message.success('注册成功，请先填写资料！'); 
+                this.$refs.ruleForm3.resetFields();          
                 // this.activeName = "first";
                 this.$refs.ruleForm3.resetFields();
                   if(this.ruleForm3.type == 1){
@@ -341,7 +355,9 @@ export default {
         });
       },
       openVer(){
-        if(this.ruleForm3.phoneNumber != ''){
+       if(!/^1[34578]\d{9}$/.test(this.ruleForm3.phoneNumber)){
+          this.$message.warning('请输入正确的手机号');
+        }else{
           this.imgCon = true;
           this.$http({
             methods:'POST',
@@ -355,7 +371,11 @@ export default {
             }
           })
         }
-        if(this.ruleForm4.phoneNumber != ''){
+      },
+      openVer1(formName){
+        if(!/^1[34578]\d{9}$/.test(this.ruleForm4.phoneNumber)){
+          this.$message.warning('请输入正确的手机号');
+        }else{
           this.imgCon11 = true;
           this.$http({
             methods:'POST',
@@ -369,6 +389,8 @@ export default {
             }
           })
         }
+        // if(this.ruleForm4.phoneNumber != ''){
+       
       },
       //忘记密码验证码
       sendCode1(){
@@ -480,6 +502,9 @@ export default {
           }
         });
       },
+      forgetClose(){
+        this.$refs.ruleForm4.resetFields();
+      },
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
@@ -497,14 +522,24 @@ export default {
       margin-left: 60px;
       margin-top: 30px;
       margin-bottom:30px;
+      img{
+       -webkit-animation:fadeInLeftBig 1s .2s ease both;
+        -moz-animation:fadeInLeftBig 1s .2s ease both;;
+      }
     }
     .content-bg{
       width:100%;
       height:616px;
       background: url(../assets/img/banner.png) 0 0 no-repeat;
       background-size: 1920px 618px;
+      -webkit-animation:fadeIn 1s .2s ease both;
+      -moz-animation:fadeIn 1s .2s ease both;
     }
   }
+//   #animation{
+// -webkit-animation:flipInY 1s .2s ease both;
+// -moz-animation:flipInY 1s .2s ease both;}
+
   .login{
     width: 315px;
     background: #fff;
@@ -512,6 +547,8 @@ export default {
     position: absolute;
     right: 10%;
     top: 200px;
+     -webkit-animation:flipInY 1s .2s ease both;
+    -moz-animation:flipInY 1s .2s ease both;
     .el-tabs__item{
       padding: 0 64.5px !important;
     }
@@ -525,4 +562,41 @@ export default {
 // .el-notification{
 //   right:16px !important;
 // }
+@-webkit-keyframes flipInY{
+0%{-webkit-transform:perspective(400px) rotateY(90deg);
+opacity:0}
+40%{-webkit-transform:perspective(400px) rotateY(-10deg)}
+70%{-webkit-transform:perspective(400px) rotateY(10deg)}
+100%{-webkit-transform:perspective(400px) rotateY(0deg);
+opacity:1}
+}
+@-moz-keyframes flipInY{
+0%{-moz-transform:perspective(400px) rotateY(90deg);
+opacity:0}
+40%{-moz-transform:perspective(400px) rotateY(-10deg)}
+70%{-moz-transform:perspective(400px) rotateY(10deg)}
+100%{-moz-transform:perspective(400px) rotateY(0deg);
+opacity:1}
+}
+@-webkit-keyframes fadeInLeftBig{
+0%{opacity:0;
+-webkit-transform:translateX(-2000px)}
+100%{opacity:1;
+-webkit-transform:translateX(0)}
+}
+@-moz-keyframes fadeInLeftBig{
+0%{opacity:0;
+-moz-transform:translateX(-2000px)}
+100%{opacity:1;
+-moz-transform:translateX(0)}
+}
+@-moz-keyframes fadeIn{
+0%{opacity:0}
+100%{opacity:1}
+}
+@-webkit-keyframes fadeIn{
+0%{opacity:0}
+100%{opacity:1}
+}
+
 </style>

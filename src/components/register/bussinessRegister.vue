@@ -50,16 +50,16 @@
                 <el-cascader :options="basicMessage.options" v-model="basicMessage.selectedOptions" @change="handleChange" style="width:300px;"></el-cascader>
               </el-form-item>
               <el-form-item label="邮政编码" prop="postCode">
-                <el-input  v-model="basicMessage.postCode" auto-complete="off" placeholder="如：3100" style="width:150px;"></el-input>
+                <el-input  v-model="basicMessage.postCode" auto-complete="off" placeholder="如：310000" style="width:150px;"></el-input>
               </el-form-item>
             <el-form-item label="详细地址：" prop="detailAddress">
-              <el-input type="textarea" v-model="basicMessage.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
+              <el-input type="textarea" maxlength="200" v-model="basicMessage.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
             </el-form-item>
             <el-form-item label="企业注册地址:" prop="selectedOptions1">
                <el-cascader :options="basicMessage.options1" v-model="basicMessage.selectedOptions1" @change="handleChange1" style="width:280px;"></el-cascader>
             </el-form-item>
             <el-form-item label="详细地址：" prop="detailAddress1">
-              <el-input type="textarea" v-model="basicMessage.detailAddress1" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:280px;"></el-input>
+              <el-input type="textarea" maxlength="200" v-model="basicMessage.detailAddress1" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:280px;"></el-input>
             </el-form-item>
             <el-form-item label="是否接受来自俱乐部赠阅的杂志和发来的短信：" prop="sendMessage">
               <el-radio-group v-model="basicMessage.sendMessage">
@@ -326,6 +326,8 @@ export default {
             this.basicMessage.recommenderPhone = data.RESULT.mobile
           } else {
             // this.$message.warning(data.RESULT);
+            this.basicMessage.recommenderName = ''
+            this.basicMessage.recommenderPhone = ''
           }
         }, function(error) {
           this.$message.error('请求错误,请稍后再试');

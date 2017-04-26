@@ -61,10 +61,10 @@
                 <el-cascader :options="basicMessage.options" v-model="basicMessage.selectedOptions" @change="handleChange1" style="width:320px;"></el-cascader>
             </el-form-item>
             <el-form-item label="邮政编码" prop="postCode">
-              <el-input  v-model="basicMessage.postCode" auto-complete="off" placeholder="如：3100" style="width:150px;"></el-input>
+              <el-input  v-model="basicMessage.postCode" auto-complete="off" placeholder="如：310000" style="width:150px;"></el-input>
             </el-form-item>
             <el-form-item label="详细地址" prop="detailAddress">
-              <el-input type="textarea" v-model="basicMessage.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:320px;"></el-input>
+              <el-input type="textarea" maxlength="200" v-model="basicMessage.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:320px;"></el-input>
             </el-form-item>
             <el-form-item label="教育程度" prop="educationLevel">
               <el-radio-group v-model="basicMessage.educationLevel">
@@ -111,15 +111,15 @@
               ></el-cascader>
             </el-form-item>
             <el-form-item label="备注：" prop="remark" v-show="remark">
-              <el-input type="textarea" v-model="unitInformation.remark" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width: 500px;"></el-input>
+              <el-input type="textarea" maxlength="200" v-model="unitInformation.remark" auto-complete="off" placeholder="请添加说明文字" style="width: 500px;"></el-input>
             </el-form-item>
-            <el-form-item label="任职部门：" prop="department">
+            <el-form-item label="任职部门：" prop="department" v-show="hid">
               <el-input  v-model="unitInformation.department" auto-complete="off" placeholder="如：研发部" style="width:300px;"></el-input>
             </el-form-item>
-            <el-form-item label="职位/岗位：" prop="position">
+            <el-form-item label="职位/岗位：" prop="position" v-show="hid">
               <el-input  v-model="unitInformation.position" auto-complete="off" placeholder="如：员工" style="width:120px;"></el-input>
             </el-form-item>
-           <el-form-item label="法人：" prop="legalPerson">
+           <el-form-item label="法人：" prop="legalPerson" v-show="hid">
             <el-radio-group v-model="unitInformation.legalPerson">
               <el-radio label="是"></el-radio>
               <el-radio label="否"></el-radio>
@@ -128,7 +128,7 @@
            <el-form-item label="年薪：" prop="annualSalary">
               <el-input  v-model="unitInformation.annualSalary" auto-complete="off" placeholder="如：15000" style="width:327px;"></el-input>
            </el-form-item>
-            <el-form-item label="单位规模：" prop="unitSize">
+            <el-form-item label="单位规模：" prop="unitSize" v-show="hid">
               <el-radio-group v-model="unitInformation.unitSize">
                 <el-radio label="21~50"></el-radio>
                 <el-radio label="101~500"></el-radio>
@@ -139,13 +139,13 @@
                 <el-cascader :options="unitInformation.options" v-model="unitInformation.selectedOptions" @change="handleChange" style="width:242px;"></el-cascader>
             </el-form-item>
              <el-form-item label="邮政编码：" prop="postCode">
-              <el-input  v-model="unitInformation.postCode" auto-complete="off" placeholder="如：3100" style="width:250px;"></el-input>
+              <el-input  v-model="unitInformation.postCode" auto-complete="off" placeholder="如：310000" style="width:250px;"></el-input>
             </el-form-item>
             <el-form-item label="详细地址：" prop="detailAddress">
-              <el-input type="textarea" v-model="unitInformation.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
+              <el-input type="textarea" maxlength="200" v-model="unitInformation.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
             </el-form-item>
            
-             <el-form-item label="单位类型：" prop="unitType" >
+             <el-form-item label="单位类型：" prop="unitType" v-show="hid">
                 <el-radio-group v-model="unitInformation.unitType" >
                   <el-radio label="机关/事业单位"></el-radio>
                   <el-radio label="国有企业"></el-radio>
@@ -382,10 +382,7 @@ export default {
       active: 1,
       Big:false,
       remark:false,
-      remark:false,
-      remark:false,
-      remark:false,
-      remark:false,
+      hid:true,
       BigUrl:'',
       imgUrl:host.basic.basicUrl + '/commonUpload/uploadFile',
       basicMessage:{
@@ -546,6 +543,8 @@ export default {
             this.basicMessage.recommenderPhone = data.RESULT.mobile
           } else {
             // this.$message.warning(data.RESULT);
+            this.basicMessage.recommenderName = ''
+            this.basicMessage.recommenderPhone = ''
           }
         }, function(error) {
           this.$message.error('请求错误,请稍后再试');
@@ -565,8 +564,10 @@ export default {
       console.log(this.unitInformation.industry)
      if(this.unitInformation.industry == 88){
       this.remark = true;
+      this.hid = false;
      }else{
       this.remark = false;
+      this.hid = true;
      }
     },
     //选择银行
@@ -873,4 +874,10 @@ export default {
    .el-cascader-menu{
      min-width: 214px !important;
    }
+   input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button{
+      -webkit-appearance: none !important;
+      margin: 0; 
+  }
+  input[type="number"]{-moz-appearance:textfield;}
 </style>

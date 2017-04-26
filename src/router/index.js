@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
+import host from '../common.js'
+import ajax from '../components/api/ajax'
 // 404
 import notFound from '@/components/notFoundComponent'
 
@@ -47,6 +49,25 @@ import bussinessRegister from '@/components/register/bussinessRegister'//商家�
 
 Vue.use(Router)
 
+// function requireAuth (to, from, next) {
+//   ajax('GET', host.basic.basicUrl + '/register/selectCurrentUser').
+//     then(res => {
+//       console.log(res);
+//         if (res.ERRORCODE == 0) {
+//           if (res.RESULT != 6) {
+//             next({
+//               path: '/',
+//               query: { redirect: to.fullPath }
+//             })
+//           } else {
+//             next();
+//           }
+//         } else {
+//           next('/');
+//         }
+//     })
+// }
+
 export default new Router({
   routes: [
     // 主入口
@@ -58,16 +79,20 @@ export default new Router({
     //注册
     {
       path: '/consumerRegister',
-      component: consumerRegister,
+      component: consumerRegister
+      // beforeEnter: requireAuth
     },
     {
       path: '/bussinessRegister',
       component: bussinessRegister
+      // beforeEnter: requireAuth
+
     },
     // 用户部分
     {
       path: '/user',
       component: uIndex,
+      // beforeEnter: requireAuth,
       children: [{
         path: '/',
         component: uIndexDream //淘梦地带
@@ -110,6 +135,8 @@ export default new Router({
     {
       path: '/business',
       component: bIndex,
+      // beforeEnter: requireAuth,
+
       children: [{
         path: '/',
         component: bIndexDream //淘梦地带
@@ -145,6 +172,7 @@ export default new Router({
       path: '/clerk',
       name: 'cIndex',
       component: cIndex,
+      // beforeEnter: requireAuth,
 
       children:[{
         path: '/', //推荐激励
