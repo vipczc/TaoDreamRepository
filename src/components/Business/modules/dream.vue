@@ -29,9 +29,9 @@
             <p>银行卡号:&#12288<span>{{ bankCardNumber }}</span></p>
             <p>商家ID:&#12288<span>TMZSP125458</span></p>
           </div>
-          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
+          <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button> -->
+                      <el-button @click="login()">登录</el-button>
         </el-col>
 
       </div>
@@ -171,10 +171,10 @@
         </el-col>
       </div>
   </el-col>
-  <basic :dialogValue="basicDialog" v-on:message="basicMessage"></basic>
+  <!-- <basic :dialogValue="basicDialog" v-on:message="basicMessage"></basic> -->
   <withdrawSum :sumValue="withdrawSumDialog" v-on:withdraw="withdrawMessage"></withdrawSum>
   <extractionQuota :quotaValue="extractionQuotaDialog" v-on:extraction="extractionMessage"></extractionQuota>
-  <giveQuota :giveValue="giveQuotaDialog" v-on:give="giveMessage"></giveQuota>
+  <!-- <giveQuota :giveValue="giveQuotaDialog" v-on:give="giveMessage"></giveQuota> -->
   <TDRecordSum :tdValue="tdrecordSumDialog" v-on:td="tdMessage"></TDRecordSum>
   </div>
 </template>
@@ -291,9 +291,9 @@ export default {
       this.extractionQuotaDialog.show = isb.show
       this.extractionUpData = isb.upData
     },
-    giveMessage(isb) { //子组件返回值 赠送额度
-      this.giveQuotaDialog = isb
-    },
+    // giveMessage(isb) { //子组件返回值 赠送额度
+    //   this.giveQuotaDialog = isb.show
+    // },
     tdMessage(isb) { //子组件返回值 淘豆兑换
       this.tdrecordSumDialog.show = isb.show
       this.tdrecordUpData = isb.upData

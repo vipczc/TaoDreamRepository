@@ -2,7 +2,8 @@
   <!-- 消费记录 -->
   <div class="expenseRecord">
     <!-- 搜索 -->
-    <search v-show="!loading"></search>
+    <search v-show="!loading" :searchModel="searchModelData" v-on:elementSearch="elementSearchMessage"></search>
+
     <el-col :span="24" style="background-color:#fff" class="table-box">
       <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
            <el-table-column type="selection" width="55">
@@ -65,12 +66,21 @@ export default {
 
   data() {
 
+
+
     return {
+      searchModelData: {
+        searchStr: '订单号/姓名',
+        searchApi: '',
+        searchFormData: ''
+      },
       tableData: [{
 
       }],
       result: {},
-      onCount: 1,
+      searchState: 0, //搜索状态
+      searchCount: 1, //搜索页数
+      onCount: 1, //未搜索页数
       loading: true,
       consumptionDetails: {
         show: false,
@@ -95,9 +105,14 @@ export default {
     consumptionDetails, //注册详情对话框组件
   },
   watch: {
+    'searchCount': 'searchModelDataFun',
+    'searchState': 'upDatafun',
+    'loading': 'searchModelDataFun',
     'onCount': 'upDatafun'
   },
   mounted() {
+
+    // this.searchModelDataFun()
     //获取当前时间 老时间
     this.upDatafun()
   },
@@ -127,35 +142,72 @@ export default {
       console.log(`每页 ${val} 条`);
 
     },
-    handleCurrentChange(val) {
-      this.onCount = val;
-    },
-    upDatafun() {
-      var timeStart = Date.parse(new Date());
-      var timeEnd = timeStart
-      timeStart = timeStart / 1000;
-      timeStart = basic.basic.formatDate(timeStart)
-      timeEnd = basic.basic.formatDate(timeEnd)
 
-      let formData = new FormData()
-      console.log(formData);
-      formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
-      formData.append('consumerOrderRecordTimeStart', timeStart)
-      formData.append('consumerOrderRecordTimeEnd', timeEnd)
+    elementSearchMessage(isb) { //搜索返回值 更新table表格
+      if (isb instanceof Object) {
 
-      this.$http.post(businessAPi.consumerOrderRecord, formData).then((objData) => {
-        console.log(objData.data.RESULT);
-        this.result = objData.data.RESULT //Object 所有数据
-        //时间处理
+        this.result = isb.RESULT
         for (var i = 0; i < this.result.data.length; i++) {
           this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
         }
         this.tableData = this.result.data
-
         this.loading = false
-      }).catch((err) => {
-        console.log(err);
-      })
+        this.searchState = 1 //搜索状态开启
+      } else {
+        this.searchState = 0
+      }
+
+
+    },
+    handleCurrentChange(val) {
+      // this.onCount = val;
+      if (this.searchState == 0) {
+        this.onCount = val;
+      } else if (this.searchState == 1) {
+        this.searchCount = val;
+      }
+
+    },
+    upDatafun() {
+      if (this.searchState == 0) {
+        var timeStart = Date.parse(new Date());
+        var timeEnd = timeStart
+        timeStart = timeStart / 1000;
+        timeStart = basic.basic.formatDate(timeStart)
+        timeEnd = basic.basic.formatDate(timeEnd)
+
+        let formData = new FormData()
+        console.log(formData);
+        formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
+        formData.append('consumerOrderRecordTimeStart', timeStart)
+        formData.append('consumerOrderRecordTimeEnd', timeEnd)
+
+        this.$http.post(businessAPi.consumerOrderRecord, formData).then((objData) => {
+          console.log(objData.data.RESULT);
+          this.result = objData.data.RESULT //Object 所有数据
+          //时间处理
+          for (var i = 0; i < this.result.data.length; i++) {
+            this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
+          }
+          this.tableData = this.result.data
+
+          this.loading = false
+        }).catch((err) => {
+          console.log(err);
+        })
+      }
+
+    },
+
+
+    searchModelDataFun() { //初始化 搜索框
+      if (this.loading == false) {
+        this.searchModelData.searchApi = businessAPi.consumerOrderRecord
+        this.searchModelData.searchFormData = new FormData()
+        this.searchModelData.searchFormData.set('pageNum', this.searchCount == undefined ? '1' : this.searchCount)
+      }
+
+
     }
 
 

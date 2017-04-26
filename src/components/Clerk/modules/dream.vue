@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="dream" >
+  <div class="dream clerkDream" >
   <!-- 用户信息 -->
   <el-col :span="24">
       <div class="user-message">
@@ -30,9 +30,9 @@
             <p>账号密码&#12288:&#12288<span>{{ password }}</span></p>
             <p>银行卡号&#12288:&#12288<span>{{ bankCard }}</span></p>
           </div>
-          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
+          <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button> -->
+                      <el-button @click="login()">登录</el-button>
         </el-col>
       </div>
   </el-col>
@@ -121,7 +121,7 @@
   </el-col>
   <!-- 提现 -->
   <el-col :span="24">
-      <div class="user-withdrawa " style="margin-top:0px;">
+      <div class="user-withdrawa " id="animationAuto" style="margin-top:0px;">
         <!-- 提现图标 -->
         <el-col :span="4">
           <div class="withdrawa-logo">
@@ -160,7 +160,7 @@
   </el-col>
   <!-- 淘豆 -->
   <el-col :span="24">
-      <div class="user-td">
+      <div class="user-td" id="clerktd">
         <el-col :span="4">
           <!-- 淘豆图标 -->
           <div class="td-logo">
@@ -521,5 +521,36 @@ export default {
   font-size: 20px !important;
   color: #1fd34d !important;
 
+}
+
+#animationAuto{
+-webkit-animation:fadeInRight 1s .7s ease both;
+-moz-animation:fadeInRight 1s .7s ease both;}
+@-webkit-keyframes fadeInRight{
+0%{opacity:0;
+-webkit-transform:translateX(140px)}
+100%{opacity:1;
+-webkit-transform:translateX(0)}
+}
+@-moz-keyframes fadeInRight{
+0%{opacity:0;
+-moz-transform:translateX(140px)}
+100%{opacity:1;
+-moz-transform:translateX(0)}
+}
+#clerktd{
+-webkit-animation:ktd 1s .7s ease both;
+-moz-animation:ktd 1s .7s ease both;}
+@-webkit-keyframes ktd{
+0%{opacity:0;
+-webkit-transform:translateX(200px)}
+100%{opacity:1;
+-webkit-transform:translateX(0)}
+}
+@-moz-keyframes ktd{
+0%{opacity:0;
+-moz-transform:translateX(200px)}
+100%{opacity:1;
+-moz-transform:translateX(0)}
 }
 </style>

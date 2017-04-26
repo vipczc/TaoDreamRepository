@@ -2,7 +2,8 @@
   <!-- 消费记录 -->
   <div class="expenseRecord">
     <!-- 搜索 -->
-    <!-- <search></search> -->
+    <search v-show="!loading" :searchModel="searchModelData" v-on:elementSearch="elementSearchMessage" ></search>
+
     <el-col :span="24" style="background-color:#fff" class="table-box">
       <el-table :data="tableData" style="width: 100%;height: 780px;"max-height="800" v-loading.body="loading" element-loading-text="加载中">
            <el-table-column type="selection" width="55">
@@ -70,9 +71,15 @@ export default {
   data() {
 
     return {
-
+      searchModelData: {
+        searchStr: '订单编号',
+        searchApi: '',
+        searchFormData: ''
+      },
+      searchState: 0, //搜索状态
+      searchCount: 1, //搜索页数
       onCount: 1, //
-      loading: false,
+      loading: true,
       consumptionDetails: {
         show: false,
         index: 0,
@@ -82,10 +89,11 @@ export default {
       incentiveDetails: {
         show: false,
         index: 0,
-        typeShow: 0
+        typeShow: 0,
+        userId: 0
       },
       tableData: [{
-        orderNo: 'NaN', //订单编号
+        orderNo: '', //订单编号
         consumptionDate: 2, //消费日期
         consumptionAmount: 3, //消费金额
         incentiveProportion: 4, //激励比例
@@ -98,9 +106,7 @@ export default {
       b: 0,
       sum: 0,
       tableItemCount: 18,
-      result: {
-        orderNo: ''
-      },
+      result: {},
     }
   },
   components: {
@@ -112,11 +118,14 @@ export default {
     this.upDatafun()
   },
   watch: {
+    'searchCount': 'searchModelDataFun',
+    'searchState': 'upDatafun',
+    'loading': 'searchModelDataFun',
     'onCount': 'upDatafun'
   },
   methods: {
     incentiveMessage(isb) {
-      this.incentiveDetails.show = isb
+      this.incentiveDetails.show = isb.show
     },
     consumptionMessage(isb) {
       this.consumptionDetails.show = isb.show
@@ -130,7 +139,9 @@ export default {
     },
     handleIncentiveDetails(index, row) {
       this.incentiveDetails.show = true //激活 对话框
+      this.incentiveDetails.userId = this.tableData[index].id
       this.incentiveDetails.index = row.id //传入当前的数据ID
+      this.incentiveDetails.objectData = this.result.data[index]
 
       console.log(index, row);
     },
@@ -145,36 +156,78 @@ export default {
       console.log(`每页 ${val} 条`);
 
     },
-    handleCurrentChange(val) {
-      this.onCount = val;
-    },
-    upDatafun() {
-      let timeStart = Date.parse(new Date());
-      let timeEnd = timeStart
-      timeStart = timeStart / 1000;
-      timeStart = basic.basic.formatDate(timeStart)
-      timeEnd = basic.basic.formatDate(timeEnd)
 
-      let formData = new FormData()
-      formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
-      formData.append('startDate', timeStart)
-      formData.append('endDate', timeEnd)
+    elementSearchMessage(isb) { //搜索返回值 更新table表格
 
-      this.$http.post(userApi.listConsumptionRecord, formData).then((objData) => { //淘豆兑换
-        console.log(objData.data.RESULT);
-        this.result = objData.data.RESULT //Object 所有数据
-        //时间处理
+      if (isb instanceof Object) {
+
+        this.result = isb.RESULT
         for (var i = 0; i < this.result.data.length; i++) {
           this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
           this.result.data[i].startEncourageDate = basic.basic.formatDate(this.result.data[i].startEncourageDate)
           this.result.data[i].endEncourageDate = basic.basic.formatDate(this.result.data[i].endEncourageDate)
+
         }
         this.tableData = this.result.data
-
         this.loading = false
-      }).catch((err) => {
-        console.log(err);
-      })
+        this.searchState = 1 //搜索状态开启
+      } else {
+        this.searchState = 0
+      }
+
+
+
+
+    },
+    handleCurrentChange(val) {
+      // this.onCount = val;
+      if (this.searchState == 0) {
+        this.onCount = val;
+      } else if (this.searchState == 1) {
+        this.searchCount = val;
+      }
+
+    },
+
+    upDatafun() {
+      if (this.searchState == 0) {
+        let timeStart = Date.parse(new Date());
+        let timeEnd = timeStart
+        timeStart = timeStart / 1000;
+        timeStart = basic.basic.formatDate(timeStart)
+        timeEnd = basic.basic.formatDate(timeEnd)
+
+        let formData = new FormData()
+        formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
+        formData.append('startDate', timeStart)
+        formData.append('endDate', timeEnd)
+
+        this.$http.post(userApi.listConsumptionRecord, formData).then((objData) => { //淘豆兑换
+          console.log(objData.data.RESULT);
+          this.result = objData.data.RESULT //Object 所有数据
+          //时间处理
+          for (var i = 0; i < this.result.data.length; i++) {
+            this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
+            this.result.data[i].startEncourageDate = basic.basic.formatDate(this.result.data[i].startEncourageDate)
+            this.result.data[i].endEncourageDate = basic.basic.formatDate(this.result.data[i].endEncourageDate)
+          }
+          this.tableData = this.result.data
+
+          this.loading = false
+        }).catch((err) => {
+          console.log(err);
+        })
+      }
+
+    },
+    searchModelDataFun() { //初始化 搜索框
+      if (this.loading == false) {
+        this.searchModelData.searchApi = userApi.listConsumptionRecord
+        this.searchModelData.searchFormData = new FormData()
+        this.searchModelData.searchFormData.set('pageNum', this.searchCount == undefined ? '1' : this.searchCount)
+      }
+
+
     }
 
 

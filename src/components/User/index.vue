@@ -7,12 +7,15 @@
     <el-col class="nav-content">
       <el-col :xs="24" :sm="{span:6,offset:0}" :md="{span:6,offset:0}" :lg="{span:4,offset:0}">
 
-            <span class="nav-common-logo">TMZ淘梦者</span>
+            <span class="nav-common-logo"><img src="../../assets/img/TMZ.png" alt="Logo"></span>
+
 
         </el-col>
         <el-col :xs="0" :sm="{span:6,offset:12}" :md="{span:6,offset:12}" :lg="{span:4,offset:16}">
+        <div class="nav-quit-box">
+          <router-link to="/" class="nav-quit"><img src="../../assets/img/退出按钮.png" alt="quit"><span id="quit"> 退出</span></router-link>
+        </div>
 
-            <router-link to="/" class="nav-quit"><img src="../../assets/img/退出按钮.png" alt="quit"></router-link>
 
         </el-col>
     </el-col>
@@ -125,17 +128,20 @@ body{
 /*导航样式*/
 .nav-content{
   height: 100px;
-  background-color: #ff6805;
+  background-image: url('../../assets/img/www.adsbooks.com.png');
 }
-.nav-common-logo{
+.nav-common-logo img{
+  position: relative;
+  top: 7px;
   line-height: 100px;
   font-size: 24px;
   font-weight: bold;
   color: #FFF;
 }
 .nav-quit{
-  line-height: 100px;
-  color: #FFF;
+
+
+
   text-decoration:none
 }
 /*侧边栏样式*/
@@ -185,5 +191,18 @@ background-color: #fff7f1;
 
 }
 
+#quit{
+  height: 22px;
+  position: relative;
+  top:-4px;
+  margin-left: 8px;
+line-height: 22px;
+font-size: 19px;
+color: #FFF;
+text-decoration:none;
+}
+.nav-quit-box{
 
+  margin-top: 9px;
+}
 </style>

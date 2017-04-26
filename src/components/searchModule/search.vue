@@ -13,18 +13,26 @@
       </div>
     </el-col>
     <!-- 日期 -->
-    <el-col :span="7">
-      <div class="block">
+    <el-col :span="5">
+
 
 
   <el-input
-  placeholder="请根据姓名 编号搜索"
-  icon="search"
+  :placeholder="searchModel.searchStr"
+  icon="close"
   v-model="SearchValue"
-  :on-icon-click="handleIconClick">
-</el-input>
-</div>
+  :on-icon-click="cancelSearch"
+v-on:change="mcg"
+  >
 
+</el-input>
+
+
+
+
+    </el-col>
+    <el-col :span="1">
+            <el-button @click="handleIconClick"  type="info" icon="search"></el-button>
     </el-col>
   </div>
 </template>
@@ -64,12 +72,20 @@ export default {
       searchStartDate: '', //开始时间
       searchEndDate: '', //结束时间
       value6: '',
-      value7: ''
+      value7: '',
+      searchState: 1,
+      package: {
+        SearchValue: 1
+      }, //包裹
+
     }
   },
-  // props:{
-  //   searchModel:Object
-  // },
+  watch: {
+
+  },
+  props: {
+    searchModel: Object
+  },
   methods: {
     //搜索按钮事件
     dateChange(date) {
@@ -77,6 +93,14 @@ export default {
       this.searchEndDate = date.substring(13, 23)
     },
     handleIconClick(ev) {
+      if (!this.searchStartDate == '') {
+        this.submitSearch()
+
+      } else {
+        this.messageError()
+      }
+
+
       //点击搜索 进行获取搜索API 获取参数 关键字 与 日期时间
       // this.searchModel.urlApi //搜索API的URL
       // this.searchModel.endDateVariable //结束日期 变量名称设置
@@ -85,30 +109,70 @@ export default {
       // this.searchModel.pageVariable//搜索页数 变量名称设置
 
     },
+    mcg() {
+
+      if (this.SearchValue == '') {
+        this.searchState = 0
+        this.$emit('elementSearch', this.searchState)
+      }
+    },
+    cancelSearch() {
+      this.SearchValue = ''
+      this.searchState = 0
+      this.$emit('elementSearch', this.searchState)
+    },
     submitSearch() {
-      // let formData = new FormData()
-      // formData.append(this.searchModel.pageVariable, this.getDataResource.TDMoney)
-      // formData.append(this.searchModel.startDateVariable, this.getDataResource.TDMoney)
-      // formData.append(this.searchModel.endDateVariable, this.getDataResource.TDMoney)
-      // formData.append(this.searchModel.searchVariable, this.getDataResource.TDMoney)
-      //
-      // this.$http.post(userApi.exchangeTaodou, formData).then((objData) => {
-      //
-      //
-      //   if (objData.data.ERRORCODE == 0) {
-      //     this.disInput = false
-      //     this.tdrecordSumDialog.show = false
-      //     this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
-      //     this.$emit('td', this.tdrecordSumDialog)
-      //     this.scuess(objData.data.RESULT)
-      //   } else {
-      //     this.errorScuess(objData.data.RESULT)
-      //   }
-      //
-      // }).catch((err) => {
-      //   console.log('访问错误2' + err);
-      // })
+
+      let formData = this.searchModel.searchFormData
+      formData.set('requestPatameter', this.SearchValue == undefined ? '' : this.SearchValue) //搜索值
+      formData.set('consumerOrderRecordTimeStart', this.searchStartDate) //搜索日期
+      formData.set('consumerOrderRecordTimeEnd', this.searchEndDate) //搜索结束日期
+      formData.set('taodouRecordTimeStart', this.searchStartDate) //搜索日期
+      formData.set('taodouRecordTimeEnd', this.searchEndDate) //搜索结束日期
+
+      formData.set('customerTimeStart', this.searchStartDate) //搜索日期
+      formData.set('customerTimeEnd', this.searchEndDate) //搜索结束日期
+
+      formData.set('consumerOrderRecordTimeStart', this.searchStartDate) //搜索日期
+      formData.set('consumerOrderRecordTimeEnd', this.searchEndDate) //搜索结束日期
+      formData.set('startDate', this.searchStartDate) //搜索日期
+      formData.set('endDate', this.searchEndDate) //搜索结束日期
+
+      formData.set('orderNo', this.SearchValue == undefined ? '' : this.SearchValue) //单据号
+      formData.set('searchStr', this.SearchValue == undefined ? '' : this.SearchValue) //单据号
+      formData.set('userType', this.searchModel.userType == undefined ? '1' : this.searchModel.userType) //推荐类型（1：消费者；2商家）
+
+      formData.set('recommendType', this.searchModel.userType == undefined ? '1' : this.searchModel.userType) //推荐类型（1：消费者；2商家）
+
+
+      //获取
+      this.$http.post(this.searchModel.searchApi, this.searchModel.searchFormData).then((objData) => {
+
+
+        if (objData.data.ERRORCODE == 0) {
+          // console.log(objData.data);
+          this.$emit('elementSearch', objData.data)
+          // this.disInput = false
+          // this.tdrecordSumDialog.show = false
+          // this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
+          // this.$emit('td', this.tdrecordSumDialog)
+          // this.scuess(objData.data.RESULT)
+        } else {
+          this.errorScuess(objData.data.RESULT)
+        }
+
+      }).catch((err) => {
+        console.log('访问错误2' + err);
+      })
+    },
+    messageError() {
+      this.$message({
+        showClose: true,
+        message: '请输入查询日期',
+        type: 'warning'
+      });
     }
+
   },
 
 }

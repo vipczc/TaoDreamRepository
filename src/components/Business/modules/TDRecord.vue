@@ -3,7 +3,8 @@
       <!-- 淘豆流水 -->
       <div class="TDRecord">
         <!-- 搜索 -->
-        <search v-show="!loading"></search>
+        <search v-show="!loading" :searchModel="searchModelData" v-on:elementSearch="elementSearchMessage"></search>
+
         <el-col :span="24" style="background-color:#fff" class="table-box">
           <el-table :data="tableData" style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
                <el-table-column type="selection" width="55">
@@ -58,6 +59,13 @@ export default {
   data() {
 
     return {
+      searchModelData: {
+        searchStr: '订单号 / 商家名称 / 商家账号',
+        searchApi: '',
+        searchFormData: ''
+      },
+      searchState: 0, //搜索状态
+      searchCount: 1, //搜索页数
       result: {},
       onCount: 1,
       loading: true,
@@ -83,6 +91,9 @@ export default {
     this.upDatafun()
   },
   watch: {
+    'searchCount': 'searchModelDataFun',
+    'searchState': 'upDatafun',
+    'loading': 'searchModelDataFun',
     'onCount': 'upDatafun'
   },
   methods: {
@@ -97,12 +108,33 @@ export default {
       console.log(`每页 ${val} 条`);
 
     },
-    handleCurrentChange(val) {
-      this.onCount = val;
 
+    elementSearchMessage(isb) { //搜索返回值 更新table表格
+      if (isb instanceof Object) {
+
+        this.result = isb.RESULT
+        for (var i = 0; i < this.result.data.length; i++) {
+          this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
+        }
+        this.tableData = this.result.data
+        this.loading = false
+        this.searchState = 1 //搜索状态开启
+      } else {
+        this.searchState = 0
+      }
 
 
     },
+    handleCurrentChange(val) { //分页
+      // this.onCount = val;
+      if (this.searchState == 0) {
+        this.onCount = val;
+      } else if (this.searchState == 1) {
+        this.searchCount = val;
+      }
+
+    },
+
     upDatafun() {
       var timeStart = Date.parse(new Date());
       var timeEnd = timeStart
@@ -129,6 +161,15 @@ export default {
       }).catch((err) => {
         console.log(err);
       })
+    },
+    searchModelDataFun() { //初始化 搜索框
+      if (this.loading == false) {
+        this.searchModelData.searchApi = businessAPi.taodouRecord
+        this.searchModelData.searchFormData = new FormData()
+        this.searchModelData.searchFormData.set('pageNum', this.searchCount == undefined ? '1' : this.searchCount)
+      }
+
+
     }
 
 

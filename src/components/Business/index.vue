@@ -143,7 +143,7 @@ export default {
 /*导航样式*/
 .nav-content{
   height: 100px;
-  background-color: #ff6805;
+  background-image: url('../../assets/img/www.adsbooks.com.png');
 }
 .nav-common-logo{
   line-height: 100px;

@@ -29,7 +29,7 @@
           <div class="user-message-content">
             <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
             <p>行&#12288&#12288业:&#12288<span>{{ profession }}</span></p>
-            <p>会员ID&#12288:&#12288<span>TMZ15555</span></p>
+            <p>会员ID&#12288:&#12288<span>{{ memberCode }}</span></p>
 <img src="/taodream-consumer/validateCode" alt="验证码">
             验证码:<input type="text" name="" v-model="pngimg" value="">
             <el-button @click="login()">登录</el-button>
@@ -244,6 +244,7 @@ export default {
       recommendCount: 0, //推荐数
       recommendAward: 0, //推荐奖励
       profession: '', //行业
+      memberCode: '', //会员ID
 
       basicDialog: {
         show: false,
@@ -372,8 +373,10 @@ export default {
         console.log(objData);
 
         if (objData.data.ERRORCODE == 0) { //成功
+
           this.result = objData.data.RESULT
           this.userAge = objData.data.RESULT.birthday //	出生年月
+          this.memberCode = objData.data.RESULT.memberCode //会员ID
           this.withdrawSum = objData.data.RESULT.banlance //	余额
           this.userBlock = objData.data.RESULT.cardNumber //银行卡号
           this.recommendLimit = objData.data.RESULT.costQuota //已消费额度

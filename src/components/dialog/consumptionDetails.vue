@@ -149,7 +149,7 @@ export default {
           formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
           formData.append('consumerOrderId', this.consumptionValue.objectData.id)
 
-          this.$http.post(businessAPi.consumptionDetail, formData).then((objData) => {
+          this.$http.post(userApi.consumptionDetail, formData).then((objData) => {
             console.log(objData.data.RESULT);
             this.result = objData.data.RESULT //Object 所有数据
 
