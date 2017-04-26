@@ -2,28 +2,28 @@
   <div class="basicClerk">
     <!-- 对话框 基本信息咨询师 -->
     <el-dialog title="修改密码" v-model="basicClerkDialog = basicClerkValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%">
-  <div class="cir" @click="onBasicClerk"><i class="el-icon-close" ></i></div>
-          <el-form label-width="80px" :model="formBasicClerk">
+  <div class="cir" @click="onBasicClerkOver"><i class="el-icon-close" ></i></div>
+          <el-form label-width="80px" :model="formBasicClerk" :rules="rulesBasicClerk" ref="formBasicClerk">
             <div class="dialog-list-box">
               <div class="box-left">
                 <el-form-item label="账号:">
-                <span>{{ formBasicClerk.accountNumber }}</span>
+                <span>{{ basicClerkValue.mobile }}</span>
                 </el-form-item>
               </div>
               <div class="box-right">
                 <el-form-item label="密码:">
-                <span>{{ formBasicClerk.oldPassWord }}</span>
+                <span>{{ basicClerkValue.pwd }}</span>
                 </el-form-item>
               </div>
 
-              <el-form-item label="验证码:">
-              <el-input v-model="formBasicClerk.verificationCode" placeholder="请输入验证码"><el-button  slot="append" type="primary" :disabled="isgetverify" @click="sendAuthCode">{{ textb }}</el-button></el-input>
+              <el-form-item label="验证码:" prop="verificationCode">
+              <el-input :disabled="disInput" v-model="formBasicClerk.verificationCode"  placeholder="请输入验证码"><el-button  slot="append" type="primary" :disabled="isgetverify" @click="sendAuthCode">{{ textb }}</el-button></el-input>
               </el-form-item>
-              <el-form-item label="新的密码:">
-              <el-input v-model="formBasicClerk.newPassWord" placeholder="请输入新的密码"></el-input>
+              <el-form-item label="新的密码:" prop="newPassWord">
+              <el-input :disabled="disInput" v-model="formBasicClerk.newPassWord" type="password" placeholder="请输入新的密码"></el-input>
               </el-form-item>
-              <el-form-item label="确认密码:">
-              <el-input v-model="formBasicClerk.okPassWord" placeholder="请输入确认密码"></el-input>
+              <el-form-item label="确认密码:" prop="okPassWord">
+              <el-input :disabled="disInput" v-model="formBasicClerk.okPassWord" type="password" placeholder="请输入确认密码"></el-input>
               </el-form-item>
             </div>
 
@@ -31,16 +31,62 @@
         </el-form>
   <span slot="footer" class="dialog-footer">
 
-    <el-button type="primary" @click="onBasicClerk">提 交</el-button>
+    <el-button type="primary" @click="onBasicClerk('formBasicClerk')">提 交</el-button>
   </span>
 </el-dialog>
   </div>
 </template>
 
 <script>
+import {
+  userApi,
+  clerkApi,
+  businessAPi
+} from '../api/apiCode.js'
 export default {
   data() {
+
+    var checkPass = (rule, value, callback) => {
+      if (!/^[a-zA-Z0-9]{6,18}$/.test(value)) {
+        callback(new Error('请输入格式正确的密码6-18位可由字符数字字母组成!'));
+      }
+      callback();
+    }
+    var checkStr = (rule, value, callback) => {
+      if (!/^[A-Za-z0-9]+$/.test(value)) {
+        callback(new Error('请输入正确的字符,英文或数字'));
+      }
+
+      callback();
+    }
+
+    var checkStrTwo = (rule, value, callback) => {
+      if (!/^[A-Za-z0-9]+$/.test(value)) {
+        callback(new Error('请输入正确的字符,英文或数字'));
+      }
+      if (value !== this.formBasicClerk.newPassWord) {
+        callback(new Error('两次输入密码不一致!'));
+      }
+
+      callback();
+    }
+
     return {
+      disInput: false,
+      rulesBasicClerk: {
+        verificationCode: [{
+          validator: checkStr,
+          trigger: 'blur'
+        }],
+        newPassWord: [{
+          validator: checkPass,
+          trigger: 'blur'
+        }],
+        okPassWord: [{
+          validator: checkStrTwo,
+          trigger: 'blur'
+        }]
+      },
       con: 0,
       isgetverify: false,
       textb: '发送验证码',
@@ -74,13 +120,69 @@ export default {
         }, 1000)
         this.isgetverify = true
         console.log('发送请求');
+        this.codeVerification()
       } else {
         console.log('不发送请求');
       }
     },
-    onBasicClerk() {
+    onBasicClerkOver() {
+
+      //1000为1秒钟
       this.basicClerkDialog = false
       this.$emit('clerkBasic', this.basicClerkDialog)
+    },
+    onBasicClerk(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+
+
+          this.disInput = true
+          this.submitForm() //提交 请求
+
+
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+
+    },
+    codeVerification() {
+      this.$http.post(clerkApi.sendCode).then((objData) => { //淘豆兑换
+        console.log(objData.data.RESULT == 'ok');
+
+      }).catch((err) => {
+        console.log(err);
+      })
+    },
+    submitForm() {
+      let formData = new FormData()
+      formData.append('checkCode', this.formBasicClerk.verificationCode) //姓名
+      formData.append('mobile', this.basicClerkValue.mobile) //电话
+      formData.append('password', this.formBasicClerk.newPassWord) //电话
+      formData.append('confirmPassword', this.formBasicClerk.okPassWord) //电话
+      this.$http.post(clerkApi.updatePassword, formData).then((objData) => { //淘豆兑换
+        if (objData.data.RESULT == 'ok') {
+          this.messageOK() //成功
+
+          setTimeout(() => {
+            window.location = '/'
+          }, 1500);
+
+          // this.basicClerkDialog = false
+          // this.$emit('clerkBasic', this.basicClerkDialog)
+        }
+        this.disInput = false
+      }).catch((err) => {
+        console.log(err);
+      })
+    },
+
+    messageOK() {
+      this.$message({
+        message: '恭喜你，密码修改成功! 正在跳转登录页面请稍后....',
+        type: 'success'
+      });
     }
   }
 }

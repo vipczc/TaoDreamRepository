@@ -102,12 +102,7 @@ export default {
         objectData: {},
         thisUserType: 0
       },
-      tableData: [{
-        conversionDate: '', //兑换日期
-        conversionTaodou: '', //兑换淘豆
-        conversionAmountReceived: '', //兑换获得金额
-        surplusTaodou: '' //剩余淘豆
-      }],
+      tableData: [],
       allData: '',
       totalCount: 0, //分页数
       a: 0,

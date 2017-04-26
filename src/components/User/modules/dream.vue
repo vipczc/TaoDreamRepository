@@ -30,9 +30,9 @@
             <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
             <p>行&#12288&#12288业:&#12288<span>{{ profession }}</span></p>
             <p>会员ID&#12288:&#12288<span>{{ memberCode }}</span></p>
-<img src="/taodream-consumer/validateCode" alt="验证码">
+<!-- <img src="/taodream-consumer/validateCode" alt="验证码">
             验证码:<input type="text" name="" v-model="pngimg" value="">
-            <el-button @click="login()">登录</el-button>
+            <el-button @click="login()">登录</el-button> -->
           </div>
         </el-col>
 
@@ -46,7 +46,7 @@
         <el-col :span="4">
           <div class="withdrawa-logo">
                 <div class="logo-content">
-                  <img src="../../../assets/img/提现.png" alt="提现">
+                  <img src="../../../assets/img/withdrawDeposit.png" alt="提现">
                   <p>提现</p>
                 </div>
 
@@ -87,7 +87,7 @@
           <!-- 淘豆图标 -->
           <div class="td-logo">
             <div class="logo-content">
-              <img src="../../../assets/img/淘豆.png" alt="淘豆">
+              <img src="../../../assets/img/toddle.png" alt="淘豆">
               <p>淘豆</p>
             </div>
           </div>
@@ -130,7 +130,7 @@
           <!-- 额度图标 -->
           <div class="limit-logo">
             <div class="logo-content">
-              <img src="../../../assets/img/额度.png" alt="额度">
+              <img src="../../../assets/img/amount.png" alt="额度">
               <p>额度</p>
             </div>
           </div>
@@ -182,7 +182,7 @@
             <!-- 额度图标 -->
             <div class="recommend-logo">
               <div class="logo-content">
-                <img src="../../../assets/img/推荐.png" alt="推荐" id="recommend-logo-content">
+                <img src="../../../assets/img/recommend.png" alt="推荐" id="recommend-logo-content">
                 <p>推荐</p>
               </div>
             </div>
@@ -421,7 +421,7 @@ export default {
 .user-headPortrait{
   width: 144px;
   height: 144px;
-  background-image: url(../../../assets/img/默认头像.png);
+  background-image: url(../../../assets/img/DefaultAvatar.png);
   background-color: #e6e6e6;
   border: 2px solid #FFF;
   border-radius: 72px;

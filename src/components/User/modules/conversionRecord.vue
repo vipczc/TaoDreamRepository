@@ -68,10 +68,8 @@ export default {
     return {
       result: {},
       onCount: 1, //
-      loading: false,
-      tableData: [{
-
-      }],
+      loading: true,
+      tableData: [],
       allData: '',
       totalCount: 0, //分页数
       a: 0,

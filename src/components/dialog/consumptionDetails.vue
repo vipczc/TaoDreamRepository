@@ -108,9 +108,7 @@ export default {
         incentiveStartDate: '', //激励开始日期
         incentiveEndDate: '' //激励结束日期
       },
-      tableData: [{
-
-      }],
+      tableData: [],
       consumptionDetailsDialog: {
         show: false,
       }

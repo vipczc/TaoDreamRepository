@@ -12,7 +12,7 @@
         </el-col>
         <el-col :xs="0" :sm="{span:6,offset:12}" :md="{span:6,offset:12}" :lg="{span:4,offset:16}">
 
-            <router-link to="/" class="nav-quit"><img src="../../assets/img/退出按钮.png" alt="quit"></router-link>
+            <router-link to="/" class="nav-quit"><img src="../../assets/img/ExitButton.png" alt="quit"></router-link>
 
         </el-col>
     </el-col>
@@ -22,13 +22,13 @@
     <el-col :xs="6" :sm="{span:5,offset:0}" :md="{span:5,offset:0}" :lg="{span:3,offset:0}">
       <el-menu  id="business-sidebar-content" mode="vertical" :default-active="defaultActiveNumber" class="el-menu-vertical-demo"  @open="handleOpen" @close="handleClose" @select="handleSelect" :unique-opened="true">
 
-      <el-menu-item index="3" @click="one" name="dreams" ><img class="box-img-one" src="../../assets/img/淘梦地带-选中状态.png" alt="淘梦地带">淘梦地带</el-menu-item>
+      <el-menu-item index="3" @click="one" name="dreams" ><img class="box-img-one" src="../../assets/img/zone.png" alt="淘梦地带">淘梦地带</el-menu-item>
       <el-submenu index="1">
-        <template slot="title"><img class="box-img-one" src="../../assets/img/账单记录.png" alt=""><span class="two-item-text">账单记录</span></template>
+        <template slot="title"><img class="box-img-one" src="../../assets/img/BillingRecord.png" alt=""><span class="two-item-text">账单记录</span></template>
         <el-menu-item-group class="box-img-two">
-          <el-menu-item index="1-1" @click="one"><img src="../../assets/img/淘豆流水.png" alt="淘豆流水">淘豆流水</el-menu-item>
-          <el-menu-item index="1-2" @click="one"><img src="../../assets/img/提现记录.png" alt="提现记录">提现记录</el-menu-item>
-          <el-menu-item index="1-3" @click="one"><img src="../../assets/img/兑换记录.png" alt="兑换记录">兑换记录</el-menu-item>
+          <el-menu-item index="1-1" @click="one"><img src="../../assets/img/toddleDaybook.png" alt="淘豆流水">淘豆流水</el-menu-item>
+          <el-menu-item index="1-2" @click="one"><img src="../../assets/img/WithdrawalRecord.png" alt="提现记录">提现记录</el-menu-item>
+          <el-menu-item index="1-3" @click="one"><img src="../../assets/img/conversion.png" alt="兑换记录">兑换记录</el-menu-item>
 
 
 
@@ -37,12 +37,12 @@
 
       <el-submenu index="2">
 <template slot="title">
-<img class="box-img-one" src="../../assets/img/客源展示.png" alt="">
+<img class="box-img-one" src="../../assets/img/PassengersShow.png" alt="">
 <span class="two-item-text">客源展示</span>
 </template>
 <el-menu-item-group class="box-img-two">
-    <el-menu-item index="2-1" @click="one"><img src="../../assets/img/业务记录.png" alt="业务记录">业务基本信息</el-menu-item>
-  <el-menu-item index="2-2" @click="one"><img src="../../assets/img/关联消费记录.png" alt="关联消费记录">关联消费记录</el-menu-item>
+    <el-menu-item index="2-1" @click="one"><img src="../../assets/img/ServiceRecord.png" alt="业务记录">业务基本信息</el-menu-item>
+  <el-menu-item index="2-2" @click="one"><img src="../../assets/img/AssociatedConsumptionRecord.png" alt="关联消费记录">关联消费记录</el-menu-item>
 </el-menu-item-group>
 </el-submenu>
 

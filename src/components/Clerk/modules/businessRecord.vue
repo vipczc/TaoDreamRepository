@@ -107,9 +107,7 @@ export default {
         label: '商家'
       }],
       Value: '1',
-      tableData: [{
-
-      }],
+      tableData: [],
       followUpDialog: {
         show: false,
         objectData: {}

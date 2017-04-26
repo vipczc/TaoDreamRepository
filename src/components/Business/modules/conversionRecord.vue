@@ -69,13 +69,7 @@ export default {
 
     return {
       loading: true,
-      tableData: [{
-        createTime: '', //兑换日期（时间戳）
-        exchangeAmount: '', //兑换获得金额（元）
-        taodouAmount: '', //兑换淘豆（个）
-        taodouBalance: '' //剩余淘豆（个）
-
-      }],
+      tableData: [],
 
       result: {
         iTotalRecords: '', //总条数

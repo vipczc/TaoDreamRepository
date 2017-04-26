@@ -7,10 +7,11 @@
     <div class="dialog-list-box">
 
       <div class="box-left">
-      <p>已激励总淘豆: </p>
+      <p>已激励总淘豆: {{ incentiveValue.objectData.outEncourageAmount }}</p>
+
       </div>
       <div class="box-right">
-        <p>未激励总淘豆:</p>
+        <p>未激励总淘豆:{{ incentiveValue.objectData.waitEncourageAmount }}</p>
       </div>
     </div>
     <el-table :data="tableData"style="width: 100%" max-height="400">
@@ -26,6 +27,7 @@
   <el-pagination
 
 
+  @current-change="handleCurrentChange"
     :current-page="Number(onCount)"
     :page-size="10"
     layout="total, prev, pager, next"
@@ -53,7 +55,7 @@ export default {
 
       loading: true,
       result: {},
-      onCount: 0,
+      onCount: 1,
       tableData: [],
       incentiveDetailsDialog: {
         show: false,
@@ -73,6 +75,13 @@ export default {
     incentiveDetailsValue() { //userId
       this.incentiveDetailsDialog.show = false
       this.$emit('incentive', this.incentiveDetailsDialog)
+    },
+    handleCurrentChange(val) {
+      // this.onCount = val;
+
+      this.onCount = val;
+
+
     },
     upDataFun() {
       if (!this.incentiveValue.show == false) { //控制数据获取

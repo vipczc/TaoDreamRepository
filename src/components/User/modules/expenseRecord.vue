@@ -92,14 +92,7 @@ export default {
         typeShow: 0,
         userId: 0
       },
-      tableData: [{
-        orderNo: '', //订单编号
-        consumptionDate: 2, //消费日期
-        consumptionAmount: 3, //消费金额
-        incentiveProportion: 4, //激励比例
-        startDate: 5, //激励开始日期
-        incentiveEndDate: 6, //激励结束日期
-      }],
+      tableData: [],
       allData: '',
       totalCount: 0, //分页数
       a: 0,

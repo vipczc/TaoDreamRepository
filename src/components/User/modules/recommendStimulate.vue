@@ -56,13 +56,8 @@ export default {
     return {
       result: {},
       onCount: 1,
-      loading: false,
-      tableData: [{
-        conversionDate: '', //兑换日期
-        conversionTaodou: '', //兑换淘豆
-        conversionAmountReceived: '', //兑换获得金额
-        surplusTaodou: '' //剩余淘豆
-      }],
+      loading: true,
+      tableData: [],
       allData: '',
       totalCount: 0, //分页数
       a: 0,

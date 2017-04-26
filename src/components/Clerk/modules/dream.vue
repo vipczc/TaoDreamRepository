@@ -16,7 +16,7 @@
         <el-col :span="6" :offset="1">
           <div class="user-message-content">
             <p>咨询师姓名:&#12288<span>{{ userName }}</span></p>
-            <p>咨询师ID&#12288:&#12288<span>TMZ58158888</span></p>
+            <p>咨询师ID&#12288:&#12288<span>{{clerkNumber}}</span></p>
             <p>联系电话&#12288:&#12288<span>{{ userNuber }}</span></p>
 
 
@@ -27,12 +27,12 @@
         </el-col>
         <el-col :span="10" :offset="1">
           <div class="user-message-content">
-            <p>账号密码&#12288:&#12288<span>{{ password }}</span></p>
+            <p>账号密码&#12288:&#12288<span>************</span></p>
             <p>银行卡号&#12288:&#12288<span>{{ bankCard }}</span></p>
           </div>
-          <img src="/taodream-consumer/validateCode" alt="验证码">
+          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button>
+                      <el-button @click="login()">登录</el-button> -->
         </el-col>
       </div>
   </el-col>
@@ -44,7 +44,7 @@
         <el-col :span="4">
           <div class="withdrawa-logo withdrawa-red">
                 <div class="logo-content">
-                  <img src="../../../assets/img/添加.png" alt="添加">
+                  <img src="../../../assets/img/addition.png" alt="添加">
                   <p>添加</p>
                 </div>
 
@@ -84,7 +84,7 @@
           <!-- 跟进图标 -->
           <div class="td-logo td-greey">
             <div class="logo-content">
-              <img src="../../../assets/img/跟进.png" alt="跟进">
+              <img src="../../../assets/img/Follow-up.png" alt="跟进">
               <p>跟进</p>
             </div>
           </div>
@@ -126,7 +126,7 @@
         <el-col :span="4">
           <div class="withdrawa-logo">
                 <div class="logo-content">
-                  <img src="../../../assets/img/提现.png" alt="提现">
+                  <img src="../../../assets/img/withdrawDeposit.png" alt="提现">
                   <p>提现</p>
                 </div>
 
@@ -165,7 +165,7 @@
           <!-- 淘豆图标 -->
           <div class="td-logo">
             <div class="logo-content">
-              <img src="../../../assets/img/淘豆.png" alt="淘豆">
+              <img src="../../../assets/img/toddle.png" alt="淘豆">
               <p>淘豆</p>
             </div>
           </div>
@@ -222,7 +222,10 @@ export default {
       upData: true, //登录使用
       basicClerkDialog: {
         show: false,
-        objectData: {}
+        objectData: {},
+        mobile: '',
+        pwd: ''
+
       },
       tdrecordSumDialog: {
         show: false,
@@ -237,29 +240,30 @@ export default {
         show: false
       },
       userAge: '40', //年龄
-      bankCard: '8888-8888-8888-8888', //银行卡号
+      bankCard: '', //银行卡号
       userSex: '女', //性别
       userOccupation: '个体', //职业
 
-      withdrawSum: '500', //提现金额
-      TDSum: '60', //跟进金额
-      yesterdayTD: '2', //昨日获得跟进
-      expenseLimit: '66', //消费额度
-      expenseLimitUp: '800', //消费额度提升
-      recommendLimit: '10', //已消费额度
-      surplusLimit: '20', //剩余额度
+      withdrawSum: '0', //提现金额
+      TDSum: '0', //跟进金额
+      yesterdayTD: '0', //昨日获得跟进
+      expenseLimit: '0', //消费额度
+      expenseLimitUp: '0', //消费额度提升
+      recommendLimit: '0', //已消费额度
+      surplusLimit: '0', //剩余额度
 
       //用到一下
       headPortraitUrl: '', //用户头像+
       userType: '咨询师', //用户类型+
-      userName: 'mm', //姓名+
-      userNuber: '13049875665', //电话+
-      password: '123456', //用户密码
-      addPeopleNumber: '20', //添加人数
-      okPeopleNumber: '60', //成功推荐人数
-      allPeopleNumber: '900', //总人数
-      followUpPeopleNumber: '20', //跟进人数
-      defaultActiveNumber: ''
+      userName: '', //姓名+
+      userNuber: '', //电话+
+      password: '', //用户密码
+      addPeopleNumber: '0', //添加人数
+      okPeopleNumber: '0', //成功推荐人数
+      allPeopleNumber: '0', //总人数
+      followUpPeopleNumber: '0', //跟进人数
+      defaultActiveNumber: '',
+      clerkNumber: '',
     }
   },
   components: {
@@ -304,7 +308,7 @@ export default {
     },
     basicClerkDialogShow() { //修改密码
 
-      this.basicClerkDialog.pwd = this.userNuber //密码
+      this.basicClerkDialog.pwd = this.password //密码
       this.basicClerkDialog.mobile = this.userNuber //用户名
       this.basicClerkDialog.show = true
     },
@@ -325,7 +329,7 @@ export default {
 
       let formData = new FormData()
       formData.append('userName', '13357156388')
-      formData.append('passWord', 'hujinhu')
+      formData.append('passWord', '123456789')
       formData.append('userType', '3')
       formData.append('imageCode', this.pngimg)
 
@@ -351,7 +355,7 @@ export default {
 
         this.userName = objectData.data.RESULT.trueName //姓名+
         this.userNuber = objectData.data.RESULT.mobile //电话+
-
+        this.password = objectData.data.RESULT.password //密码
         this.bankCard = objectData.data.RESULT.cardNumber //银行卡号
         this.addPeopleNumber = objectData.data.RESULT.addSum //添加人数
         this.okPeopleNumber = objectData.data.RESULT.successSum //成功推荐人数

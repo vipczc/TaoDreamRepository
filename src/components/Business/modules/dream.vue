@@ -27,11 +27,11 @@
           <div class="user-message-content">
             <p>地&#12288&#12288址:&#12288<span>{{ address }}</span></p>
             <p>银行卡号:&#12288<span>{{ bankCardNumber }}</span></p>
-            <p>商家ID:&#12288<span>TMZSP125458</span></p>
+            <p>商家ID:&#12288<span>{{ businessNumber }}</span></p>
           </div>
-          <img src="/taodream-consumer/validateCode" alt="验证码">
+          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button>
+                      <el-button @click="login()">登录</el-button> -->
         </el-col>
 
       </div>
@@ -44,7 +44,7 @@
         <el-col :span="4">
           <div class="withdrawa-logo">
                 <div class="logo-content">
-                  <img src="../../../assets/img/提现.png" alt="提现">
+                  <img src="../../../assets/img/withdrawDeposit.png" alt="提现">
                   <p>提现</p>
                 </div>
 
@@ -85,7 +85,7 @@
           <!-- 淘豆图标 -->
           <div class="td-logo">
             <div class="logo-content">
-              <img src="../../../assets/img/淘豆.png" alt="淘豆">
+              <img src="../../../assets/img/toddle.png" alt="淘豆">
               <p>淘豆</p>
             </div>
           </div>
@@ -128,7 +128,7 @@
           <!-- 额度图标 -->
           <div class="limit-logo">
             <div class="logo-content">
-              <img src="../../../assets/img/额度.png" alt="额度">
+              <img src="../../../assets/img/amount.png" alt="额度">
               <p>额度</p>
             </div>
           </div>
@@ -191,6 +191,7 @@ import {
 export default {
   data() {
     return {
+      businessNumber: '', //店铺淘梦ID
       pngimg: '',
       userType: '商家', //用户类型
       enterpriseName: '', //企业名称
@@ -200,13 +201,13 @@ export default {
       address: '', //地址
       bankCardNumber: '', //银行卡号
 
-      withdrawSum: '500', //提现金额
-      TDSum: '60', //淘豆金额
-      yesterdayTD: '2', //昨日获得淘豆
-      expenseLimit: '66', //消费额度
+      withdrawSum: '0', //提现金额
+      TDSum: '0', //淘豆金额
+      yesterdayTD: '0', //昨日获得淘豆
+      expenseLimit: '0', //消费额度
 
-      recommendLimit: '10', //已消费额度
-      surplusLimit: '20', //剩余额度
+      recommendLimit: '0', //已消费额度
+      surplusLimit: '0', //剩余额度
 
       defaultActiveNumber: '',
 

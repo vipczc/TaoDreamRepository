@@ -74,9 +74,7 @@ export default {
         searchApi: '',
         searchFormData: ''
       },
-      tableData: [{
-
-      }],
+      tableData: [],
       result: {},
       searchState: 0, //搜索状态
       searchCount: 1, //搜索页数
