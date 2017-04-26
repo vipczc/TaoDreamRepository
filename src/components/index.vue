@@ -26,7 +26,7 @@
                 <el-form-item label="密码" prop="pass">
                   <el-input type="password" v-model="ruleForm2.pass"  placeholder="请输入6~18位数字、字母" icon="message"></el-input>
                 </el-form-item>
-                <el-form-item  prop="imgVer" v-show="imgCon1">
+                <el-form-item  prop="imgVer">
                   <el-input  v-model="ruleForm2.imgVer" style="width:50%;" placeholder="图形验证码"></el-input><span style="float: right;padding:0px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="图形验证码" ></span>
                 </el-form-item>
                 <el-form-item>
@@ -70,7 +70,7 @@
         <v-footer></v-footer>
       </div>
       <!-- 忘记密码 -->
-      <el-dialog title="忘记密码" v-model="forgetPassword" size="tiny">
+      <el-dialog title="忘记密码" v-model="forgetPassword" size="tiny" >
         <div style="width: 80%;">
             <el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px" class="demo-ruleForm" >
             <el-form-item label="类型" >
@@ -85,7 +85,7 @@
             </el-form-item>
             <el-form-item label="验证码" prop="verificationCode">
               <el-input  v-model="ruleForm4.verificationCode"  placeholder="请输入验证码" style="width:50%;"></el-input>
-              <el-button type="primary" style="width:48%;" @click="openVer"  :disabled="disabled">{{text}}</el-button>
+              <el-button type="primary" style="width:48%;" @click="openVer"  :disabled="disabled1">{{text1}}</el-button>
             </el-form-item>
             <el-form-item label="新密码" prop="pass">
               <el-input type="password" v-model="ruleForm4.pass"  placeholder="请输入密码" icon="message"></el-input>
@@ -117,7 +117,7 @@
          
         <el-input  v-model="ruleForm4.imgVer" style="width:50%;"></el-input><span style="float: right;padding:2px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="图形验证码" ></span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="imgCon1 = false">取 消</el-button>
+          <el-button @click="imgCon11 = false">取 消</el-button>
           <el-button type="primary" @click="sendCode1">确 定</el-button>
         </span>
       </el-dialog>
@@ -148,6 +148,15 @@ export default {
         callback();
       }
     };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.ruleForm4.pass) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
      var validatePassRepeat = (rule, value, callback) => {
       if (value != this.rules4.pass) {
         callback(new Error('两次密码不一致'));
@@ -164,7 +173,9 @@ export default {
       forgetPassword:false,
       flag:1,
       disabled:false,
+      disabled1:false,
       text:'获取验证码',
+      text1:'获取验证码',
       time:60,
       ruleForm2: {
           pass: '',
@@ -216,13 +227,13 @@ export default {
             { validator: host.basic.checkMobile, trigger: 'blur' }
           ],
           repeatWord: [
-            { validator: validatePass, trigger: 'blur' }
+            { validator: validatePass2, trigger: 'blur' }
           ],
           pass: [
             { validator: validatePass, trigger: 'blur' }
           ],
           verificationCode: [
-            { validator: validatePass, trigger: 'blur' }
+            { validator: checkNumber, message:'请输入正确验证码', trigger: 'blur' }
           ]   
         }
 
@@ -265,7 +276,8 @@ export default {
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {      
-                //个人中心      
+                //个人中心    
+                this.$message.success('登录成功！');             
                 if(this.ruleForm2.type == 1){
                   setTimeout(()=>{this.$router.push('/user')},1000);
                 }else if(this.ruleForm2.type == 2){
@@ -274,12 +286,11 @@ export default {
                   setTimeout(()=>{this.$router.push('/clerk')},1000);
                 }
               }else if (data.ERRORCODE == '10013'){
+                  this.$message.success('登录成功，请先完善资料！');
                 //填写资料
                   if(this.ruleForm2.type == 1){
-                  this.$message.success('登录成功，请先完善资料！');
                   setTimeout(()=>{this.$router.push('/consumerRegister')},1000);
                 }else if(this.ruleForm2.type == 2){
-                   this.$message.success('登录成功，请先完善资料！');
                   setTimeout(()=>{this.$router.push('/bussinessRegister')},1000);
                 }
               }else {
@@ -311,9 +322,14 @@ export default {
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
-                this.$message.success('注册成功!');             
-                this.activeName = "first";
+                this.$message.success('注册成功，请先填写资料！');             
+                // this.activeName = "first";
                 this.$refs.ruleForm3.resetFields();
+                  if(this.ruleForm3.type == 1){
+                    setTimeout(()=>{this.$router.push('/consumerRegister')},1000);
+                  }else if(this.ruleForm3.type == 2){
+                    setTimeout(()=>{this.$router.push('/bussinessRegister')},1000);
+                  }
               } else {
                 this.$message.warning(data.RESULT);
               }
@@ -367,7 +383,7 @@ export default {
         }).then(function(res){
           let data = res.data;
           if(data.ERRORCODE == '0'){
-            this.countDown();
+            this.countDown1();
             // console.log(data);
             this.imgCon11 = false;
             this.$message.success('短信已发送');
@@ -415,11 +431,24 @@ export default {
           }
         }, 1000)
       },
+      countDown1() {
+        let time = 60;
+        this.disabled1 = true;
+        let timer = setInterval(() => {
+          this.text1 = time + "s后重新获取";
+          time--;
+          if (time == 0) {
+            clearInterval(timer);
+            this.disabled1 = false;
+            this.text1 = "获取验证码";
+          }
+        }, 1000)
+      },
       sendImg(){
         this.url = host.basic.basicUrl + '/validateCode?' + new Date().getTime()
       },
       forgetPass(formName) {
-        console.log(this.ruleForm4);
+        // console.log(this.ruleForm4);
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$http({
@@ -436,7 +465,8 @@ export default {
               let data = res.data;
               if (data.ERRORCODE == '0') {
                 this.$message.success('修改成功!');
-                this.imgCon11=true;
+                this.imgCon11 = false;
+                this.forgetPassword = false;
                 // this.$router.push('/');
               } else {
                 this.$message.warning(data.RESULT);
@@ -470,7 +500,7 @@ export default {
     }
     .content-bg{
       width:100%;
-      height:618px;
+      height:616px;
       background: url(../assets/img/banner.png) 0 0 no-repeat;
       background-size: 1920px 618px;
     }
