@@ -13,7 +13,7 @@
               <div class="box-left">
 
                 <p>会员姓名:<span> {{  dialogValue.objetcData.trueName	 }} </span></p>
-                  <p>会员ID:<span> TMZ155555 </span></p>
+                  <p>会员ID:<span> {{ dialogValue.objetcData.birthday }} </span></p>
                 <p>出生日期:<span> {{  dialogValue.objetcData.birthday }} </span></p>
                 <p>联系电话:<span> {{  dialogValue.objetcData.mobile }} </span></p>
                 <p>家庭地址:<span> {{  dialogValue.objetcData.infoProvince + dialogValue.objetcData.infoCity + dialogValue.objetcData.infoArea+ dialogValue.objetcData.address}} </span></p>
@@ -22,7 +22,7 @@
                 <div class="box-right" >
 
                   <p>性&#12288&#12288别:<span> {{  dialogValue.objetcData.sex == '1' ? '女':'男'}} </span></p>
-                  <p>身份证号:<span> {{  dialogValue.objetcData.mobile }}</span></p>
+                  <p>身份证号:<span> {{  dialogValue.objetcData.identityNumber }}</span></p>
                   <p>教育程度:<span> {{  dialogValue.objetcData.highEdu == '1' ? "初中及以下": dialogValue.objetcData.highEdu == '2' ? "高中及中专":dialogValue.objetcData.highEdu == '3' ? "大专":dialogValue.objetcData.highEdu == '4' ? "本科":''}}</span></p>
 
                 </div>
@@ -164,4 +164,24 @@ export default {
   margin-top: 3px;
 }
 
+
+ .i-top {
+-webkit-animation:rotateIn 1s .2s ease both;
+-moz-animation:rotateIn 1s .2s ease both;}
+@-webkit-keyframes rotateIn{
+0%{-webkit-transform-origin:center center;
+-webkit-transform:rotate(-200deg);
+opacity:0}
+100%{-webkit-transform-origin:center center;
+-webkit-transform:rotate(0);
+opacity:1}
+}
+@-moz-keyframes rotateIn{
+0%{-moz-transform-origin:center center;
+-moz-transform:rotate(-200deg);
+opacity:0}
+100%{-moz-transform-origin:center center;
+-moz-transform:rotate(0);
+opacity:1}
+}
 </style>
