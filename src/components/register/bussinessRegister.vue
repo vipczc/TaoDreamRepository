@@ -146,6 +146,7 @@ export default {
         callback();
       }
     };
+  
   	return{
   		active:1,
   		Big:false,
