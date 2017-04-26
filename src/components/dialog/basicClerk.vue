@@ -2,7 +2,7 @@
   <div class="basicClerk">
     <!-- 对话框 基本信息咨询师 -->
     <el-dialog title="修改密码" v-model="basicClerkDialog = basicClerkValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%">
-  <div class="cir" @click="onBasicClerkOver"><i class="el-icon-close" ></i></div>
+  <div class="cir" @click="onBasicClerkOver"><i class="el-icon-close i-top" ></i></div>
           <el-form label-width="80px" :model="formBasicClerk" :rules="rulesBasicClerk" ref="formBasicClerk">
             <div class="dialog-list-box">
               <div class="box-left">

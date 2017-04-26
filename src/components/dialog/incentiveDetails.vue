@@ -2,7 +2,7 @@
   <div class="incentiveDetails">
     <!-- 激励明细对话框 -->
     <el-dialog title="激励明细" v-model="incentiveDetailsDialog.show = incentiveValue.show" size="small" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%" >
-    <div class="cir" @click="incentiveDetailsValue"><i class="el-icon-close" ></i></div>
+    <div class="cir" @click="incentiveDetailsValue"><i class="el-icon-close i-top" ></i></div>
 
     <div class="dialog-list-box">
 

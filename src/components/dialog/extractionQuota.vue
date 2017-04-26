@@ -1,8 +1,12 @@
 <template lang="html">
   <!-- 提额 -->
   <div class="extractionQuota">
+
+
+
     <el-dialog title="提额" v-model="extractionQuotaDialog.show = quotaValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
-  <div class="cir" @click="extractionValueOver"><i class="el-icon-close" ></i></div>
+  <div class="cir" @click="extractionValueOver"><i class="el-icon-close i-top" ></i></div>
+      <el-row>
           <el-form :label-position="labelPosition" label-width="80px" :model="formExtractionQuota">
             <el-form-item label="新增产品销售合同编号:">
             <el-input v-model="formExtractionQuota.quota" placeholder="请输入合同编号"></el-input>
@@ -33,7 +37,7 @@
 
 
 
-
+</el-row>
   <span slot="footer" class="dialog-footer">
 
     <el-button type="primary" @click="extractionValue">提 交</el-button>

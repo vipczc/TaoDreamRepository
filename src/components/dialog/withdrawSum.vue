@@ -2,7 +2,7 @@
   <!-- 提现 -->
   <div class="withdrawSum">
     <el-dialog title="提现" v-model="withdrawSumDialog.show = sumValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%">
-  <div class="cir" @click="monitorValueOver"><i class="el-icon-close" ></i></div>
+  <div class="cir" @click="monitorValueOver"><i class="el-icon-close i-top" ></i></div>
           <el-form  label-width="80px" :model="formLabelAlign" :rules="rulesMoney" ref="formLabelAlign">
             <div class="dialog-list-box">
               <el-col :span="20">

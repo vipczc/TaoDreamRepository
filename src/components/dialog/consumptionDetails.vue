@@ -2,7 +2,7 @@
   <div class="consumptionDetails">
     <!-- 消费详情对话框  -->
     <el-dialog title="详情" v-model="consumptionDetailsDialog.show = consumptionValue.show" size="small" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%" >
-    <div class="cir" @click="consumptionDetailsValue"><i class="el-icon-close" ></i></div>
+    <div class="cir" @click="consumptionDetailsValue"><i class="el-icon-close i-top" ></i></div>
 
       <!-- <div class="" v-show="true">
 

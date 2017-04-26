@@ -2,7 +2,7 @@
   <!-- 额度赠送 -->
   <div class="giveQuota">
     <el-dialog title="赠送" v-model="giveQuotaDialog.show = giveValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
-    <div class="cir" @click="giveQuotaValueOver"><i class="el-icon-close" ></i></div>
+    <div class="cir" @click="giveQuotaValueOver"><i class="el-icon-close i-top" ></i></div>
         <el-col :span="20">
 
         </el-col>
@@ -102,7 +102,7 @@ export default {
       this.giveQuotaDialog.show = false
       this.$emit('give', this.giveQuotaDialog)
     },
-    giveQuotaValue() {
+    giveQuotaValue(formName) {
 
       this.$refs[formName].validate((valid) => {
         if (valid) {

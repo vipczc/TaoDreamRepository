@@ -2,7 +2,7 @@
   <!-- 对话框 添加人员 -->
   <div class="addPersonnel">
     <el-dialog title="添加" v-model="addPersonnelDialog.show = addPersonnelValue.show" size="small" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%">
-  <div class="cir" @click="addValueOver"><i class="el-icon-close" ></i></div>
+  <div class="cir" @click="addValueOver"><i class="el-icon-close i-top" ></i></div>
           <el-form label-width="80px" :model="formAddPersonnel" :rules="rulesPersonnel" ref="formAddPersonnel">
 
             <div class="dialog-list-box">

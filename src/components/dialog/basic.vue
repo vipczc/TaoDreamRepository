@@ -2,7 +2,7 @@
   <!-- 对话框  基本信息-->
   <div id="basic">
     <el-dialog title="" v-model="basicDialog = dialogValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
-      <div class="cir" @click="monitorValue"><i class="el-icon-close" ></i></div>
+      <div class="cir" @click="monitorValue"><i class="el-icon-close i-top" ></i></div>
       <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="基础信息" name="basic">
 
@@ -160,6 +160,8 @@ export default {
 #basic .el-tabs__active-bar{
   background-color: #1fd34d !important;
 }
-
+.i-top{
+  margin-top: 3px;
+}
 
 </style>

@@ -2,7 +2,7 @@
   <!-- 淘豆兑换 -->
   <div class="tdrecordSum">
     <el-dialog title="兑换" v-model="tdrecordSumDialog.show = tdValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
-    <div class="cir" @click="tdrecordSumValueOver()"><i class="el-icon-close" ></i></div>
+    <div class="cir" @click="tdrecordSumValueOver()"><i class="el-icon-close i-top" ></i></div>
           <el-form :label-position="labelPosition" label-width="80px" :model="formTDrecordSum" :rules="rulesTDMoney" ref="formTDrecordSum">
             <div class="dialog-list-box">
               <el-col :span="20">
