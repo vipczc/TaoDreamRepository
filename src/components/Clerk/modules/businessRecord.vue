@@ -132,6 +132,7 @@ export default {
     this.upDatafun()
   },
   watch: {
+
     'searchCount': 'searchModelDataFun',
     'searchState': 'upDatafun',
     'loading': 'searchModelDataFun',
@@ -216,7 +217,10 @@ export default {
           //时间处理
           for (var i = 0; i < this.result.data.length; i++) {
             this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
-            this.result.data[i].birthday = basic.basic.formatDate(this.result.data[i].birthday)
+            if (this.result.data[i].birthday != null) {
+              this.result.data[i].birthday = basic.basic.formatDate(this.result.data[i].birthday)
+            }
+
           }
           this.tableData = this.result.data
 

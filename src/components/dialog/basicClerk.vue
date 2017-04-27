@@ -78,13 +78,13 @@ export default {
           trigger: 'blur'
         }]
       },
-      con: 0,
+      con: 60,
       isgetverify: false,
       textb: '发送验证码',
       formBasicClerk: {
-        accountNumber: '15602365669', //账号
+        accountNumber: '', //账号
         verificationCode: '', //验证码
-        oldPassWord: '123456', //旧密码
+        oldPassWord: '', //旧密码
         newPassWord: '', //新密码
         okPassWord: '' //确认密码
       },
@@ -100,11 +100,11 @@ export default {
       if (this.isgetverify == false) {
         var si = setInterval(() => {
           this.textb = '已发送(' + this.con + ')s'
-          this.con++
-            if (this.con >= 62) {
+          this.con--
+            if (this.con <= 0) {
               console.log(this.con);
               this.textb = '获取验证码'
-              this.con = 0
+              this.con = 60
               this.isgetverify = false
               window.clearInterval(si)
             }

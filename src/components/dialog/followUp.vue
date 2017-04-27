@@ -26,14 +26,15 @@
                 </el-form-item>
               </div>
               <el-form-item label="文字描述(限制90):" >
-              <el-input v-model="formFollowUp.text = followValue.objectData.remark" type="textarea" laceholder="备注信息"></el-input>
+                <span class="textCount" >{{ textCount }}/90</span>
+              <el-input v-model="formFollowUp.text = followValue.objectData.remark" type="textarea" laceholder="备注信息" :disabled="disInput" @change="followUpText(formFollowUp.text)"> </el-input>
               </el-form-item>
               <el-form-item label="状态:">
                 <!-- <el-select v-model="getDataResource.state = value" placeholder="value">
                 <el-option v-for="item of options" :label="item.label" :value="item.value">
                 </el-option>
                 </el-select> -->
-                <el-select v-model="Value"  placeholder="消费者">
+                <el-select v-model="Value"  placeholder="消费者" :disabled="disInput">
                   <el-option
                     v-for="item in options"
                     :label="item.label"
@@ -64,6 +65,8 @@ import {
 export default {
   data() {
     return {
+      textCount: 0,
+      disInput: false,
       getDataResource: {
         name: '',
         phoneNumber: '',
@@ -71,7 +74,7 @@ export default {
       },
       followUpDialog: {
         show: false,
-        upData: false
+        upData: true
       },
       formFollowUp: {
         text: ''
@@ -96,6 +99,9 @@ export default {
     followValue: Object
   },
   methods: {
+    followUpText(count) {
+      this.textCount = count.length
+    },
 
     setValue() {
       // console.log(followValue.stValue);
@@ -107,33 +113,57 @@ export default {
       this.followUpDialog.show = false
       this.$emit('follow', this.followUpDialog)
     },
-
+    //提交
     followUpValue() {
-      //提交
+
+
+
+      if (this.formFollowUp.text.length == 0) {
+        this.$message.error('需要填写文字描述哦！(⊙o⊙)');
+      } else if (this.formFollowUp.text.length > 90) {
+        this.$message.error('文字描述最多只能写90字哦！(⊙o⊙)');
+      } else if (this.formFollowUp.text.length <= 90 && this.formFollowUp.text.length > 0) {
+        this.disInput = true
+        this.submitForm()
+      } {
+
+      }
+    },
+    submitForm() {
+
+
       let formData = new FormData()
       formData.append('id', this.followValue.objectData.id)
       formData.append('status', this.Value == '已确定' ? 3 : this.Value == '没兴趣' ? 2 : this.Value == '可发展' ? 1 : this.Value != '已确定' && this.Value != '没兴趣' && this.Value != '可发展' ? this.Value : this.Value)
-      formData.append('remark', this.followValue.objectData.remark == 'null' ? '' : '')
+      formData.append('remark', this.followValue.objectData.remark == 'null' ? '' : this.followValue.objectData.remark)
       this.$http.post(clerkApi.customerFollow, formData).then((objData) => { //跟进接口
-        console.log(objData.data);
+
         if (objData.data.RESULT == 'ok') {
 
-
+          this.disInput = false
           this.followUpDialog.show = false
           this.followUpDialog.upData = !this.followUpDialog.upData
           this.$emit('follow', this.followUpDialog)
           this.scuess()
         }
       }).catch((err) => {
-        console.log('访问错误1');
+        this.errorScuess('服务器无响应！')
       })
 
     },
 
-    scuess() {
+    scuess(result) {
       this.$notify.success({
-        title: '修改成功!',
-        message: '',
+        title: '操作',
+        message: '修改成功!',
+        offset: 150
+      });
+    },
+    errorScuess(result) {
+      this.disInput = false
+      this.$notify.error({
+        title: '操作',
+        message: result + '操作失败!',
         offset: 150
       });
     }
@@ -144,5 +174,12 @@ export default {
 <style lang="css">
 .followUp .el-notification{
  right: 800px !important;
+}
+.followUp .textCount{
+  position: relative;
+  left: 92%;
+
+font-size: 12px;
+  color: rgb(28, 126, 255);
 }
 </style>

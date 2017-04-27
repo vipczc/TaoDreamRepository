@@ -11,7 +11,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="2" :offset="2">
-                <el-form-item :label="String(tdValue.TDSumDialog+'￥')">
+                <el-form-item :label="String(tdValue.TDSumDialog+' 个')">
 
                 </el-form-item>
               </el-col>

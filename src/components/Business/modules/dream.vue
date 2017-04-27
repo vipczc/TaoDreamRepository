@@ -29,9 +29,9 @@
             <p>银行卡号:&#12288<span>{{ bankCardNumber }}</span></p>
             <p>商家ID:&#12288<span>{{ businessNumber }}</span></p>
           </div>
-          <img src="/taodream-consumer/validateCode" alt="验证码">
+          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button>
+                      <el-button @click="login()">登录</el-button> -->
         </el-col>
 
       </div>

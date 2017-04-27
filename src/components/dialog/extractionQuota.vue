@@ -11,16 +11,16 @@
             <el-form-item label="新增产品销售合同编号:">
             <el-input v-model="formExtractionQuota.quota" placeholder="请输入合同编号"></el-input>
             </el-form-item>
-            <el-col :span="20">
+            <el-col :span="24">
               <el-form-item label="申请消费额度:">
               <el-input v-model="formExtractionQuota.serial" placeholder="请输入金额 单位(元)"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="3" :offset='1'>
+            <!-- <el-col :span="3" :offset='1'>
               <el-form-item :label="String(quotaValue.surplusLimitSum+'￥')">
 
               </el-form-item>
-            </el-col>
+            </el-col> -->
 
 
         </el-form>
@@ -130,9 +130,15 @@ export default {
     },
     scuess(result) {
       this.$notify.success({
-        title: result == 1 ? '提额申请成功' : result,
+        title: result == 1 ? '提额申请成功' : this.error(result),
         message: result == 1 ? '成功后我们的客服将再24小时审核 有问题我们会跟您取得联系!' : '',
         offset: 150
+      });
+    },
+    error(result) {
+      this.$notify.error({
+        title: '错误',
+        message: 'result'
       });
     }
   }

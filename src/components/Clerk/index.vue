@@ -12,7 +12,7 @@
         </el-col>
         <el-col :xs="0" :sm="{span:6,offset:12}" :md="{span:6,offset:12}" :lg="{span:4,offset:16}">
 
-            <router-link to="/" class="nav-quit"><img src="../../assets/img/ExitButton.png" alt="quit"></router-link>
+            <a href="javascript:void(0)" @click="quitDialog = true" class="nav-quit"><img src="../../assets/img/ExitButton.png" @click="quitDialog = true" alt="quit"><span class="quit" @click="quitDialog = true"> 退出</span></a>
 
         </el-col>
     </el-col>
@@ -62,7 +62,13 @@
     </el-col>
 
   </el-row>
-
+  <el-dialog title="退出" v-model="quitDialog" size="tiny">
+  <h2 style="color:red;">是否退出登录</h2>
+  <span slot="footer" class="dialog-footer">
+    <el-button type="success" @click="quitDialog = false">取 消</el-button>
+    <el-button type="danger"  @click="toLogin" >确 定</el-button>
+  </span>
+  </el-dialog>
 </div>
 </template>
 
@@ -70,13 +76,18 @@
 export default {
   name: 'clerk',
   data() {
+
     this.$router.push("/clerk")
     return {
+      quitDialog: false,
       defaultActiveNumber: '3'
     }
   },
 
   methods: {
+    toLogin() {
+      window.location.href = '/'
+    },
     activeNumberMessage(strNumber) {
       this.defaultActiveNumber = strNumber
     },

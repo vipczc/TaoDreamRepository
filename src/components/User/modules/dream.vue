@@ -22,7 +22,7 @@
             <p>会员姓名:&#12288<span>{{ userName }}</span></p>
             <p>出生日期:&#12288<span>{{ userAge }}</span></p>
             <p>电&#12288&#12288话:&#12288<span>{{ userNuber }}</span></p>
-            <p>银行卡号:&#12288<span>{{ userBlock }}</span></p>
+            <p>银行卡号:&#12288<span>{{ 'XXXXXXXXXXXXX' + userBlock.substring(14, 16) }}</span></p>
           </div>
         </el-col>
         <el-col :span="4" :offset="1">
@@ -30,9 +30,9 @@
             <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
             <p>行&#12288&#12288业:&#12288<span>{{ profession }}</span></p>
             <p>会员ID&#12288:&#12288<span>{{ memberCode }}</span></p>
-<img src="/taodream-consumer/validateCode" alt="验证码">
+<!-- <img src="/taodream-consumer/validateCode" alt="验证码">
             验证码:<input type="text" name="" v-model="pngimg" value="">
-            <el-button @click="login()">登录</el-button>
+            <el-button @click="login()">登录</el-button> -->
           </div>
         </el-col>
 
@@ -378,9 +378,10 @@ export default {
           this.userAge = objData.data.RESULT.birthday //	出生年月
           this.memberCode = objData.data.RESULT.memberCode //会员ID
           this.withdrawSum = objData.data.RESULT.banlance //	余额
-          this.userBlock = objData.data.RESULT.cardNumber //银行卡号
+          this.userBlock = 'XXXXXXXXXXXXX' + objData.data.RESULT.cardNumber.substring(14, 16) //银行卡号
           this.recommendLimit = objData.data.RESULT.costQuota //已消费额度
-          this.userNuber = objData.data.RESULT.mobile //联系电话
+          this.userNuber = 'XXXX'
+          objData.data.RESULT.mobile.substring(14, 16) //联系电话
           //  this.expenseLimit = objData.data.RESULT.quota //消费额度
           this.recommendCount = objData.data.RESULT.refereeNum //推荐人数,推荐人数提升额度=推荐人数X5000
           this.expenseLimit = this.recommendCount * 5000 + 300000

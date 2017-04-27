@@ -8,7 +8,7 @@
             <div class="dialog-list-box">
               <div class="box-left">
                 <el-form-item label="* 姓名:" prop="name">
-                <el-input v-model="formAddPersonnel.name" placeholder="请输入姓名" :disabled="disInput"></el-input>
+                <el-input v-model="formAddPersonnel.name" placeholder="请输入姓名(必填)" :disabled="disInput"></el-input>
                 </el-form-item>
                 <el-form-item label="身份证号:" >
                 <el-input v-model="formAddPersonnel.id" placeholder="请输入身份证号" :disabled="disInput"></el-input>
@@ -27,7 +27,7 @@
               </div>
               <div class="box-right">
                 <el-form-item label="*电话号码:" prop="phoneNumber">
-                <el-input v-model="formAddPersonnel.phoneNumber" placeholder="请输入电话号码" :disabled="disInput"></el-input>
+                <el-input v-model="formAddPersonnel.phoneNumber" placeholder="请输入电话号码(必填)" :disabled="disInput"></el-input>
                 </el-form-item>
                 <el-form-item label="推荐类型:">
                   <el-select v-model="Value"  placeholder="消费者" :disabled="disInput">
@@ -45,6 +45,7 @@
                 <el-select v-model="value" placeholder="请选择" :disabled="disInput">
                     <el-option
                       v-for="item in profession"
+                      :change="disChange"
                       :label="item.label"
                       :value="item.value"
                       :key="item.value"
@@ -65,8 +66,9 @@
                       </el-cascader>
                   </template>
                 </el-form-item>
-                <el-form-item label="详细家庭住址:">
-                <el-input type="textarea" v-model="formAddPersonnel.detailedHomeAddress" placeholder="请输入详细家庭住址" :disabled="disInput"></el-input>
+                <span class="textCount" style="color: red ">{{ textCount }}/200</span>
+                <el-form-item label="详细住址:(限制200字)">
+                <el-input type="textarea" v-model="formAddPersonnel.detailedHomeAddress" placeholder="请输入详细家庭住址(最多可输入200字)" :disabled="disInput" @change="homeAddress(formAddPersonnel.detailedHomeAddress.length) "></el-input>
                 </el-form-item>
                 <el-form-item label="状态:">
                   <el-select v-model="statusValue"  placeholder="消费者" :disabled="disInput">
@@ -117,6 +119,7 @@ export default {
       callback();
     }
     return {
+      textCount: 0, //字数
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e7;
@@ -193,6 +196,12 @@ export default {
     addPersonnelValue: Object
   },
   methods: {
+    homeAddress(count) {
+      this.textCount = count
+    },
+    disChange() {
+      console.log(123456);
+    },
     cascaderHome(value) {
 
       for (let i = 0; i < value.length; i++) {
@@ -221,8 +230,14 @@ export default {
     addValue(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.disInput = true
-          this.submitForm() //提交 请求
+
+          if (this.textCount <= 200) {
+            this.disInput = true
+            this.submitForm() //提交 请求
+          } else {
+            this.$message.error('详细地址最多只能写200字哦！(⊙o⊙)');
+          }
+
         } else {
           console.log('error submit!!');
           return false;
@@ -281,7 +296,7 @@ export default {
         }
 
       }).catch((err) => {
-        console.log('访问错误2' + err);
+        this.errorScuess('服务器无响应！')
       })
 
 
@@ -293,10 +308,11 @@ export default {
         offset: 150
       });
     },
-    errorScuess() {
+    errorScuess(result) {
+      this.disInput = false
       this.$notify.error({
         title: '操作',
-        message: '添加失败!',
+        message: result + '添加失败!',
         offset: 150
       });
     }
@@ -309,5 +325,11 @@ export default {
 .addPersonnel .el-notification{
   right: 800px !important;
 }
+.addPersonnel .textCount{
+  position: relative;
+  left: 94%;
 
+font-size: 12px;
+  color: rgb(28, 126, 255);
+}
 </style>
