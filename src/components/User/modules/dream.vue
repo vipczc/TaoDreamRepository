@@ -4,6 +4,7 @@
   <el-col :span="24">
       <div class="user-message">
         <el-col :span="4">
+          <el-tooltip class="item" effect="dark" content="详细信息"   placement="top">
             <div class="user-headPortrait" @click="basicDialogShow()">
 
 <!-- <div class="details">
@@ -11,6 +12,7 @@
 </div> -->
 
             </div>
+          </el-tooltip>
             <div class="userType" @click="basicDialogShow()">
               <span>{{ userType }}</span>
             </div>
@@ -30,9 +32,9 @@
             <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
             <p>行&#12288&#12288业:&#12288<span>{{ profession }}</span></p>
             <p>会员ID&#12288:&#12288<span>{{ memberCode }}</span></p>
-<img src="/taodream-consumer/validateCode" alt="验证码">
+<!-- <img src="/taodream-consumer/validateCode" alt="验证码">
             验证码:<input type="text" name="" v-model="pngimg" value="">
-            <el-button @click="login()">登录</el-button>
+            <el-button @click="login()">登录</el-button> -->
           </div>
         </el-col>
 
@@ -56,7 +58,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right ">
 
-              <p>提现余额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
+              <p>提现余额:&#12288&#12288<span>￥{{ withdrawSum }}</span></p>
 
               <!-- <router-link to="/user/expenseRecord" >查看提现记录></router-link> -->
               <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 ></a>
@@ -96,7 +98,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>淘豆余额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
+              <p>淘豆余额:&#12288&#12288<span>￥{{ TDSum }}</span></p>
               <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a>
               <!-- <router-link to="/user/conversionRecord" @click="toPath('1-3')">查看兑换记录></router-link> -->
           </div>
@@ -113,7 +115,7 @@
         <el-col :span="9" :offset="1">
           <div class="content-right">
 
-              <p>昨日获得淘豆:<span>{{ yesterdayTD }}￥</span></p>
+              <p>昨日获得淘豆:<span>￥{{ yesterdayTD }}</span></p>
 
               <a href="javascript:void(0);" @click="toPath('1-4')">查看淘豆流水 ></a>
           </div>
@@ -139,7 +141,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>消费额度:&#12288&#12288<span>{{ expenseLimit }}￥</span></p>
+              <p>消费额度:&#12288&#12288<span>￥{{ expenseLimit }}</span></p>
               <!-- <p >消费额度提升:<span>{{ expenseLimitUp }}￥</span></p> -->
         <a href="javascript:void(0);"  @click="toPath('1-5')">查看额度流水 > </a>
               <!-- <router-link  to="/user/limitRecord" @click="toPath('1-5')">查看额度流水></router-link> -->
@@ -158,8 +160,8 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>已消费额度:&#12288 <span>{{ recommendLimit }}￥</span></p>
-              <p>剩余额度:&#12288&#12288 <span>{{ surplusLimit }}￥</span></p>
+              <p>已消费额度:&#12288 <span>￥{{ recommendLimit }}</span></p>
+              <p>剩余额度:&#12288&#12288 <span>￥{{ surplusLimit }}</span></p>
 
 
           </div>
@@ -192,7 +194,7 @@
             <div class="content-right">
 
                 <p>推荐人数:&#12288&#12288<span>{{ recommendCount }}人</span></p>
-                <p >推荐奖励:&#12288&#12288<span>{{ recommendAward }}￥</span></p>
+                <p >推荐奖励:&#12288&#12288<span>￥{{ recommendAward }}</span></p>
                 <a href="javascript:void(0);" style="top:-5px;" @click="toPath('2-1')">查看推荐记录 > </a>
                 <!-- <router-link style="top:-5px;" to="/user/recommendRecord" @click="toPath('2-1')">查看推荐记录></router-link> -->
             </div>
@@ -379,19 +381,19 @@ export default {
           this.result = objData.data.RESULT
           this.userAge = objData.data.RESULT.birthday //	出生年月
           this.memberCode = objData.data.RESULT.memberCode //会员ID
-          this.withdrawSum = objData.data.RESULT.banlance //	余额
+          this.withdrawSum = objData.data.RESULT.banlance == null ? 0 : objData.data.RESULT.banlance //	余额
 
           this.userBlock = objData.data.RESULT.identityNumber //银行卡号
-          this.recommendLimit = objData.data.RESULT.costQuota //已消费额度
+          this.recommendLimit = objData.data.RESULT.costQuota == null ? 0 : objData.data.RESULT.costQuota //已消费额度
           this.userNuber = objData.data.RESULT.mobile
 
-          this.recommendCount = objData.data.RESULT.refereeNum //推荐人数,推荐人数提升额度=推荐人数X5000
-          this.expenseLimit = objData.data.RESULT.quota
+          this.recommendCount = objData.data.RESULT.refereeNum == null ? 0 : objData.data.RESULT.refereeNum //推荐人数,推荐人数提升额度=推荐人数X5000
+          this.expenseLimit = objData.data.RESULT.quota == null ? 0 : objData.data.RESULT.quota
           this.userSex = objData.data.RESULT.sex ? '男' : '女' //性别 -1位置 0女 1男
-          this.TDSum = objData.data.RESULT.taodou //淘豆
+          this.TDSum = objData.data.RESULT.taodou == null ? 0 : objData.data.RESULT.taodou //淘豆
           this.userName = objData.data.RESULT.trueName //姓名
-          this.recommendAward = objData.data.RESULT.refereeNum * 5000 //推荐奖励
-          this.surplusLimit = this.expenseLimit - this.recommendLimit //剩余
+          this.recommendAward = objData.data.RESULT.refereeNum * 50000 //推荐奖励
+          this.surplusLimit = this.expenseLimit - this.recommendLimit == null ? 0 : this.expenseLimit - this.recommendLimit //剩余
           this.profession = objData.data.RESULT.profession //行业
           //缺省 昨日获得淘豆
         }

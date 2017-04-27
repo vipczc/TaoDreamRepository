@@ -86,7 +86,7 @@ export default {
       }
 
 
-      if (Number(value) > 100000) {
+      if (Number(value) > 9000000) {
         callback(new Error('请不要输入过大的金额'));
       } else {
         callback();

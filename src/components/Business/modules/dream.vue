@@ -29,9 +29,9 @@
             <p>银行卡号:&#12288<span>{{ bankCardNumber }}</span></p>
             <p>会员ID&#12288:&#12288<span>{{ businessNumber }}</span></p>
           </div>
-          <img src="/taodream-consumer/validateCode" alt="验证码">
+          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button>
+                      <el-button @click="login()">登录</el-button> -->
         </el-col>
 
       </div>
@@ -348,13 +348,13 @@ export default {
         this.address = objectData.data.RESULT.address //地址
         this.bankCardNumber = objectData.data.RESULT.cardNumber //银行卡号
 
-        this.withdrawSum = objectData.data.RESULT.balance //提现金额
-        this.TDSum = objectData.data.RESULT.taodou //淘豆金额
-        this.yesterdayTD = objectData.data.RESULT.lastTaodou //昨日获得淘豆
-        this.expenseLimit = objectData.data.RESULT.quota, //消费额度
+        this.withdrawSum = objectData.data.RESULT.balance == null ? 0 : objectData.data.RESULT.balance //提现金额
+        this.TDSum = objectData.data.RESULT.taodou == null ? 0 : objectData.data.RESULT.taodou //淘豆金额
+        this.yesterdayTD = objectData.data.RESULT.lastTaodou == null ? 0 : objectData.data.RESULT.lastTaodou //昨日获得淘豆
+        this.expenseLimit = objectData.data.RESULT.quota == null ? 0 : bjectData.data.RESULT.quota //消费额度
 
-          this.recommendLimit = objectData.data.RESULT.costQuota //已消费额度
-        this.surplusLimit = objectData.data.RESULT.laveQuota //剩余额度
+        this.recommendLimit = objectData.data.RESULT.costQuota == null ? 0 : objectData.data.RESULT.costQuota //已消费额度
+        this.surplusLimit = objectData.data.RESULT.laveQuota == null ? 0 : objectData.data.RESULT.laveQuota //剩余额度
       }).catch((error) => {
         console.log(error);
       })

@@ -30,9 +30,9 @@
             <p>账号密码&#12288:&#12288<span>************</span></p>
             <p>银行卡号&#12288:&#12288<span>{{ bankCard }}</span></p>
           </div>
-          <img src="/taodream-consumer/validateCode" alt="验证码">
+          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button>
+                      <el-button @click="login()">登录</el-button> -->
         </el-col>
       </div>
   </el-col>
@@ -357,14 +357,14 @@ export default {
         this.userNuber = objectData.data.RESULT.mobile //电话+
         this.password = objectData.data.RESULT.password //密码
         this.bankCard = objectData.data.RESULT.cardNumber //银行卡号
-        this.addPeopleNumber = objectData.data.RESULT.addSum //添加人数
-        this.okPeopleNumber = objectData.data.RESULT.successSum //成功推荐人数
-        this.allPeopleNumber = objectData.data.RESULT.followSum //总人数
-        this.followUpPeopleNumber = objectData.data.RESULT.todayFollow //跟进人数
+        this.addPeopleNumber = objectData.data.RESULT.addSum == null ? 0 : this.addPeopleNumber //添加人数
+        this.okPeopleNumber = objectData.data.RESULT.successSum == null ? 0 : this.okPeopleNumber //成功推荐人数
+        this.allPeopleNumber = objectData.data.RESULT.followSum == null ? 0 : this.allPeopleNumber //总人数
+        this.followUpPeopleNumber = objectData.data.RESULT.todayFollow == null ? 0 : this.followUpPeopleNumber //跟进人数
 
-        this.withdrawSum = objectData.data.RESULT.balance //提现余额
-        this.TDSum = objectData.data.RESULT.taodou //淘豆余额
-        this.yesterdayTD = objectData.data.RESULT.lastTaodou //昨日获得淘豆
+        this.withdrawSum = objectData.data.RESULT.balance == null ? 0 : this.withdrawSum //提现余额
+        this.TDSum = objectData.data.RESULT.taodou == null ? 0 : this.TDSum //淘豆余额
+        this.yesterdayTD = objectData.data.RESULT.lastTaodou == null ? 0 : this.yesterdayTD //昨日获得淘豆
 
         // this.password = objectData.data.RESULT. //用户密码
 

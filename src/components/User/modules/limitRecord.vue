@@ -113,7 +113,7 @@ export default {
         for (var i = 0; i < this.result.data.length; i++) {
           this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
 
-          this.result.data[i].type = this.result.data[i].type == '1' ? '赠送' : this.result.data[i].type == '2' ? '获赠' : this.result.data[i].type == '3' ? '提额' : this.result.data[i].type == '4' ? '消费' : ''
+          this.result.data[i].type = this.result.data[i].type == 1 ? '赠送' : this.result.data[i].type == 2 ? '获赠' : this.result.data[i].type == 3 ? '提额' : this.result.data[i].type == 4 ? '消费' : ''
           this.result.data[i].status = this.result.data[i].status == '0' ? '审核中' : this.result.data[i].status == '1' ? '完成 ' : this.result.data[i].status == '2' ? '未通过' : ''
         }
         this.tableData = this.result.data
@@ -154,7 +154,8 @@ export default {
           //时间处理
           for (var i = 0; i < this.result.data.length; i++) {
             this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
-            this.result.data[i].type = this.result.data[i].type == '1' ? '赠送' : this.result.data[i].type == '2' ? '获赠' : this.result.data[i].type == '3' ? '提额' : this.result.data[i].type == '4' ? '消费' : ''
+            this.result.data[i].type = this.result.data[i].type == '1' ? '赠送' : this.result.data[i].type == '2' ? '获赠' : this.result.data[i].type == '3' ? '提额' : this.result.data[i].type == '4' ? '消费' : this.result.data[i].type == '5' ? '推荐奖励' :
+              ''
             this.result.data[i].status = this.result.data[i].status == '0' ? '审核中' : this.result.data[i].status == '1' ? '完成 ' : this.result.data[i].status == '2' ? '未通过' : ''
           }
           this.tableData = this.result.data
