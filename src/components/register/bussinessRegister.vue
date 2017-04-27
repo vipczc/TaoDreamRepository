@@ -11,10 +11,10 @@
     <div class="content">
       <div class="" v-if="active == 1">
       	<div class="businessStepone">
-           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>推荐人信息<b style="color:#ff831b;">（选填）</b></div>
-            <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline" :rules="rule1">
+           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px;"></span>推荐人信息<em style="color:#ff831b; margin-left: 5px; font-style: normal;">( 选填 )</em></div>
+            <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline mar" :rules="rule1">
              <el-form-item label="推荐人ID：">
-              <el-input  v-model="basicMessage.recommenderId" auto-complete="off" placeholder="请输入会员ID" style="width:150px;"></el-input>
+              <el-input  v-model="basicMessage.recommenderId" auto-complete="off" placeholder="请输入会员ID" style="width:150px;" @blur="getData"></el-input>
             </el-form-item>
              <el-form-item label="推荐人姓名：">
               <el-input  v-model="basicMessage.recommenderName" auto-complete="off"  style="width:150px;" :disabled="true"></el-input>
@@ -22,12 +22,12 @@
              <el-form-item label="联系电话：">
               <el-input  v-model="basicMessage.recommenderPhone" auto-complete="off" style="width:150px;" :disabled="true"></el-input>
             </el-form-item>
-            <div class="step" style="margin-left: -12px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>企业的基本信息<b style="color:#ff831b;">（必填）</b></div>
+            <div class="step" style="margin-bottom: 20px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>企业的基本信息<em style="color:#ff831b; font-style: normal;margin-left: 5px;">( "*" 必填 )</em></div>
             <el-form-item label="企业名称：" prop="companyName">
-              <el-input  v-model="basicMessage.companyName" auto-complete="off" placeholder="请输入企业名称" style="width:300px;" ></el-input>
+              <el-input  v-model="basicMessage.companyName" auto-complete="off" placeholder="请输入企业名称" style="width:300px;" :maxlength="20"></el-input>
             </el-form-item>
              <el-form-item label="法人姓名："  prop="legalPerson">
-              <el-input  v-model="basicMessage.legalPerson" auto-complete="off" placeholder="请输入法人姓名" style="width:250px;" ></el-input>
+              <el-input  v-model="basicMessage.legalPerson" auto-complete="off" placeholder="请输入法人姓名" style="width:250px;" :maxlength="5"></el-input>
               </el-form-item>
               <el-form-item label="企业类型：" prop="companyType">
                 <!-- <el-input  v-model="basicMessage.companyType" auto-complete="off" placeholder="请输入企业类型" style="width:300px;" ></el-input> -->
@@ -53,18 +53,27 @@
                 <el-input  v-model="basicMessage.postCode" auto-complete="off" placeholder="如：310000" style="width:150px;"></el-input>
               </el-form-item>
             <el-form-item label="详细地址：" prop="detailAddress">
-              <el-input type="textarea" maxlength="200" v-model="basicMessage.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
+              <el-input type="textarea" :maxlength="200" v-model="basicMessage.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
             </el-form-item>
             <el-form-item label="企业注册地址:" prop="selectedOptions1">
                <el-cascader :options="basicMessage.options1" v-model="basicMessage.selectedOptions1" @change="handleChange1" style="width:280px;"></el-cascader>
             </el-form-item>
             <el-form-item label="详细地址：" prop="detailAddress1">
-              <el-input type="textarea" maxlength="200" v-model="basicMessage.detailAddress1" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:280px;"></el-input>
+              <el-input type="textarea" :maxlength="200" v-model="basicMessage.detailAddress1" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:280px;"></el-input>
             </el-form-item>
             <el-form-item label="是否接受来自俱乐部赠阅的杂志和发来的短信：" prop="sendMessage">
               <el-radio-group v-model="basicMessage.sendMessage">
                 <el-radio label="是" value="1"></el-radio>
                 <el-radio label="否" value="2"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="电子邮件" prop="email">
+              <el-input  v-model="basicMessage.email" auto-complete="off" placeholder="如：8654621258@qq.com" style="width:310px;"></el-input>
+            </el-form-item>
+            <el-form-item label="是否接受来自俱乐部的电子邮件" prop="sendEmail">
+              <el-radio-group v-model="basicMessage.sendEmail">
+                <el-radio label="是"></el-radio>
+                <el-radio label="否"></el-radio>
               </el-radio-group>
             </el-form-item>
           </el-form>
@@ -74,8 +83,8 @@
         </div>
       </div>
       <div class="active2" v-if="active == 2">
-        <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<b style="color:#ff831b;">（必填）</b></div>
-        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline" :rules="rule2">
+        <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<em style="color:#ff831b; font-style: normal;margin-left: 5px;">( "*" 必填 )</em></div>
+        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline mar" :rules="rule2">
           <el-form-item label="开户银行：" prop="bankAccount">
             <el-cascader
                   :options="bankInformation.bankAccount1" 
@@ -98,7 +107,7 @@
       <div class="" v-if="active == 3">
         <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>证件照片资料上传（如下）<b style="color:#ff831b;"></b></div>
         	<div style="margin-bottom: 60px;">
-	        	<h3>法人身份证正反面 、营业执照和开户许可证、营业场所照片<em style="color:orange;">（至少需要三张营业场所的照片）</em></h3>
+	        	<h3>法人身份证正反面 、营业执照和开户许可证、营业场所照片<em style="color:orange;">（需要三张营业场所的照片）</em></h3>
             <div style="border:1px solid #e5e5e5; padding:15px 15px;">
               <img src="../../assets/img/shop.png" height="755" width="765" alt="">
             </div>
@@ -135,7 +144,7 @@
 import businessstepone from './module/businessStepone.vue'
 import host from '../../common.js'
 import footer from '.././footer/footer.vue'
-import { regionDataPlus, provinceAndCityDataPlus } from 'element-china-area-data'
+import { regionData , provinceAndCityData } from 'element-china-area-data'
 export default {
   name:'bussinessRegister',
   data(){
@@ -162,19 +171,21 @@ export default {
         idNumber:"",
         managerPhone:"",
         organizationCode:"",
-        options: regionDataPlus,
+        options: regionData,
         selectedOptions: [],
         postCode:"",
         detailAddress:"",
-        options1: regionDataPlus,
+        options1: regionData,
         selectedOptions1: [],
         detailAddress1:"",
-        sendMessage:""
+        sendMessage:"",
+        email:"",
+        sendEmail:""
   		},
   		bankInformation:{
         bankAccount:"",
         bankAccount1:[],
-        options: provinceAndCityDataPlus,
+        options: provinceAndCityData,
         selectedOptions: [],
         bankAccountDetail:"",
         bankCard:""
@@ -305,9 +316,9 @@ export default {
     })
 
   },
-  watch: {
-    'basicMessage.recommenderId': 'getData'
-  },
+  // watch: {
+  //   'basicMessage.recommenderId': 'getData'
+  // },
   methods:{
       //获取会员姓名电话
     getData(){
@@ -316,7 +327,7 @@ export default {
           method: 'POST',
           url: host.basic.basicUrl + '/register/selectReferee',
           params: {
-            refereeType: 1,
+            refereeType: 2,
             refereeCode: this.basicMessage.recommenderId
           }
         }).then(function(res) {
@@ -325,7 +336,7 @@ export default {
             this.basicMessage.recommenderName = data.RESULT.trueName
             this.basicMessage.recommenderPhone = data.RESULT.mobile
           } else {
-            // this.$message.warning(data.RESULT);
+            this.$message.warning(data.RESULT);
             this.basicMessage.recommenderName = ''
             this.basicMessage.recommenderPhone = ''
           }
@@ -344,6 +355,8 @@ export default {
       if(this.active == 1){
         if(this.basicMessage.sendMessage == '是')this.isReceiveMessage = 1;
         if(this.basicMessage.sendMessage == '否')this.isReceiveMessage = 0;
+         if(this.basicMessage.sendEmail == '是')this.isReceiveEmail = 1;
+      if(this.basicMessage.sendEmail == '否')this.isReceiveEmail = 0;
         this.$refs.basicMessage.validate((valid) => {
           if(valid){
               this.$http({
@@ -365,7 +378,9 @@ export default {
                   registerCity:this.registerCity,
                   registerArea:this.registerArea,
                   registerAddress:this.basicMessage.detailAddress1,
-                  isReceiveMessage:this.isReceiveMessage
+                  isReceiveMessage:this.isReceiveMessage,
+                  email:this.basicMessage.email,
+                  isReceiveEmail:this.isReceiveEmail
                 }
               }).then(function(res) {
                 let data = res.data;
@@ -399,7 +414,7 @@ export default {
               }).then(function(res) {
                 let data = res.data;
                 if (data.ERRORCODE == '0') {
-                  console.log(data);
+                  
                   this.active ++
                 } else {
                   this.$message.warning(data.RESULT);
@@ -485,7 +500,7 @@ export default {
                 let data = res.data;
                 if (data.ERRORCODE == '0') {
                   // console.log(data);
-                  that.$router.push('/');
+                 setTimeout(()=>{that.$router.push('/')},1000)
 
                 } else {
                   that.$message.warning(data.RESULT);
@@ -511,6 +526,9 @@ export default {
 <style scoped lang="less">
 	.bussinessRegister{
 		padding-top: 60px;
+    .mar{
+    margin-top: 20px;
+    }
     .content{
       width:790px;
     	 margin:0 auto;

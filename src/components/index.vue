@@ -14,7 +14,7 @@
             <div v-on:keyup.13="login('ruleForm2')">
               <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="80px" style="margin-top: 25px;margin-right: 20px;">
                 <el-form-item label="类型" >
-                  <el-select v-model="ruleForm2.type" placeholder="消费者" style="width:100%;">
+                  <el-select v-model="ruleForm2.type" placeholder="消费者">
                     <el-option label="消费者" value="1"></el-option>
                     <el-option label="商家" value="2"></el-option>
                     <el-option label="咨询师" value="3"></el-option>
@@ -42,7 +42,7 @@
             <div v-on:keyup.13="regist('ruleForm3')">
                <el-form :model="ruleForm3" :rules="rules3" ref="ruleForm3" label-width="80px" style="margin-top: 25px;margin-right: 20px;">
                 <el-form-item label="类型" >
-                  <el-select v-model="ruleForm3.type" placeholder="消费者" style="width:100%;" >
+                  <el-select v-model="ruleForm3.type" placeholder="消费者" >
                     <el-option label="消费者" value="1"></el-option>
                     <el-option label="商家" value="2"></el-option>
                   </el-select>
@@ -131,7 +131,7 @@ let flag = false
 export default {
   name: 'index',
   mounted(){
-    
+   
   },
   data () {
     let checkNumber = (rule, value, callback) => {
@@ -278,7 +278,7 @@ export default {
               this.sendImg();
               if (data.ERRORCODE == '0') {      
                 //个人中心 
-                let h = this.$createElement;
+                const h = this.$createElement;
                 this.$notify({
                   title: '成功',
                   type:'success',
@@ -294,6 +294,7 @@ export default {
                   setTimeout(()=>{this.$router.push('/clerk')},1000);
                 }
               }else if (data.ERRORCODE == '10013'){
+                const h = this.$createElement;
                   this.$notify({
                     title: '成功',
                     type:'success',
@@ -336,9 +337,8 @@ export default {
               let data = res.data;
               if (data.ERRORCODE == '0') {
                 this.$message.success('注册成功，请先填写资料！'); 
-                this.$refs.ruleForm3.resetFields();          
+                // this.$refs.ruleForm3.resetFields();          
                 // this.activeName = "first";
-                this.$refs.ruleForm3.resetFields();
                   if(this.ruleForm3.type == 1){
                     setTimeout(()=>{this.$router.push('/consumerRegister')},1000);
                   }else if(this.ruleForm3.type == 2){
@@ -531,7 +531,7 @@ export default {
       width:100%;
       height:616px;
       background: url(../assets/img/banner.png) 0 0 no-repeat;
-      background-size: 1920px 618px;
+      background-size: 1920px 616px;
       -webkit-animation:fadeIn 1s .2s ease both;
       -moz-animation:fadeIn 1s .2s ease both;
     }
@@ -559,9 +559,9 @@ export default {
       padding:10px 5px !important;
     }
   }
-// .el-notification{
-//   right:16px !important;
-// }
+.el-select-dropdown{
+  min-width:215px !important;
+}
 @-webkit-keyframes flipInY{
 0%{-webkit-transform:perspective(400px) rotateY(90deg);
 opacity:0}

@@ -66,7 +66,7 @@ const basic = {
       callback();
     },
     checkCard(rule, value, callback){
-      if (!/^\d{8,18}|[0-9x]{8,18}|[0-9X]{8,18}?$/.test(value)) {
+      if (!/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(value)) {
         callback(new Error('请输入正确的身份证号码'));
       }
       callback();

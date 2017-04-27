@@ -23,7 +23,7 @@ export default {
 <style scoped lang="less">
 
 	.footer{
-		height: 278px;
+		height: 238px;
 		width: 100%;
 		border-top: 1px solid #e5e5e5;
 		// background-color: #e5e5e5;
