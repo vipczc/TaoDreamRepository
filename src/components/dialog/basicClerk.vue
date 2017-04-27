@@ -16,7 +16,7 @@
                 </el-form-item>
               </div>
 
-              <el-form-item label="验证码:" prop="verificationCode">
+              <el-form-item label="验证码:" >
               <el-input :disabled="disInput" v-model="formBasicClerk.verificationCode"  placeholder="请输入验证码"><el-button  slot="append" type="primary" :disabled="isgetverify" @click="sendAuthCode">{{ textb }}</el-button></el-input>
               </el-form-item>
               <el-form-item label="新的密码:" prop="newPassWord">
@@ -52,13 +52,7 @@ export default {
       }
       callback();
     }
-    var checkStr = (rule, value, callback) => {
-      if (!/^[A-Za-z0-9]+$/.test(value)) {
-        callback(new Error('请输入正确的字符,英文或数字'));
-      }
 
-      callback();
-    }
 
     var checkStrTwo = (rule, value, callback) => {
       if (!/^[A-Za-z0-9]+$/.test(value)) {
@@ -74,10 +68,7 @@ export default {
     return {
       disInput: false,
       rulesBasicClerk: {
-        verificationCode: [{
-          validator: checkStr,
-          trigger: 'blur'
-        }],
+
         newPassWord: [{
           validator: checkPass,
           trigger: 'blur'

@@ -17,9 +17,9 @@
                </el-table-column>
                <el-table-column prop="type" label="额度类型">
                </el-table-column>
-               <el-table-column prop="tradeMobile" label="收货人账号">
+               <el-table-column prop="tradeMobile" label="收获人账号">
                </el-table-column>
-               <el-table-column prop="tradeName" label="收货人姓名">
+               <el-table-column prop="tradeName" label="收获人姓名">
                </el-table-column>
                <el-table-column prop="status" label="状态">
                </el-table-column>

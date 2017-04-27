@@ -13,7 +13,7 @@
                       <div class="box-left">
                       <p>订单编号:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.orderNo }}</span></p>
                       <p>消费金额:&#12288&#12288&#12288 <span>{{ consumptionValue.objectData.totalAmount }}</span></p>
-                      <p>激励开始日期:&#12288 <span>{{ getDataResource.startEncourageDate }}</span></p>
+                      <p>激励开始日期:&#12288 <span>{{ consumptionValue.objectData.startEncourageDate }}</span></p>
 
                       </div>
                       <div class="box-right">

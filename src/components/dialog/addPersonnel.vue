@@ -7,7 +7,7 @@
 
             <div class="dialog-list-box">
               <div class="box-left">
-                <el-form-item label="姓名:" prop="name">
+                <el-form-item label="* 姓名:" prop="name">
                 <el-input v-model="formAddPersonnel.name" placeholder="请输入姓名" :disabled="disInput"></el-input>
                 </el-form-item>
                 <el-form-item label="身份证号:" >
@@ -16,6 +16,7 @@
                 <el-form-item label="出生日期:">
                       <el-date-picker
                         v-model="formAddPersonnel.dateValue"
+                        :picker-options="pickerOptions"
                         type="date"
                         placeholder="选择日期"
                         format="yyyy-MM-dd"
@@ -25,7 +26,7 @@
                 </el-form-item>
               </div>
               <div class="box-right">
-                <el-form-item label="电话号码:" prop="phoneNumber">
+                <el-form-item label="*电话号码:" prop="phoneNumber">
                 <el-input v-model="formAddPersonnel.phoneNumber" placeholder="请输入电话号码" :disabled="disInput"></el-input>
                 </el-form-item>
                 <el-form-item label="推荐类型:">
@@ -116,6 +117,11 @@ export default {
       callback();
     }
     return {
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now() - 8.64e7;
+        }
+      },
       disInput: false,
       rulesPersonnel: {
         name: [{

@@ -3,7 +3,7 @@
     <!-- 跟进 -->
     <el-dialog title="跟进会员" v-model="followUpDialog.show  = followValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
     <div class="cir" @click="followUpValueOver()"><i class="el-icon-close i-top" ></i></div>
-          <el-form  label-width="80px" :model="formFollowUp">
+          <el-form  label-width="80px" :model="formFollowUp" >
             <!-- <el-form-item label="会员账号:">
             <el-input v-model="formFollowUp.id" placeholder="请输入会员账号"></el-input>
             </el-form-item>
@@ -25,8 +25,8 @@
                 <span>{{ followValue.objectData.mobile }}</span>
                 </el-form-item>
               </div>
-              <el-form-item label="文字描述:">
-              <el-input v-model="followValue.objectData.remark" type="textarea" laceholder="备注信息"></el-input>
+              <el-form-item label="文字描述(限制90):" >
+              <el-input v-model="formFollowUp.text = followValue.objectData.remark" type="textarea" laceholder="备注信息"></el-input>
               </el-form-item>
               <el-form-item label="状态:">
                 <!-- <el-select v-model="getDataResource.state = value" placeholder="value">
@@ -89,10 +89,19 @@ export default {
       Value: '1',
     }
   },
+  watch: {
+    'followValue.show': 'setValue'
+  },
   props: {
     followValue: Object
   },
   methods: {
+
+    setValue() {
+      // console.log(followValue.stValue);
+      this.Value = this.followValue.stValue
+
+    },
     followUpValueOver() {
       //关闭
       this.followUpDialog.show = false
@@ -103,8 +112,8 @@ export default {
       //提交
       let formData = new FormData()
       formData.append('id', this.followValue.objectData.id)
-      formData.append('status', this.Value)
-      formData.append('remark', this.followValue.objectData.remark)
+      formData.append('status', this.Value == '已确定' ? 3 : this.Value == '没兴趣' ? 2 : this.Value == '可发展' ? 1 : this.Value != '已确定' && this.Value != '没兴趣' && this.Value != '可发展' ? this.Value : this.Value)
+      formData.append('remark', this.followValue.objectData.remark == 'null' ? '' : '')
       this.$http.post(clerkApi.customerFollow, formData).then((objData) => { //跟进接口
         console.log(objData.data);
         if (objData.data.RESULT == 'ok') {

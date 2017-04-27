@@ -29,9 +29,9 @@
             <p>银行卡号:&#12288<span>{{ bankCardNumber }}</span></p>
             <p>商家ID:&#12288<span>{{ businessNumber }}</span></p>
           </div>
-          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
+          <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button> -->
+                      <el-button @click="login()">登录</el-button>
         </el-col>
 
       </div>
@@ -339,8 +339,8 @@ export default {
       //获取用户信息
       this.$http.post(businessAPi.index).then((objectData) => {
         // params:
-        console.log(1234588);
 
+        this.businessNumber = objectData.data.RESULT.shopCode
         this.enterpriseName = objectData.data.RESULT.companyName //企业名称
         this.enterpriseContacts = objectData.data.RESULT.trueName //企业联系人
         this.enterpriseType = objectData.data.RESULT.companyTypeName //企业类型

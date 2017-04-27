@@ -41,6 +41,7 @@
        <el-table-column label="操作">
              <template scope="scope">
                <el-button
+                 v-show="scope.row.statusName == '已入会' ? false : true"
                  size="small"
                  type="info"
                  @click="handleFollowUp(scope.$index, scope.row)">跟进</el-button>
@@ -147,6 +148,7 @@ export default {
     handleFollowUp(index, row) {
       console.log(this.result.data[index]);
       this.followUpDialog.objectData = this.result.data[index]
+      this.followUpDialog.stValue = row.statusName == '已确定' ? '已确定' : row.statusName == '没兴趣' ? '没兴趣' : row.statusName == '可发展' ? '可发展' : 1
       this.followUpDialog.show = true
     },
     followMessage(isb) {

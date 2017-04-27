@@ -383,6 +383,7 @@ export default {
           this.userNuber = objData.data.RESULT.mobile //联系电话
           //  this.expenseLimit = objData.data.RESULT.quota //消费额度
           this.recommendCount = objData.data.RESULT.refereeNum //推荐人数,推荐人数提升额度=推荐人数X5000
+          this.expenseLimit = this.recommendCount * 5000 + 300000
           this.userSex = objData.data.RESULT.sex ? '男' : '女' //性别 -1位置 0女 1男
           this.TDSum = objData.data.RESULT.taodou //淘豆
           this.userName = objData.data.RESULT.trueName //姓名

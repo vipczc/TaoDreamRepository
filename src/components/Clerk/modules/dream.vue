@@ -30,9 +30,9 @@
             <p>账号密码&#12288:&#12288<span>************</span></p>
             <p>银行卡号&#12288:&#12288<span>{{ bankCard }}</span></p>
           </div>
-          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
+          <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button> -->
+                      <el-button @click="login()">登录</el-button>
         </el-col>
       </div>
   </el-col>
@@ -352,7 +352,7 @@ export default {
       this.$http.post(clerkApi.index).then((objectData) => {
         // params:
         console.log(objectData.data);
-
+        this.clerkNumber = objectData.data.RESULT.counselorCode //咨询师号
         this.userName = objectData.data.RESULT.trueName //姓名+
         this.userNuber = objectData.data.RESULT.mobile //电话+
         this.password = objectData.data.RESULT.password //密码

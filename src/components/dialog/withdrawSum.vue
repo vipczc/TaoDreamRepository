@@ -73,6 +73,10 @@ export default {
       if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
         callback(new Error('请输入正确的金额,最多2位小数'));
       }
+      if (value > this.getDataResource.withdrawSum) {
+
+        callback(new Error('大于当前现金余额'));
+      }
       if (value > 100000) {
         callback(new Error('请不要输入过大的金额'));
       } else {
