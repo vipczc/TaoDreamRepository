@@ -7,13 +7,13 @@
     <el-dialog title="提额" v-model="extractionQuotaDialog.show = quotaValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
   <div class="cir" @click="extractionValueOver"><i class="el-icon-close i-top" ></i></div>
       <el-row>
-          <el-form :label-position="labelPosition" label-width="80px" :model="formExtractionQuota">
+          <el-form v-if='quotaValue.userType == 1' :label-position="labelPosition" label-width="80px" :model="formExtractionQuota":rules="rulesExtractionQuota" ref="formExtractionQuota">
             <el-form-item label="新增产品销售合同编号:">
-            <el-input v-model="formExtractionQuota.quota" placeholder="请输入合同编号"></el-input>
+            <el-input v-model="formExtractionQuota.quota" :disabled="disInput" placeholder="请输入合同编号"></el-input>
             </el-form-item>
             <el-col :span="24">
-              <el-form-item label="申请消费额度:">
-              <el-input v-model="formExtractionQuota.serial" placeholder="请输入金额 单位(元)"></el-input>
+              <el-form-item label="申请消费额度:" prop="serial">
+              <el-input v-model="formExtractionQuota.serial" :disabled="disInput" placeholder="请输入金额 单位(元)"></el-input>
               </el-form-item>
             </el-col>
             <!-- <el-col :span="3" :offset='1'>
@@ -24,6 +24,25 @@
 
 
         </el-form>
+        <el-form v-if='quotaValue.userType == 2' :label-position="labelPosition" label-width="80px" :model="formExtractionQuota":rules="rulesExtractionQuota" ref="formExtractionQuota">
+          <el-form-item label="申请额度:" prop="serial">
+          <el-input v-model="formExtractionQuota.serial" placeholder="请输入申请额度(元)" :disabled="disInput" @change="serialChange"></el-input>
+          </el-form-item>
+          <el-col :span="24">
+            <el-form-item label="应打款:">
+            <!-- <el-input v-model="formExtractionQuota.serial" placeholder="请输入金额 单位(元)"></el-input> -->
+            <span>{{ formExtractionQuota.quota }}</span>
+            </el-form-item>
+          </el-col>
+          <!-- <el-col :span="3" :offset='1'>
+            <el-form-item :label="String(quotaValue.surplusLimitSum+'￥')">
+
+            </el-form-item>
+          </el-col> -->
+
+
+      </el-form>
+
         <el-col :span="24">
           <div class="sum-box">
             <p>申请消费额度流程:</p>
@@ -40,7 +59,7 @@
 </el-row>
   <span slot="footer" class="dialog-footer">
 
-    <el-button type="primary" @click="extractionValue">提 交</el-button>
+    <el-button type="primary" @click="extractionValue" :disabled="disInput" :loading="disInput">提 交</el-button>
   </span>
 </el-dialog>
   </div>
@@ -55,7 +74,33 @@ import {
 export default {
 
   data() {
+    var checkNum2 = (rule, value, callback) => {
+      if (!Number(value)) {
+        callback(new Error('请输入金额!'));
+      }
+      if (Number(value) <= 20) {
+        callback(new Error('输入金额请大于20元!'));
+      }
+      if (!/^[1-9]\d*$/.test(value)) {
+        callback(new Error('请输入非零正整数'));
+      }
+
+
+      if (Number(value) > 100000) {
+        callback(new Error('请不要输入过大的金额'));
+      } else {
+        callback();
+      }
+
+    }
     return {
+      disInput: false,
+      rulesExtractionQuota: {
+        serial: [{
+          validator: checkNum2,
+          trigger: 'blur'
+        }]
+      },
       labelPosition: 'left',
       extractionQuotaDialog: {
         show: false,
@@ -71,6 +116,21 @@ export default {
     quotaValue: Object
   },
   methods: {
+    serialChange() {
+      this.formExtractionQuota.quota = this.formExtractionQuota.serial / 4
+    },
+
+    submitForm() {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.disInput = true
+          this.extractionValue() //提交请求
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
 
     extractionValue() {
       if (this.quotaValue.userType == 1) { //判断用户 会员
@@ -89,7 +149,7 @@ export default {
               this.scuess(1)
 
             } else {
-              this.scuess(objData.data.RESULT)
+              this.error(objData.data.RESULT)
             }
           }).catch((err) => {
             console.log(err);
@@ -100,8 +160,8 @@ export default {
 
         if (!this.extractionQuotaDialog.show == false) { //控制数据获取
           let formData = new FormData()
-          formData.append('quota', this.formExtractionQuota.quota) //	申请额度
-          formData.append('oughtQuota', this.formExtractionQuota.serial) //应打款
+          formData.append('quota', this.formExtractionQuota.serial) //	申请额度
+          formData.append('oughtQuota', this.formExtractionQuota.quota) //应打款
           this.$http.post(businessAPi.quotaUpgrade, formData).then((objData) => {
             console.log(objData.data.RESULT);
             if (objData.data.ERRORCODE == 0) { //成功
@@ -113,7 +173,7 @@ export default {
               this.scuess(1)
 
             } else {
-              this.scuess(objData.data.RESULT)
+              this.error(objData.data.RESULT)
             }
           }).catch((err) => {
             console.log(err);
@@ -138,7 +198,7 @@ export default {
     error(result) {
       this.$notify.error({
         title: '错误',
-        message: 'result'
+        message: result,
       });
     }
   }

@@ -44,7 +44,7 @@
 <span class="two-item-text">推荐管理</span>
 </template>
   <el-menu-item index="2-1" @click="one"><img src="../../assets/img/RecommendedRecords.png" alt="推荐记录">推荐记录</el-menu-item>
-  <el-menu-item index="2-2" @click="one"><img src="../../assets/img/RecommendedRewards.png" alt="推荐奖励">推荐奖励</el-menu-item>
+  <!-- <el-menu-item index="2-2" @click="one"><img src="../../assets/img/RecommendedRewards.png" alt="推荐奖励">推荐奖励</el-menu-item> -->
   </el-submenu>
 </el-menu-item-group>
 

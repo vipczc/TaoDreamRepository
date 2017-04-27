@@ -22,7 +22,7 @@
             <p>会员姓名:&#12288<span>{{ userName }}</span></p>
             <p>出生日期:&#12288<span>{{ userAge }}</span></p>
             <p>电&#12288&#12288话:&#12288<span>{{ userNuber }}</span></p>
-            <p>银行卡号:&#12288<span>{{ 'XXXXXXXXXXXXX' + userBlock.substring(14, 16) }}</span></p>
+            <p>银行卡号:&#12288<span>{{ userBlock }}</span></p>
           </div>
         </el-col>
         <el-col :span="4" :offset="1">
@@ -223,6 +223,8 @@ import {
 // } from '../../../common.js'
 export default {
   data() {
+
+
     return {
       result: {},
       upData: false, //数据
@@ -237,7 +239,7 @@ export default {
       withdrawSum: 0, //提现余额
       TDSum: 0, //淘豆金额
       yesterdayTD: 0, //昨日获得淘豆
-      expenseLimit: 300000, //消费额度
+      expenseLimit: 0, //消费额度
       expenseLimitUp: 0, //消费额度提升
       recommendLimit: 0, //已消费额度
       surplusLimit: 0, //剩余额度
@@ -378,13 +380,13 @@ export default {
           this.userAge = objData.data.RESULT.birthday //	出生年月
           this.memberCode = objData.data.RESULT.memberCode //会员ID
           this.withdrawSum = objData.data.RESULT.banlance //	余额
-          this.userBlock = 'XXXXXXXXXXXXX' + objData.data.RESULT.cardNumber.substring(14, 16) //银行卡号
+
+          this.userBlock = objData.data.RESULT.identityNumber //银行卡号
           this.recommendLimit = objData.data.RESULT.costQuota //已消费额度
-          this.userNuber = 'XXXX'
-          objData.data.RESULT.mobile.substring(14, 16) //联系电话
-          //  this.expenseLimit = objData.data.RESULT.quota //消费额度
+          this.userNuber = objData.data.RESULT.mobile
+
           this.recommendCount = objData.data.RESULT.refereeNum //推荐人数,推荐人数提升额度=推荐人数X5000
-          this.expenseLimit = this.recommendCount * 5000 + 300000
+          this.expenseLimit = objData.data.RESULT.quota
           this.userSex = objData.data.RESULT.sex ? '男' : '女' //性别 -1位置 0女 1男
           this.TDSum = objData.data.RESULT.taodou //淘豆
           this.userName = objData.data.RESULT.trueName //姓名

@@ -49,7 +49,7 @@ export default {
       if (!/^[1-9]\d*$/.test(value)) {
         callback(new Error('请输入非零正整数'));
       }
-      if (value > this.tdValue.TDSumDialog) {
+      if (Number(value) > Number(this.tdValue.TDSumDialog)) {
 
         callback(new Error('大于当前淘豆余额'));
       }
@@ -164,30 +164,38 @@ export default {
         this.$http.post(clerkApi.exchangeTaodou, formData).then((objData) => {
           console.log(objData.data);
           //判断 是否 提现成功
-          this.disInput = false
-          this.tdrecordSumDialog.show = false
-          this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
-          this.$emit('td', this.tdrecordSumDialog)
-          this.scuess(objData.data.RESULT)
+          if (objData.data.RESULT == 'ok') {
+            this.disInput = false
+            this.tdrecordSumDialog.show = false
+            this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
+            this.$emit('td', this.tdrecordSumDialog)
+            this.scuess(objData.data.RESULT)
+          } else {
+            this.errorScuess()
+          }
+
 
         }).catch((err) => {
-          console.log('访问错误2' + err);
+          this.errorScuess()
         })
 
       }
 
     },
     scuess(result) {
+      this.formTDrecordSum.tdCount = ''
       this.$notify.success({
-        title: result == '余额不足' ? "余额不足" : result == 'ok' ? "兑换成功" : '失败',
+        title: "兑换成功!",
         message: '成功后再24小时内到账请注意查收',
         offset: 150
       });
     },
     errorScuess() {
+      this.disInput = false
+      this.formTDrecordSum.tdCount = ''
       this.$notify.error({
-        title: result == '余额不足' ? "余额不足" : result == 'ok' ? "兑换成功" : result,
-        message: '这是一条错误的提示消息',
+        title: '操作',
+        message: '兑换失败!',
         offset: 150
       });
     }

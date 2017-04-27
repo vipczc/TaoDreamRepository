@@ -244,13 +244,13 @@ export default {
       userSex: '女', //性别
       userOccupation: '个体', //职业
 
-      withdrawSum: '0', //提现金额
-      TDSum: '0', //跟进金额
-      yesterdayTD: '0', //昨日获得跟进
-      expenseLimit: '0', //消费额度
-      expenseLimitUp: '0', //消费额度提升
-      recommendLimit: '0', //已消费额度
-      surplusLimit: '0', //剩余额度
+      withdrawSum: 0, //提现金额
+      TDSum: 0, //跟进金额
+      yesterdayTD: 0, //昨日获得跟进
+      expenseLimit: 0, //消费额度
+      expenseLimitUp: 0, //消费额度提升
+      recommendLimit: 0, //已消费额度
+      surplusLimit: 0, //剩余额度
 
       //用到一下
       headPortraitUrl: '', //用户头像+
@@ -258,10 +258,10 @@ export default {
       userName: '', //姓名+
       userNuber: '', //电话+
       password: '', //用户密码
-      addPeopleNumber: '0', //添加人数
-      okPeopleNumber: '0', //成功推荐人数
-      allPeopleNumber: '0', //总人数
-      followUpPeopleNumber: '0', //跟进人数
+      addPeopleNumber: 0, //添加人数
+      okPeopleNumber: 0, //成功推荐人数
+      allPeopleNumber: 0, //总人数
+      followUpPeopleNumber: 0, //跟进人数
       defaultActiveNumber: '',
       clerkNumber: '',
     }
@@ -329,7 +329,7 @@ export default {
 
       let formData = new FormData()
       formData.append('userName', '13357156388')
-      formData.append('passWord', '123456789')
+      formData.append('passWord', 'hujinhu')
       formData.append('userType', '3')
       formData.append('imageCode', this.pngimg)
 

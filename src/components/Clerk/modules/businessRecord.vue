@@ -17,7 +17,7 @@
   <el-button  v-show="!loading" @click="onAdd(Value)">添加</el-button>
 
   <el-col :span="24" style="background-color:#fff" class="table-box">
-  <el-table :data="tableData" style="width: 100%;" v-loading.body="loading" element-loading-text="加载中">
+  <el-table :data="tableData" :max-height="800" stripe="true"style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
        <el-table-column type="selection" width="55">
       </el-table-column>
        <el-table-column prop="createTime" label="操作日期">

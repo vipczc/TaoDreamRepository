@@ -64,20 +64,21 @@ export default {
     this.offDown = true
 
     var checkNum2 = (rule, value, callback) => {
-      if (!value) {
+      if (!Number(value)) {
         callback(new Error('请输入金额!'));
       }
-      if (value <= 10) {
+      if (Number(value) <= 10) {
         callback(new Error('输入金额请大于10元!'));
       }
       if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
         callback(new Error('请输入正确的金额,最多2位小数'));
       }
-      if (value > this.getDataResource.withdrawSum) {
 
+      if (Number(value) > Number(this.getDataResource.withdrawSum)) {
+        // console.log(value + '  ' + Number(this.getDataResource.withdrawSum) );
         callback(new Error('大于当前现金余额'));
       }
-      if (value > 100000) {
+      if (Number(value) > 100000) {
         callback(new Error('请不要输入过大的金额'));
       } else {
         callback();
@@ -282,7 +283,7 @@ export default {
             this.errorScuess()
           }
         }).catch((err) => {
-          console.log('提现错误咨询师');
+          this.errorScuess()
         })
 
       }
@@ -297,10 +298,12 @@ export default {
         offset: 150
       });
     },
-    errorScuess(result) {
+    errorScuess(str) {
+      this.formLabelAlign.sum = ''
+      this.disInput = false
       this.$notify.error({
-        title: result == '余额不足' ? "余额不足" : result == 'ok' ? "兑换成功" : result,
-        message: '如有问题请致电淘梦者客服!',
+        title: '操作',
+        message: '提现失败!',
         offset: 150
       });
     }
