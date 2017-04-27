@@ -20,18 +20,18 @@
             <p>企业名称&#12288:&#12288<span>{{ enterpriseName }}</span></p>
             <p>企业联系人:&#12288<span>{{ enterpriseContacts }}</span></p>
             <p>企业类型&#12288:&#12288<span>{{ enterpriseType }}</span></p>
-            <p>电&#12288&#12288话:&#12288<span>{{ enterpriseNuber }}</span></p>
+            <p>电&#12288&#12288话&#12288:&#12288<span>{{ enterpriseNuber }}</span></p>
           </div>
         </el-col>
         <el-col :span="4" :offset="1">
           <div class="user-message-content">
             <p>地&#12288&#12288址:&#12288<span>{{ address }}</span></p>
             <p>银行卡号:&#12288<span>{{ bankCardNumber }}</span></p>
-            <p>商家ID:&#12288<span>{{ businessNumber }}</span></p>
+            <p>会员ID&#12288:&#12288<span>{{ businessNumber }}</span></p>
           </div>
-          <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
+          <img src="/taodream-consumer/validateCode" alt="验证码">
                       验证码:<input type="text" name="" v-model="pngimg" value="">
-                      <el-button @click="login()">登录</el-button> -->
+                      <el-button @click="login()">登录</el-button>
         </el-col>
 
       </div>
@@ -346,7 +346,7 @@ export default {
         this.enterpriseType = objectData.data.RESULT.companyTypeName //企业类型
         this.enterpriseNuber = objectData.data.RESULT.mobile //电话
         this.address = objectData.data.RESULT.address //地址
-        this.bankCardNumber = objectData.data.RESULT.bankCardId //银行卡号
+        this.bankCardNumber = objectData.data.RESULT.cardNumber //银行卡号
 
         this.withdrawSum = objectData.data.RESULT.balance //提现金额
         this.TDSum = objectData.data.RESULT.taodou //淘豆金额

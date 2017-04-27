@@ -13,7 +13,7 @@
               <div class="box-left">
 
                 <p>会员姓名:<span>&#12288 {{  dialogValue.objetcData.trueName	 }} </span></p>
-                  <p>会员ID:<span>&#12288&#12288 {{ dialogValue.objetcData.birthday }} </span></p>
+                  <p>会员ID:<span>&#12288&#12288 {{ dialogValue.objetcData.memberCode }} </span></p>
                 <p>出生日期:<span>&#12288 {{  dialogValue.objetcData.birthday }} </span></p>
                 <p>联系电话:<span>&#12288 {{  dialogValue.objetcData.mobile }} </span></p>
                 <p>家庭地址:<span>&#12288 {{  dialogValue.objetcData.infoProvince + dialogValue.objetcData.infoCity + dialogValue.objetcData.infoArea+ dialogValue.objetcData.address}} </span></p>

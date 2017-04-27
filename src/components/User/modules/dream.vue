@@ -30,9 +30,9 @@
             <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
             <p>行&#12288&#12288业:&#12288<span>{{ profession }}</span></p>
             <p>会员ID&#12288:&#12288<span>{{ memberCode }}</span></p>
-<!-- <img src="/taodream-consumer/validateCode" alt="验证码">
+<img src="/taodream-consumer/validateCode" alt="验证码">
             验证码:<input type="text" name="" v-model="pngimg" value="">
-            <el-button @click="login()">登录</el-button> -->
+            <el-button @click="login()">登录</el-button>
           </div>
         </el-col>
 

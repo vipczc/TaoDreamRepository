@@ -16,7 +16,7 @@
         <el-col :span="6" :offset="1">
           <div class="user-message-content">
             <p>咨询师姓名:&#12288<span>{{ userName }}</span></p>
-            <p>咨询师ID&#12288:&#12288<span>{{clerkNumber}}</span></p>
+            <p>会员ID&#12288&#12288:&#12288<span>{{clerkNumber}}</span></p>
             <p>联系电话&#12288:&#12288<span>{{ userNuber }}</span></p>
 
 
