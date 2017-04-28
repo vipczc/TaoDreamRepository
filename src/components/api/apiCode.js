@@ -79,6 +79,7 @@ export const quitUser ={
     ajax('GET', DomainName  + '/logout').
       then(res => {
           console.log(res.RESULT);
+          window.location.href = '/'
       })
     }
 }

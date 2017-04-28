@@ -350,29 +350,29 @@ export default {
 
       this.tdrecordSumDialog.show = true
     },
-    // login() {
-    //   // let boj = new formData();
-    //   // formData.username = '13357156388'
-    //
-    //
-    //   let formData = new FormData()
-    //   formData.append('userName', '18767669666')
-    //   formData.append('passWord', '123456')
-    //   formData.append('userType', '1')
-    //   formData.append('imageCode', this.pngimg)
-    //
-    //   this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
-    //     // params:
-    //     console.log(objectData.data);
-    //     this.upData = !this.upData
-    //   }).catch((error) => {
-    //     console.log(error);
-    //   })
-    //   //       username:13357156388
-    //   // password:hujinhu
-    //   // userType:2
-    //   // pngCode:smdm
-    // },
+    login() {
+      // let boj = new formData();
+      // formData.username = '13357156388'
+
+      //18767669666
+      let formData = new FormData()
+      formData.append('userName', '13775895684')
+      formData.append('passWord', '123456')
+      formData.append('userType', '1')
+      formData.append('imageCode', this.pngimg)
+
+      this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
+        // params:
+        console.log(objectData.data);
+        this.upData = !this.upData
+      }).catch((error) => {
+        console.log(error);
+      })
+      //       username:13357156388
+      // password:hujinhu
+      // userType:2
+      // pngCode:smdm
+    },
     upDataFun() {
       this.$http.post(userApi.index).then((objData) => {
         console.log(objData);

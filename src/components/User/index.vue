@@ -91,7 +91,6 @@ export default {
   methods: {
     toLogin() {
       quitUser.quit();
-      window.location.href = '/'
     },
     activeNumberMessage(strNumber) {
       this.defaultActiveNumber = strNumber
