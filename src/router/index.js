@@ -68,8 +68,7 @@ Vue.use(Router)
 //     })
 // }
 
-
-const router =  new Router({
+export default new Router({
   routes: [
     // 主入口
     {
@@ -96,17 +95,7 @@ const router =  new Router({
       // beforeEnter: requireAuth,
       children: [{
         path: '/',
-        component: uIndexDream, //淘梦地带,
-        // beforeEnter:(to, from, next) => {
-        //   ajax('GET', host.basic.basicUrl + '/register/selectCurrentUser').
-        //     then(res => {
-        //         if (res.ERRORCODE == 0) {
-        //             next();
-        //         } else {
-        //           next('/');
-        //         }
-        //     })
-        // }
+        component: uIndexDream //淘梦地带
       },{
         path: 'dream',
         component: uIndexDream //淘梦地带
@@ -150,17 +139,7 @@ const router =  new Router({
 
       children: [{
         path: '/',
-        component: bIndexDream, //淘梦地带
-        // beforeEnter:(to, from, next) => {
-        //   ajax('GET', host.basic.basicUrl + '/register/selectCurrentUser').
-        //     then(res => {
-        //         if (res.ERRORCODE == 0) {
-        //             next();
-        //         } else {
-        //           next('/');
-        //         }
-        //     })
-        // }
+        component: bIndexDream //淘梦地带
       }, {
         path: 'dream',
         component: bIndexDream //淘梦地带
@@ -197,8 +176,7 @@ const router =  new Router({
 
       children:[{
         path: '/', //推荐激励
-        component: cIndexDream,
-
+        component: cIndexDream
       },{
         path: 'dream', //推荐激励
         component: cIndexDream
@@ -224,27 +202,3 @@ const router =  new Router({
     }
   ]
 })
-
-router.beforeEach((to, from, next) => {
-    ajax('GET', host.basic.basicUrl + '/register/selectCurrentUser').
-      then(res => {
-          if (res.ERRORCODE == 0) {
-              next();
-
-          } else  {
-            if (to.path != '/') {
-              next({ path: '/' })
-            } else {
-              next()
-            }
-          }
-      })
-
-
-})
-
-// router.beforeEach((to, from, next) => {
-//     next({path:'/'})
-// })
-
-export default router
