@@ -161,7 +161,7 @@ export default {
         if (!this.consumptionDetailsDialog.show == false) { //控制数据获取
           let formData = new FormData()
           formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
-          //formData.append('consumerOrderId', this.consumptionValue.objectData.orderNo)
+          formData.append('consumerOrderId', this.consumptionValue.objectData.id)
 
           this.$http.post(businessAPi.consumerOrderRecordInfo, formData).then((objData) => {
             console.log(objData.data.RESULT);

@@ -313,28 +313,28 @@ export default {
     extractionQuotaDialogShow() { //提额
       this.extractionQuotaDialog.show = true
     },
-    login() {
-
-      let formData = new FormData()
-      formData.append('userName', '13357156388')
-      formData.append('passWord', 'hujinhu')
-      formData.append('userType', '2')
-      formData.append('imageCode', this.pngimg)
-
-      console.log(formData.pngCode);
-      this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
-        // params:
-        console.log(objectData.data);
-        this.upData = !this.upData
-      }).catch((error) => {
-        console.log(error);
-      })
-
-      //       username:13357156388
-      // password:hujinhu
-      // userType:2
-      // pngCode:smdm
-    },
+    // login() {
+    //
+    //   let formData = new FormData()
+    //   formData.append('userName', '13357156388')
+    //   formData.append('passWord', 'hujinhu')
+    //   formData.append('userType', '2')
+    //   formData.append('imageCode', this.pngimg)
+    //
+    //   console.log(formData.pngCode);
+    //   this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
+    //     // params:
+    //     console.log(objectData.data);
+    //     this.upData = !this.upData
+    //   }).catch((error) => {
+    //     console.log(error);
+    //   })
+    //
+    //   //       username:13357156388
+    //   // password:hujinhu
+    //   // userType:2
+    //   // pngCode:smdm
+    // },
     upDatafun() {
       //获取用户信息
       this.$http.post(businessAPi.index).then((objectData) => {
@@ -351,7 +351,7 @@ export default {
         this.withdrawSum = objectData.data.RESULT.balance == null ? 0 : objectData.data.RESULT.balance //提现金额
         this.TDSum = objectData.data.RESULT.taodou == null ? 0 : objectData.data.RESULT.taodou //淘豆金额
         this.yesterdayTD = objectData.data.RESULT.lastTaodou == null ? 0 : objectData.data.RESULT.lastTaodou //昨日获得淘豆
-        this.expenseLimit = objectData.data.RESULT.quota == null ? 0 : bjectData.data.RESULT.quota //消费额度
+        this.expenseLimit = objectData.data.RESULT.quota == null ? 0 : objectData.data.RESULT.quota //消费额度
 
         this.recommendLimit = objectData.data.RESULT.costQuota == null ? 0 : objectData.data.RESULT.costQuota //已消费额度
         this.surplusLimit = objectData.data.RESULT.laveQuota == null ? 0 : objectData.data.RESULT.laveQuota //剩余额度

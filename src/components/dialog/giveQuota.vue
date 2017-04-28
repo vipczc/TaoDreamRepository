@@ -1,20 +1,20 @@
 <template lang="html">
   <!-- 额度赠送 -->
-  <div class="giveQuota">
+  <div class="giveQuota" style="text-align:letf;">
     <el-dialog title="赠送" v-model="giveQuotaDialog.show = giveValue.show" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="30%">
     <div class="cir" @click="giveQuotaValueOver"><i class="el-icon-close i-top" ></i></div>
-        <el-col :span="20">
+    <el-col :span="20">
 
-        </el-col>
-        <el-col :span="4">
+    </el-col>
+    <el-col :span="4">
 
-        </el-col>
+    </el-col>
           <el-form :label-position="labelPosition" label-width="80px" :model="formGiveQuota" :rules="rulesGiveQuota" ref="formGiveQuota">
             <el-form-item label="会员账号:" prop="id">
             <el-input v-model="formGiveQuota.id" placeholder="请输入会员账号/手机号" :disabled="disInput" @blur="getTrueName"></el-input>
             </el-form-item>
-            <el-form-item label="会员姓名:">
-            {{ name }}
+            <el-form-item label="会员姓名:" >
+            <span id="text-box-name">{{ name }}</span>
             </el-form-item>
             <el-col :span="20">
               <el-form-item label="赠送额度:" prop="giveName">
@@ -191,5 +191,15 @@ export default {
 <style lang="css">
 .giveQuota .el-notification{
  right: 800px !important;
+
+}
+ .giveQuota .el-form-item__content{
+   text-align: left;
+ }
+#text-box-name{
+
+  font-size: 18px;
+
+  color:#000;
 }
 </style>

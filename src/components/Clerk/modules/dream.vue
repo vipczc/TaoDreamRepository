@@ -330,28 +330,28 @@ export default {
       console.log(cont);
 
     },
-    login() {
-
-      let formData = new FormData()
-      formData.append('userName', '13357156388')
-      formData.append('passWord', '123456')
-      formData.append('userType', '3')
-      formData.append('imageCode', this.pngimg)
-
-      console.log(formData.pngCode);
-      this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
-        // params:
-        console.log(objectData.data);
-        this.upData = !this.upData
-      }).catch((error) => {
-        console.log(error);
-      })
-
-      //       username:13357156388
-      // password:hujinhu
-      // userType:2
-      // pngCode:smdm
-    },
+    // login() {
+    //
+    //   let formData = new FormData()
+    //   formData.append('userName', '13357156388')
+    //   formData.append('passWord', '123456')
+    //   formData.append('userType', '3')
+    //   formData.append('imageCode', this.pngimg)
+    //
+    //   console.log(formData.pngCode);
+    //   this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
+    //     // params:
+    //     console.log(objectData.data);
+    //     this.upData = !this.upData
+    //   }).catch((error) => {
+    //     console.log(error);
+    //   })
+    //
+    //   //       username:13357156388
+    //   // password:hujinhu
+    //   // userType:2
+    //   // pngCode:smdm
+    // },
     upDatafun() {
       //获取用户信息
       this.$http.post(clerkApi.index).then((objectData) => {
