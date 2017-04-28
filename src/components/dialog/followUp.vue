@@ -118,7 +118,7 @@ export default {
 
 
 
-      if (this.formFollowUp.text.length == 0) {
+      if (this.formFollowUp.text.length == null || this.formFollowUp.text.length == 0) {
         this.$message.error('需要填写文字描述哦！(⊙o⊙)');
       } else if (this.formFollowUp.text.length > 90) {
         this.$message.error('文字描述最多只能写90字哦！(⊙o⊙)');

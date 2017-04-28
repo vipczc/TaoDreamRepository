@@ -312,18 +312,19 @@ export default {
     },
     withdrawMessage(isb) { //子组件返回值
       this.withdrawSumDialog.show = isb.show
-      this.upData = isb.upData
+      this.upData = !this.upData
     },
     extractionMessage(isb) { //提额 子组件返回值
       this.extractionQuotaDialog.show = isb.show
-      this.upData = isb.upData
+      this.upData = !this.upData
     },
     giveMessage(isb) { //额度赠送 子组件返回值
       this.giveQuotaDialog.show = isb.show
+      this.upData = !this.upData
     },
     tdMessage(isb) { //子组件返回值
       this.tdrecordSumDialog.show = isb.show
-      this.upData = isb.upData
+      this.upData = !this.upData
     },
     basicDialogShow() { //基本信息对话框
       this.basicDialog.show = true
@@ -383,7 +384,7 @@ export default {
           this.memberCode = objData.data.RESULT.memberCode //会员ID
           this.withdrawSum = objData.data.RESULT.banlance == null ? 0 : objData.data.RESULT.banlance //	余额
 
-          this.userBlock = objData.data.RESULT.identityNumber //银行卡号
+          this.userBlock = objData.data.RESULT.cardNumber //银行卡号
           this.recommendLimit = objData.data.RESULT.costQuota == null ? 0 : objData.data.RESULT.costQuota //已消费额度
           this.userNuber = objData.data.RESULT.mobile
 

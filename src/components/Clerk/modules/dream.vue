@@ -4,9 +4,11 @@
   <el-col :span="24">
       <div class="user-message">
         <el-col :span="4">
+          <el-tooltip class="item" effect="dark" content="修改密码"   placement="top">
             <div class="user-headPortrait" @click="basicClerkDialogShow()">
 
             </div>
+            </el-tooltip>
             <div class="userType" @click="basicClerkDialogShow()">
               <span>{{ userType }}</span>
             </div>
@@ -136,7 +138,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right ">
 
-              <p>提现余额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
+              <p>提现余额:&#12288&#12288<span>￥{{ withdrawSum }}</span></p>
               <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 > </a>
 
           </div>
@@ -174,7 +176,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>淘豆余额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
+              <p>淘豆余额:&#12288&#12288<span>￥{{ TDSum }}</span></p>
               <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a>
 
           </div>
@@ -191,7 +193,7 @@
         <el-col :span="9" :offset="1">
           <div class="content-right">
 
-              <p>昨日获得淘豆:<span>{{ yesterdayTD }}￥</span></p>
+              <p>昨日获得淘豆:<span>￥{{ yesterdayTD }}</span></p>
               <a href="javascript:void(0);" @click="toPath('1-1')">查看淘豆流水 > </a>
 
           </div>
@@ -299,12 +301,15 @@ export default {
     },
     withdrawMessage(isb) { //提现
       this.withdrawSumDialog.show = isb.show
+      this.upData = !this.upData
     },
     tdMessage(isb) {
       this.tdrecordSumDialog.show = isb.show
+      this.upData = !this.upData
     },
     addMessage(isb) {
       this.addPersonnelDialog.show = isb.show
+      this.upData = !this.upData
     },
     basicClerkDialogShow() { //修改密码
 
@@ -357,14 +362,14 @@ export default {
         this.userNuber = objectData.data.RESULT.mobile //电话+
         this.password = objectData.data.RESULT.password //密码
         this.bankCard = objectData.data.RESULT.cardNumber //银行卡号
-        this.addPeopleNumber = objectData.data.RESULT.addSum == null ? 0 : this.addPeopleNumber //添加人数
-        this.okPeopleNumber = objectData.data.RESULT.successSum == null ? 0 : this.okPeopleNumber //成功推荐人数
-        this.allPeopleNumber = objectData.data.RESULT.followSum == null ? 0 : this.allPeopleNumber //总人数
-        this.followUpPeopleNumber = objectData.data.RESULT.todayFollow == null ? 0 : this.followUpPeopleNumber //跟进人数
+        this.addPeopleNumber = objectData.data.RESULT.addSum == null ? 0 : objectData.data.RESULT.addSum //添加人数
+        this.okPeopleNumber = objectData.data.RESULT.successSum == null ? 0 : objectData.data.RESULT.successSum //成功推荐人数
+        this.allPeopleNumber = objectData.data.RESULT.followSum == null ? 0 : objectData.data.RESULT.followSum //总人数
+        this.followUpPeopleNumber = objectData.data.RESULT.todayFollow == null ? 0 : objectData.data.RESULT.todayFollow //跟进人数
 
-        this.withdrawSum = objectData.data.RESULT.balance == null ? 0 : this.withdrawSum //提现余额
-        this.TDSum = objectData.data.RESULT.taodou == null ? 0 : this.TDSum //淘豆余额
-        this.yesterdayTD = objectData.data.RESULT.lastTaodou == null ? 0 : this.yesterdayTD //昨日获得淘豆
+        this.withdrawSum = objectData.data.RESULT.balance == null ? 0 : objectData.data.RESULT.balance //提现余额
+        this.TDSum = objectData.data.RESULT.taodou == null ? 0 : objectData.data.RESULT.taodou //淘豆余额
+        this.yesterdayTD = objectData.data.RESULT.lastTaodou == null ? 0 : objectData.data.RESULT.lastTaodou //昨日获得淘豆
 
         // this.password = objectData.data.RESULT. //用户密码
 

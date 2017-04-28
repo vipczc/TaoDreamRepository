@@ -110,7 +110,7 @@ export default {
       inputValue: 0,
       withdrawSumDialog: {
         show: false,
-        upData: false
+        upData: true
       }
     }
   },

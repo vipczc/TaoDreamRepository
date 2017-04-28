@@ -54,7 +54,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right ">
 
-              <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}￥</span></p>
+              <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}</span></p>
               <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 > </a>
 
 
@@ -94,7 +94,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>淘豆金额:&#12288&#12288<span>{{ TDSum }}￥</span></p>
+              <p>淘豆金额:&#12288&#12288<span>￥{{ TDSum }}</span></p>
               <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a>
 
 
@@ -112,7 +112,7 @@
         <el-col :span="9" :offset="1">
           <div class="content-right">
 
-              <p>昨日获得淘豆:<span>{{ yesterdayTD }}￥</span></p>
+              <p>昨日获得淘豆:<span>￥{{ yesterdayTD }}</span></p>
               <a href="javascript:void(0);" @click="toPath('1-4')">查看淘豆流水 > </a>
           </div>
         </el-col>
@@ -137,7 +137,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>消费额度:&#12288&#12288<span>{{ expenseLimit }}￥</span></p>
+              <p>消费额度:&#12288&#12288<span>￥{{ expenseLimit }}</span></p>
 
 
               <a href="javascript:void(0);" @click="toPath('1-5')">查看额度流水 > </a>
@@ -155,8 +155,8 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>已消费额度:&#12288 <span>{{ recommendLimit }}￥</span></p>
-              <p>剩余额度:&#12288&#12288 <span>{{ surplusLimit }}￥</span></p>
+              <p>已消费额度:&#12288 <span>￥{{ recommendLimit }}</span></p>
+              <p>剩余额度:&#12288&#12288 <span>￥{{ surplusLimit }}</span></p>
 
 
           </div>
@@ -285,19 +285,19 @@ export default {
     },
     withdrawMessage(isb) { //子组件返回值 提现
       this.withdrawSumDialog.show = isb.show //显示
-      this.upDataRq = isb.upData //更新数据
+      this.upData = !this.upData //更新数据
 
     },
     extractionMessage(isb) { //子组件返回值 //提额
       this.extractionQuotaDialog.show = isb.show
-      this.extractionUpData = isb.upData
+      this.upData = !this.upData
     },
     // giveMessage(isb) { //子组件返回值 赠送额度
     //   this.giveQuotaDialog = isb.show
     // },
     tdMessage(isb) { //子组件返回值 淘豆兑换
       this.tdrecordSumDialog.show = isb.show
-      this.tdrecordUpData = isb.upData
+      this.upData = !this.upData
     },
 
     //父组件数据 -> 子组件数据

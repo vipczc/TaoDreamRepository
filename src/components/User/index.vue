@@ -62,8 +62,8 @@
     </el-col>
 
   </el-row>
-  <el-dialog title="退出" v-model="quitDialog" size="tiny">
-  <h2 style="color:red;">是否退出登录</h2>
+  <el-dialog title="操作" v-model="quitDialog" size="tiny">
+  <h2 style="color:#000;">是否退出登录</h2>
   <span slot="footer" class="dialog-footer">
     <el-button type="success" @click="quitDialog = false">取 消</el-button>
     <el-button type="danger"  @click="toLogin" >确 定</el-button>

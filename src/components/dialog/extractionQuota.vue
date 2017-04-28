@@ -189,6 +189,8 @@ export default {
       this.$emit('extraction', this.extractionQuotaDialog)
     },
     scuess(result) {
+      this.formExtractionQuota.quota = ''
+      this.formExtractionQuota.serial = ''
       this.$notify.success({
         title: result == 1 ? '提额申请成功' : this.error(result),
         message: result == 1 ? '成功后我们的客服将再24小时审核 有问题我们会跟您取得联系!' : '',

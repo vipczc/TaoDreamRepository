@@ -4,10 +4,12 @@
     <el-dialog title="添加" v-model="addPersonnelDialog.show = addPersonnelValue.show" size="small" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="20%">
   <div class="cir" @click="addValueOver"><i class="el-icon-close i-top" ></i></div>
           <el-form label-width="80px" :model="formAddPersonnel" :rules="rulesPersonnel" ref="formAddPersonnel">
-
+            <span class="necessaryOne">*</span>
+            <span class="necessaryTwo">*</span>
             <div class="dialog-list-box">
               <div class="box-left">
-                <el-form-item label="* 姓名:" prop="name">
+
+                <el-form-item label="姓名:" prop="name">
                 <el-input v-model="formAddPersonnel.name" placeholder="请输入姓名(必填)" :disabled="disInput"></el-input>
                 </el-form-item>
                 <el-form-item label="身份证号:" >
@@ -296,6 +298,14 @@ export default {
           this.addPersonnelDialog.upData = !this.addPersonnelDialog.upData
           this.$emit('add', this.addPersonnelDialog)
           this.scuess(objData.data.RESULT)
+          //清空
+
+          this.formAddPersonnel.name = ''
+          this.formAddPersonnel.phoneNumber = ''
+          this.formAddPersonnel.id = ''
+          this.formAddPersonnel.birthDate = ''
+          this.formAddPersonnel.detailedHomeAddress = ''
+
         } else {
           this.errorScuess(objData.data.RESULT)
         }
@@ -336,5 +346,36 @@ export default {
 
 font-size: 12px;
   color: rgb(28, 126, 255);
+}
+
+@media screen and (min-width: 1199px){
+  .addPersonnel .necessaryOne{
+    position: relative;
+    top: 37px;
+    left: -41%;
+    color: red;
+  }
+}
+@media screen and (max-width: 1300px){
+  .addPersonnel .necessaryOne{
+    position: relative;
+    top: 37px;
+    left: -39%;
+    color: red;
+  }
+}
+@media screen and (max-width: 1199px){
+  .addPersonnel .necessaryOne{
+    position: relative;
+    top: 37px;
+    left: -37%;
+    color: red;
+  }
+}
+.addPersonnel .necessaryTwo{
+  position: relative;
+  top: 37px;
+
+  color: red;
 }
 </style>

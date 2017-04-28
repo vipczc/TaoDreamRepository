@@ -70,7 +70,7 @@ export default {
       labelPosition: 'left',
       tdrecordSumDialog: {
         show: false,
-        upData: false
+        upData: true
       },
       formTDrecordSum: {
         tdCount: '', //淘豆数量

@@ -17,7 +17,7 @@
   <el-button  v-show="!loading" @click="onAdd(Value)">添加</el-button>
 
   <el-col :span="24" style="background-color:#fff" class="table-box">
-  <el-table :data="tableData" :max-height="800" stripe="true"style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
+  <el-table :data="tableData" :max-height="700" stripe="true"style="width: 100%;height: 780px;" v-loading.body="loading" element-loading-text="加载中">
        <el-table-column type="selection" width="55">
       </el-table-column>
        <el-table-column prop="createTime" label="操作日期">
@@ -84,6 +84,7 @@ import basic from '../../../common.js'
 export default {
   data() {
     return {
+      upData: true,
       searchModelData: {
         searchStr: '姓名/账号',
         searchApi: '',
@@ -132,7 +133,7 @@ export default {
     this.upDatafun()
   },
   watch: {
-
+    'upData': 'upDatafun',
     'searchCount': 'searchModelDataFun',
     'searchState': 'upDatafun',
     'loading': 'searchModelDataFun',
@@ -154,10 +155,11 @@ export default {
     },
     followMessage(isb) {
       this.followUpDialog.show = isb.show
-      this.followUpData = isb.upData
+      this.upData = !this.upData
     },
     addMessage(isb) {
       this.addPersonnelDialog.show = isb.show
+      this.upData = !this.upData
     },
     getdata() {
 
