@@ -1,3 +1,7 @@
+
+
+import ajax from '../../components/api/ajax.js'
+
 const DomainName = '/taodream-consumer'//http://10.60.20.76 //域名
 // const PortNumber = '8081' //端口号 POST
 
@@ -67,4 +71,14 @@ export const clerkApi =  {
 
       selectProfession : DomainName+'/register/selectProfession',//行业查询接口
 
+}
+
+
+export const quitUser ={
+  quit : () => {
+    ajax('GET', DomainName  + '/logout').
+      then(res => {
+          console.log(res.RESULT);
+      })
+    }
 }
