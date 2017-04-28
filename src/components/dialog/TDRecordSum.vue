@@ -91,7 +91,7 @@ export default {
     //   this.getDataResource.TDSum = String(this.tdValue.TDSumDialog)
     // },
     tdrecordSumValueOver() {
-      this.tdrecordSumDialog = false
+      this.tdrecordSumDialog.show = false
 
       this.$emit('td', this.tdrecordSumDialog)
     },
@@ -136,7 +136,7 @@ export default {
           }
 
         }).catch((err) => {
-          console.log('访问错误2' + err);
+          this.errorScuess()
         })
       } else if (this.tdValue.userType == 2) { //商家
 
@@ -154,7 +154,7 @@ export default {
           this.scuess(objData.data.RESULT)
 
         }).catch((err) => {
-          console.log('访问错误1' + err);
+          this.errorScuess(objData.data.RESULT)
         })
       } else if (this.tdValue.userType == 3) { //咨询师
 
@@ -171,12 +171,12 @@ export default {
             this.$emit('td', this.tdrecordSumDialog)
             this.scuess(objData.data.RESULT)
           } else {
-            this.errorScuess()
+            this.errorScuess(objData.data.RESULT)
           }
 
 
         }).catch((err) => {
-          this.errorScuess()
+          this.errorScuess(objData.data.RESULT)
         })
 
       }
@@ -190,12 +190,15 @@ export default {
         offset: 150
       });
     },
-    errorScuess() {
+    errorScuess(reqs) {
       this.disInput = false
+      this.tdrecordSumDialog.show = false
+      this.tdrecordSumDialog.upData = !this.tdrecordSumDialog.upData
+      this.$emit('td', this.tdrecordSumDialog)
       this.formTDrecordSum.tdCount = ''
       this.$notify.error({
         title: '操作',
-        message: '兑换失败!',
+        message: reqs + ' 兑换失败!',
         offset: 150
       });
     }

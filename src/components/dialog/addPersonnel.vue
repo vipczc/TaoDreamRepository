@@ -141,7 +141,7 @@ export default {
       profession: [{
 
       }], //行业模板
-      value: '1', //行业
+      value: '', //行业
       result: {},
       homeOptions: regionData,
       homeModel: [],
@@ -254,14 +254,14 @@ export default {
 
       this.$http.post(clerkApi.selectProfession).then((objData) => {
 
-        let result = objData.data.RESULT //Object 所有数据
+        this.result = objData.data.RESULT //Object 所有数据
         //时间处理
-        for (var i = 0; i < this.result.length; i++) {
-          this.result[i].value = this.result[i].id
-          this.result[i].label = this.result[i].label
+        for (var i = 0; i < objData.data.RESULT.length; i++) {
+          this.result[i].value = objData.data.RESULT[i].id
+          this.result[i].label = objData.data.RESULT[i].label
         }
-        console.log(result);
-        this.profession = result
+
+        this.profession = this.result
 
       }).catch((err) => {
         console.log(err);

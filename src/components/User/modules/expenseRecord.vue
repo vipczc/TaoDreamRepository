@@ -5,7 +5,7 @@
     <search v-show="!loading" :searchModel="searchModelData" v-on:elementSearch="elementSearchMessage" ></search>
 
     <el-col :span="24" style="background-color:#fff" class="table-box">
-      <el-table :data="tableData" :max-height="700" stripe="true"style="width: 100%;height: 780px;"max-height="800" v-loading.body="loading" element-loading-text="加载中">
+      <el-table :data="tableData" :max-height="700" :stripe="true"style="width: 100%;height: 780px;"max-height="800" v-loading.body="loading" element-loading-text="加载中">
            <el-table-column type="selection" width="55">
           </el-table-column>
            <el-table-column prop="orderNo" label="订单编号">

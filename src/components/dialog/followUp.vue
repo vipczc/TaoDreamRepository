@@ -25,8 +25,10 @@
                 <span>{{ followValue.objectData.mobile }}</span>
                 </el-form-item>
               </div>
+              <span class="textCount" >{{ textCount }}/90</span>
+              <span class="must">*</span>
               <el-form-item label="文字描述(限制90):" >
-                <span class="textCount" >{{ textCount }}/90</span>
+
               <el-input v-model="formFollowUp.text = followValue.objectData.remark" type="textarea" laceholder="备注信息" :disabled="disInput" @change="followUpText(formFollowUp.text)"> </el-input>
               </el-form-item>
               <el-form-item label="状态:">
@@ -181,5 +183,12 @@ export default {
 
 font-size: 12px;
   color: rgb(28, 126, 255);
+}
+.followUp .must{
+color: red;
+font-weight: bold;
+position: relative;
+top: 30px;
+left: -11%;
 }
 </style>

@@ -334,7 +334,7 @@ export default {
 
       let formData = new FormData()
       formData.append('userName', '13357156388')
-      formData.append('passWord', 'hujinhu')
+      formData.append('passWord', '123456')
       formData.append('userType', '3')
       formData.append('imageCode', this.pngimg)
 

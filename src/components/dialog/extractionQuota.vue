@@ -152,7 +152,7 @@ export default {
               this.error(objData.data.RESULT)
             }
           }).catch((err) => {
-            console.log(err);
+            this.error(objData.data.RESULT)
           })
 
         }
@@ -176,7 +176,7 @@ export default {
               this.error(objData.data.RESULT)
             }
           }).catch((err) => {
-            console.log(err);
+            this.error(objData.data.RESULT)
           })
 
         }

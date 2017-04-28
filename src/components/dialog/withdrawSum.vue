@@ -237,9 +237,9 @@ export default {
             this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
             this.$emit('withdraw', this.withdrawSumDialog)
 
-            this.scuess()
+            this.errorScuess(objData.data.RESULT)
           } else {
-            this.errorScuess()
+            this.errorScuess(objData.data.RESULT)
           }
         }).catch((err) => {
           console.log('提现错误会员');
@@ -258,10 +258,10 @@ export default {
             this.$emit('withdraw', this.withdrawSumDialog)
             this.scuess()
           } else {
-            this.errorScuess()
+            this.errorScuess(objData.data.RESULT)
           }
         }).catch((err) => {
-          console.log('提现错误商家');
+          this.errorScuess(objData.data.RESULT)
         })
 
       } else if (this.sumValue.userType == 3) { //咨询师
@@ -280,10 +280,10 @@ export default {
             this.$emit('withdraw', this.withdrawSumDialog)
             this.scuess()
           } else {
-            this.errorScuess()
+            this.errorScuess(objData.data.RESULT)
           }
         }).catch((err) => {
-          this.errorScuess()
+          this.errorScuess(objData.data.RESULT)
         })
 
       }
@@ -303,7 +303,7 @@ export default {
       this.disInput = false
       this.$notify.error({
         title: '操作',
-        message: '提现失败!',
+        message: str + ' 提现失败!',
         offset: 150
       });
     }

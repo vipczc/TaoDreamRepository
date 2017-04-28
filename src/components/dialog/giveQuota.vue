@@ -162,6 +162,7 @@ export default {
     //失去焦点获取用户信息
 
     scuess() {
+      this.name = ''
       this.formGiveQuota.id = ''
       this.formGiveQuota.giveName = ''
       this.$notify.success({
