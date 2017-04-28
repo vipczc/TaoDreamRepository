@@ -12,7 +12,7 @@
       <div class="" v-if="active == 1">
       	<div class="businessStepone">
            <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px;"></span>推荐人信息<em style="color:#ff831b; margin-left: 5px; font-style: normal;">( 选填 )</em></div>
-            <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline mar" :rules="rule1">
+            <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline mar" :rules="rule11">
              <el-form-item label="推荐人ID：">
               <el-input  v-model="basicMessage.recommenderId" auto-complete="off" placeholder="请输入会员ID" style="width:150px;" @blur="getData"></el-input>
             </el-form-item>
@@ -84,7 +84,7 @@
       </div>
       <div class="active2" v-if="active == 2">
         <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<em style="color:#ff831b; font-style: normal;margin-left: 5px;">( "*" 必填 )</em></div>
-        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline mar" :rules="rule2">
+        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline mar" :rules="rule22">
           <el-form-item label="开户银行：" prop="bankAccount">
             <el-cascader
                   :options="bankInformation.bankAccount1" 
@@ -113,10 +113,11 @@
             </div>
             <div style="margin-bottom: 60px;border:1px solid #e5e5e5;padding:15px 15px;margin-top: 20px;">
              <el-upload
-                action="taodream-consumer/commonUpload/uploadFile"
+                action="consumer/commonUpload/uploadFile"
                 list-type="picture-card" v-show="shopImg"
                 :on-success="handleSuccess"
                 :on-preview="handlePictureCardPreview"
+                :before-upload="beforeAvatarUpload"
                 :on-remove="handleRemove">
                 <i class="el-icon-plus"></i>
               </el-upload>
@@ -193,7 +194,7 @@ export default {
       uploadData:{
         fileList2:[]
       },
-      rule1:{
+      rule11:{
         companyName:[{  required:true,  message: '请输入企业名称', trigger: 'blur' }],
         legalPerson:[{  required:true,  message: '请输入法人姓名', trigger: 'blur' }],
         companyType:[{required:true, validator:validateCon, message: '请选择企业类型', trigger: 'blur' }],
@@ -206,7 +207,7 @@ export default {
         detailAddress:[{required:true,  message: '请填写详细地址', trigger: 'blur' }],
         detailAddress1:[{required:true,  message: '请填写详细地址', trigger: 'blur' }],
       },
-       rule2:{
+       rule22:{
         bankAccount:[{required:true,  message: '请选择银行', trigger: 'blur' }],
         selectedOptions:[{type:'array',required:true,  message: '请选择地区', trigger: 'change' }],
         bankAccountDetail:[{required:true,  message: '请填写详细银行', trigger: 'blur' }],
@@ -456,6 +457,21 @@ export default {
       this.registerCity = value[1];
       this.registerArea = value[2];
 
+    },
+     //图片限制
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isPNG = file.type === 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传头像图片只能是 JPG或PNG 格式!');
+      }
+
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!');
+      }
+      return isJPG || isPNG && isLt2M ;
     },
      // 上传图片处理回调
     handleRemove(file, fileList) {

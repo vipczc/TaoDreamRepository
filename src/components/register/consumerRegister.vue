@@ -10,15 +10,11 @@
     <div style="text-align: right;width:790px; margin:0 auto;">
       <el-button style="margin-top: 12px;" @click="next" type="info">下一步</el-button>  
     </div>
-  <!--   <div style="width:790px; margin:0 auto;font-size: 16px;margin-bottom: 15px;">
-      (<em style="color:red; font-style: normal;">"*" 必填</em>)
-    </div> -->
     <div class="content">
       <div class="" v-if="active == 1">
-      	<!-- <consumerstepone :basicMessage="basicMessage" :active="active"></consumerstepone> -->
         <div class="consumerStepone" >
           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>推荐人信息<em style="color:#ff831b; margin-left: 5px; font-style: normal;">( 选填 )</em></div>
-          <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline mar" :rules="rule1" >
+          <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline mar" :rules="rules1" >
             <el-form-item label="推荐人" prop="recommender">
               <el-select v-model="basicMessage.recommender" placeholder="请选择" style="width:100px;" @change="recommenderChange">
                 <el-option label="会员" value="1"></el-option>
@@ -67,7 +63,7 @@
               <el-input  v-model="basicMessage.postCode" auto-complete="off" placeholder="如：310000" style="width:150px;"></el-input>
             </el-form-item>
             <el-form-item label="详细地址" prop="detailAddress">
-              <el-input type="textarea" :maxlength="200" v-model="basicMessage.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:320px;"></el-input>
+              <el-input type="textarea" :maxlength="200" v-model="basicMessage.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:600px;"></el-input>
             </el-form-item>
             <el-form-item label="教育程度" prop="educationLevel">
               <el-radio-group v-model="basicMessage.educationLevel">
@@ -78,19 +74,19 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="是否接受来自俱乐部赠阅的杂志和发来的短信" prop="message">
-              <el-radio-group v-model="basicMessage.message">
+              <el-radio-group v-model="basicMessage.message"  style="width:310px;">
                 <el-radio label="是"></el-radio>
                 <el-radio label="否"></el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="电子邮件" prop="email">
+            <el-form-item label="是否接受来自俱乐部的电子邮件" prop="sendEmail" >
+              <el-radio-group v-model="basicMessage.sendEmail"  style="width:310px;">
+                <el-radio label="是"></el-radio>
+                <el-radio label="否"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+              <el-form-item label="电子邮件" prop="email">
               <el-input  v-model="basicMessage.email" auto-complete="off" placeholder="如：8654621258@qq.com" style="width:310px;"></el-input>
-            </el-form-item>
-            <el-form-item label="是否接受来自俱乐部的电子邮件" prop="sendEmail">
-              <el-radio-group v-model="basicMessage.sendEmail">
-                <el-radio label="是"></el-radio>
-                <el-radio label="否"></el-radio>
-              </el-radio-group>
             </el-form-item>
           </el-form>
             <div style="color:#F7BA2A;">
@@ -99,10 +95,9 @@
         </div>
       </div>
       <div class="" v-if="active == 2">
-        <!-- <consumersteptwo :unitInformation="unitInformation"></consumersteptwo> -->
         <div class="consumerSteptwo">
           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的单位信息<em style="color:#ff831b; font-style: normal;margin-left: 5px;">( "*" 必填 )</em></div>
-          <el-form :model="unitInformation" :inline="true" ref="unitInformation"  class="demo-form-inline mar" :rules="rule2">
+          <el-form :model="unitInformation" :inline="true" ref="unitInformation"  class="demo-form-inline mar" :rules="rules2">
             <el-form-item label="单位全称：" prop="companyName">
               <el-input  v-model="unitInformation.companyName" auto-complete="off" placeholder="如：浙江至讯科技有限公司" style="width:250px;"></el-input>
             </el-form-item>
@@ -129,7 +124,7 @@
             </el-radio-group>
           </el-form-item>
            <el-form-item label="年薪：" prop="annualSalary">
-              <el-input  v-model="unitInformation.annualSalary" auto-complete="off" placeholder="如：15000" style="width:327px;"></el-input>
+              <el-input  v-model="unitInformation.annualSalary" auto-complete="off" placeholder="如：15000" style="width:327px;" :maxlength="9"></el-input>
            </el-form-item>
             <el-form-item label="单位规模：" prop="unitSize" v-show="hid">
               <el-radio-group v-model="unitInformation.unitSize">
@@ -172,15 +167,14 @@
         </div>
       </div>
       <div class="" v-if="active == 3">
-        <!-- <consumerstepthree :assetInformation="assetInformation"></consumerstepthree> -->
         <div class="consumerStepthree">
           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>资产信息<em style="color:#ff831b; margin-left: 5px; font-style: normal;">( 选填 )</em></div>
           <el-form :model="assetInformation" :inline="true"  class="demo-form-inline mar">
-            <el-form-item label="您拥有的信用卡数量：">
+            <el-form-item label="您拥有的信用卡数量：" key="cardNumberAdd">
               <el-input type="number" v-model="assetInformation.cardNumberAdd" auto-complete="off" placeholder="如：1张" style="width:100px;"></el-input>
             </el-form-item>
-            <el-form-item label="您拥有的信用卡总额度：">
-              <el-input  v-model="assetInformation.creditLimitAdd" auto-complete="off" placeholder="如：100000元" style="width:200px;"></el-input>
+            <el-form-item label="您拥有的信用卡总额度：" key="creditLimitAdd">
+              <el-input  v-model="assetInformation.creditLimitAdd" auto-complete="off" placeholder="如：100000元" style="width:200px;" :maxlength="9"></el-input>
             </el-form-item>
             <el-form-item label="您的居住情况：" >
               <el-radio-group v-model="assetInformation.livingCondition">
@@ -189,10 +183,10 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="您名下的房产数量及价值：" >
-              <el-input  v-model="assetInformation.houseProperty" auto-complete="off" placeholder="如：2套500000元" style="width:300px;"></el-input>
+              <el-input  v-model="assetInformation.houseProperty" auto-complete="off" placeholder="如：2套500000元" style="width:300px;" :maxlength="9"></el-input>
             </el-form-item>
             <el-form-item label="您名下的车子数量和价值：" >
-              <el-input  v-model="assetInformation.carValue" auto-complete="off" placeholder="如：2辆500000元" style="width:300px;"></el-input>
+              <el-input  v-model="assetInformation.carValue" auto-complete="off" placeholder="如：2辆500000元" style="width:300px;" :maxlength="9"></el-input>
             </el-form-item>
             <el-form-item label="您做过哪些投资：" >
               <el-select v-model="assetInformation.investment" multiple placeholder="请选择" @change="invert" style="width:400px;">
@@ -204,16 +198,16 @@
               </el-select>
             </el-form-item>
             <div class="step" style=" margin-bottom: 20px;"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>联系人信息<em style="color:#ff831b; margin-left: 5px; font-style: normal;">( 选填 )</em></div>
-            <el-form-item label="联系人（亲属）姓名：" >
+            <el-form-item label="联系人（亲属）姓名：">
               <el-input  v-model="assetInformation.relative1" auto-complete="off" placeholder="请输入名称" style="width:150px;"></el-input>
             </el-form-item>
-            <el-form-item label="关系：" >
+            <el-form-item label="关系：" key="relationship1" >
               <el-input  v-model="assetInformation.relationship1" auto-complete="off" placeholder="请填写关系" style="width:100px;"></el-input>
             </el-form-item>
-            <el-form-item label="手机：" >
+            <el-form-item label="手机：" key="relativePhone1" >
               <el-input  v-model="assetInformation.relativePhone1" auto-complete="off" placeholder="请填写手机号" style="width:200px;"></el-input>
             </el-form-item>
-            <el-form-item label="联系人（亲属）姓名：" >
+            <el-form-item label="联系人（亲属）姓名：" key="relative2">
               <el-input  v-model="assetInformation.relative2" auto-complete="off" placeholder="请输入名称" style="width:150px;"></el-input>
             </el-form-item>
             <el-form-item label="关系：" >
@@ -227,7 +221,7 @@
       </div>
       <div class="" v-if="active == 4">
         <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<em style="color:#ff831b; font-style: normal;margin-left: 5px;">( "*" 必填 )</em></div>
-        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline mar" :rules="rule3">
+        <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline mar" :rules="rules3">
           <el-form-item label="开户银行：" prop="bankAccount">
             <el-cascader
                   :options="bankInformation.bankAccount1" 
@@ -255,13 +249,14 @@
         <div style="border:1px solid #e5e5e5;padding:15px 15px;">
           <el-upload
             class="upload-demo"
-            action="taodream-consumer/commonUpload/uploadFile"
+            action="consumer/commonUpload/uploadFile"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :on-success="handleSuccess"
             :file-list="uploadData.fileList2"
+            :before-upload="beforeAvatarUpload"
             list-type="picture">
-            <el-button size="small" type="primary" :disabled="upButton">上传资料</el-button>
+            <el-button size="small" type="primary" :disabled="upButton">上传照片</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </div>
@@ -292,9 +287,6 @@
 import { regionData , provinceAndCityData } from 'element-china-area-data'
 import host from '../../common.js'
 import footer from '.././footer/footer.vue'
-// import consumerstepone from './module/consumerStepone.vue'
-// import consumersteptwo from './module/consumerSteptwo.vue'
-// import consumerstepthree from './module/consumerStepthree.vue'
 export default {
   name:'consumerRegister',
   computed(){
@@ -309,8 +301,6 @@ export default {
       let data = res.data;
       let status = data.RESULT.status;
       let userType = data.RESULT.userType;
-      // console.log(data);
-      // let status = data.RESULT.userType;
       if (data.ERRORCODE == '0') {
         if(userType == 1){
           if(status === 1)this.active = 1;
@@ -362,7 +352,6 @@ export default {
              arr2[i].label = arr[i].fullName;
             };
             this.bankInformation.bankAccount1 = arr2;
-            // console.log(this.bankInformation.bankAccount1);
           } else {
             // this.$message.warning(data.RESULT);
           }
@@ -370,9 +359,6 @@ export default {
           this.$message.error('请求错误,请稍后再试');
         })
   },
-  // watch: {
-  //   'basicMessage.id': 'getData'
-  // },
   data() {
     var validateCon = (rule, value, callback) => {
       if (value === '') {
@@ -416,46 +402,63 @@ export default {
         city:"",
         area:""
       },
+      rules1:{
+        name:[{  required:true,validator:validateCon,  message: '请输入姓名', trigger: 'blur' }],
+        idNumber:[{  required:true,validator:host.basic.checkCard,  message: '请输入正确的身份证号', trigger: 'blur' }],
+        phoneNumber:[{  required:true,validator:host.basic.checkMobile, trigger: 'blur' }],
+        birthDate:[{ required:true, validator:validateCon,  message: '请选择出生日期', trigger: 'blur' }],
+       selectedOptions:[{ type:'array', required:true,  message: '请选择家庭住址', trigger: 'change'}],
+        postCode:[{  required:true,validator:host.basic.checkPost,  trigger: 'blur'}],
+        detailAddress:[{  required:true,validator:validateCon, message: '请填写您的详细地址', trigger: 'blur'}],
+        educationLevel:[{  required:true,validator:validateCon, message: '请选择您的教育程度', trigger: 'blur'}]
+      },
       unitInformation:{
       	companyName:'',
       	industry:'',
         remark:'',
-        industry1:[
-          
-        ],
-      	department:"",
-      	position:"",
-      	legalPerson:"",
-      	annualSalary:"",
+        industry1:[],
+      	department:'',
+      	position:'',
+      	legalPerson:'',
+      	annualSalary:'',
       	unitSize:"",
         options: regionData,
       	selectedOptions: [],
-      	detailAddress:"",
+      	detailAddress:'',
       	postCode:"",
       	unitType:"",
         areaCode:"",
-        phoneNumber:"",
-        phoneNumberOther:"",
+        phoneNumber:'',
+        phoneNumberOther:'',
         sels:'',
         province:'',
         city:'',
         area:''
       },
+      rules2:{
+        selectedOptions:[{ type:'array', required:true, message: '请选择', trigger: 'change' }],
+        detailAddress:[{ required:true,   message: '请填写详细地址', trigger: 'blur' }],
+        postCode:[
+          { required:true, message: '请填写邮编',  trigger: 'blur'},
+          { validator:host.basic.checkPost, message: '请填写正确的邮编',  trigger: 'blur'}
+        ],
+        companyName:[{ required:true,  message: '请输入单位全称', trigger: 'blur' }],
+        industry:[{ required:true,   message: '请选择所属行业', trigger: 'blur' }],
+      },
       assetInformation:{
-        cardNumberAdd:"",
-        creditLimitAdd:"",
-        livingCondition:"",
-        houseProperty:"",
-        carValue:"",
+        cardNumberAdd:'',
+        creditLimitAdd:'',
+        livingCondition:'',
+        houseProperty:'',
+        carValue:'',
         investment:[],
         investmens:'',
-        relative1:"",
-        relationship1:"",
-        relativePhone1:"",
-        relative2:"",
-        relationship2:"",
-        relativePhone2:""
-       
+        relative1:'',
+        relationship1:'',
+        relativePhone1:'',
+        relative2:'',
+        relationship2:'',
+        relativePhone2:''  
       },
       bankInformation:{
         bankAccount:"",
@@ -466,6 +469,12 @@ export default {
         bankCard:"",
         province:"",
         city:""
+      },
+       rules3:{
+        bankAccount:[{ required:true,  message: '请选择银行', trigger: 'blur' }],
+        selectedOptions:[{type:'array',required:true,  message: '请选择地区', trigger: 'change' }],
+        bankAccountDetail:[{ required:true,  message: '请填写详细银行', trigger: 'blur' }],
+        bankCard:[{ required:true, validator:host.basic.checkBank,  trigger: 'blur' }]
       },
       uploadData:{
         fileList2:[]
@@ -481,37 +490,6 @@ export default {
           {value:8,label:'收藏品'},
           {value:9,label:'其他'}
         ],
-      rule1:{
-        // recommender:[{ validator:validateCon,  message: '请选择推荐人类型', trigger: 'blur'}],
-        // id:[{ validator:validateCon,  message: '请输入ID', trigger: 'blur' }],
-        name:[{  required:true,validator:validateCon,  message: '请输入姓名', trigger: 'blur' }],
-        // gender:[{ validator:validateCon,  message: '请选择性别', trigger: 'blur' }],
-        idNumber:[{  required:true,validator:host.basic.checkCard,  message: '请输入正确的身份证号', trigger: 'blur' }],
-        phoneNumber:[{  required:true,validator:host.basic.checkMobile, trigger: 'blur' }],
-        birthDate:[{ required:true, validator:validateCon,  message: '请选择出生日期', trigger: 'blur' }],
-       selectedOptions:[{ type:'array', required:true,  message: '请选择家庭住址', trigger: 'change'}],
-        postCode:[{  required:true,validator:host.basic.checkPost,  trigger: 'blur'}],
-        detailAddress:[{  required:true,validator:validateCon, message: '请填写您的详细地址', trigger: 'blur'}],
-        educationLevel:[{  required:true,validator:validateCon, message: '请选择您的教育程度', trigger: 'blur'}]
-        // message:[{ validator:validateCon, message: '请选择是或否', trigger: 'blur'}],
-        // email:[{ validator:validateCon, message: '请填写电子邮箱', trigger: 'blur'}],
-        // sendEmail:[{ validator:validateCon, message: '请选择是或否', trigger: 'blur'}],
-
-      },
-      rule2:{
-        companyName:[{required:true, validator:validateCon,  message: '请输入单位全称', trigger: 'blur' }],
-        industry:[{required:true, validator:validateCon,  message: '请选择所属行业', trigger: 'blur' }],
-        selectedOptions:[{ type:'array',required:true,   message: '请选择', trigger: 'change' }],
-        detailAddress:[{required:true, validator:validateCon,  message: '请填写详细地址', trigger: 'blur' }],
-        postCode:[{  required:true,validator:host.basic.checkPost,  trigger: 'blur'}],
-      },
-       rule3:{
-        bankAccount:[{required:true,  message: '请选择银行', trigger: 'blur' }],
-        selectedOptions:[{type:'array',required:true,  message: '请选择地区', trigger: 'change' }],
-        bankAccountDetail:[{required:true,  message: '请填写详细银行', trigger: 'blur' }],
-        bankCard:[{required:true, validator:host.basic.checkBank,  trigger: 'blur' }],
-      
-      },
       sex:'',
       highEdu:'',
       isReceiveMessage:'',
@@ -524,13 +502,12 @@ export default {
       id2:'',
       upButton:false,
       imgObj:null,
-      fileLength:''
-    };
+      fileLength:'',
+      
+    }
   },
   components:{
-  	// consumerstepone,
-  	// consumersteptwo,
-  	// consumerstepthree,
+    // consumerstepone,
     'v-footer':footer
   },
   methods:{
@@ -709,7 +686,6 @@ export default {
     if(this.active == 3){
       if(this.assetInformation.livingCondition == '自有房产')this.liveType = 1;
       if(this.assetInformation.livingCondition == '租房')this.liveType = 0;
-      // console.log(this.assetInformation);
         this.$http({
           method: 'POST',
           url: host.basic.basicUrl + '/member/saveMemberAsset',
@@ -730,7 +706,6 @@ export default {
         }).then(function(res) {
           let data = res.data;
           if (data.ERRORCODE == '0') {
-            // console.log(data);
             this.active++
           } else {
             this.$message.warning(data.RESULT);
@@ -757,7 +732,6 @@ export default {
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
-                // console.log(data);
                 this.active ++
               } else {
                 this.$message.warning(data.RESULT);
@@ -774,7 +748,6 @@ export default {
 
     }
    
-        // this.active = 1; 
     
     },
     handleChange (value) {
@@ -793,7 +766,21 @@ export default {
       this.basicMessage.city = value[1];
       this.basicMessage.area = value[2];
     },
+    //图片限制
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isPNG = file.type === 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 2;
 
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传头像图片只能是 JPG或PNG 格式!');
+      }
+
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!');
+      }
+      return isJPG || isPNG && isLt2M ;
+    },
     // 上传图片处理回调
     handleRemove(file, fileList) {
         // console.log(file, fileList);
@@ -839,12 +826,11 @@ export default {
                   that.$message.error('请求错误,请稍后再试');
                 });
              
-              // that.$router.push('/');
-              // alert(1);
+             
             }
           }
         });
-        // this.$message('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您！');
+        
       }
     }  
   }

@@ -522,23 +522,14 @@ export default {
       margin-left: 60px;
       margin-top: 30px;
       margin-bottom:30px;
-      img{
-       -webkit-animation:fadeInLeftBig 1s .2s ease both;
-        -moz-animation:fadeInLeftBig 1s .2s ease both;;
-      }
     }
     .content-bg{
       width:100%;
       height:616px;
       background: url(../assets/img/banner.png) 0 0 no-repeat;
       background-size: 1920px 616px;
-      -webkit-animation:fadeIn 1s .2s ease both;
-      -moz-animation:fadeIn 1s .2s ease both;
     }
   }
-//   #animation{
-// -webkit-animation:flipInY 1s .2s ease both;
-// -moz-animation:flipInY 1s .2s ease both;}
 
   .login{
     width: 315px;
@@ -547,8 +538,6 @@ export default {
     position: absolute;
     right: 10%;
     top: 200px;
-     -webkit-animation:flipInY 1s .2s ease both;
-    -moz-animation:flipInY 1s .2s ease both;
     .el-tabs__item{
       padding: 0 64.5px !important;
     }
@@ -562,41 +551,7 @@ export default {
 .el-select-dropdown{
   min-width:215px !important;
 }
-@-webkit-keyframes flipInY{
-0%{-webkit-transform:perspective(400px) rotateY(90deg);
-opacity:0}
-40%{-webkit-transform:perspective(400px) rotateY(-10deg)}
-70%{-webkit-transform:perspective(400px) rotateY(10deg)}
-100%{-webkit-transform:perspective(400px) rotateY(0deg);
-opacity:1}
-}
-@-moz-keyframes flipInY{
-0%{-moz-transform:perspective(400px) rotateY(90deg);
-opacity:0}
-40%{-moz-transform:perspective(400px) rotateY(-10deg)}
-70%{-moz-transform:perspective(400px) rotateY(10deg)}
-100%{-moz-transform:perspective(400px) rotateY(0deg);
-opacity:1}
-}
-@-webkit-keyframes fadeInLeftBig{
-0%{opacity:0;
--webkit-transform:translateX(-2000px)}
-100%{opacity:1;
--webkit-transform:translateX(0)}
-}
-@-moz-keyframes fadeInLeftBig{
-0%{opacity:0;
--moz-transform:translateX(-2000px)}
-100%{opacity:1;
--moz-transform:translateX(0)}
-}
-@-moz-keyframes fadeIn{
-0%{opacity:0}
-100%{opacity:1}
-}
-@-webkit-keyframes fadeIn{
-0%{opacity:0}
-100%{opacity:1}
-}
+
+
 
 </style>
