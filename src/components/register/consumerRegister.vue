@@ -249,7 +249,7 @@
         <div style="border:1px solid #e5e5e5;padding:15px 15px;">
           <el-upload
             class="upload-demo"
-            action="consumer/commonUpload/uploadFile"
+            action="taodream-consumer/commonUpload/uploadFile"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :on-success="handleSuccess"

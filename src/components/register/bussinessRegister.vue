@@ -113,7 +113,7 @@
             </div>
             <div style="margin-bottom: 60px;border:1px solid #e5e5e5;padding:15px 15px;margin-top: 20px;">
              <el-upload
-                action="consumer/commonUpload/uploadFile"
+                action="taodream-consumer/commonUpload/uploadFile"
                 list-type="picture-card" v-show="shopImg"
                 :on-success="handleSuccess"
                 :on-preview="handlePictureCardPreview"
