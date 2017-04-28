@@ -236,6 +236,7 @@ export default {
   	}
   },
   mounted() {
+    console.log(111);
     //监听信息填写步骤
     this.$http({
       method: 'POST',

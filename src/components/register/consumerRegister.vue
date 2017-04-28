@@ -257,7 +257,7 @@
             :before-upload="beforeAvatarUpload"
             list-type="picture">
             <el-button size="small" type="primary" :disabled="upButton">上传照片</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
           </el-upload>
         </div>
       </div>
@@ -290,7 +290,7 @@ import footer from '.././footer/footer.vue'
 export default {
   name:'consumerRegister',
   computed(){
-   
+   console.log(111);
   },
   mounted(){
     //监听信息填写步骤
