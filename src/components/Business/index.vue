@@ -62,6 +62,9 @@
 </template>
 
 <script>
+import {
+  quitUser
+} from '../api/apiCode.js'
 export default {
   name: 'bIndex',
   data() {
@@ -81,6 +84,7 @@ export default {
   },
   methods: {
     toLogin() {
+      quitUser.quit();
       window.location.href = '/'
     },
     activeNumberMessage(strNumber) {
