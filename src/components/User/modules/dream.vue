@@ -113,12 +113,12 @@
         </el-col>
         <!-- 获得淘豆 -->
         <el-col :span="9" :offset="1">
-          <div class="content-right">
+          <!-- <div class="content-right">
 
               <p>昨日获得淘豆:<span>￥{{ yesterdayTD }}</span></p>
 
               <a href="javascript:void(0);" @click="toPath('1-4')">查看淘豆流水 ></a>
-          </div>
+          </div> -->
         </el-col>
 
 

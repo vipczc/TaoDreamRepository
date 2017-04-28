@@ -237,7 +237,8 @@ export default {
             this.withdrawSumDialog.upData = !this.withdrawSumDialog.upData
             this.$emit('withdraw', this.withdrawSumDialog)
 
-            this.errorScuess(objData.data.RESULT)
+            this.scuess()
+
           } else {
             this.errorScuess(objData.data.RESULT)
           }

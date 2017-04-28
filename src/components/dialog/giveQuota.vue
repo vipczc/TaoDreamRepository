@@ -172,6 +172,7 @@ export default {
       });
     },
     errorScuess() {
+      this.name = ''
       this.giveQuotaDialog.show = false
       this.giveQuotaDialog.upData = !this.giveQuotaDialog.upData
       this.$emit('give', this.giveQuotaDialog)
