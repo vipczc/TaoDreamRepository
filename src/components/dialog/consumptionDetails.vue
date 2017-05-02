@@ -152,7 +152,7 @@ export default {
             this.result = objData.data.RESULT //Object 所有数据
             for (var i = 0; i < this.result.data.length; i++) {
               this.result.data[i].subtotal = this.result.data[i].price * this.result.data[i].quantity
-              this.result.data[i].price = this.result.data[i].price + this.result.data[i].unit
+              this.result.data[i].quantity = this.result.data[i].quantity + this.result.data[i].unit
             }
             this.tableData = this.result.data
             this.loading = false
@@ -171,7 +171,7 @@ export default {
             this.result = objData.data.RESULT //Object 所有数据
             for (var i = 0; i < this.result.data.length; i++) {
               this.result.data[i].subtotal = this.result.data[i].price * this.result.data[i].quantity
-              this.result.data[i].price = this.result.data[i].price + this.result.data[i].unit
+              this.result.data[i].quantity = this.result.data[i].quantity + this.result.data[i].unit
             }
             this.tableData = this.result.data
             this.loading = false
@@ -191,7 +191,7 @@ export default {
             this.result = objData.data.RESULT //Object 所有数据
             for (var i = 0; i < this.result.data.length; i++) {
               this.result.data[i].subtotal = this.result.data[i].price * this.result.data[i].quantity
-              this.result.data[i].price = this.result.data[i].price + this.result.data[i].unit
+              this.result.data[i].quantity = this.result.data[i].quantity + this.result.data[i].unit
             }
             this.tableData = this.result.data
             this.loading = false
