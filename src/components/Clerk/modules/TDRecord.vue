@@ -12,7 +12,7 @@
        </el-table-column>
        <el-table-column  prop="typeName" label="类型">
        </el-table-column>
-       <el-table-column prop="exchangeAmount" label="收入">
+       <el-table-column prop="taodouAmount" label="收入">
        </el-table-column>
        <el-table-column prop="taodouBalance" label="淘豆余额">
        </el-table-column>
