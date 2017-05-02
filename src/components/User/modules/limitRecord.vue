@@ -11,7 +11,7 @@
               </el-table-column>
                <!-- <el-table-column prop="limitOrder" label="额度订单">
                </el-table-column> -->
-               <el-table-column  prop="createTime" label="赠送日期">
+               <el-table-column  prop="createTime" label="日期">
                </el-table-column>
                <el-table-column prop="trueName" label="会员姓名">
                </el-table-column>

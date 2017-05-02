@@ -22,7 +22,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="3" :offset="1">
-              <el-form-item :label="String(giveValue.expenseLimitSum+'￥')">
+              <el-form-item :label="String('￥'+giveValue.expenseLimitSum)">
 
               </el-form-item>
             </el-col>
