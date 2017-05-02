@@ -50,6 +50,7 @@ export default {
       if (!/^1[34578]\d{9}$/.test(value)) {
         callback(new Error('请输入正确的手机号码'));
       }
+
       callback();
     }
     var checkNum2 = (rule, value, callback) => {
@@ -151,12 +152,12 @@ export default {
           this.$emit('give', this.giveQuotaDialog)
           this.scuess()
         } else {
-          this.errorScuess()
+          this.errorScuess(objData.data.RESULT)
 
         }
 
       }).catch((err) => {
-        this.errorScuess()
+        this.errorScuess(err)
       })
     },
     //失去焦点获取用户信息
@@ -171,7 +172,7 @@ export default {
         offset: 150
       });
     },
-    errorScuess() {
+    errorScuess(err) {
       this.name = ''
       this.giveQuotaDialog.show = false
       this.giveQuotaDialog.upData = !this.giveQuotaDialog.upData
@@ -181,7 +182,7 @@ export default {
       this.formGiveQuota.id = ''
       this.$notify.error({
         title: '操作',
-        message: '赠送失败',
+        message: '赠送失败! ' + err,
         offset: 150
       });
     }
