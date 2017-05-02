@@ -10,7 +10,7 @@
       </el-table-column>
        <el-table-column prop="createTime" label="操作日期">
        </el-table-column>
-       <el-table-column  prop="type" label="类型">
+       <el-table-column  prop="typeName" label="类型">
        </el-table-column>
        <el-table-column prop="exchangeAmount" label="收入">
        </el-table-column>
