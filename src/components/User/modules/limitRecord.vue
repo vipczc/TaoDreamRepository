@@ -11,7 +11,7 @@
               </el-table-column>
                <!-- <el-table-column prop="limitOrder" label="额度订单">
                </el-table-column> -->
-               <el-table-column  prop="createTime" label="日期">
+               <el-table-column  prop="createTime" label="赠送日期">
                </el-table-column>
                <el-table-column prop="trueName" label="会员姓名">
                </el-table-column>
@@ -155,7 +155,8 @@ export default {
           for (var i = 0; i < this.result.data.length; i++) {
             this.result.data[i].createTime = basic.basic.formatDate(this.result.data[i].createTime)
             this.result.data[i].type = this.result.data[i].type == '1' ? '赠送' : this.result.data[i].type == '2' ? '获赠' : this.result.data[i].type == '3' ? '提额' : this.result.data[i].type == '4' ? '消费' : this.result.data[i].type == '5' ? '推荐奖励' :
-              ''
+              this.result.data[i].type == '6' ? '初始赠送' : ''
+
             this.result.data[i].status = this.result.data[i].status == '0' ? '审核中' : this.result.data[i].status == '1' ? '完成 ' : this.result.data[i].status == '2' ? '未通过' : ''
           }
           this.tableData = this.result.data

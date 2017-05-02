@@ -294,8 +294,8 @@ export default {
 
     scuess() {
       this.$notify.success({
-        title: '提现成功',
-        message: '成功后再24小时内到账请注意查收',
+        title: '提交成功!等待审核!',
+        message: '24小时内审核通过后到账! 请注意查收!',
         offset: 150
       });
     },
