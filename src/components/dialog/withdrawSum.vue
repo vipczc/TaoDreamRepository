@@ -11,7 +11,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="4">
-                <el-form-item :label="'￥'+(getDataResource.withdrawSum = 'null' ? '0' : getDataResource.withdrawSum)">
+                <el-form-item :label="'￥'+(getDataResource.withdrawSum == null ? '0' : getDataResource.withdrawSum)">
 
                 </el-form-item>
               </el-col>
