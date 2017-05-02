@@ -27,9 +27,9 @@
         <template slot="title"><img class="box-img-one" src="../../assets/img/BillingRecord.png" alt=""><span class="two-item-text">账单记录</span></template>
         <el-menu-item-group class="box-img-two">
           <el-menu-item index="1-1" @click="one"><img src="../../assets/img/RecordsOfConsumption.png" alt="消费记录">消费记录</el-menu-item>
-          <el-menu-item index="1-2" @click="one"><img src="../../assets/img/WithdrawalRecord.png" alt="提现记录">提现记录</el-menu-item>
+          <!-- <el-menu-item index="1-2" @click="one"><img src="../../assets/img/WithdrawalRecord.png" alt="提现记录">提现记录</el-menu-item>
           <el-menu-item index="1-3" @click="one"><img src="../../assets/img/conversion.png" alt="兑换记录">兑换记录</el-menu-item>
-          <el-menu-item index="1-4" @click="one"><img src="../../assets/img/toddleDaybook.png" alt="淘豆流水">淘豆流水</el-menu-item>
+          <el-menu-item index="1-4" @click="one"><img src="../../assets/img/toddleDaybook.png" alt="淘豆流水">淘豆流水</el-menu-item> -->
           <el-menu-item index="1-5" @click="one"><img src="../../assets/img/Amountofwater.png" alt="额度流水">额度流水</el-menu-item>
         </el-menu-item-group>
 
@@ -127,12 +127,6 @@ export default {
         this.$router.push("/business/dream") //淘梦地带
       } else if (ev.index == "1-1") {
         this.$router.push("/business/expenseRecord") //消费记录
-      } else if (ev.index == "1-2") {
-        this.$router.push("/business/withdrawalsRecord") //提现记录
-      } else if (ev.index == "1-3") {
-        this.$router.push("/business/conversionRecord") //兑换记录
-      } else if (ev.index == "1-4") {
-        this.$router.push("/business/TDRecord") //淘豆流水
       } else if (ev.index == "1-5") {
         this.$router.push("/business/limitRecord") //额度流水
       }

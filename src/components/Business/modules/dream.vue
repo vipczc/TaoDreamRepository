@@ -38,10 +38,10 @@
   </el-col>
 
   <!-- 提现 -->
-  <el-col :span="24">
-      <div class="user-withdrawa">
+  <!-- <el-col :span="24">
+      <div class="user-withdrawa"> -->
         <!-- 提现图标 -->
-        <el-col :span="4">
+        <!-- <el-col :span="4">
           <div class="withdrawa-logo">
                 <div class="logo-content">
                   <img src="../../../assets/img/withdrawDeposit.png" alt="提现">
@@ -49,9 +49,9 @@
                 </div>
 
           </div>
-        </el-col>
+        </el-col> -->
         <!-- 提现信息 -->
-        <el-col :span="7" :offset="1">
+        <!-- <el-col :span="7" :offset="1">
           <div class="content-right ">
 
               <p>提现金额:&#12288&#12288<span>{{ withdrawSum }}</span></p>
@@ -67,31 +67,31 @@
 
           </div>
         </el-col>
-
+ -->
 
         <!-- 待定 -->
-        <el-col :span="9" :offset="1">
+        <!-- <el-col :span="9" :offset="1">
           <div class="content-right">
 
           </div>
         </el-col>
       </div>
-  </el-col>
+  </el-col> -->
 
 <!-- 淘豆 -->
-  <el-col :span="24">
+  <!-- <el-col :span="24">
       <div class="user-td">
-        <el-col :span="4">
+        <el-col :span="4"> -->
           <!-- 淘豆图标 -->
-          <div class="td-logo">
+          <!-- <div class="td-logo">
             <div class="logo-content">
               <img src="../../../assets/img/toddle.png" alt="淘豆">
               <p>淘豆</p>
             </div>
           </div>
-        </el-col>
+        </el-col> -->
         <!-- 淘豆金额 -->
-        <el-col :span="7" :offset="1">
+        <!-- <el-col :span="7" :offset="1">
           <div class="content-right">
 
               <p>淘豆金额:&#12288&#12288<span>￥{{ TDSum }}</span></p>
@@ -99,17 +99,17 @@
 
 
           </div>
-        </el-col>
+        </el-col> -->
         <!-- 按钮 -->
-        <el-col :span="2">
+        <!-- <el-col :span="2">
           <div class="content-right content-right-hr">
 
               <el-button type="success" size="large" class="btn-top" @click="tdrecordSumDialogShow()">兑换</el-button>
 
           </div>
-        </el-col>
+        </el-col> -->
         <!-- 获得淘豆 -->
-        <el-col :span="9" :offset="1">
+        <!-- <el-col :span="9" :offset="1">
           <div class="content-right">
 
               <p>昨日获得淘豆:<span>￥{{ yesterdayTD }}</span></p>
@@ -119,7 +119,7 @@
 
 
       </div>
-  </el-col>
+  </el-col> -->
 <!-- 额度 -->
   <el-col :span="24">
       <div class="user-limit">
@@ -140,7 +140,7 @@
               <p>消费额度:&#12288&#12288<span>￥{{ expenseLimit }}</span></p>
 
 
-              <a href="javascript:void(0);" @click="toPath('1-5')">查看额度流水 > </a>
+              <!-- <a href="javascript:void(0);" @click="toPath('1-5')">查看额度流水 > </a> -->
           </div>
         </el-col>
         <!-- 按钮 -->
