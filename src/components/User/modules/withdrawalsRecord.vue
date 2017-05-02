@@ -111,6 +111,7 @@ export default {
         //时间处理
         for (var i = 0; i < this.result.data.length; i++) {
           this.result.data[i].happenTime = basic.basic.formatDate(this.result.data[i].happenTime)
+          this.result.data[i].status = this.result.data[i].status == '0' ? '处理中' : this.result.data[i].status == '-1' ? '失败' : this.result.data[i].status == '1' ? '成功' : ''
         }
         this.tableData = this.result.data
 
