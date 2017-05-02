@@ -59,7 +59,7 @@
                 </el-table-column>
                 <el-table-column prop="quantity"     label="数量">
                 </el-table-column>
-                <el-table-column prop="unit"  label="单价(元)">
+                <el-table-column prop="price"  label="单价(元)">
                 </el-table-column>
                 <el-table-column prop="subtotal"  label="小计(元)">
                 </el-table-column>
@@ -150,7 +150,10 @@ export default {
           this.$http.post(userApi.consumptionDetail, formData).then((objData) => {
             console.log(objData.data.RESULT);
             this.result = objData.data.RESULT //Object 所有数据
-
+            for (var i = 0; i < this.result.data.length; i++) {
+              this.result.data[i].subtotal = this.result.data[i].price * this.result.data[i].quantity
+              this.result.data[i].price = this.result.data[i].price + this.result.data[i].unit
+            }
             this.tableData = this.result.data
             this.loading = false
           }).catch((err) => {
@@ -166,7 +169,10 @@ export default {
           this.$http.post(businessAPi.consumerOrderRecordInfo, formData).then((objData) => {
             console.log(objData.data.RESULT);
             this.result = objData.data.RESULT //Object 所有数据
-
+            for (var i = 0; i < this.result.data.length; i++) {
+              this.result.data[i].subtotal = this.result.data[i].price * this.result.data[i].quantity
+              this.result.data[i].price = this.result.data[i].price + this.result.data[i].unit
+            }
             this.tableData = this.result.data
             this.loading = false
           }).catch((err) => {
@@ -183,7 +189,10 @@ export default {
           this.$http.post(clerkApi.consumerOrderRecordInfo, formData).then((objData) => {
             console.log(objData.data.RESULT);
             this.result = objData.data.RESULT //Object 所有数据
-
+            for (var i = 0; i < this.result.data.length; i++) {
+              this.result.data[i].subtotal = this.result.data[i].price * this.result.data[i].quantity
+              this.result.data[i].price = this.result.data[i].price + this.result.data[i].unit
+            }
             this.tableData = this.result.data
             this.loading = false
           }).catch((err) => {
