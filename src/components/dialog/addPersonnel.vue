@@ -257,7 +257,7 @@ export default {
         this.result = objData.data.RESULT //Object 所有数据
         //时间处理
         for (var i = 0; i < objData.data.RESULT.length; i++) {
-          this.result[i].value = objData.data.RESULT[i].id
+          this.result[i].value = objData.data.RESULT[i].value
           this.result[i].label = objData.data.RESULT[i].label
         }
 

@@ -41,7 +41,7 @@
        <el-table-column label="操作">
              <template scope="scope">
                <el-button
-                 v-show="scope.row.statusName == '已入会' ? false : true"
+                 v-show="scope.row.statusName == '已入会' || scope.row.statusName == '已消费' ? false : true"
                  size="small"
                  type="info"
                  @click="handleFollowUp(scope.$index, scope.row)">跟进</el-button>
