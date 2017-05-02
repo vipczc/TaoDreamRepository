@@ -163,6 +163,11 @@ export default {
           this.loading = false
         }).catch((err) => {
           console.log(err);
+          this.$message({
+            showClose: true,
+            message: '服务器未响应! 请刷新重试...',
+            type: 'error'
+          });
         })
       }
 

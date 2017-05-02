@@ -105,7 +105,7 @@ export default {
       formData.append('startDate', timeStart)
       formData.append('endDate', timeEnd)
 
-      this.$http.post(userApi.withDrawlistRecord, formData).then((objData) => { //淘豆兑换
+      this.$http.post(userApi.withDrawlistRecord, formData).then((objData) => {
         console.log(objData.data.RESULT);
         this.result = objData.data.RESULT //Object 所有数据
         //时间处理
@@ -116,7 +116,7 @@ export default {
 
         this.loading = false
       }).catch((err) => {
-        console.log(err);
+        this.$message.error('服务器未响应! 请刷新重试...');
       })
     }
 

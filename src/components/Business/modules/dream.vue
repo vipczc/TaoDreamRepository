@@ -356,7 +356,7 @@ export default {
         this.recommendLimit = objectData.data.RESULT.costQuota == null ? 0 : objectData.data.RESULT.costQuota //已消费额度
         this.surplusLimit = objectData.data.RESULT.laveQuota == null ? 0 : objectData.data.RESULT.laveQuota //剩余额度
       }).catch((error) => {
-        console.log(error);
+        this.$message.error('服务器未响应! 请刷新重试...');
       })
     }
   },

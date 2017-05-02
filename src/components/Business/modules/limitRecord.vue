@@ -126,7 +126,7 @@ export default {
 
         this.loading = false
       }).catch((err) => {
-        console.log(err);
+        this.$message.error('服务器未响应! 请刷新重试...');
       })
     }
 

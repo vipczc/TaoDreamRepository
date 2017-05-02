@@ -70,6 +70,7 @@ Vue.use(Router)
 
 
 const router =  new Router({
+  mode: 'history',
   routes: [
     // 主入口
     {
