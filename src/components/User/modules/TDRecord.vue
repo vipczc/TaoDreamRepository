@@ -148,6 +148,7 @@ export default {
           //时间处理
           for (var i = 0; i < this.result.data.length; i++) {
             this.result.data[i].happenTime = basic.basic.formatDate(this.result.data[i].happenTime)
+            this.result.data[i].type = this.result.data[i].type == '1' ? '推荐激励' : this.result.data[i].type == '2' ? '消费激励' : this.result.data[i].type == '3' ? '融资返还' : this.result.data[i].type == '4' ? '激励兑换' : ''
           }
           this.tableData = this.result.data
 
