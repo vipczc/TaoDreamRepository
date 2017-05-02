@@ -183,8 +183,8 @@ export default {
 
     },
     sumChange() { //计算 提现实际金额
-      if (this.formLabelAlign.sum > 10) { //金额 大于10
-        this.getDataResource.arrivalAmount = this.formLabelAlign.sum - this.getDataResource.handlingFee
+      if (this.formLabelAlign.sum > 10) { //金额 大于10 - this.getDataResource.handlingFee
+        this.getDataResource.arrivalAmount = this.formLabelAlign.sum
       } else { //小于 == 0
         this.getDataResource.arrivalAmount = 0
       }
