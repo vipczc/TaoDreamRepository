@@ -183,8 +183,8 @@ export default {
 
     },
     sumChange() { //计算 提现实际金额
-      if (this.formLabelAlign.sum > 10) { //金额 大于10 - this.getDataResource.handlingFee
-        this.getDataResource.arrivalAmount = this.formLabelAlign.sum
+      if (this.formLabelAlign.sum > 10) { //金额 大于10
+        this.getDataResource.arrivalAmount = this.formLabelAlign.sum - this.getDataResource.handlingFee
       } else { //小于 == 0
         this.getDataResource.arrivalAmount = 0
       }
@@ -225,7 +225,7 @@ export default {
       //提交提现请求 成功后进行关闭 判断用户类型
       if (this.sumValue.userType == 1) { //会员
         let formData = new FormData()
-        formData.append('withdrawAmount', this.formLabelAlign.sum)
+        formData.append('withdrawAmount', Number(this.formLabelAlign.sum))
 
         this.$http.post(userApi.withdrawals, formData).then((objData) => {
           console.log(objData.data);
@@ -247,7 +247,7 @@ export default {
         })
       } else if (this.sumValue.userType == 2) { //商家
         let formData = new FormData()
-        formData.append('money', this.formLabelAlign.sum)
+        formData.append('money', Number(this.formLabelAlign.sum))
 
         this.$http.post(businessAPi.takeCash, formData).then((objData) => {
           console.log(objData.data);
@@ -268,7 +268,7 @@ export default {
       } else if (this.sumValue.userType == 3) { //咨询师
 
         let formData = new FormData()
-        formData.append('money', this.formLabelAlign.sum)
+        formData.append('money', Number(this.formLabelAlign.sum))
 
         this.$http.post(clerkApi.takeCash, formData).then((objData) => {
           console.log(objData.data);
