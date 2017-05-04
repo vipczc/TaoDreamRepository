@@ -15,8 +15,8 @@
                </el-table-column>
                <el-table-column  prop="income" label="收入">
                </el-table-column>
-               <el-table-column prop="outlay" label="支出">
-               </el-table-column>
+               <!-- <el-table-column prop="outlay" label="支出">
+               </el-table-column> -->
                <el-table-column prop="soyaBalance" label="淘豆余额">
                </el-table-column>
                <el-table-column prop="mobile" label="消费账号">

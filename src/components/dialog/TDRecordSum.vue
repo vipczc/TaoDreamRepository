@@ -46,8 +46,8 @@ export default {
 
   data() {
     var checkNum = (rule, value, callback) => {
-      if (!/^[1-9]\d*$/.test(value)) {
-        callback(new Error('请输入非零正整数'));
+      if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+        callback(new Error('请输入正确的淘豆数量,最多2位小数'));
       }
       if (Number(value) > Number(this.tdValue.TDSumDialog)) {
 
@@ -111,7 +111,7 @@ export default {
 
     },
     sumChange() {
-      if (Number.isInteger(this.formTDrecordSum.tdCount)) {
+      if (Number(this.formTDrecordSum.tdCount)) {
         this.getDataResource.TDMoney = this.formTDrecordSum.tdCount
       }
 
@@ -120,6 +120,7 @@ export default {
     submitForm() {
       if (this.tdValue.userType == 1) { //会员
         let formData = new FormData()
+        console.log(this.getDataResource.TDMoney);
         formData.append('taodouAmount', this.getDataResource.TDMoney)
 
         this.$http.post(userApi.exchangeTaodou, formData).then((objData) => {

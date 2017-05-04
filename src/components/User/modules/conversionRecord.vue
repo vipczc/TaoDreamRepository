@@ -13,7 +13,7 @@
            </el-table-column>
            <el-table-column prop="exchangeAmount" label="兑换获得金额(元)">
            </el-table-column>
-           <el-table-column prop="exchangeAmount" label="剩余淘豆(个)">
+           <el-table-column prop="overplusSoyaNumber" label="剩余淘豆(个)">
            </el-table-column>
          </el-table>
 

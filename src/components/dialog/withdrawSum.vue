@@ -21,7 +21,7 @@
                   <span>{{ getDataResource.handlingFee}}元</span>
                   </el-form-item>
                   <el-form-item label="到账金额:">
-                  <span>{{ getDataResource.arrivalAmount}}元</span>
+                  <span>{{ getDataResource.arrivalAmount.toFixed(2)}}元</span>
                   </el-form-item>
                   <el-form-item label="开户银行:">
                   <span>{{ getDataResource.bankAccount}}</span>
@@ -226,7 +226,7 @@ export default {
       if (this.sumValue.userType == 1) { //会员
         let formData = new FormData()
         formData.append('withdrawAmount', Number(this.formLabelAlign.sum))
-
+        console.log(Number(this.formLabelAlign.sum));
         this.$http.post(userApi.withdrawals, formData).then((objData) => {
           console.log(objData.data);
           if (objData.data.RESULT == 'ok') {

@@ -59,7 +59,7 @@
           <div class="content-right ">
 
               <p>提现余额:&#12288&#12288<span>￥{{ withdrawSum }}</span></p>
-
+              <!-- <p>审核中金额:&#12288<span style="color:#37d786">￥{{ auditMoney }}</span></p> -->
               <!-- <router-link to="/user/expenseRecord" >查看提现记录></router-link> -->
               <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 ></a>
           </div>
@@ -161,7 +161,7 @@
           <div class="content-right">
 
               <p>已消费额度:&#12288 <span>￥{{ recommendLimit }}</span></p>
-              <p>剩余额度:&#12288&#12288 <span>￥{{ surplusLimit }}</span></p>
+              <p>剩余额度:&#12288&#12288 <span>￥{{ surplusLimit.toFixed(2) }}</span></p>
 
 
           </div>
@@ -249,7 +249,7 @@ export default {
       recommendAward: 0, //推荐奖励
       profession: '', //行业
       memberCode: '', //会员ID
-
+      auditMoney: 0, //审核金额
       basicDialog: {
         show: false,
         objetcData: {}
@@ -393,7 +393,8 @@ export default {
           this.userSex = objData.data.RESULT.sex ? '男' : '女' //性别 -1位置 0女 1男
           this.TDSum = objData.data.RESULT.taodou == null ? 0 : objData.data.RESULT.taodou //淘豆
           this.userName = objData.data.RESULT.trueName //姓名
-          this.recommendAward = objData.data.RESULT.refereeNum * 50000 //推荐奖励
+          this.recommendAward = objData.data.RESULT.refereeNum * 50000 //推荐奖励 .toFixed(2)
+
           this.surplusLimit = this.expenseLimit - this.recommendLimit == null ? 0 : this.expenseLimit - this.recommendLimit //剩余
           this.profession = objData.data.RESULT.profession //行业
           //缺省 昨日获得淘豆
