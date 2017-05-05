@@ -168,7 +168,7 @@ export default {
       this.formGiveQuota.giveName = ''
       this.$notify.success({
         title: '赠送成功',
-        message: '成功后再24小时内到账请注意查收',
+        message: '成功后再48小时内到账请注意查收',
         offset: 150
       });
     },

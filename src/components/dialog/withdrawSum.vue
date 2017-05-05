@@ -295,7 +295,7 @@ export default {
     scuess() {
       this.$notify.success({
         title: '提交成功!等待审核!',
-        message: '24小时内审核通过后到账! 请注意查收!',
+        message: '48小时内审核通过后到账! 请注意查收!',
         offset: 150
       });
     },

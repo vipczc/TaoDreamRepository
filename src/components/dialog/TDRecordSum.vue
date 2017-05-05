@@ -187,7 +187,7 @@ export default {
       this.formTDrecordSum.tdCount = ''
       this.$notify.success({
         title: "兑换成功!",
-        message: '成功后再24小时内到账请注意查收',
+        message: '成功到账请注意查收',
         offset: 150
       });
     },

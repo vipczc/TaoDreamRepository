@@ -34,8 +34,9 @@
             <div class="basic">
               <div class="dialog-list-box">
               <div class="box-left">
+
                 <p>单位名称:<span>&#12288{{  dialogValue.objetcData.companyName  }}</span></p>
-                <p>单位规模:<span>&#12288{{  dialogValue.objetcData.scale == '1'?'21-50人': dialogValue.objetcData.scale == '2'?'101-500人': dialogValue.objetcData.scale == '3'?'其他': '其他'}}</span></p>
+                <p>单位规模:<span>&#12288{{  dialogValue.objetcData.scale == '1'?'20~50人': dialogValue.objetcData.scale == '2'?'51~100人': dialogValue.objetcData.scale == '3'?'101~500': dialogValue.objetcData.scale == '4'?'101~500': dialogValue.objetcData.scale == '5'?'501~1000': dialogValue.objetcData.scale == '6'?'1001~5000': dialogValue.objetcData.scale == '7'?'5000人以上': '其他'}}</span></p>
                 <p>部门职位:<span>&#12288{{  dialogValue.objetcData.department }}</span></p>
 <p>单位类型:<span>&#12288{{  dialogValue.objetcData.companyType == '1'? '机关/事业单位':dialogValue.objetcData.companyType == '2'? '国有企业': dialogValue.objetcData.companyType == '3'? '外商独资企业':dialogValue.objetcData.companyType == '4'? '中外合资':dialogValue.objetcData.companyType == '5'? '股份制企业':dialogValue.objetcData.companyType == '6'? '私有企业':dialogValue.objetcData.companyType == '7'? '其他':'其他'}}
               </span></p>
