@@ -6,10 +6,10 @@
       <el-step title="证件照片上传资料"></el-step>
     </el-steps>
     <div style="text-align: right;width:790px; margin:0 auto;">
-      <el-button style="margin-top: 12px;" @click="next" type="info">下一步</el-button>  
+      <el-button style="margin-top: 12px;" @click="next" type="info">下一步</el-button>
     </div>
     <div class="content">
-      <div class="" v-if="active == 1">
+       <div class="" v-if="active == 1">
       	<div class="businessStepone">
            <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px;"></span>推荐人信息<em style="color:#ff831b; margin-left: 5px; font-style: normal;">( 选填 )</em></div>
             <el-form :model="basicMessage" :inline="true" ref="basicMessage"  class="demo-form-inline mar" :rules="rule11">
@@ -32,7 +32,7 @@
               <el-form-item label="企业类型：" prop="companyType">
                 <!-- <el-input  v-model="basicMessage.companyType" auto-complete="off" placeholder="请输入企业类型" style="width:300px;" ></el-input> -->
                 <el-cascader
-                :options="basicMessage.companyType1" 
+                :options="basicMessage.companyType1"
                 change-on-select
                 @change="selChange"
               ></el-cascader>
@@ -87,7 +87,7 @@
         <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline mar" :rules="rule22">
           <el-form-item label="开户银行：" prop="bankAccount">
             <el-cascader
-                  :options="bankInformation.bankAccount1" 
+                  :options="bankInformation.bankAccount1"
                   change-on-select
                   @change="selChange1"
                 ></el-cascader>
@@ -126,8 +126,8 @@
               </el-dialog>
             </div>
 	        </div>
-         
-      </div>    
+
+      </div>
     </div>
     <div class="footer">
         <v-footer></v-footer>
@@ -156,33 +156,33 @@ export default {
         callback();
       }
     };
-  
+
   	return{
-  		active:1,
-  		Big:false,
-      BigUrl:'',
-  		basicMessage:{
-  			recommenderId:"",
-        recommenderName:"",
-        recommenderPhone:"",
-        companyName:"",
-        legalPerson:"",
-        companyType:"",
-        companyType1:[],
-        idNumber:"",
-        managerPhone:"",
-        organizationCode:"",
+      active: 1,
+      Big: false,
+      BigUrl: '',
+      basicMessage: {
+        recommenderId: "",
+        recommenderName: "",
+        recommenderPhone: "",
+        companyName: "",
+        legalPerson: "",
+        companyType: "",
+        companyType1: [],
+        idNumber: "",
+        managerPhone: "",
+        organizationCode: "",
         options: regionData,
         selectedOptions: [],
-        postCode:"",
-        detailAddress:"",
+        postCode: "",
+        detailAddress: "",
         options1: regionData,
         selectedOptions1: [],
-        detailAddress1:"",
-        sendMessage:"",
-        email:"",
-        sendEmail:""
-  		},
+        detailAddress1: "",
+        sendMessage: "",
+        email: "",
+        sendEmail: ""
+      },
   		bankInformation:{
         bankAccount:"",
         bankAccount1:[],
@@ -212,7 +212,7 @@ export default {
         selectedOptions:[{type:'array',required:true,  message: '请选择地区', trigger: 'change' }],
         bankAccountDetail:[{required:true,  message: '请填写详细银行', trigger: 'blur' }],
         bankCard:[{required:true, validator:host.basic.checkBank,  trigger: 'blur' }],
-      
+
       },
       province:"",
       city:"",
@@ -269,7 +269,7 @@ export default {
     //获取企业类型
     this.$http({
       method: 'POST',
-      url: host.basic.basicUrl + '/register/selectProfession',
+      url: host.basic.basicUrl + '/register/selectUnitType',
     }).then(function(res) {
       let arr = res.data.RESULT;
       if (res.data.ERRORCODE == '0') {
@@ -280,7 +280,7 @@ export default {
             label: ""
           };
           arr1.push(obj);
-          arr1[i].value = arr[i].id;
+          arr1[i].value = arr[i].value;
           arr1[i].label = arr[i].label;
         };
         this.basicMessage.companyType1 = arr1;
@@ -349,16 +349,15 @@ export default {
         this.basicMessage.recommenderName = ''
         this.basicMessage.recommenderPhone = ''
       }
-        
     },
-  
+
   	next(){
-  		let that = this;
-      if(this.active == 1){
-        if(this.basicMessage.sendMessage == '是')this.isReceiveMessage = 1;
-        if(this.basicMessage.sendMessage == '否')this.isReceiveMessage = 0;
-         if(this.basicMessage.sendEmail == '是')this.isReceiveEmail = 1;
-      if(this.basicMessage.sendEmail == '否')this.isReceiveEmail = 0;
+        let that = this;
+        if (this.active == 1) {
+          if (this.basicMessage.sendMessage == '是') this.isReceiveMessage = 1;
+          if (this.basicMessage.sendMessage == '否') this.isReceiveMessage = 0;
+          if (this.basicMessage.sendEmail == '是') this.isReceiveEmail = 1;
+          if (this.basicMessage.sendEmail == '否') this.isReceiveEmail = 0;
         this.$refs.basicMessage.validate((valid) => {
           if(valid){
               this.$http({
@@ -366,6 +365,7 @@ export default {
                 url: host.basic.basicUrl + '/shop/saveShopInfo',
                 params: {
                   companyName:this.basicMessage.companyName,
+                  refereeCode:this.basicMessage.recommenderId,
                   trueName:this.basicMessage.legalPerson,
                   identityNumber:this.basicMessage.idNumber,
                   companyType:this.basicMessage.companyType,
@@ -416,7 +416,7 @@ export default {
               }).then(function(res) {
                 let data = res.data;
                 if (data.ERRORCODE == '0') {
-                  
+
                   this.active ++
                 } else {
                   this.$message.warning(data.RESULT);
@@ -447,17 +447,34 @@ export default {
       console.log(this.bankInformation.bankAccount);
     },
   	handleChange (value) {
-      // console.log(value);
-      this.province = value[0];
-      this.city = value[1];
-      this.area = value[2];
+      if(value[0] == '810000'){
+        this.province = value[0];
+        this.city = '810100';
+        this.area = value[1];
+      }else if(value[0] == '820000'){
+        this.province = value[0];
+        this.city = '820100';
+        this.area = value[1];
+      }else{
+        this.province = value[0];
+        this.city = value[1];
+        this.area = value[2];
+      }
     },
     handleChange1(value) {
-      // console.log(value)
-      this.registerProvince = value[0];
-      this.registerCity = value[1];
-      this.registerArea = value[2];
-
+      if (value[0] == '810000') {
+        this.registerProvince = value[0];
+        this.registerCity = '810100';
+        this.registerArea = value[1];
+      } else if (value[0] == '820000') {
+        this.registerProvince = value[0];
+        this.registerCity = '820100';
+        this.registerArea = value[1];
+      } else {
+        this.registerProvince = value[0];
+        this.registerCity = value[1];
+        this.registerArea = value[2];
+      }
     },
      //图片限制
     beforeAvatarUpload(file) {
@@ -496,12 +513,12 @@ export default {
         // this.shopImg = false;
         this.id1=  fileList[0].uid + ',' + '1' ;
         this.id2=  fileList[1].uid + ',' + '2' ;
-        this.id3=  fileList[1].uid + ',' + '3' ;
-        this.id4=  fileList[1].uid + ',' + '4' ;
-        this.id5=  fileList[1].uid + ',' + '5' ;
-        this.id6=  fileList[1].uid + ',' + '6' ;
-        this.id7=  fileList[1].uid + ',' + '7' ;
-        this.imgObj=  this.id1 + ';' + this.id2 + ';' + this.id3 + ';' + this.id3 + ';' + this.id5 + ';' + this.id6 + ';' + this.id7;
+        this.id3=  fileList[2].uid + ',' + '3' ;
+        this.id4=  fileList[3].uid + ',' + '4' ;
+        this.id5=  fileList[4].uid + ',' + '5' ;
+        this.id6=  fileList[5].uid + ',' + '6' ;
+        this.id7=  fileList[6].uid + ',' + '7' ;
+        this.imgObj=  this.id1 + ';' + this.id2 + ';' + this.id3 + ';' + this.id4 + ';' + this.id5 + ';' + this.id6 + ';' + this.id7;
         console.log(this.imgObj);
         this.$alert('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您', '通知', {
           confirmButtonText: '确定',
@@ -554,6 +571,6 @@ export default {
     	 	margin-bottom: 342px;
     	 }
     }
-    
+
 	}
 </style>

@@ -8,7 +8,7 @@
       <el-step title="上传资料"></el-step>
     </el-steps>
     <div style="text-align: right;width:790px; margin:0 auto;">
-      <el-button style="margin-top: 12px;" @click="next" type="info">下一步</el-button>  
+      <el-button style="margin-top: 12px;" @click="next" type="info">下一步</el-button>
     </div>
     <div class="content">
       <div class="" v-if="active == 1">
@@ -103,7 +103,7 @@
             </el-form-item>
              <el-form-item label="所属行业：" prop="industry" >
                   <el-cascader
-                :options="unitInformation.industry1" 
+                :options="unitInformation.industry1"
                 change-on-select
                 @change="selChange"
               ></el-cascader>
@@ -128,9 +128,13 @@
            </el-form-item>
             <el-form-item label="单位规模：" prop="unitSize" v-show="hid">
               <el-radio-group v-model="unitInformation.unitSize">
-                <el-radio label="21~50"></el-radio>
-                <el-radio label="101~500"></el-radio>
-                <el-radio label="其他"></el-radio>
+              <el-radio label="20人以下"></el-radio>
+              <el-radio label="20~50"></el-radio>
+              <el-radio label="51~100"></el-radio>
+              <el-radio label="101~500"></el-radio>
+              <el-radio label="501~1000"></el-radio>
+              <el-radio label="1001~5000"></el-radio>
+              <el-radio label="5000人以上"></el-radio>
               </el-radio-group>
             </el-form-item>
              <el-form-item label="单位现所在省市区：" prop="selectedOptions">
@@ -142,7 +146,7 @@
             <el-form-item label="详细地址：" prop="detailAddress">
               <el-input type="textarea" :maxlength="200" v-model="unitInformation.detailAddress" auto-complete="off" placeholder="如：湖州街599号天邑国际大厦7幢7层" style="width:300px;"></el-input>
             </el-form-item>
-           
+
              <el-form-item label="单位类型：" prop="unitType" v-show="hid">
                 <el-radio-group v-model="unitInformation.unitType" >
                   <el-radio label="机关/事业单位"></el-radio>
@@ -171,10 +175,10 @@
           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>资产信息<em style="color:#ff831b; margin-left: 5px; font-style: normal;">( 选填 )</em></div>
           <el-form :model="assetInformation" :inline="true"  class="demo-form-inline mar">
             <el-form-item label="您拥有的信用卡数量：" key="cardNumberAdd">
-              <el-input type="number" v-model="assetInformation.cardNumberAdd" auto-complete="off" placeholder="如：1张" style="width:100px;"></el-input>
+              <el-input type="number" v-model="assetInformation.cardNumberAdd" auto-complete="off" placeholder="如：1" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="您拥有的信用卡总额度：" key="creditLimitAdd">
-              <el-input  v-model="assetInformation.creditLimitAdd" auto-complete="off" placeholder="如：100000元" style="width:200px;" :maxlength="9"></el-input>
+              <el-input type="number" v-model="assetInformation.creditLimitAdd" auto-complete="off" placeholder="如：100000元" style="width:200px;" :maxlength="9"></el-input>
             </el-form-item>
             <el-form-item label="您的居住情况：" >
               <el-radio-group v-model="assetInformation.livingCondition">
@@ -224,7 +228,7 @@
         <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline mar" :rules="rules3">
           <el-form-item label="开户银行：" prop="bankAccount">
             <el-cascader
-                  :options="bankInformation.bankAccount1" 
+                  :options="bankInformation.bankAccount1"
                   change-on-select
                   @change="selChange1"
                 ></el-cascader>
@@ -234,7 +238,7 @@
             </el-cascader>
           </el-form-item>
           <el-form-item label="开户银行：" prop="bankAccountDetail">
-             
+
             <el-input  v-model="bankInformation.bankAccountDetail" auto-complete="off" placeholder="如：勾庄小微支行" style="width:300px;"></el-input>
           </el-form-item>
           <el-form-item label="银行卡号：" prop="bankCard">
@@ -283,7 +287,7 @@
     </el-dialog>
 	</div>
 </template>
-<script>
+<script >
 import { regionData , provinceAndCityData } from 'element-china-area-data'
 import host from '../../common.js'
 import footer from '.././footer/footer.vue'
@@ -458,7 +462,7 @@ export default {
         relativePhone1:'',
         relative2:'',
         relationship2:'',
-        relativePhone2:''  
+        relativePhone2:''
       },
       bankInformation:{
         bankAccount:"",
@@ -503,7 +507,7 @@ export default {
       upButton:false,
       imgObj:null,
       fileLength:'',
-      
+
     }
   },
   components:{
@@ -547,7 +551,7 @@ export default {
     selChange(val){
       this.unitInformation.industry = val[0];
       console.log(this.unitInformation.industry)
-     if(this.unitInformation.industry == 88){
+     if(this.unitInformation.industry == 99){
       this.remark = true;
       this.hid = false;
      }else{
@@ -562,7 +566,7 @@ export default {
     },
     //投资选择
     invert(val){
-      this.assetInformation.investments = val.join(","); 
+      this.assetInformation.investments = val.join(",");
       // console.log(this.assetInformation.investments)
     },
     //下一步
@@ -601,7 +605,7 @@ export default {
                 province:this.basicMessage.province,
                 city:this.basicMessage.city,
                 area:this.basicMessage.area,
-                address:this.basicMessage.address,
+                address:this.basicMessage.detailAddress,
                 postalCode:this.basicMessage.postalCode,
                 highEdu:this.highEdu,
                 isReceiveMessage:this.isReceiveMessage,
@@ -629,8 +633,13 @@ export default {
     if(this.active == 2){
       if(this.unitInformation.legalPerson == '是')this.corporation = 1;
       if(this.unitInformation.legalPerson == '否')this.corporation = 0;
-      if(this.unitInformation.unitSize == '21~50')this.scale = 1;
-      if(this.unitInformation.unitSize == '101~500')this.scale = 2;
+      if (this.unitInformation.unitSize == '20人以下') this.scale = 1;
+        if (this.unitInformation.unitSize == '20~50') this.scale = 2;
+        if (this.unitInformation.unitSize == '51~100') this.scale = 3;
+        if (this.unitInformation.unitSize == '101~500') this.scale = 4;
+        if (this.unitInformation.unitSize == '501~1000') this.scale = 5;
+        if (this.unitInformation.unitSize == '1001~5000') this.scale = 6;
+        if (this.unitInformation.unitSize == '5000人以上') this.scale = 7;
       if(this.unitInformation.unitSize == '其他')this.scale = 3;
       if(this.unitInformation.unitType == '机关/事业单位')this.companyType = 1;
       if(this.unitInformation.unitType == '国有企业')this.companyType = 2;
@@ -662,7 +671,7 @@ export default {
                 phoneZone:this.unitInformation.areaCode,
                 phoneNumber:this.unitInformation.phoneNumber,
                 phoneExtension:this.unitInformation.phoneNumberOther
-                
+
               }
             }).then(function(res) {
               let data = res.data;
@@ -714,8 +723,8 @@ export default {
           this.$message.error('请求错误,请稍后再试');
         })
     }
-      
-    if(this.active == 4){
+
+    if(this.active == 4) {
         this.$refs.bankInformation.validate((valid) => {
         if(valid){
             this.$http({
@@ -727,12 +736,13 @@ export default {
                 bankCity: this.bankInformation.city,
                 cardNumber: this.bankInformation.bankCard,
                 branchName: this.bankInformation.bankAccountDetail,
-               
+
               }
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
                 this.active ++
+
               } else {
                 this.$message.warning(data.RESULT);
               }
@@ -747,24 +757,49 @@ export default {
       })
 
     }
-   
-    
+
+
     },
     handleChange (value) {
-      this.unitInformation.province = value[0];
-      this.unitInformation.city = value[1];
-      this.unitInformation.area = value[2];
+      if(value[0] == '810000'){
+        this.unitInformation.province = value[0];
+        this.unitInformation.city = '810100';
+        this.unitInformation.area = value[1];
+      }else if(value[0] == '820000'){
+        this.unitInformation.province = value[0];
+        this.unitInformation.city = '820100';
+        this.unitInformation.area = value[1];
+      }else{
+        this.unitInformation.province = value[0];
+        this.unitInformation.city = value[1];
+        this.unitInformation.area = value[2];
+      }
     },
     handleChange2 (value) {
       this.bankInformation.province = value[0];
-      this.bankInformation.city = value[1];
-
+       if(value[0] == '810000'){
+        this.bankInformation.city = '810100';
+       }else if(value[0] == '820000'){
+        this.bankInformation.city = '820100';
+       }else{
+         this.bankInformation.city = value[1];
+       }
     },
     //家庭住址
     handleChange1(value) {
-      this.basicMessage.province = value[0];
-      this.basicMessage.city = value[1];
-      this.basicMessage.area = value[2];
+      if(value[0] == '810000'){
+        this.basicMessage.province = value[0];
+        this.basicMessage.city = '810100';
+        this.basicMessage.area = value[1];
+      }else if(value[0] == '820000'){
+        this.basicMessage.province = value[0];
+        this.basicMessage.city = '820100';
+        this.basicMessage.area = value[1];
+      }else{
+        this.basicMessage.province = value[0];
+        this.basicMessage.city = value[1];
+        this.basicMessage.area = value[2];
+      }
     },
     //图片限制
     beforeAvatarUpload(file) {
@@ -825,16 +860,16 @@ export default {
                 }, function(error) {
                   that.$message.error('请求错误,请稍后再试');
                 });
-             
-             
+
+
             }
           }
         });
-        
+
       }
-    }  
+    }
   }
-  
+
 }
 </script>
 
@@ -870,7 +905,7 @@ export default {
    input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button{
       -webkit-appearance: none !important;
-      margin: 0; 
+      margin: 0;
   }
   input[type="number"]{-moz-appearance:textfield;}
 </style>

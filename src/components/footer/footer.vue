@@ -5,7 +5,7 @@
 				网站说明：
 			</div>
 			<div style="margin-top:20px;">
-				备案号：
+				备案号：浙ICP备17018160号-1
 			</div>
 			<div style="margin-top:20px;">
 				联系电话：15037034886
@@ -34,7 +34,7 @@ export default {
 		// position: absolute;
 		// bottom:0;
 		.footer-con{
-			
+
 		}
 	}
 </style>
