@@ -14,7 +14,8 @@ module.exports = {
     // Before setting to `true`, make sure to:
     // npm install --save-dev compression-webpack-plugin
     productionGzip: false,
-    productionGzipExtensions: ['js', 'css'],
+    productionGzipExtensions
+    : ['js', 'css'],
     // Run the build command with an extra argument to
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
@@ -30,7 +31,7 @@ module.exports = {
     // proxyTable: {
     //     '/taodream-consumer':{
     //         // target:'http://10.60.10.76:8081',
-       
+
     //         target:'http://10.60.20.43:8080/taodream-consumer',
     //         changeOrigin:true,
     //         pathRewrite:{

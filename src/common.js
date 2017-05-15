@@ -1,6 +1,7 @@
 const basic = {
-    basicUrl : '/taodream-consumer',
+    // basicUrl : '/taodream-consumer',
     // basicUrl : 'http://10.60.10.76:8081/consumer',
+     basicUrl : 'http://tmz.yourongwang.com/taodream-consumer',
     formatDate(str,type) {
       var oDate = new Date(str), oYear = oDate.getFullYear(), oMonth = oDate.getMonth() + 1, oDay = oDate.getDate(), oHour = oDate.getHours();
       var oMin = oDate.getMinutes(), oSen = oDate.getSeconds();
@@ -66,7 +67,7 @@ const basic = {
       callback();
     },
     checkCard(rule, value, callback){
-      if (!/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(value)) {
+      if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/i.test(value)) {
         callback(new Error('请输入正确的身份证号码'));
       }
       callback();
@@ -90,7 +91,7 @@ const basic = {
       callback();
     },
     checkBank(rule, value, callback){
-      if (!/^(\d{16}|\d{19})$/.test(value)) {
+      if (!/^\d{16,20}$/.test(value)) {
         callback(new Error('请输入正确的银行卡号'));
       }
       callback();

@@ -606,7 +606,7 @@ export default {
                 city:this.basicMessage.city,
                 area:this.basicMessage.area,
                 address:this.basicMessage.detailAddress,
-                postalCode:this.basicMessage.postalCode,
+                postalCode:this.basicMessage.postCode,
                 highEdu:this.highEdu,
                 isReceiveMessage:this.isReceiveMessage,
                 email:this.basicMessage.email,

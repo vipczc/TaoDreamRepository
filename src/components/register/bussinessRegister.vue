@@ -102,6 +102,9 @@
           <el-form-item label="银行卡号：" prop="bankCard">
             <el-input  v-model="bankInformation.bankCard" auto-complete="off" placeholder="请输入银行卡号" style="width:250px;"></el-input>
           </el-form-item>
+          <el-form-item label="开户人：" prop="accountHolder">
+            <el-input  v-model="bankInformation.accountHolder" auto-complete="off" placeholder="请输入开户人" style="width:250px;"></el-input>
+          </el-form-item>
         </el-form>
       </div>
       <div class="" v-if="active == 3">
@@ -111,7 +114,7 @@
             <div style="border:1px solid #e5e5e5; padding:15px 15px;">
               <img src="../../assets/img/shop.png" height="755" width="765" alt="">
             </div>
-            <div style="margin-bottom: 60px;border:1px solid #e5e5e5;padding:15px 15px;margin-top: 20px;">
+            <div style="margin-bottom: 20px;border:1px solid #e5e5e5;padding:15px 15px;margin-top: 20px;">
              <el-upload
                 action="taodream-consumer/commonUpload/uploadFile"
                 list-type="picture-card" v-show="shopImg"
@@ -125,6 +128,10 @@
                 <img width="100%" :src="dialogImageUrl" alt="">
               </el-dialog>
             </div>
+            <div style="text-align:center;">
+              <el-button type="primary" size="large" @click="handleGo">提交审核</el-button>
+            </div>
+
 	        </div>
 
       </div>
@@ -189,7 +196,8 @@ export default {
         options: provinceAndCityData,
         selectedOptions: [],
         bankAccountDetail:"",
-        bankCard:""
+        bankCard:"",
+        accountHolder:""
       },
       uploadData:{
         fileList2:[]
@@ -212,6 +220,7 @@ export default {
         selectedOptions:[{type:'array',required:true,  message: '请选择地区', trigger: 'change' }],
         bankAccountDetail:[{required:true,  message: '请填写详细银行', trigger: 'blur' }],
         bankCard:[{required:true, validator:host.basic.checkBank,  trigger: 'blur' }],
+        accountHolder:[{required:true, message: '请填写开户人', trigger: 'blur' }],
 
       },
       province:"",
@@ -411,7 +420,8 @@ export default {
                   bankProvince: this.province,
                   bankCity: this.city,
                   cardNumber: this.bankInformation.bankCard,
-                  branchName: this.bankInformation.bankAccountDetail
+                  branchName: this.bankInformation.bankAccountDetail,
+                  accountHolder: this.bankInformation.accountHolder
                 }
               }).then(function(res) {
                 let data = res.data;
@@ -439,12 +449,12 @@ export default {
     //企业类型
     selChange(val){
       this.basicMessage.companyType = val[0];
-      console.log(this.basicMessage.companyType);
+      // console.log(this.basicMessage.companyType);
     },
     //选择银行
     selChange1(val){
       this.bankInformation.bankAccount = val[0];
-      console.log(this.bankInformation.bankAccount);
+      // console.log(this.bankInformation.bankAccount);
     },
   	handleChange (value) {
       if(value[0] == '810000'){
@@ -477,37 +487,70 @@ export default {
       }
     },
      //图片限制
-    beforeAvatarUpload(file) {
+    beforeAvatarUpload(file,fileList) {
+
       const isJPG = file.type === 'image/jpeg';
       const isPNG = file.type === 'image/png';
       const isLt2M = file.size / 1024 / 1024 < 2;
-
+      const isNum = this.fileLength < 7;
+      console.log(this.fileLength);
       if (!isJPG && !isPNG) {
         this.$message.error('上传头像图片只能是 JPG或PNG 格式!');
       }
-
       if (!isLt2M) {
         this.$message.error('上传图片大小不能超过 2MB!');
       }
-      return isJPG || isPNG && isLt2M ;
+      if (!isNum) {
+        this.$message.error('上传图片数量不能超过 7张!');
+      }
+      return   isJPG || isPNG && isLt2M && isNum;
     },
      // 上传图片处理回调
     handleRemove(file, fileList) {
-        console.log(file, fileList);
+        // console.log(file, fileList);
+        this.fileLength = fileList.length;
     },
    handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
+    handleGo(){
+      let that = this;
+      if (this.fileLength == 7) {
+        that.$http({
+          method: 'POST',
+          url: host.basic.basicUrl + '/shop/saveShopPic',
+          params: {
+            pics: that.imgObj
+          }
+        }).then(function(res) {
+          let data = res.data;
+          if (data.ERRORCODE == '0') {
+            that.$message.success('您的信息已经提交，审核之后我们会以短信通知给您！');
+            // console.log(data);
+            setTimeout(() => {
+              that.$router.push('/')
+            }, 1000)
+          } else {
+            that.$message.warning(data.RESULT);
+          }
+        }, function(error) {
+          that.$message.error('请求错误,请稍后再试');
+        });
+      }else {
+          that.$message.warning('您上传的图片不全，请继续上传！');
+      }
+    },
     handleSuccess(response, file, fileList){
       // console.log(response);
       // console.log(file);
-      // console.log(fileList);
+
       if(response.ERRORCODE == 0){
         file.uid = response.RESULT.id
         file.url = response.RESULT.url
       }
       this.fileLength = fileList.length;
+      // console.log(this.fileLength);
       let that = this;
       if(fileList.length == 7){
         // this.shopImg = false;
@@ -518,34 +561,20 @@ export default {
         this.id5=  fileList[4].uid + ',' + '5' ;
         this.id6=  fileList[5].uid + ',' + '6' ;
         this.id7=  fileList[6].uid + ',' + '7' ;
+        // 感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您
         this.imgObj=  this.id1 + ';' + this.id2 + ';' + this.id3 + ';' + this.id4 + ';' + this.id5 + ';' + this.id6 + ';' + this.id7;
         console.log(this.imgObj);
-        this.$alert('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您', '通知', {
-          confirmButtonText: '确定',
-          callback(action){
-            if(action == "confirm"){
-              that.$http({
-                method: 'POST',
-                url: host.basic.basicUrl + '/shop/saveShopPic',
-                params: {
-                  pics: that.imgObj
-                }
-              }).then(function(res) {
-                let data = res.data;
-                if (data.ERRORCODE == '0') {
-                  // console.log(data);
-                 setTimeout(()=>{that.$router.push('/')},1000)
+         that.$message.success('图片上传完成');
 
-                } else {
-                  that.$message.warning(data.RESULT);
-                }
-              }, function(error) {
-                that.$message.error('请求错误,请稍后再试');
-              });
-              // that.$message.success('图片上传完成');
-            }
-          }
-        });
+        // this.$alert('图片上传完成', '通知', {
+        //   confirmButtonText: '确定',
+        //   callback(action){
+        //     if(action == "confirm"){
+
+        //       // that.$message.success('图片上传完成');
+        //     }
+        //   }
+        // });
         // this.$message('感谢您填写完善信息，您的信息已经提交，审核之后我们会以短信通知给您！');
       }
     }
