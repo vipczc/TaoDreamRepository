@@ -4,7 +4,8 @@ import ajax from '../../components/api/ajax.js'
 
 const DomainName = '/taodream-consumer'//http://10.60.20.76 //域名
 // const PortNumber = '8081' //端口号 POST
-
+//http://tmz.yourongwang.com
+///taodream-consumer
 //消费者
 export const userApi = {
 
@@ -29,6 +30,9 @@ export const userApi = {
       encourageDetail : DomainName+'/member/encourageDetail',//激励明细接口
       selectMemberByMobile : DomainName+'/member/selectMemberByMobile',//手机号查找会员信息接口
 
+      memberProductSave : DomainName+ '/memberProduct/memberProductSave',//消费者淘豆定存保存接口
+      productList : DomainName+ '/memberProduct/productList',//消费者淘豆定存产品信息接口
+      memberProductRecord : DomainName +'/memberProduct/memberProductRecord' //消费者淘豆定存列表接口
 }
 //商家
 export const businessAPi =  {

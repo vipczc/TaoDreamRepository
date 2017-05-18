@@ -16,7 +16,7 @@ import uIndexTDRecord from '@/components/User/modules/TDRecord'//淘豆流水
 import uIndexLimitRecord from '@/components/User/modules/limitRecord'//额度流水
 import uRecommendRecord from '@/components/User/modules/recommendRecord'//推荐记录
 import uRecommendStimulate from '@/components/User/modules/recommendStimulate'//推荐激励
-
+import ufixDepositRecord from '@/components/User/modules/fixDepositRecord'//定存宝记录
 
 import userIndex from '@/components/User/userIndex'
 import userinfo from '@/components/User/userinfo'
@@ -138,6 +138,10 @@ const router =  new Router({
         path: 'recommendStimulate', //推荐激励
 
         component: uRecommendStimulate
+      }, {
+        path: 'fixDepositRecord', //定存宝记录
+
+        component: ufixDepositRecord
       }]
 
     },

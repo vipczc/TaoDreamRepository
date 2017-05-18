@@ -120,7 +120,7 @@ export default {
     submitForm() {
       if (this.tdValue.userType == 1) { //会员
         let formData = new FormData()
-        console.log(this.getDataResource.TDMoney);
+
         formData.append('taodouAmount', this.getDataResource.TDMoney)
 
         this.$http.post(userApi.exchangeTaodou, formData).then((objData) => {
@@ -163,7 +163,7 @@ export default {
         formData.append('taodouAmount', this.getDataResource.TDMoney)
 
         this.$http.post(clerkApi.exchangeTaodou, formData).then((objData) => {
-          console.log(objData.data);
+          // console.log(objData.data);
           //判断 是否 提现成功
           if (objData.data.RESULT == 'ok') {
             this.disInput = false

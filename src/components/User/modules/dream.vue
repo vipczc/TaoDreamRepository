@@ -124,6 +124,50 @@
 
       </div>
   </el-col>
+  <!-- 定存宝 -->
+    <el-col :span="24">
+        <div class="user-fix">
+          <el-col :span="4">
+            <!-- 定存宝 -->
+            <div class="fix-logo">
+              <div class="logo-content">
+                <img src="../../../assets/img/fix.png" alt="定存宝">
+                <p>定存宝</p>
+              </div>
+            </div>
+          </el-col>
+          <!-- 淘豆金额 -->
+          <el-col :span="7" :offset="1">
+            <div class="content-right">
+
+                <p>定存余额:&#12288&#12288<span>￥{{ soyaSumob }}</span></p>
+                <p>预计收益:&#12288&#12288 <span>￥{{ income }}</span></p>
+                <!-- <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a> -->
+                <!-- <router-link to="/user/conversionRecord" @click="toPath('1-3')">查看兑换记录></router-link> -->
+                <a href="javascript:void(0);" style="top:-5px;" @click="toPath('1-6')">查看定存宝记录 > </a>
+            </div>
+          </el-col>
+          <!-- 按钮 -->
+          <el-col :span="2">
+            <div class="content-right content-right-hr">
+
+                <el-button type="success" size="large" id="btn-top" @click="fixDepositDialogShow()">转入</el-button>
+
+            </div>
+          </el-col>
+          <!-- 获得淘豆 -->
+          <el-col :span="9" :offset="1">
+            <!-- <div class="content-right">
+
+                <p>昨日获得淘豆:<span>￥{{ yesterdayTD }}</span></p>
+
+                <a href="javascript:void(0);" @click="toPath('1-4')">查看淘豆流水 ></a>
+            </div> -->
+          </el-col>
+
+
+        </div>
+    </el-col>
 <!-- 额度 -->
   <el-col :span="24">
       <div class="user-limit">
@@ -207,6 +251,7 @@
     <extractionQuota :quotaValue="extractionQuotaDialog" v-on:extraction="extractionMessage"></extractionQuota>
     <giveQuota :giveValue="giveQuotaDialog" v-on:give="giveMessage"></giveQuota>
     <TDRecordSum :tdValue="tdrecordSumDialog" v-on:td="tdMessage"></TDRecordSum>
+      <fixDeposit :fixDepositValue="fixDepositDialog" v-on:fix="fixMessage"></fixDeposit>
   </div>
 </template>
 
@@ -216,7 +261,7 @@ import withdrawSum from '../../dialog/withdrawSum.vue' //对话框 提现
 import extractionQuota from '../../dialog/extractionQuota.vue' //对话框 提额
 import giveQuota from '../../dialog/giveQuota.vue' //对话框 额度赠送
 import TDRecordSum from '../../dialog/TDRecordSum.vue' //对话框 淘豆兑换
-
+import fixDeposit from '../../dialog/fixDeposit.vue' //对话框 定存宝转入
 import {
   userApi
 } from '../../api/apiCode.js'
@@ -250,10 +295,16 @@ export default {
       profession: '', //行业
       memberCode: '', //会员ID
       auditMoney: 0, //审核金额
+      soyaSumob: 0, //定存金额
+      income: 0, //预计收益
       basicDialog: {
         show: false,
         objetcData: {}
       }, //基本信息对话框
+      fixDepositDialog: {
+        TDSum: 0,
+        show: false, //显示
+      },
       withdrawSumDialog: {
         show: false, //显示
         userType: 1, //用户
@@ -298,6 +349,8 @@ export default {
         this.$router.push("/user/TDRecord") //淘豆流水
       } else if (str == '1-5') {
         this.$router.push("/user/limitRecord") //额度流水
+      } else if (str == '1-6') {
+        this.$router.push("/user/fixDepositRecord") //定存宝记录
       } else if (str == '2-1') {
         this.$router.push("/user/recommendRecord") //推荐记录
       }
@@ -326,6 +379,11 @@ export default {
       this.tdrecordSumDialog.show = isb.show
       this.upData = !this.upData
     },
+    fixMessage(isb) {
+      this.fixDepositDialog.show = isb.show
+      this.upData = !this.upData
+    },
+
     basicDialogShow() { //基本信息对话框
       this.basicDialog.show = true
       this.basicDialog.objetcData = this.result
@@ -349,6 +407,10 @@ export default {
       this.tdrecordSumDialog.TDSumDialog = this.TDSum //传递 总淘豆数量
 
       this.tdrecordSumDialog.show = true
+    },
+    fixDepositDialogShow() { //定存宝
+      this.fixDepositDialog.TDSum = this.TDSum //传递 总淘豆数量
+      this.fixDepositDialog.show = true
     },
     // login() {
     //   // let boj = new formData();
@@ -397,6 +459,8 @@ export default {
 
           this.surplusLimit = this.expenseLimit - this.recommendLimit == null ? 0 : this.expenseLimit - this.recommendLimit //剩余
           this.profession = objData.data.RESULT.profession //行业
+          this.soyaSumob = objData.data.RESULT.soyaSum == null ? 0 : objData.data.RESULT.soyaSum //定存金额
+          this.income = objData.data.RESULT.income == null ? 0 : objData.data.RESULT.income //预计收益
           //缺省 昨日获得淘豆
         }
 
@@ -412,7 +476,8 @@ export default {
     withdrawSum,
     extractionQuota,
     giveQuota,
-    TDRecordSum
+    TDRecordSum,
+    fixDeposit
   }
 
 }
@@ -504,6 +569,17 @@ export default {
   height: 188px;
   width: 230px;
   background-color: #ff6805;
+}
+/*定存宝*/
+.user-fix{
+  height: 188px;
+  border-top: 1px solid #fdfdfe;
+  background-color: #FFF;
+}
+.fix-logo{
+  height: 188px;
+  width: 230px;
+  background-color: #2a9d8f;
 }
 /*额度样式*/
 .user-limit{
@@ -673,7 +749,7 @@ export default {
 100%{opacity:1;
 -moz-transform:translateX(0)}
 }
-.user-limit{
+.user-fix{
 -webkit-animation:fadeInRight 1s .6s ease both;
 -moz-animation:fadeInRight 1s .6s ease both;}
 @-webkit-keyframes fadeInRight{
@@ -688,7 +764,7 @@ export default {
 100%{opacity:1;
 -moz-transform:translateX(0)}
 }
-.user-recommend{
+.user-limit{
 -webkit-animation:fadeInRight 1s .7s ease both;
 -moz-animation:fadeInRight 1s .7s ease both;}
 @-webkit-keyframes fadeInRight{
@@ -700,6 +776,21 @@ export default {
 @-moz-keyframes fadeInRight{
 0%{opacity:0;
 -moz-transform:translateX(140px)}
+100%{opacity:1;
+-moz-transform:translateX(0)}
+}
+.user-recommend{
+-webkit-animation:fadeInRight 1s .8s ease both;
+-moz-animation:fadeInRight 1s .8s ease both;}
+@-webkit-keyframes fadeInRight{
+0%{opacity:0;
+-webkit-transform:translateX(160px)}
+100%{opacity:1;
+-webkit-transform:translateX(0)}
+}
+@-moz-keyframes fadeInRight{
+0%{opacity:0;
+-moz-transform:translateX(160px)}
 100%{opacity:1;
 -moz-transform:translateX(0)}
 }

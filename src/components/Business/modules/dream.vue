@@ -176,6 +176,7 @@
   <extractionQuota :quotaValue="extractionQuotaDialog" v-on:extraction="extractionMessage"></extractionQuota>
   <!-- <giveQuota :giveValue="giveQuotaDialog" v-on:give="giveMessage"></giveQuota> -->
   <TDRecordSum :tdValue="tdrecordSumDialog" v-on:td="tdMessage"></TDRecordSum>
+
   </div>
 </template>
 
@@ -185,6 +186,7 @@ import withdrawSum from '../../dialog/withdrawSum.vue' //对话框 提现
 import extractionQuota from '../../dialog/extractionQuota.vue' //对话框 提额
 import giveQuota from '../../dialog/giveQuota.vue' //对话框 额度赠送
 import TDRecordSum from '../../dialog/TDRecordSum.vue' //对话框 淘豆兑换
+
 import {
   businessAPi
 } from '../../api/apiCode.js'
@@ -218,6 +220,7 @@ export default {
 
       upDataRq: false,
       basicDialog: false, //基本信息对话框
+
       withdrawSumDialog: {
         show: false, //显示
         userType: 2, // 商家用户
@@ -313,6 +316,7 @@ export default {
     extractionQuotaDialogShow() { //提额
       this.extractionQuotaDialog.show = true
     },
+
     // login() {
     //
     //   let formData = new FormData()
@@ -366,7 +370,8 @@ export default {
     withdrawSum,
     extractionQuota,
     giveQuota,
-    TDRecordSum
+    TDRecordSum,
+
   }
 
 }

@@ -36,7 +36,8 @@
   <el-menu-item index="1-3" @click="one"><img src="../../assets/img/conversion.png" alt="兑换记录">兑换记录</el-menu-item>
   <el-menu-item index="1-4" @click="one"><img src="../../assets/img/toddleDaybook.png" alt="淘豆流水">淘豆流水</el-menu-item>
   <el-menu-item index="1-5" @click="one"><img src="../../assets/img/Amountofwater.png" alt="额度流水">额度流水</el-menu-item>
-
+  <el-menu-item index="1-6" @click="one"><img src="../../assets/img/fixmini.png" alt="定存宝记录">定存宝记录</el-menu-item>
+<!-- <img src="" alt="定存宝记录"> -->
   </el-submenu>
   <el-submenu index="2">
   <template slot="title">
@@ -119,6 +120,8 @@ export default {
         this.$router.push("/user/TDRecord") //淘豆流水
       } else if (ev.index == '1-5') {
         this.$router.push("/user/limitRecord") //额度流水
+      } else if (ev.index == '1-6') {
+        this.$router.push("/user/fixDepositRecord") //定存宝记录
       } else if (ev.index == '2-1') {
         this.$router.push("/user/recommendRecord") //推荐记录
       } else if (ev.index == '2-2') {
@@ -170,15 +173,16 @@ body{
     margin-top: 18px;
 }
 #sidebar-content{
-height: 1022px;
+height: 896px;
 width: 280px;
 background-color: #fff7f1;
 }
 /*内容样式*/
 @media screen and (min-width: 1920px) {
     .main-content {
+      overflow-y : scroll;
       width: 1559px;
-      height: 845px;
+      height: 896px;
       margin-top: 18px;
     }
 }
@@ -188,16 +192,25 @@ background-color: #fff7f1;
     width: 1440px;
   }
   #sidebar-content{
-    height:840px;
+    height:800px;
     width: 240px;
     background-color: rgb(255, 247, 241);
   }
     .content-right{
       margin-left: 20px;
     }
+    .main-content {
+      overflow-x : scroll;
+      overflow-y : scroll;
+      width: 1170px;
+      height: 780px !important;
+      margin-top: 18px;
+    }
 }
 .main-content {
-  height: 845px;
+  overflow-x : hidden;
+  overflow-y : scroll;
+  height: 896px;
   margin-top: 18px;
   margin-right: 40px;
   margin-left: 80px;
@@ -259,4 +272,141 @@ text-decoration:none;
 100%{opacity:1;
 -moz-transform:translateX(0)}
 }
+
+/*滚动条*/
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+    /*box-shadow: 1px 1px 5px rgba(0, 0, 0, .2) inset;*/
+}
+
+::-webkit-scrollbar-thumb {
+    min-height: 20px;
+    background-clip: content-box;
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, .2) inset;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+
+/*自定义加载*/
+/*.el-loading-spinner .circular {
+  display: none;
+}
+
+.el-loading-spinner {
+  position: relative;
+  width: 2.5em;
+  height: 2.5em;
+  transform: rotate(165deg);
+}
+
+.el-loading-spinner:before,
+.el-loading-spinner:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 0.25em;
+  transform: translate(-50%, -50%);
+}
+
+.el-loading-spinner:before {
+  animation: csshub-before 2s infinite;
+  -webkit-animation: csshub-before 2s infinite;
+}
+
+.el-loading-spinner:after {
+  animation: csshub-after 2s infinite;
+  -webkit-animation: csshub-after 2s infinite;
+}
+
+@keyframes csshub-before {
+  0% {
+    width: 0.5em;
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  35% {
+    width: 2.5em;
+    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
+  }
+  70% {
+    width: 0.5em;
+    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  100% {
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+}
+
+@-webkit-keyframes csshub-before {
+  0% {
+    width: 0.5em;
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  35% {
+    width: 2.5em;
+    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
+  }
+  70% {
+    width: 0.5em;
+    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  100% {
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+}
+
+@keyframes csshub-after {
+  0% {
+    height: 0.5em;
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+  35% {
+    height: 2.5em;
+    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
+  }
+  70% {
+    height: 0.5em;
+    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
+  }
+  100% {
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+}
+
+@-webkit-keyframes csshub-after {
+  0% {
+    height: 0.5em;
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+  35% {
+    height: 2.5em;
+    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
+  }
+  70% {
+    height: 0.5em;
+    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
+  }
+  100% {
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+}*/
+
+
 </style>

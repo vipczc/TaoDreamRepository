@@ -15,8 +15,8 @@
                </el-table-column>
                <el-table-column  prop="income" label="收入">
                </el-table-column>
-               <!-- <el-table-column prop="outlay" label="支出">
-               </el-table-column> -->
+               <el-table-column prop="outlay" label="支出">
+               </el-table-column>
                <el-table-column prop="soyaBalance" label="淘豆余额">
                </el-table-column>
                <el-table-column prop="mobile" label="消费账号">
@@ -154,7 +154,7 @@ export default {
 
           this.loading = false
         }).catch((err) => {
-          this.$message.error('服务器未响应! 请刷新重试...');
+          this.$message.error('ab服务器未响应! 请刷新重试...');
         })
       }
 

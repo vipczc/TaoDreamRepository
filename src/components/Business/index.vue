@@ -180,7 +180,7 @@ width: 280px;
 background-color: #fff7f1;
 }
 /*内容样式*/
-@media screen and (min-width: 1920px) {
+/*@media screen and (min-width: 1920px) {
     .main-content {
       width: 1559px;
       height: 845px;
@@ -215,7 +215,7 @@ background-color: #fff7f1;
 
     background-color: #f3f1f6;
 
-}
+}*/
 .box-img-one{
   margin-right: 20px;
   position: relative;
