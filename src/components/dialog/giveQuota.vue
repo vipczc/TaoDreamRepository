@@ -110,7 +110,7 @@ export default {
         }
 
       }).catch((err) => {
-        console.log('访问接口失败' + err);
+        //console.log('访问接口失败' + err);
       })
     },
     giveQuota() {
@@ -129,7 +129,7 @@ export default {
 
           this.submitForm() //提交提现请求
         } else {
-          console.log('error submit!!');
+          //console.log('error submit!!');
           return false;
         }
       });

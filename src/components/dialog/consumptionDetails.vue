@@ -148,7 +148,7 @@ export default {
           formData.append('consumerOrderId', this.consumptionValue.objectData.id)
 
           this.$http.post(userApi.consumptionDetail, formData).then((objData) => {
-            console.log(objData.data.RESULT);
+            //console.log(objData.data.RESULT);
             this.result = objData.data.RESULT //Object 所有数据
             for (var i = 0; i < this.result.data.length; i++) {
               this.result.data[i].subtotal = this.result.data[i].price * this.result.data[i].quantity
@@ -157,7 +157,7 @@ export default {
             this.tableData = this.result.data
             this.loading = false
           }).catch((err) => {
-            console.log(err);
+            //console.log(err);
           })
         }
       } else if (this.consumptionValue.typeShow == 2) { //商家
@@ -167,7 +167,7 @@ export default {
           formData.append('consumerOrderId', this.consumptionValue.objectData.id)
 
           this.$http.post(businessAPi.consumerOrderRecordInfo, formData).then((objData) => {
-            console.log(objData.data.RESULT);
+            //console.log(objData.data.RESULT);
             this.result = objData.data.RESULT //Object 所有数据
             for (var i = 0; i < this.result.data.length; i++) {
               this.result.data[i].subtotal = this.result.data[i].price * this.result.data[i].quantity
@@ -176,7 +176,7 @@ export default {
             this.tableData = this.result.data
             this.loading = false
           }).catch((err) => {
-            console.log(err);
+            //console.log(err);
           })
         }
       } else if (this.consumptionValue.typeShow == 1) { //咨询师
@@ -187,7 +187,7 @@ export default {
           formData.append('consumerOrderId', this.consumptionValue.objectData.id)
           formData.append('userType', this.consumptionValue.thisUserType)
           this.$http.post(clerkApi.consumerOrderRecordInfo, formData).then((objData) => {
-            console.log(objData.data.RESULT);
+            //console.log(objData.data.RESULT);
             this.result = objData.data.RESULT //Object 所有数据
             for (var i = 0; i < this.result.data.length; i++) {
               this.result.data[i].subtotal = this.result.data[i].price * this.result.data[i].quantity
@@ -196,7 +196,7 @@ export default {
             this.tableData = this.result.data
             this.loading = false
           }).catch((err) => {
-            console.log(err);
+            //console.log(err);
           })
         }
 

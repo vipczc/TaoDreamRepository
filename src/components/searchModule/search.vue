@@ -150,7 +150,7 @@ export default {
 
 
         if (objData.data.ERRORCODE == 0) {
-          // console.log(objData.data);
+          // //console.log(objData.data);
           this.$emit('elementSearch', objData.data)
           // this.disInput = false
           // this.tdrecordSumDialog.show = false
@@ -162,7 +162,7 @@ export default {
         }
 
       }).catch((err) => {
-        console.log('访问错误2' + err);
+        //console.log('访问错误2' + err);
       })
     },
     messageError() {

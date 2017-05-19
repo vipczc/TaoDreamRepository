@@ -108,17 +108,17 @@ export default {
 
     handleSizeChange(val) {
 
-      // console.log(this.getItmeCon(objData.data, 10));
-      console.log(`每页 ${val} 条`);
+      // //console.log(this.getItmeCon(objData.data, 10));
+      ////console.log(`每页 ${val} 条`);
 
     },
     handleCurrentChange(val) {
       // this.currentPage = val;
-      // console.log('aaa' + this.allData[val - 1].length < this.tableItemCount);
+      // //console.log('aaa' + this.allData[val - 1].length < this.tableItemCount);
       // this.a = val * this.allData[val - 1].length - this.allData[val - 1].length
       // this.b = val * this.allData[val - 1].length
       // this.tableData = this.allData[val - 1];
-      console.log(val);
+      ////console.log(val);
       this.onCount = val //当前点击页数
     },
     upDatafun() {
@@ -136,7 +136,7 @@ export default {
       formData.append('taodouRecordTimeEnd', timeEnd)
 
       this.$http.post(businessAPi.taodouExchangeRecord, formData).then((objData) => {
-        console.log(objData.data.RESULT);
+        ////console.log(objData.data.RESULT);
         this.result = objData.data.RESULT //Object 所有数据
         //时间处理
         for (var i = 0; i < this.result.data.length; i++) {

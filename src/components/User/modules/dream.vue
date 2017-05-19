@@ -141,7 +141,7 @@
             <div class="content-right">
 
                 <p>定存余额:&#12288&#12288<span>￥{{ soyaSumob }}</span></p>
-                <p>预计收益:&#12288&#12288 <span>￥{{ income }}</span></p>
+                <p>预计收益:&#12288&#12288<span>￥{{ income }}</span></p>
                 <!-- <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a> -->
                 <!-- <router-link to="/user/conversionRecord" @click="toPath('1-3')">查看兑换记录></router-link> -->
                 <a href="javascript:void(0);" style="top:-5px;" @click="toPath('1-6')">查看定存宝记录 > </a>
@@ -357,7 +357,7 @@ export default {
     },
     modality(cont) {
 
-      console.log(cont);
+      //console.log(cont);
 
     },
     basicMessage(isb) { //子组件返回值
@@ -425,10 +425,10 @@ export default {
     //
     //   this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
     //     // params:
-    //     console.log(objectData.data);
+    //     //console.log(objectData.data);
     //     this.upData = !this.upData
     //   }).catch((error) => {
-    //     console.log(error);
+    //     //console.log(error);
     //   })
     //   //       username:13357156388
     //   // password:hujinhu
@@ -437,7 +437,7 @@ export default {
     // },
     upDataFun() {
       this.$http.post(userApi.index).then((objData) => {
-        console.log(objData);
+        //console.log(objData);
 
         if (objData.data.ERRORCODE == 0) { //成功
 

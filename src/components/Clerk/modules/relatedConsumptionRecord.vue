@@ -136,8 +136,8 @@ export default {
       this.consumptionDetails.typeShow = 1 //传入当前的显示信息类型 0 = 会员 1为咨询师 2为商铺
       this.consumptionDetails.objectData = this.result.data[index] //点前条的整体数据
       this.consumptionDetails.thisUserType = this.Value //当前 用户类型
-      console.log(this.Value);
-      console.log(index, row);
+      //console.log(this.Value);
+      //console.log(index, row);
     },
     getdata() {
 
@@ -146,8 +146,8 @@ export default {
 
     handleSizeChange(val) {
 
-      // console.log(this.getItmeCon(objData.data, 10));
-      console.log(`每页 ${val} 条`);
+      // //console.log(this.getItmeCon(objData.data, 10));
+      //console.log(`每页 ${val} 条`);
 
     },
 
@@ -192,7 +192,7 @@ export default {
         formData.append('userType', this.Value == undefined ? '1' : this.Value == '2' ? '2' : '1')
 
         this.$http.post(clerkApi.consumerOrderRecord, formData).then((objData) => { //淘豆流水接口
-          console.log(objData.data.RESULT);
+          //console.log(objData.data.RESULT);
           this.result = objData.data.RESULT //Object 所有数据
           //时间处理
           for (var i = 0; i < this.result.data.length; i++) {

@@ -126,7 +126,7 @@ export default {
           this.disInput = true
           this.extractionValue() //提交请求
         } else {
-          console.log('error submit!!');
+          //console.log('error submit!!');
           return false;
         }
       });
@@ -139,7 +139,7 @@ export default {
           formData.append('orderNo', this.formExtractionQuota.quota) //	申请额度
           formData.append('quotaAmount', this.formExtractionQuota.serial) //应打款
           this.$http.post(userApi.raiseQuato, formData).then((objData) => {
-            console.log(objData.data.RESULT);
+            //console.log(objData.data.RESULT);
             if (objData.data.ERRORCODE == 0) { //成功
 
               this.extractionQuotaDialog.show = false
@@ -163,7 +163,7 @@ export default {
           formData.append('quota', this.formExtractionQuota.serial) //	申请额度
           formData.append('oughtQuota', this.formExtractionQuota.quota) //应打款
           this.$http.post(businessAPi.quotaUpgrade, formData).then((objData) => {
-            console.log(objData.data.RESULT);
+            //console.log(objData.data.RESULT);
             if (objData.data.ERRORCODE == 0) { //成功
 
               this.extractionQuotaDialog.show = false

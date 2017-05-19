@@ -1,7 +1,7 @@
 <template lang="html">
   <!-- 定存宝 -->
   <div class="fixDeposit">
-    <el-dialog title="定存宝转入" v-model="fixDepositDialog.show = fixDepositValue.show" size="small" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="7%">
+    <el-dialog title="定存宝转入" v-model="fixDepositDialog.show = fixDepositValue.show" size="small" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="15%">
   <div class="cir" @click="fixDepositDialogOver"><i class="el-icon-close i-top" ></i></div>
   <!-- :rules="rulesfixDeposit" ref="formfixDeposit" prop="sum" -->
           <el-form  label-width="80px" :model="formfixDeposit" :rules="rulesformfix" ref="formfixDeposit">
@@ -16,14 +16,16 @@
                           <div class="pricingTable-header">
                               <i class="fa fa-adjust"></i>
                               <div class="price-value"> 定存宝A <span class="month"></span> </div>
+
                           </div>
-                          <h3 class="heading"></h3>
+                          <img src="../../assets/img/cd.png" alt="对号" class="img-dh">
                           <div class="pricing-content">
                               <ul>
                                   <li>产品期限<b> {{ this.result[0].duration }}个月</b></li>
                                   <li>到期增值<b> {{ this.result[0].appreciation }}%</b></li>
 
                               </ul>
+
                           </div>
                           <div class="pricingTable-signup" >
                               <a href="javascript:void(0)">选择</a>
@@ -38,7 +40,7 @@
                             <i class="fa fa-adjust"></i>
                             <div class="price-value"> 定存宝B <span class="month"></span> </div>
                         </div>
-                        <h3 class="heading"></h3>
+                        <img src="../../assets/img/gd.png" alt="对号" class="img-dh">
                         <div class="pricing-content">
                             <ul>
                                 <li>产品期限<b> {{ this.result[1].duration }}个月</b></li>
@@ -58,7 +60,7 @@
                             <i class="fa fa-adjust"></i>
                             <div class="price-value"> 定存宝C <span class="month"></span> </div>
                         </div>
-                        <h3 class="heading"></h3>
+                        <img src="../../assets/img/rd.png" alt="对号" class="img-dh">
                         <div class="pricing-content">
                             <ul>
                                 <li>产品期限<b> {{ this.result[2].duration }}个月</b></li>
@@ -129,6 +131,10 @@ export default {
 
         callback(new Error('大于当前淘豆余额'));
       }
+      if (Number(value) < 100) {
+
+        callback(new Error('最少转入淘豆100个'));
+      }
       callback();
     }
     return {
@@ -186,13 +192,13 @@ export default {
       if (!this.fixDepositDialog.show == false) { //控制数据获取
         //userApi.bankInfoDialog //提现窗口信息
         this.$http.post(userApi.productList).then((objData) => {
-          console.log(objData.data);
+          //console.log(objData.data);
           if (objData.data.ERRORCODE == 0) { //成功
             this.result = objData.data.RESULT
             //缺省 昨日获得淘豆
           }
         }).catch((err) => {
-          console.log(err);
+          //console.log(err);
         })
 
       }
@@ -203,11 +209,25 @@ export default {
 
       if (this.fixType != 4) {
         if (this.fixType == 1) {
-          this.income = (Number(this.formfixDeposit.sum) * 0.005).toFixed(2)
+          if ((Number(this.formfixDeposit.sum) * (Number(this.result[0].appreciation) * 0.01)).toFixed(2) != 'NaN') {
+            this.income = (Number(this.formfixDeposit.sum) * (Number(this.result[0].appreciation) * 0.01)).toFixed(2)
+          } else {
+            this.income = '请输入正确数值!'
+          }
+
         } else if (this.fixType == 2) {
-          this.income = (Number(this.formfixDeposit.sum) * 0.02).toFixed(2)
+          if ((Number(this.formfixDeposit.sum) * (Number(this.result[1].appreciation) * 0.01)).toFixed(2) != 'NaN') {
+            this.income = (Number(this.formfixDeposit.sum) * (Number(this.result[1].appreciation) * 0.01)).toFixed(2)
+          } else {
+            this.income = '请输入正确数值!'
+          }
+
         } else if (this.fixType == 3) {
-          this.income = (Number(this.formfixDeposit.sum) * 0.05).toFixed(2)
+          if ((Number(this.formfixDeposit.sum) * (Number(this.result[2].appreciation) * 0.01)).toFixed(2) != 'NaN') {
+            this.income = (Number(this.formfixDeposit.sum) * (Number(this.result[2].appreciation) * 0.01)).toFixed(2)
+          } else {
+            this.income = '请输入正确数值!'
+          }
         }
       } else {
         // 请选择
@@ -236,9 +256,9 @@ export default {
           }
 
 
-          console.log('submit!!');
+          //console.log('submit!!');
         } else {
-          console.log('error submit!!');
+          ////console.log('error submit!!');
           return false;
         }
       });
@@ -256,8 +276,8 @@ export default {
 
       formData.set('soya', this.formfixDeposit.sum) //定存金额
       formData.set('depositId', this.fixType) //定存产品id
-      console.log(this.fixDepositDialog.sum);
-      console.log(this.fixType);
+      //console.log(this.fixDepositDialog.sum);
+      //console.log(this.fixType);
       this.$http.post(userApi.memberProductSave, formData).then((objData) => {
 
 
@@ -302,29 +322,45 @@ export default {
     },
     card(index) {
       let dom = document.getElementsByClassName('pricingTable')[index - 1]
+      let dh = document.getElementsByClassName('img-dh')[index - 1]
       if (index == 1) {
+        dh.style.display = 'inline'
         this.fixType = 1
         dom.style.border = '2px solid #40c952';
         let one = document.getElementsByClassName('pricingTable')[1]
+        let onedh = document.getElementsByClassName('img-dh')[1]
+        onedh.style.display = 'none'
         one.style.border = 'none';
         let two = document.getElementsByClassName('pricingTable')[2]
+        let twodh = document.getElementsByClassName('img-dh')[2]
+        twodh.style.display = 'none'
         two.style.border = 'none';
         this.countSum()
       } else if (index == 2) {
+        dh.style.display = 'inline'
         this.fixType = 2
         dom.style.border = '2px solid #ffa442';
         let one = document.getElementsByClassName('pricingTable')[0]
         one.style.border = 'none';
+        let onedh = document.getElementsByClassName('img-dh')[0]
+        onedh.style.display = 'none'
+        let twodh = document.getElementsByClassName('img-dh')[2]
+        twodh.style.display = 'none'
         let two = document.getElementsByClassName('pricingTable')[2]
         two.style.border = 'none';
         this.countSum()
       } else if (index == 3) {
+        dh.style.display = 'inline'
         this.fixType = 3
         dom.style.border = '2px solid #ff4b4b';
         let one = document.getElementsByClassName('pricingTable')[0]
         one.style.border = 'none';
         let two = document.getElementsByClassName('pricingTable')[1]
         two.style.border = 'none';
+        let onedh = document.getElementsByClassName('img-dh')[0]
+        onedh.style.display = 'none'
+        let twodh = document.getElementsByClassName('img-dh')[1]
+        twodh.style.display = 'none'
         this.countSum()
       }
 
@@ -486,5 +522,8 @@ export default {
             .pricingTable {
                 margin: 0 0 20px 0;
             }
+        }
+        .img-dh{
+          display: none;
         }
 </style>

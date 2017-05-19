@@ -125,7 +125,7 @@ export default {
       this.consumptionDetails.typeShow = 2 //传入当前的显示信息类型 0 = 会员 1为咨询师 2为商铺
       // this.consumptionDetails.orderNo = this.tableData[index].orderNo //发送订单编号
       this.consumptionDetails.objectData = this.tableData[index] //发送整体数据
-      console.log(index, row);
+      ////console.log(index, row);
 
 
     },
@@ -136,8 +136,8 @@ export default {
 
     handleSizeChange(val) {
 
-      // console.log(this.getItmeCon(objData.data, 10));
-      console.log(`每页 ${val} 条`);
+      // //console.log(this.getItmeCon(objData.data, 10));
+      ////console.log(`每页 ${val} 条`);
 
     },
 
@@ -175,13 +175,13 @@ export default {
         timeEnd = basic.basic.formatDate(timeEnd)
 
         let formData = new FormData()
-        console.log(formData);
+        ////console.log(formData);
         formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
         formData.append('consumerOrderRecordTimeStart', timeStart)
         formData.append('consumerOrderRecordTimeEnd', timeEnd)
 
         this.$http.post(businessAPi.consumerOrderRecord, formData).then((objData) => {
-          console.log(objData.data.RESULT);
+          ////console.log(objData.data.RESULT);
           this.result = objData.data.RESULT //Object 所有数据
           //时间处理
           for (var i = 0; i < this.result.data.length; i++) {

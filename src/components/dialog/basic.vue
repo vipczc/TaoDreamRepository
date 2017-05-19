@@ -128,7 +128,7 @@ export default {
       this.$emit('message', this.basicDialog);
     },
     handleClick(tab, event) {
-      //console.log(tab, event);
+      ////console.log(tab, event);
     }
   }
 }

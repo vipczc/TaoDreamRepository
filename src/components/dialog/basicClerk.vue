@@ -102,7 +102,7 @@ export default {
           this.textb = '已发送(' + this.con + ')s'
           this.con--
             if (this.con <= 0) {
-              console.log(this.con);
+              //console.log(this.con);
               this.textb = '获取验证码'
               this.con = 60
               this.isgetverify = false
@@ -110,10 +110,10 @@ export default {
             }
         }, 1000)
         this.isgetverify = true
-        console.log('发送请求');
+        //console.log('发送请求');
         this.codeVerification()
       } else {
-        console.log('不发送请求');
+        //console.log('不发送请求');
       }
     },
     onBasicClerkOver() {
@@ -132,7 +132,7 @@ export default {
 
 
         } else {
-          console.log('error submit!!');
+          //console.log('error submit!!');
           return false;
         }
       });
@@ -140,10 +140,10 @@ export default {
     },
     codeVerification() {
       this.$http.post(clerkApi.sendCode).then((objData) => { //淘豆兑换
-        console.log(objData.data.RESULT == 'ok');
+        //console.log(objData.data.RESULT == 'ok');
 
       }).catch((err) => {
-        console.log(err);
+        //console.log(err);
       })
     },
     submitForm() {
@@ -165,7 +165,7 @@ export default {
         }
         this.disInput = false
       }).catch((err) => {
-        console.log(err);
+        //console.log(err);
       })
     },
 

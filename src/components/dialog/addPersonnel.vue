@@ -202,7 +202,7 @@ export default {
       this.textCount = count
     },
     disChange() {
-      console.log(123456);
+      //console.log(123456);
     },
     cascaderHome(value) {
 
@@ -241,7 +241,7 @@ export default {
           }
 
         } else {
-          console.log('error submit!!');
+          //console.log('error submit!!');
           return false;
         }
       });
@@ -264,7 +264,7 @@ export default {
         this.profession = this.result
 
       }).catch((err) => {
-        console.log(err);
+        //console.log(err);
       })
     },
 

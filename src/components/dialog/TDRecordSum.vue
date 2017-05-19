@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     // disposeHTTP() {
-    //   console.log('获取' + this.tdValue.TDSumDialog); //获取
+    //   //console.log('获取' + this.tdValue.TDSumDialog); //获取
     //   this.getDataResource.TDSum = String(this.tdValue.TDSumDialog)
     // },
     tdrecordSumValueOver() {
@@ -102,7 +102,7 @@ export default {
           this.disInput = true
           this.submitForm() //提交请求
         } else {
-          console.log('error submit!!');
+          //console.log('error submit!!');
           return false;
         }
       });
@@ -163,7 +163,7 @@ export default {
         formData.append('taodouAmount', this.getDataResource.TDMoney)
 
         this.$http.post(clerkApi.exchangeTaodou, formData).then((objData) => {
-          // console.log(objData.data);
+          // //console.log(objData.data);
           //判断 是否 提现成功
           if (objData.data.RESULT == 'ok') {
             this.disInput = false

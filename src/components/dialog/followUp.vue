@@ -106,7 +106,7 @@ export default {
     },
 
     setValue() {
-      // console.log(followValue.stValue);
+      // //console.log(followValue.stValue);
       this.Value = this.followValue.stValue
 
     },

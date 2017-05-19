@@ -97,13 +97,13 @@ export default {
       this.defaultActiveNumber = strNumber
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      //console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      //console.log(key, keyPath);
     },
     handleIconClick(ev) {
-      console.log(ev);
+      //console.log(ev);
     },
     one(ev) {
 

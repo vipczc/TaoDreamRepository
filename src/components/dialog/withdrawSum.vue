@@ -75,7 +75,7 @@ export default {
       }
 
       if (Number(value) > Number(this.getDataResource.withdrawSum)) {
-        // console.log(value + '  ' + Number(this.getDataResource.withdrawSum) );
+        // //console.log(value + '  ' + Number(this.getDataResource.withdrawSum) );
         callback(new Error('大于当前现金余额'));
       }
       if (Number(value) > 100000) {
@@ -127,7 +127,7 @@ export default {
         if (!this.withdrawSumDialog.show == false) { //控制数据获取
           //userApi.bankInfoDialog //提现窗口信息
           this.$http.post(userApi.bankInfoDialog).then((objData) => {
-            console.log(objData.data);
+            //console.log(objData.data);
             if (objData.data.ERRORCODE == 0) { //成功
               this.getDataResource.branchInformation = objData.data.RESULT.bankName //	支行名称
               this.getDataResource.bankAccount = objData.data.RESULT.branchName //	银行名称
@@ -136,7 +136,7 @@ export default {
               //缺省 昨日获得淘豆
             }
           }).catch((err) => {
-            console.log(err);
+            //console.log(err);
           })
           this.getDataResource.withdrawSum = String(this.sumValue.withdrawSum) //余额
         }
@@ -156,7 +156,7 @@ export default {
               //缺省 昨日获得淘豆
             }
           }).catch((err) => {
-            console.log(err);
+            //console.log(err);
           })
 
         }
@@ -174,7 +174,7 @@ export default {
               //缺省 昨日获得淘豆
             }
           }).catch((err) => {
-            console.log(err);
+            //console.log(err);
           })
 
         }
@@ -200,7 +200,7 @@ export default {
           this.disInput = true
           this.submitForm() //提交提现请求
         } else {
-          console.log('error submit!!');
+          //console.log('error submit!!');
           return false;
         }
       });
@@ -210,11 +210,11 @@ export default {
       // this.$http.post(url, {
       //   withdrawAmount: this.getDataResource.arrivalAmount
       // }).then((objectData) => {
-      //   console.log('提现成功');
-      //   console.log(objectData);
+      //   //console.log('提现成功');
+      //   //console.log(objectData);
       //   isb = true
       // }).catch((error) => {
-      //   console.log(error);
+      //   //console.log(error);
       // })
 
 
@@ -226,9 +226,9 @@ export default {
       if (this.sumValue.userType == 1) { //会员
         let formData = new FormData()
         formData.append('withdrawAmount', Number(this.formLabelAlign.sum))
-        console.log(Number(this.formLabelAlign.sum));
+        //console.log(Number(this.formLabelAlign.sum));
         this.$http.post(userApi.withdrawals, formData).then((objData) => {
-          console.log(objData.data);
+          //console.log(objData.data);
           if (objData.data.RESULT == 'ok') {
 
             //判断 是否 提现成功
@@ -243,14 +243,14 @@ export default {
             this.errorScuess(objData.data.RESULT)
           }
         }).catch((err) => {
-          console.log('提现错误会员');
+          //console.log('提现错误会员');
         })
       } else if (this.sumValue.userType == 2) { //商家
         let formData = new FormData()
         formData.append('money', Number(this.formLabelAlign.sum))
 
         this.$http.post(businessAPi.takeCash, formData).then((objData) => {
-          console.log(objData.data);
+          //console.log(objData.data);
           if (objData.data.RESULT == 'ok') {
             //判断 是否 提现成功
             this.disInput = false
@@ -271,7 +271,7 @@ export default {
         formData.append('money', Number(this.formLabelAlign.sum))
 
         this.$http.post(clerkApi.takeCash, formData).then((objData) => {
-          console.log(objData.data);
+          //console.log(objData.data);
           if (objData.data.RESULT == 'ok') {
 
             //判断 是否 提现成功
@@ -312,7 +312,7 @@ export default {
   },
   beforeDestroy() {
     //路由改变替换整体 销毁调用
-    console.log('销毁中');
+    //console.log('销毁中');
   }
 }
 </script>

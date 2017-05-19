@@ -148,7 +148,7 @@ export default {
 
     },
     handleFollowUp(index, row) {
-      console.log(this.result.data[index]);
+      //console.log(this.result.data[index]);
       this.followUpDialog.objectData = this.result.data[index]
       this.followUpDialog.stValue = row.statusName == '已确定' ? '已确定' : row.statusName == '没兴趣' ? '没兴趣' : row.statusName == '可发展' ? '可发展' : ''
       this.followUpDialog.show = true
@@ -168,8 +168,8 @@ export default {
 
     handleSizeChange(val) {
 
-      // console.log(this.getItmeCon(objData.data, 10));
-      console.log(`每页 ${val} 条`);
+      // //console.log(this.getItmeCon(objData.data, 10));
+      //console.log(`每页 ${val} 条`);
 
     },
 
@@ -214,7 +214,7 @@ export default {
         formData.append('recommendType', this.Value == undefined ? '1' : this.Value == '2' ? '2' : '1')
         // formData.append('userType', this.Value == undefined ? '1' : this.Value == '2' ? '2' : '1')
         this.$http.post(clerkApi.customerRecord, formData).then((objData) => { //淘豆流水接口
-          console.log(objData.data.RESULT);
+          //console.log(objData.data.RESULT);
           this.result = objData.data.RESULT //Object 所有数据
           //时间处理
           for (var i = 0; i < this.result.data.length; i++) {

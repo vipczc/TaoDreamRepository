@@ -92,34 +92,34 @@ export default {
     },
     rData() {
       //数据get 数据post
-      console.log(location.href);
+      ////console.log(location.href);
 
       let path = this.$route.path
       if (path == '/business/dream') {
-        console.log(1);
+        ////console.log(1);
 
       } else if (path == '/business/expenseRecord') {
 
       } else if (path == '/business/withdrawalsRecord') {
-        console.log(3);
+        //  //console.log(3);
 
       } else if (path == '/business/TDRecord') {
-        console.log(4);
+        //  //console.log(4);
       } else if (path == '/business/limitRecord') {
 
       }
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      ////console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      //  //console.log(key, keyPath);
     },
     handleSelect(ev) {
-      console.log(ev);
+      ////console.log(ev);
     },
     handleIconClick(ev) {
-      console.log(ev);
+      ////console.log(ev);
     },
     one(ev) {
       if (ev.index == "3") {
@@ -133,7 +133,7 @@ export default {
 
     },
     foreunload() {
-      console.log(123);
+      ////console.log(123);
       this.$router.push("/business/dream") //淘梦地带
     }
 

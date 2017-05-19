@@ -247,10 +247,10 @@ export default {
 
     // this.$http.post(businessAPi.index).then((objectData) => {
     //   // params:
-    //   console.log(objectData.data);
+    //   //console.log(objectData.data);
     //
     // }).catch((error) => {
-    //   console.log(error);
+    //   //console.log(error);
     // })
 
   },
@@ -280,7 +280,7 @@ export default {
     },
     modality(cont) {
 
-      console.log(cont);
+      ////console.log(cont);
 
     },
     basicMessage(isb) { //子组件返回值 基本信息
@@ -325,13 +325,13 @@ export default {
     //   formData.append('userType', '2')
     //   formData.append('imageCode', this.pngimg)
     //
-    //   console.log(formData.pngCode);
+    //   //console.log(formData.pngCode);
     //   this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
     //     // params:
-    //     console.log(objectData.data);
+    //     //console.log(objectData.data);
     //     this.upData = !this.upData
     //   }).catch((error) => {
-    //     console.log(error);
+    //     //console.log(error);
     //   })
     //
     //   //       username:13357156388

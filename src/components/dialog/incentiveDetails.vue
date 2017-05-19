@@ -89,7 +89,7 @@ export default {
         formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
         formData.append('consumerOrderId', this.incentiveValue.userId)
         this.$http.post(userApi.encourageDetail, formData).then((objData) => {
-          console.log(objData.data.RESULT);
+          //console.log(objData.data.RESULT);
           this.result = objData.data.RESULT //Object 所有数据
           for (var i = 0; i < this.result.data.length; i++) {
             this.result.data[i].encourageDate = common.basic.formatDate(this.result.data[i].encourageDate)
@@ -98,7 +98,7 @@ export default {
           this.tableData = this.result.data
           this.loading = false
         }).catch((err) => {
-          console.log(err);
+          //console.log(err);
         })
       }
     }

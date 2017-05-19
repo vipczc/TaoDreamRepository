@@ -128,7 +128,7 @@ export default {
       this.consumptionDetails.index = row.id //传入当前的数据ID
       this.consumptionDetails.objectData = this.tableData[index] //发送整体数据
       this.consumptionDetails.typeShow = 0 //传入当前的显示信息类型 0 = user中的 1为咨询师 2为商铺
-      console.log(index, row);
+      //console.log(index, row);
     },
     handleIncentiveDetails(index, row) {
       this.incentiveDetails.show = true //激活 对话框
@@ -136,7 +136,7 @@ export default {
       this.incentiveDetails.index = row.id //传入当前的数据ID
       this.incentiveDetails.objectData = this.result.data[index]
 
-      console.log(index, row);
+      //console.log(index, row);
     },
     getdata() {
 
@@ -145,8 +145,8 @@ export default {
 
     handleSizeChange(val) {
 
-      // console.log(this.getItmeCon(objData.data, 10));
-      console.log(`每页 ${val} 条`);
+      // //console.log(this.getItmeCon(objData.data, 10));
+      //console.log(`每页 ${val} 条`);
 
     },
 
@@ -196,7 +196,7 @@ export default {
         formData.append('endDate', timeEnd)
 
         this.$http.post(userApi.listConsumptionRecord, formData).then((objData) => { //淘豆兑换
-          console.log(objData.data.RESULT);
+          //console.log(objData.data.RESULT);
           this.result = objData.data.RESULT //Object 所有数据
           //时间处理
           for (var i = 0; i < this.result.data.length; i++) {

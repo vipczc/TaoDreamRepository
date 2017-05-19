@@ -93,8 +93,8 @@ export default {
 
     handleSizeChange(val) {
 
-      // console.log(this.getItmeCon(objData.data, 10));
-      console.log(`每页 ${val} 条`);
+      // //console.log(this.getItmeCon(objData.data, 10));
+      ////console.log(`每页 ${val} 条`);
 
     },
     handleCurrentChange(val) {
@@ -110,13 +110,13 @@ export default {
       timeEnd = basic.basic.formatDate(timeEnd)
 
       let formData = new FormData()
-      console.log(formData);
+      ////console.log(formData);
       formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
       formData.append('quotaRecordTimeStart', timeStart)
       formData.append('quotaRecordTimeEnd', timeEnd)
 
       this.$http.post(businessAPi.quotaRecord, formData).then((objData) => {
-        console.log(objData.data.RESULT);
+        ////console.log(objData.data.RESULT);
         this.result = objData.data.RESULT //Object 所有数据
         //时间处理
         for (var i = 0; i < this.result.data.length; i++) {

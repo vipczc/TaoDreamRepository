@@ -327,7 +327,7 @@ export default {
 
     modality(cont) {
 
-      console.log(cont);
+      //console.log(cont);
 
     },
     // login() {
@@ -338,13 +338,13 @@ export default {
     //   formData.append('userType', '3')
     //   formData.append('imageCode', this.pngimg)
     //
-    //   console.log(formData.pngCode);
+    //   //console.log(formData.pngCode);
     //   this.$http.post('/taodream-consumer/logined', formData).then((objectData) => {
     //     // params:
-    //     console.log(objectData.data);
+    //     //console.log(objectData.data);
     //     this.upData = !this.upData
     //   }).catch((error) => {
-    //     console.log(error);
+    //     //console.log(error);
     //   })
     //
     //   //       username:13357156388
@@ -356,7 +356,7 @@ export default {
       //获取用户信息
       this.$http.post(clerkApi.index).then((objectData) => {
         // params:
-        console.log(objectData.data);
+        //console.log(objectData.data);
         this.clerkNumber = objectData.data.RESULT.counselorCode //咨询师号
         this.userName = objectData.data.RESULT.trueName //姓名+
         this.userNuber = objectData.data.RESULT.mobile //电话+
@@ -375,7 +375,7 @@ export default {
 
 
       }).catch((error) => {
-        console.log(error);
+        //console.log(error);
       })
     }
   }

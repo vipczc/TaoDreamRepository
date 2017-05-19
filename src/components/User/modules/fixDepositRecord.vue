@@ -72,8 +72,8 @@ export default {
 
     handleSizeChange(val) {
 
-      // console.log(this.getItmeCon(objData.data, 10));
-      // console.log(`每页 ${val} 条`);
+      // //console.log(this.getItmeCon(objData.data, 10));
+      // //console.log(`每页 ${val} 条`);
 
     },
     handleCurrentChange(val) {
@@ -93,9 +93,9 @@ export default {
       formData.append('pageNum', this.onCount == undefined ? '1' : this.onCount)
       formData.append('memberProductRecordTimeStart', timeStart)
       formData.append('memberProductRecordTimeEnd', timeEnd)
-      console.log(timeEnd);
+      //console.log(timeEnd);
       this.$http.post(userApi.memberProductRecord, formData).then((objData) => { //淘豆兑换
-        console.log(objData.data.RESULT);
+        //console.log(objData.data.RESULT);
         this.result = objData.data.RESULT //Object 所有数据
         //时间处理
         for (var i = 0; i < this.result.data.length; i++) {

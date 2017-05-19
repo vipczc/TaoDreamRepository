@@ -99,13 +99,13 @@ export default {
 
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      //console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      //console.log(key, keyPath);
     },
     handleIconClick(ev) {
-      console.log(ev);
+      //console.log(ev);
     },
     one(ev) {
       if (ev.index == 3) {
