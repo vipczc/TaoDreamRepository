@@ -22,7 +22,7 @@
                           <div class="pricing-content">
                               <ul>
                                   <li>产品期限<b> {{ this.result[0].duration }}个月</b></li>
-                                  <li>年化利率<b> {{ this.result[0].appreciation }}%</b></li>
+                                  <li>年化利率<b> 6%</b></li>
 
                               </ul>
 
@@ -44,7 +44,7 @@
                         <div class="pricing-content">
                             <ul>
                                 <li>产品期限<b> {{ this.result[1].duration }}个月</b></li>
-                                <li>年化利率<b> {{ this.result[1].appreciation }}%</b></li>
+                                <li>年化利率<b> 8%</b></li>
 
                             </ul>
                         </div>
@@ -64,7 +64,7 @@
                         <div class="pricing-content">
                             <ul>
                                 <li>产品期限<b> {{ this.result[2].duration }}个月</b></li>
-                                <li>年化利率<b> {{ this.result[2].appreciation }}%</b></li>
+                                <li>年化利率<b> 10%</b></li>
 
                             </ul>
                         </div>
