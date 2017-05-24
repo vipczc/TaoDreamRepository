@@ -2,23 +2,39 @@
 <template lang="html">
 <div id="uIndex">
   <!-- 商家 -->
+  <el-row class="nav-content">
+
+    <el-col :xs="24" :sm="{span:6,offset:0}" :md="{span:6,offset:0}" :lg="{span:4,offset:0}" >
+
+          <span class="nav-common-logo"><img src="../../assets/img/TMZ.png" alt="Logo"></span>
+
+
+      </el-col>
+      <el-col :xs="24" :sm="{span:6,offset:0}" :md="{span:6,offset:0}" :lg="{span:10,offset:6}" style="text-align:left;">
+
+            <div class="announcement">
+              <div class="win">
+                  <span style="color:#FFF;font-size:14px;font-weight: 100;">为满足广大淘梦者们的理财需求，淘梦者俱乐部为淘梦者们推出了专属的“存豆罐”服务，只需轻轻一点，把账户内淘豆放入其中，即可获取指定收益，您还在等什么，“增值”刻不容缓！
+</span>
+              </div>
+
+            </div>
+
+
+        </el-col>
+        <el-col :xs="24" :sm="{span:6,offset:0}" :md="{span:6,offset:0}" :lg="{span:4,offset:0}">
+
+              <a href="javascript:void(0)" @click="quitDialog = true" class="nav-quit"><img src="../../assets/img/ExitButton.png" @click="quitDialog = true" alt="quit"><span class="quit" @click="quitDialog = true"> 退出</span></a>
+
+
+          </el-col>
+
+
+
+  </el-row>
   <el-row>
 <!-- 导航条 -->
-    <el-col class="nav-content">
-      <el-col :xs="24" :sm="{span:6,offset:0}" :md="{span:6,offset:0}" :lg="{span:4,offset:0}">
 
-            <span class="nav-common-logo"><img src="../../assets/img/TMZ.png" alt="Logo"></span>
-
-
-        </el-col>
-        <el-col :xs="0" :sm="{span:6,offset:12}" :md="{span:6,offset:12}" :lg="{span:4,offset:16}">
-        <div class="nav-quit-box">
-          <a href="javascript:void(0)" @click="quitDialog = true" class="nav-quit"><img src="../../assets/img/ExitButton.png" @click="quitDialog = true" alt="quit"><span class="quit" @click="quitDialog = true"> 退出</span></a>
-        </div>
-
-
-        </el-col>
-    </el-col>
 
 
 <!-- 侧边栏 -->
@@ -36,8 +52,8 @@
   <el-menu-item index="1-3" @click="one"><img src="../../assets/img/conversion.png" alt="兑换记录">兑换记录</el-menu-item>
   <el-menu-item index="1-4" @click="one"><img src="../../assets/img/toddleDaybook.png" alt="淘豆流水">淘豆流水</el-menu-item>
   <el-menu-item index="1-5" @click="one"><img src="../../assets/img/Amountofwater.png" alt="额度流水">额度流水</el-menu-item>
-  <el-menu-item index="1-6" @click="one"><img src="../../assets/img/fixmini.png" alt="定存宝记录">定存宝记录</el-menu-item>
-<!-- <img src="" alt="定存宝记录"> -->
+  <el-menu-item index="1-6" @click="one"><img src="../../assets/img/fixmini.png" alt="存豆罐记录">存豆罐记录</el-menu-item>
+<!-- <img src="" alt="存豆罐记录"> -->
   </el-submenu>
   <el-submenu index="2">
   <template slot="title">
@@ -121,7 +137,7 @@ export default {
       } else if (ev.index == '1-5') {
         this.$router.push("/user/limitRecord") //额度流水
       } else if (ev.index == '1-6') {
-        this.$router.push("/user/fixDepositRecord") //定存宝记录
+        this.$router.push("/user/fixDepositRecord") //存豆罐记录
       } else if (ev.index == '2-1') {
         this.$router.push("/user/recommendRecord") //推荐记录
       } else if (ev.index == '2-2') {
@@ -135,9 +151,42 @@ export default {
 </script>
 
 <style lang="css">
+@keyframes myfirst
+{
+0%   { left:100%;}
+
+100% { left:-320%;}
+}
 body{
   margin: 0px;
 }
+.announcement{
+  display: inline-block;
+  margin-top:33.5px;
+  line-height: 100px;
+  width: 408px;
+  height: 33px;
+  background-origin: inherit;
+  background-image: url('../../assets/img/gg.png');
+  z-index: 0;
+}
+.announcement span{
+
+  position: absolute;
+  overflow: hidden;
+  top: -34px;
+  left: 64%;
+
+animation:myfirst 20s linear infinite;
+}
+.win{
+position:relative;
+  width: 338px;
+  height: 33px;
+  overflow: hidden;
+  margin-left: 50px;
+}
+
 /*整体背景色*/
 #uIndex{
   background-color: #f3f1f6;
@@ -220,6 +269,7 @@ background-color: #fff7f1;
 }
 
 .quit{
+
   height: 22px;
   position: relative;
   top:-4px;
@@ -233,6 +283,11 @@ text-decoration:none;
 
   margin-top: 9px;
 }
+.nav-quit-box a{
+  display: inline-block;
+
+}
+
 .nav-content {
     -webkit-animation: fadeInDown 0.6s 0.2s ease both;
     -moz-animation: fadeInDown 0.6s 0.2s ease both;
@@ -276,6 +331,7 @@ text-decoration:none;
 /*滚动条*/
 
 ::-webkit-scrollbar {
+
     width: 5px;
     height: 5px;
 }

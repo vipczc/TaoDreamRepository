@@ -42,6 +42,64 @@
   </el-col>
 
   <!-- 提现 -->
+  <!-- 存豆罐 -->
+    <el-col :span="24">
+        <div class="user-fix">
+
+
+<el-col :span="4">
+
+
+        <el-col :span="24">
+          <div class="fix-logo">
+
+            <div class="logo-content">
+
+              <img src="../../../assets/img/fix.png" alt="存豆罐">
+
+              <p>存豆罐</p>
+            </div>
+            <div class="csshub-ribbon">NEW</div>
+          </div>
+          </el-col>
+
+</el-col>
+
+            <!-- 存豆罐 -->
+
+
+          <!-- 淘豆金额 -->
+          <el-col :span="7" :offset="1">
+            <div class="content-right">
+
+                <p>定存余额:&#12288&#12288<span>￥{{ soyaSumob }}</span></p>
+                <p>预计收益:&#12288&#12288<span>￥{{ income }}</span></p>
+                <!-- <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a> -->
+                <!-- <router-link to="/user/conversionRecord" @click="toPath('1-3')">查看兑换记录></router-link> -->
+                <a href="javascript:void(0);" style="top:-5px;" @click="toPath('1-6')">查看存豆罐记录 > </a>
+            </div>
+          </el-col>
+          <!-- 按钮 -->
+          <el-col :span="2">
+            <div class="content-right content-right-hr">
+
+                <el-button type="success" size="large" id="btn-top" @click="fixDepositDialogShow()">转入</el-button>
+
+            </div>
+          </el-col>
+          <!-- 获得淘豆 -->
+          <el-col :span="9" :offset="1">
+            <!-- <div class="content-right">
+
+                <p>昨日获得淘豆:<span>￥{{ yesterdayTD }}</span></p>
+
+                <a href="javascript:void(0);" @click="toPath('1-4')">查看淘豆流水 ></a>
+            </div> -->
+          </el-col>
+
+
+        </div>
+    </el-col>
   <el-col :span="24">
       <div class="user-withdrawa">
         <!-- 提现图标 -->
@@ -124,50 +182,7 @@
 
       </div>
   </el-col>
-  <!-- 定存宝 -->
-    <el-col :span="24">
-        <div class="user-fix">
-          <el-col :span="4">
-            <!-- 定存宝 -->
-            <div class="fix-logo">
-              <div class="logo-content">
-                <img src="../../../assets/img/fix.png" alt="定存宝">
-                <p>定存宝</p>
-              </div>
-            </div>
-          </el-col>
-          <!-- 淘豆金额 -->
-          <el-col :span="7" :offset="1">
-            <div class="content-right">
 
-                <p>定存余额:&#12288&#12288<span>￥{{ soyaSumob }}</span></p>
-                <p>预计收益:&#12288&#12288<span>￥{{ income }}</span></p>
-                <!-- <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a> -->
-                <!-- <router-link to="/user/conversionRecord" @click="toPath('1-3')">查看兑换记录></router-link> -->
-                <a href="javascript:void(0);" style="top:-5px;" @click="toPath('1-6')">查看定存宝记录 > </a>
-            </div>
-          </el-col>
-          <!-- 按钮 -->
-          <el-col :span="2">
-            <div class="content-right content-right-hr">
-
-                <el-button type="success" size="large" id="btn-top" @click="fixDepositDialogShow()">转入</el-button>
-
-            </div>
-          </el-col>
-          <!-- 获得淘豆 -->
-          <el-col :span="9" :offset="1">
-            <!-- <div class="content-right">
-
-                <p>昨日获得淘豆:<span>￥{{ yesterdayTD }}</span></p>
-
-                <a href="javascript:void(0);" @click="toPath('1-4')">查看淘豆流水 ></a>
-            </div> -->
-          </el-col>
-
-
-        </div>
-    </el-col>
 <!-- 额度 -->
   <el-col :span="24">
       <div class="user-limit">
@@ -261,7 +276,7 @@ import withdrawSum from '../../dialog/withdrawSum.vue' //对话框 提现
 import extractionQuota from '../../dialog/extractionQuota.vue' //对话框 提额
 import giveQuota from '../../dialog/giveQuota.vue' //对话框 额度赠送
 import TDRecordSum from '../../dialog/TDRecordSum.vue' //对话框 淘豆兑换
-import fixDeposit from '../../dialog/fixDeposit.vue' //对话框 定存宝转入
+import fixDeposit from '../../dialog/fixDeposit.vue' //对话框 存豆罐转入
 import {
   userApi
 } from '../../api/apiCode.js'
@@ -350,7 +365,7 @@ export default {
       } else if (str == '1-5') {
         this.$router.push("/user/limitRecord") //额度流水
       } else if (str == '1-6') {
-        this.$router.push("/user/fixDepositRecord") //定存宝记录
+        this.$router.push("/user/fixDepositRecord") //存豆罐记录
       } else if (str == '2-1') {
         this.$router.push("/user/recommendRecord") //推荐记录
       }
@@ -408,7 +423,7 @@ export default {
 
       this.tdrecordSumDialog.show = true
     },
-    fixDepositDialogShow() { //定存宝
+    fixDepositDialogShow() { //存豆罐
       this.fixDepositDialog.TDSum = this.TDSum //传递 总淘豆数量
       this.fixDepositDialog.show = true
     },
@@ -532,7 +547,7 @@ export default {
 /*提现样式*/
 .user-withdrawa{
   height: 188px;
-  margin-top: 15px;
+  margin-top: 1px !important;
   background-color: #FFF;
 }
 .withdrawa-logo{
@@ -570,16 +585,19 @@ export default {
   width: 230px;
   background-color: #ff6805;
 }
-/*定存宝*/
+/*存豆罐*/
 .user-fix{
   height: 188px;
   border-top: 1px solid #fdfdfe;
   background-color: #FFF;
+  margin-top: 15px;
 }
 .fix-logo{
   height: 188px;
   width: 230px;
   background-color: #2a9d8f;
+  overflow: hidden;
+
 }
 /*额度样式*/
 .user-limit{
@@ -750,17 +768,17 @@ export default {
 -moz-transform:translateX(0)}
 }
 .user-fix{
--webkit-animation:fadeInRight 1s .6s ease both;
--moz-animation:fadeInRight 1s .6s ease both;}
+-webkit-animation:fadeInRight 1s .2s ease both;
+-moz-animation:fadeInRight 1s .2s ease both;}
 @-webkit-keyframes fadeInRight{
 0%{opacity:0;
--webkit-transform:translateX(120px)}
+-webkit-transform:translateX(30px)}
 100%{opacity:1;
 -webkit-transform:translateX(0)}
 }
 @-moz-keyframes fadeInRight{
 0%{opacity:0;
--moz-transform:translateX(120px)}
+-moz-transform:translateX(30px)}
 100%{opacity:1;
 -moz-transform:translateX(0)}
 }
@@ -794,4 +812,77 @@ export default {
 100%{opacity:1;
 -moz-transform:translateX(0)}
 }
+.csshub-card {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  background: #FFF;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.csshub-ribbon-wrapper {
+    width: 108px;
+    height: 108px;
+    overflow: hidden;
+    position: absolute;
+    top: -6px;
+    right: -6px;
+}
+
+.csshub-ribbon {
+  font: bold 15px Sans-Serif;
+  line-height: 18px;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  position: relative;
+  padding: 7px 0;
+  left: 83px;
+  top: -59px;
+  width: 150px;
+  background-color: #d9534f;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+  box-shadow: -3px 5px 6px -5px rgba(0, 0, 0, 0.5);
+  outline: 1px solid #fff;
+  outline-offset: -4px;
+  display: inline-block;
+
+}
+
+.csshub-ribbon:before, .csshub-ribbon:after {
+  content: "";
+  border-top: 4px solid #d9534f;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  position: absolute;
+  bottom: -4px; }
+
+.csshub-ribbon:before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 100%;
+  z-index: -1;
+  border-left: 4px solid #b1413e;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-top: 4px solid #b1413e; }
+
+.csshub-ribbon:after {
+  content: "";
+  position: absolute;
+  right: 7px;
+  top: 100%;
+  z-index: -1;
+  border-left: 4px solid transparent;
+  border-right: 4px solid #b1413e;
+  border-bottom: 4px solid transparent;
+  border-top: 4px solid #b1413e; }
 </style>

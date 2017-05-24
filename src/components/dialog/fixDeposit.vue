@@ -1,7 +1,7 @@
 <template lang="html">
-  <!-- 定存宝 -->
+  <!-- 存豆罐 -->
   <div class="fixDeposit">
-    <el-dialog title="定存宝转入" v-model="fixDepositDialog.show = fixDepositValue.show" size="small" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="15%">
+    <el-dialog title="存豆罐" v-model="fixDepositDialog.show = fixDepositValue.show" size="small" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" top="15%">
   <div class="cir" @click="fixDepositDialogOver"><i class="el-icon-close i-top" ></i></div>
   <!-- :rules="rulesfixDeposit" ref="formfixDeposit" prop="sum" -->
           <el-form  label-width="80px" :model="formfixDeposit" :rules="rulesformfix" ref="formfixDeposit">
@@ -15,14 +15,14 @@
           <div class="pricingTable green" @click="card(1)">
                           <div class="pricingTable-header">
                               <i class="fa fa-adjust"></i>
-                              <div class="price-value"> 定存宝A <span class="month"></span> </div>
+                              <div class="price-value"> 存豆罐A <span class="month"></span> </div>
 
                           </div>
                           <img src="../../assets/img/cd.png" alt="对号" class="img-dh">
                           <div class="pricing-content">
                               <ul>
                                   <li>产品期限<b> {{ this.result[0].duration }}个月</b></li>
-                                  <li>到期增值<b> {{ this.result[0].appreciation }}%</b></li>
+                                  <li>年化利率<b> {{ this.result[0].appreciation }}%</b></li>
 
                               </ul>
 
@@ -38,13 +38,13 @@
         <div class="pricingTable" @click="card(2)">
                         <div class="pricingTable-header">
                             <i class="fa fa-adjust"></i>
-                            <div class="price-value"> 定存宝B <span class="month"></span> </div>
+                            <div class="price-value"> 存豆罐B <span class="month"></span> </div>
                         </div>
                         <img src="../../assets/img/gd.png" alt="对号" class="img-dh">
                         <div class="pricing-content">
                             <ul>
                                 <li>产品期限<b> {{ this.result[1].duration }}个月</b></li>
-                                <li>到期增值<b> {{ this.result[1].appreciation }}%</b></li>
+                                <li>年化利率<b> {{ this.result[1].appreciation }}%</b></li>
 
                             </ul>
                         </div>
@@ -58,13 +58,13 @@
         <div class="pricingTable red" @click="card(3)">
                         <div class="pricingTable-header">
                             <i class="fa fa-adjust"></i>
-                            <div class="price-value"> 定存宝C <span class="month"></span> </div>
+                            <div class="price-value"> 存豆罐C <span class="month"></span> </div>
                         </div>
                         <img src="../../assets/img/rd.png" alt="对号" class="img-dh">
                         <div class="pricing-content">
                             <ul>
                                 <li>产品期限<b> {{ this.result[2].duration }}个月</b></li>
-                                <li>到期增值<b> {{ this.result[2].appreciation }}%</b></li>
+                                <li>年化利率<b> {{ this.result[2].appreciation }}%</b></li>
 
                             </ul>
                         </div>
@@ -77,15 +77,15 @@
 </el-col>
 </el-row>
 
-          <el-row>
-            <el-col :span="20" style="margin-top:20px;">
+          <el-row  >
+            <el-col :span="18" style="margin-top:20px;">
               <el-form-item label="转入数量:" labelPosition="left" prop="sum">
                 <el-input placeholder="" v-model="formfixDeposit.sum" placeholder="请输入转入淘豆数量" @change="countSum" :disabled="disInput"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4" style="margin-top:20px;">
-              <el-form-item label="淘豆:"  >
-                <span style="color:#ffa442;"><b>{{ fixDepositValue.TDSum }}</b></span>
+            <el-col :span="6" style="margin-top:20px;">
+              <el-form-item label="" >
+                <span style="color:#ffa442;" class="tdsumleab">淘豆:<b>{{fixDepositValue.TDSum}}</b></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -98,8 +98,8 @@
         </el-row>
         <el-row>
           <el-col :span="24" style="margin-top:0px;text-align:left">
-            <span style="color:red;"> * </span>定存宝业务说明：<br/>
-          <p style="margin-top:10px;text-align:center">&#12288;&#12288;定存宝是淘梦者俱乐部最新推出的淘豆增值服务，把淘豆余额转入定存宝中就可获得一定的增值，定存到期以后淘豆自动转回余额，</p><p>&#12288;可用于兑换提现。</p>
+            <span style="color:red;"> * </span>存豆罐业务说明：<br/>
+          <p style="margin-top:10px;text-align:center">&#12288;&#12288;存豆罐是淘梦者俱乐部最新推出的淘豆增值服务，把淘豆余额转入存豆罐中就可获得一定的增值，定存到期以后淘豆自动转回余额，</p><p>&#12288;可用于兑换提现。</p>
           </el-col>
         </el-row>
         </el-form>
@@ -234,7 +234,7 @@ export default {
 
         this.$message({
           showClose: true,
-          message: '请选择定存宝类型!',
+          message: '请选择存豆罐类型!',
           type: 'warning'
         });
 
@@ -250,7 +250,7 @@ export default {
           } else {
             this.$message({
               showClose: true,
-              message: '请选择定存宝类型!',
+              message: '请选择存豆罐类型!',
               type: 'warning'
             });
           }
@@ -525,5 +525,9 @@ export default {
         }
         .img-dh{
           display: none;
+        }
+        .tdsumleab{
+          position: relative;
+          margin-left: -70px;
         }
 </style>
