@@ -22,7 +22,7 @@
                           <div class="pricing-content">
                               <ul>
                                   <li>产品期限<b> {{ this.result[0].duration }}个月</b></li>
-                                  <li>年化利率<b> 6%</b></li>
+                                  <li>年化增值率<b> 6%</b></li>
 
                               </ul>
 
@@ -44,7 +44,7 @@
                         <div class="pricing-content">
                             <ul>
                                 <li>产品期限<b> {{ this.result[1].duration }}个月</b></li>
-                                <li>年化利率<b> 8%</b></li>
+                                <li>年化增值率<b> 8%</b></li>
 
                             </ul>
                         </div>
@@ -64,7 +64,7 @@
                         <div class="pricing-content">
                             <ul>
                                 <li>产品期限<b> {{ this.result[2].duration }}个月</b></li>
-                                <li>年化利率<b> 10%</b></li>
+                                <li>年化增值率<b> 10%</b></li>
 
                             </ul>
                         </div>
@@ -111,6 +111,19 @@
     <el-button type="primary" @click="formfixValue('formfixDeposit')" :disabled="disInput" :loading="disInput">提 交</el-button>
   </span>
 </el-dialog>
+
+<el-dialog
+  title="提示"
+  :visible.sync="confirm"
+  size="tiny"
+  top="0%"
+>
+  <span>这是一段信息</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="confirm = false">取 消</el-button>
+    <el-button type="primary" @click="confirm = false">确 定</el-button>
+  </span>
+</el-dialog>
   </div>
 </template>
 
@@ -138,6 +151,7 @@ export default {
       callback();
     }
     return {
+      confirm: false, //确认信息
       result: [{
           duration: 0,
           appreciation: 0
@@ -187,6 +201,7 @@ export default {
     'fixDepositDialog.show': 'disposeData'
   },
   methods: {
+
     disposeData() {
 
       if (!this.fixDepositDialog.show == false) { //控制数据获取
@@ -245,8 +260,22 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.fixType < 4 && this.fixType > 0) {
+            let typeName = this.fixType == 1 ? '存豆罐A' : this.fixType == 2 ? '存豆罐B' : this.fixType == 3 ? '存豆罐C' : ''
             this.disInput = true
-            this.submitForm() //提交请求
+
+            this.$confirm('存入: ' + this.formfixDeposit.sum + '豆' + ' 套餐: ' + typeName + ' 收益: ' + this.income + '元', '亲爱的用户您好,您将进行一下操作', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+
+            }).then(() => {
+              this.submitForm() //提交请求
+            }).catch(() => {
+              this.disInput = false
+              return false;
+            });
+
+
           } else {
             this.$message({
               showClose: true,
