@@ -14,7 +14,7 @@
 
             <div class="announcement">
               <div class="win">
-                  <span style="color:#FFF;font-size:14px;font-weight: 100;">为满足广大淘梦者们的理财需求，淘梦者俱乐部为淘梦者们推出了专属的“存豆罐”服务，只需轻轻一点，把账户内淘豆放入其中，即可获取指定收益，您还在等什么，“增值”刻不容缓！
+                  <span style="color:#FFF;font-size:14px;font-weight: 100;">为满足广大淘梦者们的增值需求，淘梦者俱乐部为淘梦者们推出了专属的“存豆罐”服务，只需轻轻一点，把账户内淘豆放入其中，即可获取指定收益，您还在等什么，“增值”刻不容缓！
 </span>
               </div>
 
