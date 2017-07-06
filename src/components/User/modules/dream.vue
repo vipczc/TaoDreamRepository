@@ -21,17 +21,17 @@
         <!-- 用户信息 -->
         <el-col :span="6" :offset="1">
           <div class="user-message-content">
-            <p>会员姓名:&#12288<span>{{ userName }}</span></p>
-            <p>出生日期:&#12288<span>{{ userAge }}</span></p>
-            <p>电&#12288&#12288话:&#12288<span>{{ userNuber }}</span></p>
-            <p>银行卡号:&#12288<span>{{ userBlock }}</span></p>
+            <p>会员姓名:&#12288;<span>{{ userName }}</span></p>
+            <p>出生日期:&#12288;<span>{{ userAge }}</span></p>
+            <p>电&#12288;&#12288;话:&#12288;<span>{{ userNuber }}</span></p>
+            <p>银行卡号:&#12288;<span>{{ userBlock }}</span></p>
           </div>
         </el-col>
         <el-col :span="4" :offset="1">
           <div class="user-message-content">
-            <p>性&#12288&#12288别:&#12288<span>{{ userSex }}</span></p>
-            <p>行&#12288&#12288业:&#12288<span>{{ profession }}</span></p>
-            <p>会员ID&#12288:&#12288<span>{{ memberCode }}</span></p>
+            <p>性&#12288;&#12288;别:&#12288;<span>{{ userSex }}</span></p>
+            <p>行&#12288;&#12288;业:&#12288;<span>{{ profession }}</span></p>
+            <p>会员ID&#12288;:&#12288;<span>{{ memberCode }}</span></p>
 <!-- <img src="/taodream-consumer/validateCode" alt="验证码">
             验证码:<input type="text" name="" v-model="pngimg" value="">
             <el-button @click="login()">登录</el-button> -->
@@ -72,8 +72,8 @@
           <el-col :span="7" :offset="1">
             <div class="content-right">
 
-                <p>定存余额:&#12288&#12288<span>￥{{ soyaSumob }}</span></p>
-                <p>预计收益:&#12288&#12288<span>￥{{ income }}</span></p>
+                <p>定存余额:&#12288;&#12288;<span>￥{{ soyaSumob }}</span></p>
+                <p>预计收益:&#12288;&#12288;<span>￥{{ income }}</span></p>
                 <!-- <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a> -->
                 <!-- <router-link to="/user/conversionRecord" @click="toPath('1-3')">查看兑换记录></router-link> -->
                 <a href="javascript:void(0);" style="top:-5px;" @click="toPath('1-6')">查看存豆罐记录 > </a>
@@ -116,8 +116,8 @@
         <el-col :span="7" :offset="1">
           <div class="content-right ">
 
-              <p>提现余额:&#12288&#12288<span>￥{{ withdrawSum }}</span></p>
-              <!-- <p>审核中金额:&#12288<span style="color:#37d786">￥{{ auditMoney }}</span></p> -->
+              <p>提现余额:&#12288;&#12288;<span>￥{{ withdrawSum }}</span></p>
+              <!-- <p>审核中金额:&#12288;<span style="color:#37d786">￥{{ auditMoney }}</span></p> -->
               <!-- <router-link to="/user/expenseRecord" >查看提现记录></router-link> -->
               <a href="javascript:void(0);" @click="toPath('1-2')">查看提现记录 ></a>
           </div>
@@ -156,7 +156,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>淘豆余额:&#12288&#12288<span>￥{{ TDSum }}</span></p>
+              <p>淘豆余额:&#12288;&#12288;<span>￥{{ TDSum }}</span></p>
               <a href="javascript:void(0);" @click="toPath('1-3')">查看兑换记录 > </a>
               <!-- <router-link to="/user/conversionRecord" @click="toPath('1-3')">查看兑换记录></router-link> -->
           </div>
@@ -184,7 +184,7 @@
   </el-col>
 
 <!-- 额度 -->
-  <el-col :span="24">
+  <el-col :span="24" v-if="vipType == 2">
       <div class="user-limit">
 
         <el-col :span="4">
@@ -200,7 +200,7 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>消费额度:&#12288&#12288<span>￥{{ expenseLimit }}</span></p>
+              <p>消费额度:&#12288;&#12288;<span>￥{{ expenseLimit }}</span></p>
               <!-- <p >消费额度提升:<span>{{ expenseLimitUp }}￥</span></p> -->
         <a href="javascript:void(0);"  @click="toPath('1-5')">查看额度流水 > </a>
               <!-- <router-link  to="/user/limitRecord" @click="toPath('1-5')">查看额度流水></router-link> -->
@@ -219,8 +219,8 @@
         <el-col :span="7" :offset="1">
           <div class="content-right">
 
-              <p>已消费额度:&#12288 <span>￥{{ recommendLimit }}</span></p>
-              <p>剩余额度:&#12288&#12288 <span>￥{{ surplusLimit.toFixed(2) }}</span></p>
+              <p>已消费额度:&#12288; <span>￥{{ recommendLimit }}</span></p>
+              <p>剩余额度:&#12288;&#12288; <span>￥{{ surplusLimit.toFixed(2) }}</span></p>
 
 
           </div>
@@ -252,8 +252,8 @@
           <el-col :span="7" :offset="1">
             <div class="content-right">
 
-                <p>推荐人数:&#12288&#12288<span>{{ recommendCount }}人</span></p>
-                <p >推荐奖励:&#12288&#12288<span>￥{{ recommendAward }}</span></p>
+                <p>推荐人数:&#12288;&#12288;<span>{{ recommendCount }}人</span></p>
+                <p >推荐奖励:&#12288;&#12288;<span>￥{{ recommendAward }}</span></p>
                 <a href="javascript:void(0);" style="top:-5px;" @click="toPath('2-1')">查看推荐记录 > </a>
                 <!-- <router-link style="top:-5px;" to="/user/recommendRecord" @click="toPath('2-1')">查看推荐记录></router-link> -->
             </div>
@@ -288,6 +288,7 @@ export default {
 
 
     return {
+      vipType: window.vipType,
       result: {},
       upData: false, //数据
       pngimg: '',

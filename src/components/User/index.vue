@@ -51,7 +51,7 @@
   <el-menu-item index="1-2" @click="one"><img src="../../assets/img/WithdrawalRecord.png" alt="提现记录">提现记录</el-menu-item>
   <el-menu-item index="1-3" @click="one"><img src="../../assets/img/conversion.png" alt="兑换记录">兑换记录</el-menu-item>
   <el-menu-item index="1-4" @click="one"><img src="../../assets/img/toddleDaybook.png" alt="淘豆流水">淘豆流水</el-menu-item>
-  <el-menu-item index="1-5" @click="one"><img src="../../assets/img/Amountofwater.png" alt="额度流水">额度流水</el-menu-item>
+  <el-menu-item v-if="vipType == 2" index="1-5" @click="one"><img src="../../assets/img/Amountofwater.png" alt="额度流水">额度流水</el-menu-item>
   <el-menu-item index="1-6" @click="one"><img src="../../assets/img/fixmini.png" alt="存豆罐记录">存豆罐记录</el-menu-item>
 <!-- <img src="" alt="存豆罐记录"> -->
   </el-submenu>
@@ -101,6 +101,7 @@ export default {
     this.$router.push("/user")
 
     return {
+      vipType: window.vipType,
       quitDialog: false,
       defaultActiveNumber: "3"
     }
