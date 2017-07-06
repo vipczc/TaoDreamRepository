@@ -239,6 +239,8 @@ router.beforeEach((to, from, next) => {
     ajax('GET', host.basic.basicUrl + '/register/selectCurrentUser').
       then(function(res){
         if (res.ERRORCODE == 0) {
+
+          window.vipType = res.RESULT.vipType
             next();
         } else  {
           if (to.path != '/') {
