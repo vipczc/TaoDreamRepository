@@ -1,9 +1,9 @@
 <template>
 	<div class="footer">
 		<div class="footer-con">
-			<div>
+			<!-- <div>
 				网站说明：
-			</div>
+			</div> -->
 			<div style="margin-top:20px;">
 				备案号：浙ICP备17018160号-1
 			</div>

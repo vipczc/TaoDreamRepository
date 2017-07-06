@@ -45,6 +45,7 @@ import cIndexRelatedConsumptionRecord from '@/components/Clerk/modules/relatedCo
 //注册
 // import register from '@/components/register'
 import consumerRegister from '@/components/register/consumerRegister'//消费者注册
+import consumerRegister1 from '@/components/register/consumerRegister1'//消费者注册
 import bussinessRegister from '@/components/register/bussinessRegister'//商家注册
 
 Vue.use(Router)
@@ -81,6 +82,11 @@ const router =  new Router({
     {
       path: '/consumerRegister',
       component: consumerRegister
+      // beforeEnter: requireAuth
+    },
+     {
+      path: '/consumerRegister1',
+      component: consumerRegister1
       // beforeEnter: requireAuth
     },
     {

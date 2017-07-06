@@ -1,9 +1,9 @@
 <template>
-	<div class="consumerRegister">
-		<el-steps :space="200" :active="active" :align-center="true" :center="true">
+   <div class="consumerRegister">
+      <el-steps :space="200" :active="active" :align-center="true" :center="true">
       <el-step title="基本信息" ></el-step>
-      <el-step title="单位信息" ></el-step>
-      <el-step title="资产信息" ></el-step>
+     <!--  <el-step title="单位信息" ></el-step>
+      <el-step title="资产信息" ></el-step> -->
       <el-step title="银行卡信息"></el-step>
       <el-step title="上传资料"></el-step>
     </el-steps>
@@ -94,7 +94,7 @@
             </div>
         </div>
       </div>
-      <div class="" v-if="active == 2">
+      <!-- <div class="" v-if="active == 2">
         <div class="consumerSteptwo">
           <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>你的单位信息<em style="color:#ff831b; font-style: normal;margin-left: 5px;">( "*" 必填 )</em></div>
           <el-form :model="unitInformation" :inline="true" ref="unitInformation"  class="demo-form-inline mar" :rules="rules2">
@@ -222,8 +222,8 @@
             </el-form-item>
           </el-form>
         </div>
-      </div>
-      <div class="" v-if="active == 4">
+      </div> -->
+      <div class="" v-if="active == 2">
         <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>银行卡信息<em style="color:#ff831b; font-style: normal;margin-left: 5px;">( "*" 必填 )</em></div>
         <el-form :model="bankInformation" :inline="true" ref="bankInformation"  class="demo-form-inline mar" :rules="rules3">
           <el-form-item label="开户银行：" prop="bankAccount">
@@ -246,7 +246,7 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="" v-if="active == 5">
+      <div class="" v-if="active == 3">
         <div class="step"><span style="float:left;width:4px;height:20px;background: #36A5FF;background-repeat: repeat; margin-right:8px; "></span>上传资料<b style="color:#ff831b;"></b></div>
         <p>请您上传身份证照片（正面和反面）如下：</p>
         <img src="../../assets/img/sfz.jpg" height="252" width="650" alt="">
@@ -285,16 +285,16 @@
         <img :src="BigUrl"/>
       </div>
     </el-dialog>
-	</div>
+   </div>
 </template>
 <script >
 import { regionData , provinceAndCityData } from 'element-china-area-data'
 import host from '../../common.js'
 import footer from '.././footer/footer.vue'
 export default {
-  name:'consumerRegister',
-  computed(){
-   console.log(111);
+  name:'consumerRegister1',
+  mounted(){
+   alert(222222222222);
   },
   mounted(){
     //监听信息填写步骤
@@ -305,17 +305,13 @@ export default {
       let data = res.data;
       let status = data.RESULT.status;
       let userType = data.RESULT.userType;
-      let vipType = data.RESULT.vipType;
+
       if (data.ERRORCODE == '0') {
-        if(userType == 1 && vipType == 2){
+        if(userType == 1){
           if(status === 1)this.active = 1;
-          if(status === 2)this.active = 2;
-          if(status === 3)this.active = 3;
-          if(status === 4)this.active = 4;
-          if(status === 5)this.active = 5;
+          if(status === 4)this.active = 2;
+          if(status === 5)this.active = 3;
           if(status === 9)this.active = 1;
-        }else{
-          this.$router.push({path:'/consumerRegister1'});
         }
       } else {
         this.$message.warning(data.RESULT);
@@ -420,20 +416,20 @@ export default {
         educationLevel:[{  required:true,validator:validateCon, message: '请选择您的教育程度', trigger: 'blur'}]
       },
       unitInformation:{
-      	companyName:'',
-      	industry:'',
+         companyName:'',
+         industry:'',
         remark:'',
         industry1:[],
-      	department:'',
-      	position:'',
-      	legalPerson:'',
-      	annualSalary:'',
-      	unitSize:"",
+         department:'',
+         position:'',
+         legalPerson:'',
+         annualSalary:'',
+         unitSize:"",
         options: regionData,
-      	selectedOptions: [],
-      	detailAddress:'',
-      	postCode:"",
-      	unitType:"",
+         selectedOptions: [],
+         detailAddress:'',
+         postCode:"",
+         unitType:"",
         areaCode:"",
         phoneNumber:'',
         phoneNumberOther:'',
@@ -619,7 +615,7 @@ export default {
               let data = res.data;
               if (data.ERRORCODE == '0') {
                 console.log(data);
-                this.active ++
+                this.active ++;
               } else {
                 this.$message.warning(data.RESULT);
               }
@@ -633,101 +629,101 @@ export default {
 
       })
     };
-    if(this.active == 2){
-      if(this.unitInformation.legalPerson == '是')this.corporation = 1;
-      if(this.unitInformation.legalPerson == '否')this.corporation = 0;
-      if (this.unitInformation.unitSize == '20人以下') this.scale = 1;
-        if (this.unitInformation.unitSize == '20~50') this.scale = 2;
-        if (this.unitInformation.unitSize == '51~100') this.scale = 3;
-        if (this.unitInformation.unitSize == '101~500') this.scale = 4;
-        if (this.unitInformation.unitSize == '501~1000') this.scale = 5;
-        if (this.unitInformation.unitSize == '1001~5000') this.scale = 6;
-        if (this.unitInformation.unitSize == '5000人以上') this.scale = 7;
-      if(this.unitInformation.unitSize == '其他')this.scale = 3;
-      if(this.unitInformation.unitType == '机关/事业单位')this.companyType = 1;
-      if(this.unitInformation.unitType == '国有企业')this.companyType = 2;
-      if(this.unitInformation.unitType == '外商独资企业')this.companyType = 3;
-      if(this.unitInformation.unitType == '中外合资/合作企业')this.companyType = 4;
-      if(this.unitInformation.unitType == '股份制企业')this.companyType = 5;
-      if(this.unitInformation.unitType == '私有企业')this.companyType = 6;
-      if(this.unitInformation.unitType == '其他')this.companyType = 7;
-       this.$refs.unitInformation.validate((valid) => {
-        if(valid){
-           this.$http({
-              method: 'POST',
-              url: host.basic.basicUrl + '/member/saveMemberCompany',
-              params: {
-                companyName: this.unitInformation.companyName,
-                profession: this.unitInformation.industry,
-                department: this.unitInformation.department,
-                job: this.unitInformation.position,
-                corporation: this.corporation,
-                salary: this.unitInformation.annualSalary,
-                scale: this.scale,
-                province: this.unitInformation.province,
-                city: this.unitInformation.city,
-                remark:this.unitInformation.remark,
-                area: this.unitInformation.area,
-                address: this.unitInformation.detailAddress,
-                postalCode: this.unitInformation.postCode,
-                companyType:this.companyType,
-                phoneZone:this.unitInformation.areaCode,
-                phoneNumber:this.unitInformation.phoneNumber,
-                phoneExtension:this.unitInformation.phoneNumberOther
+    // if(this.active == 2){
+    //   if(this.unitInformation.legalPerson == '是')this.corporation = 1;
+    //   if(this.unitInformation.legalPerson == '否')this.corporation = 0;
+    //   if (this.unitInformation.unitSize == '20人以下') this.scale = 1;
+    //     if (this.unitInformation.unitSize == '20~50') this.scale = 2;
+    //     if (this.unitInformation.unitSize == '51~100') this.scale = 3;
+    //     if (this.unitInformation.unitSize == '101~500') this.scale = 4;
+    //     if (this.unitInformation.unitSize == '501~1000') this.scale = 5;
+    //     if (this.unitInformation.unitSize == '1001~5000') this.scale = 6;
+    //     if (this.unitInformation.unitSize == '5000人以上') this.scale = 7;
+    //   if(this.unitInformation.unitSize == '其他')this.scale = 3;
+    //   if(this.unitInformation.unitType == '机关/事业单位')this.companyType = 1;
+    //   if(this.unitInformation.unitType == '国有企业')this.companyType = 2;
+    //   if(this.unitInformation.unitType == '外商独资企业')this.companyType = 3;
+    //   if(this.unitInformation.unitType == '中外合资/合作企业')this.companyType = 4;
+    //   if(this.unitInformation.unitType == '股份制企业')this.companyType = 5;
+    //   if(this.unitInformation.unitType == '私有企业')this.companyType = 6;
+    //   if(this.unitInformation.unitType == '其他')this.companyType = 7;
+    //    this.$refs.unitInformation.validate((valid) => {
+    //     if(valid){
+    //        this.$http({
+    //           method: 'POST',
+    //           url: host.basic.basicUrl + '/member/saveMemberCompany',
+    //           params: {
+    //             companyName: this.unitInformation.companyName,
+    //             profession: this.unitInformation.industry,
+    //             department: this.unitInformation.department,
+    //             job: this.unitInformation.position,
+    //             corporation: this.corporation,
+    //             salary: this.unitInformation.annualSalary,
+    //             scale: this.scale,
+    //             province: this.unitInformation.province,
+    //             city: this.unitInformation.city,
+    //             remark:this.unitInformation.remark,
+    //             area: this.unitInformation.area,
+    //             address: this.unitInformation.detailAddress,
+    //             postalCode: this.unitInformation.postCode,
+    //             companyType:this.companyType,
+    //             phoneZone:this.unitInformation.areaCode,
+    //             phoneNumber:this.unitInformation.phoneNumber,
+    //             phoneExtension:this.unitInformation.phoneNumberOther
 
-              }
-            }).then(function(res) {
-              let data = res.data;
-              if (data.ERRORCODE == '0') {
-                // console.log(data);
-                this.active ++
-              } else {
-                this.$message.warning(data.RESULT);
-              }
-            }, function(error) {
-              this.$message.error('请求错误,请稍后再试');
-            })
+    //           }
+    //         }).then(function(res) {
+    //           let data = res.data;
+    //           if (data.ERRORCODE == '0') {
+    //             // console.log(data);
+    //             this.active ++
+    //           } else {
+    //             this.$message.warning(data.RESULT);
+    //           }
+    //         }, function(error) {
+    //           this.$message.error('请求错误,请稍后再试');
+    //         })
 
-        }else{
-          // alert(1);
-        }
+    //     }else{
+    //       // alert(1);
+    //     }
 
-      })
-    };
+    //   })
+    // };
 
-    if(this.active == 3){
-      if(this.assetInformation.livingCondition == '自有房产')this.liveType = 1;
-      if(this.assetInformation.livingCondition == '租房')this.liveType = 0;
-        this.$http({
-          method: 'POST',
-          url: host.basic.basicUrl + '/member/saveMemberAsset',
-          params: {
-            creditCardNumber:this.assetInformation.cardNumberAdd,
-            creditCardQuota:this.assetInformation.creditLimitAdd,
-            liveType:this.liveType,
-            houseProperty:this.assetInformation.houseProperty,
-            carProperty:this.assetInformation.carValue,
-            investment:this.assetInformation.investments,
-            contactsNameFirst:this.assetInformation.relative1,
-            contactsRelationFirst:this.assetInformation.relationship1,
-            contactsPhoneFirst:this.assetInformation.relativePhone1,
-            contactsNameSecond:this.assetInformation.relative2,
-            contactsRelationSecond:this.assetInformation.relationship2,
-            contactsPhoneSecond:this.assetInformation.relativePhone2
-          }
-        }).then(function(res) {
-          let data = res.data;
-          if (data.ERRORCODE == '0') {
-            this.active++
-          } else {
-            this.$message.warning(data.RESULT);
-          }
-        }, function(error) {
-          this.$message.error('请求错误,请稍后再试');
-        })
-    }
+    // if(this.active == 3){
+    //   if(this.assetInformation.livingCondition == '自有房产')this.liveType = 1;
+    //   if(this.assetInformation.livingCondition == '租房')this.liveType = 0;
+    //     this.$http({
+    //       method: 'POST',
+    //       url: host.basic.basicUrl + '/member/saveMemberAsset',
+    //       params: {
+    //         creditCardNumber:this.assetInformation.cardNumberAdd,
+    //         creditCardQuota:this.assetInformation.creditLimitAdd,
+    //         liveType:this.liveType,
+    //         houseProperty:this.assetInformation.houseProperty,
+    //         carProperty:this.assetInformation.carValue,
+    //         investment:this.assetInformation.investments,
+    //         contactsNameFirst:this.assetInformation.relative1,
+    //         contactsRelationFirst:this.assetInformation.relationship1,
+    //         contactsPhoneFirst:this.assetInformation.relativePhone1,
+    //         contactsNameSecond:this.assetInformation.relative2,
+    //         contactsRelationSecond:this.assetInformation.relationship2,
+    //         contactsPhoneSecond:this.assetInformation.relativePhone2
+    //       }
+    //     }).then(function(res) {
+    //       let data = res.data;
+    //       if (data.ERRORCODE == '0') {
+    //         this.active++
+    //       } else {
+    //         this.$message.warning(data.RESULT);
+    //       }
+    //     }, function(error) {
+    //       this.$message.error('请求错误,请稍后再试');
+    //     })
+    // }
 
-    if(this.active == 4) {
+    if(this.active == 2) {
         this.$refs.bankInformation.validate((valid) => {
         if(valid){
             this.$http({
@@ -744,7 +740,7 @@ export default {
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
-                this.active ++
+                this.active ++;
 
               } else {
                 this.$message.warning(data.RESULT);
@@ -877,8 +873,8 @@ export default {
 </script>
 
 <style  lang="less">
-	.consumerRegister{
-		padding-top: 60px;
+   .consumerRegister{
+      padding-top: 60px;
     .content{
       width:790px;
      margin:0 auto;
@@ -901,7 +897,7 @@ export default {
         margin-right: 5px;
       }
     }
-	}
+   }
    .el-cascader-menu{
      min-width: 214px !important;
    }

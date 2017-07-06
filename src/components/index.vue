@@ -7,7 +7,9 @@
     <el-button type="primary" @click="_go(3)">业务员登录</el-button>
     <el-button type="primary" @click="_register">注册</el-button> -->
       <div class="logo"><img src="../assets/img/logo.png" height="30" width="193" alt=""></div>
-      <div class="content-bg"></div>
+      <div>
+        <img src="../assets/img/banner.png"  alt="" class="img-responsive">
+      </div>
       <div class="login">
         <el-tabs v-model="activeName" @tab-click="handleClick"  >
           <el-tab-pane label="登录" name="first">
@@ -19,7 +21,7 @@
                     <el-option label="商家" value="2"></el-option>
                     <el-option label="咨询师" value="3"></el-option>
                   </el-select>
-                </el-form-item> 
+                </el-form-item>
                 <el-form-item label="账号" prop="account">
                  <el-input type="text" v-model="ruleForm2.account"  placeholder="请输入账号" icon="information"></el-input>
                 </el-form-item>
@@ -27,7 +29,7 @@
                   <el-input type="password" v-model="ruleForm2.pass"  placeholder="请输入6~18位数字、字母" icon="message"></el-input>
                 </el-form-item>
                 <el-form-item  prop="imgVer">
-                  <el-input  v-model="ruleForm2.imgVer" style="width:50%;" placeholder="图形验证码"></el-input><span style="float: right;padding:0px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="图形验证码" ></span>
+                  <el-input  v-model="ruleForm2.imgVer" style="width:50%;" placeholder="图形验证码"></el-input><span style="float: right;padding:0px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="" class="img-check"></span>
                 </el-form-item>
                 <el-form-item>
                   <a href="#" style="text-decoration:none; color: #50BFFF;width:100%;text-align: right;display: inline-block;line-height: 20px;" @click="forgetPassword = true">忘记密码？</a>
@@ -36,17 +38,18 @@
                 </el-form-item>
               </el-form>
             </div>
-              
+
           </el-tab-pane>
           <el-tab-pane label="注册" name="second">
             <div v-on:keyup.13="regist('ruleForm3')">
                <el-form :model="ruleForm3" :rules="rules3" ref="ruleForm3" label-width="80px" style="margin-top: 25px;margin-right: 20px;">
                 <el-form-item label="类型" >
-                  <el-select v-model="ruleForm3.type" placeholder="消费者" >
-                    <el-option label="消费者" value="1"></el-option>
+                  <el-select v-model="ruleForm3.type" placeholder="消费者(VIP)">
+                    <el-option label="消费者(VIP)" value="3"></el-option>
+                    <el-option label="消费者(普通)" value="1"></el-option>
                     <el-option label="商家" value="2"></el-option>
                   </el-select>
-                </el-form-item> 
+                </el-form-item>
                 <el-form-item label="手机号" prop="phoneNumber">
                  <el-input  v-model="ruleForm3.phoneNumber"  placeholder="请输入手机号码" ></el-input>
                 </el-form-item>
@@ -79,7 +82,7 @@
                     <el-option label="商家" value="2"></el-option>
                     <el-option label="咨询师" value="3"></el-option>
                   </el-select>
-                </el-form-item> 
+                </el-form-item>
             <el-form-item label="手机号" prop="phoneNumber">
               <el-input  v-model="ruleForm4.phoneNumber"  placeholder="请输入手机号码" ></el-input>
             </el-form-item>
@@ -98,14 +101,14 @@
             </el-form-item>
           </el-form>
         </div>
-      
+
       <!--   <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="forgetPassword = false">确 定</el-button>
         </span> -->
       </el-dialog>
       <!-- 登录图形验证码 -->
       <el-dialog title="图像验证码" v-model="imgCon" size="tiny">
-         
+
         <el-input  v-model="ruleForm3.imgVer" style="width:50%;"></el-input><span style="float: right;padding:2px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="图形验证码" ></span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="imgCon = false">取 消</el-button>
@@ -114,7 +117,7 @@
       </el-dialog>
        <!-- 忘记密码图形验证码 -->
       <el-dialog title="图像验证码" v-model="imgCon11" size="tiny">
-         
+
         <el-input  v-model="ruleForm4.imgVer" style="width:50%;"></el-input><span style="float: right;padding:2px 5px;height:30px;cursor: pointer;" @click="sendImg" ><img :src="url" alt="图形验证码" ></span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="imgCon11 = false">取 消</el-button>
@@ -131,7 +134,7 @@ let flag = false
 export default {
   name: 'index',
   mounted(){
-   
+
   },
   data () {
     let checkNumber = (rule, value, callback) => {
@@ -182,14 +185,15 @@ export default {
           account: '',
           type:'1',
           imgVer:''
-        }, 
+        },
       ruleForm3: {
         pass: '',
         phoneNumber:"",
         verificationCode: '',
-        type:'1',
+        type:'3',
         invitation:'',
-        imgVer:''
+        imgVer:'',
+        vipType:''
       },
       ruleForm4: {
           phoneNumber: '',
@@ -205,7 +209,7 @@ export default {
           ],
           account: [
             { validator: validatePass ,message: '请输入账号', trigger: 'blur' }
-          ]   
+          ]
         },
         rules3: {
           phoneNumber: [
@@ -214,13 +218,13 @@ export default {
           pass: [
             { validator: host.basic.checkPass, trigger: 'blur' }
           ],
-          
+
           verificationCode: [
             { validator: checkNumber, message: '请输入正确验证码', trigger: 'blur' }
           ],
           imgVer:[
             { validator: host.basic.checkVer,  trigger: 'blur' }
-          ] 
+          ]
         },
         rules4: {
            phoneNumber: [
@@ -234,12 +238,12 @@ export default {
           ],
           verificationCode: [
             { validator: checkNumber, message:'请输入正确验证码', trigger: 'blur' }
-          ]   
+          ]
         }
 
       }
     },
- 
+
   methods:{
     _go(ind){
       switch (ind) {
@@ -255,7 +259,7 @@ export default {
       }
     },
     _register(){
-      
+
       // this.$router.push('/register')
     },
     handleClick(tab, event) {
@@ -276,8 +280,8 @@ export default {
             }).then(function(res) {
               let data = res.data;
               this.sendImg();
-              if (data.ERRORCODE == '0') {      
-                //个人中心 
+              if (data.ERRORCODE == '0') {
+                //个人中心
                 const h = this.$createElement;
                 this.$notify({
                   title: '成功',
@@ -285,7 +289,7 @@ export default {
                   message: h('p', '登录成功！')
                 });
 
-                // this.$message.success('登录成功！');             
+                // this.$message.success('登录成功！');
                 if(this.ruleForm2.type == 1){
                   setTimeout(()=>{this.$router.push('/user')},1000);
                 }else if(this.ruleForm2.type == 2){
@@ -322,8 +326,16 @@ export default {
       },
       regist(formName) {
         this.$refs[formName].validate((valid) => {
-          
+
           if (valid) {
+              if(this.ruleForm3.type == 1){
+                this.ruleForm3.vipType = 1
+              }else if(this.ruleForm3.type == 3){
+                this.ruleForm3.vipType = 2
+                this.ruleForm3.type = 1
+              }else{
+                this.ruleForm3.vipType = ''
+              }
             this.$http({
               method: 'POST',
               url: host.basic.basicUrl + '/register/register',
@@ -331,14 +343,16 @@ export default {
                 userType: this.ruleForm3.type,
                 mobile: this.ruleForm3.phoneNumber,
                 passWord: this.ruleForm3.pass,
-                validateCode: this.ruleForm3.verificationCode
+                validateCode: this.ruleForm3.verificationCode,
+                vipType:this.ruleForm3.vipType
               }
             }).then(function(res) {
               let data = res.data;
               if (data.ERRORCODE == '0') {
-                this.$message.success('注册成功，请先填写资料！'); 
-                // this.$refs.ruleForm3.resetFields();          
+                  this.$message.success('注册成功，请先填写资料！');
+                // this.$refs.ruleForm3.resetFields();
                 // this.activeName = "first";
+                  console.log(data);
                   if(this.ruleForm3.type == 1){
                     setTimeout(()=>{this.$router.push('/consumerRegister')},1000);
                   }else if(this.ruleForm3.type == 2){
@@ -351,8 +365,12 @@ export default {
               this.$message.error('请求错误,请稍后再试');
             })
           };
-            
+
         });
+      },
+      //注册选择类型
+      selectChange(i){
+        console.log(i);
       },
       openVer(){
        if(!/^1[34578]\d{9}$/.test(this.ruleForm3.phoneNumber)){
@@ -390,7 +408,7 @@ export default {
           })
         }
         // if(this.ruleForm4.phoneNumber != ''){
-       
+
       },
       //忘记密码验证码
       sendCode1(){
@@ -523,12 +541,23 @@ export default {
       margin-top: 30px;
       margin-bottom:30px;
     }
-    .content-bg{
-      width:100%;
-      height:616px;
-      background: url(../assets/img/banner.png) 0 0 no-repeat;
-      background-size: 1920px 616px;
+    // .content-bg{
+    //   width:100%;
+    //   height:616px;
+    //   background: url(../assets/img/banner.png) 0 0 no-repeat;
+    //   background-size: 1920px 616px;
+    // }
+    .img-responsive {
+        display: block;
+        height: auto;
+        max-width: 100%;
     }
+    .img-check{
+      display: block;
+        height: auto;
+        max-width: 100%;
+    }
+
   }
 
   .login{
@@ -536,7 +565,7 @@ export default {
     background: #fff;
     // padding-bottom: 20px;
     position: absolute;
-    right: 10%;
+    right: 5%;
     top: 200px;
     .el-tabs__item{
       padding: 0 64.5px !important;
