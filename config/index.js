@@ -14,8 +14,7 @@ module.exports = {
     // Before setting to `true`, make sure to:
     // npm install --save-dev compression-webpack-plugin
     productionGzip: false,
-    productionGzipExtensions
-    : ['js', 'css'],
+    productionGzipExtensions: ['js', 'css'],
     // Run the build command with an extra argument to
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
@@ -28,17 +27,17 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    // proxyTable: {
-    //     '/taodream-consumer':{
-    //         // target:'http://10.60.10.76:8081',
-
-    //         target:'http://10.60.20.43:8080/taodream-consumer',
-    //         changeOrigin:true,
-    //         pathRewrite:{
-    //         "^/taodream-consumer":""
-    //         }
-    //     }
-    // },
+    proxyTable: {
+        '/taodream-consumer':{
+            // target:'http://10.60.10.76:8081',
+            //http://10.60.20.39/taodream-consumer '冷冰'
+            target:'http://10.60.20.43:8080/taodream-consumer', //http://10.60.20.43:8080/taodream-consumer //http://10.60.10.76:8081/consumer/
+            changeOrigin:true,
+            pathRewrite:{
+            "^/taodream-consumer":""
+            }
+        }
+    },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)
